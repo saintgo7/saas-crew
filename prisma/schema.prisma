@@ -1,0 +1,366 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================
+// Authentication & User Management
+// ============================================
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  emailVerified DateTime?
+  password      String?   // Null for OAuth users
+  name          String
+  avatar        String?
+  bio           String?
+  department    String?
+  grade         Int?      // 학년
+
+  // Level system
+  level         Int       @default(1)
+  xp            Int       @default(0)
+  rank          UserRank  @default(JUNIOR)
+
+  // OAuth
+  githubId      String?   @unique
+  googleId      String?   @unique
+
+  // Preferences
+  theme         String    @default("light")
+  language      String    @default("ko")
+
+  // Relations
+  accounts      Account[]
+  sessions      Session[]
+  enrollments   Enrollment[]
+  projects      ProjectMember[]
+  posts         Post[]
+  comments      Comment[]
+  votes         Vote[]
+
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@index([email])
+  @@index([githubId])
+  @@map("users")
+}
+
+enum UserRank {
+  JUNIOR
+  SENIOR
+  MASTER
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verification_tokens")
+}
+
+// ============================================
+// Learning Management System (LMS)
+// ============================================
+
+model Course {
+  id          String      @id @default(cuid())
+  title       String
+  slug        String      @unique
+  description String      @db.Text
+  thumbnail   String?
+  level       CourseLevel
+  duration    Int         // minutes
+  published   Boolean     @default(false)
+  featured    Boolean     @default(false)
+
+  // Content
+  chapters    Chapter[]
+  enrollments Enrollment[]
+
+  // Metadata
+  tags        String[]
+  category    String?
+
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  @@index([slug])
+  @@index([level, published])
+  @@map("courses")
+}
+
+enum CourseLevel {
+  JUNIOR
+  SENIOR
+  MASTER
+}
+
+model Chapter {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String
+  order       Int
+  content     String   @db.Text
+  videoUrl    String?
+  duration    Int?     // minutes
+
+  courseId    String
+  course      Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  assignments Assignment[]
+  progresses  Progress[]
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([courseId, slug])
+  @@index([courseId, order])
+  @@map("chapters")
+}
+
+model Enrollment {
+  id          String    @id @default(cuid())
+
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  courseId    String
+  course      Course    @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  progress    Int       @default(0) // 0-100
+  completedAt DateTime?
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@unique([userId, courseId])
+  @@index([userId])
+  @@map("enrollments")
+}
+
+model Progress {
+  id           String    @id @default(cuid())
+
+  userId       String
+  chapterId    String
+  chapter      Chapter   @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+
+  completed    Boolean   @default(false)
+  lastPosition Int       @default(0) // video position in seconds
+
+  completedAt  DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@unique([userId, chapterId])
+  @@index([userId])
+  @@map("progresses")
+}
+
+model Assignment {
+  id          String   @id @default(cuid())
+  title       String
+  description String   @db.Text
+  dueDate     DateTime?
+
+  chapterId   String
+  chapter     Chapter  @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+
+  submissions Submission[]
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([chapterId])
+  @@map("assignments")
+}
+
+model Submission {
+  id           String   @id @default(cuid())
+
+  userId       String
+  assignmentId String
+  assignment   Assignment @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
+
+  content      String   @db.Text
+  githubUrl    String?
+
+  score        Int?
+  feedback     String?  @db.Text
+
+  submittedAt  DateTime @default(now())
+  gradedAt     DateTime?
+
+  @@unique([userId, assignmentId])
+  @@index([assignmentId])
+  @@map("submissions")
+}
+
+// ============================================
+// Project Management
+// ============================================
+
+model Project {
+  id          String       @id @default(cuid())
+  name        String
+  slug        String       @unique
+  description String?      @db.Text
+  visibility  Visibility   @default(PRIVATE)
+
+  githubRepo  String?
+  deployUrl   String?
+
+  members     ProjectMember[]
+
+  // Metadata
+  tags        String[]
+  coverImage  String?
+
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  @@index([slug])
+  @@map("projects")
+}
+
+enum Visibility {
+  PUBLIC
+  PRIVATE
+  TEAM
+}
+
+model ProjectMember {
+  id        String      @id @default(cuid())
+
+  projectId String
+  project   Project     @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  userId    String
+  user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  role      ProjectRole @default(MEMBER)
+
+  joinedAt  DateTime    @default(now())
+
+  @@unique([projectId, userId])
+  @@index([userId])
+  @@map("project_members")
+}
+
+enum ProjectRole {
+  OWNER
+  ADMIN
+  MEMBER
+  VIEWER
+}
+
+// ============================================
+// Community
+// ============================================
+
+model Post {
+  id        String    @id @default(cuid())
+  title     String
+  slug      String    @unique
+  content   String    @db.Text
+  tags      String[]
+
+  authorId  String
+  author    User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  comments  Comment[]
+  votes     Vote[]
+
+  viewCount Int       @default(0)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@index([authorId])
+  @@index([slug])
+  @@map("posts")
+}
+
+model Comment {
+  id        String    @id @default(cuid())
+  content   String    @db.Text
+
+  postId    String
+  post      Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  authorId  String
+  author    User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  parentId  String?
+  parent    Comment?  @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
+  replies   Comment[] @relation("CommentReplies")
+
+  accepted  Boolean   @default(false) // Best answer
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@index([postId])
+  @@index([authorId])
+  @@map("comments")
+}
+
+model Vote {
+  id        String   @id @default(cuid())
+
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  postId    String
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  value     Int      // 1 for upvote, -1 for downvote
+
+  createdAt DateTime @default(now())
+
+  @@unique([userId, postId])
+  @@index([postId])
+  @@map("votes")
+}
