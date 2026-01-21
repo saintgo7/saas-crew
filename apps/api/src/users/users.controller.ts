@@ -1,36 +1,68 @@
-import { Controller, Get, Patch, Param, Body, UseGuards, Req } from '@nestjs/common'
+import {
+  Controller,
+  Get,
+  Patch,
+  Param,
+  Body,
+  UseGuards,
+  Req,
+  ForbiddenException,
+  HttpCode,
+  HttpStatus,
+} from '@nestjs/common'
 import { AuthGuard } from '@nestjs/passport'
 import { UsersService } from './users.service'
 import { UpdateUserDto } from './dto/update-user.dto'
 
+/**
+ * Users Controller
+ * Handles HTTP requests for user profile management
+ * Clean Architecture: Controller -> Service -> Repository (Prisma)
+ */
 @Controller('users')
 export class UsersController {
-  constructor(private usersService: UsersService) {}
+  constructor(private readonly usersService: UsersService) {}
 
-  // 사용자 프로필 조회
+  /**
+   * GET /api/users/:id
+   * Get user profile by ID
+   * Public endpoint - anyone can view user profiles
+   */
   @Get(':id')
+  @HttpCode(HttpStatus.OK)
   async getUser(@Param('id') id: string) {
     return this.usersService.findById(id)
   }
 
-  // 프로필 수정 (본인만)
+  /**
+   * PATCH /api/users/:id
+   * Update user profile
+   * Protected endpoint - requires JWT authentication
+   * Users can only update their own profile
+   */
   @Patch(':id')
   @UseGuards(AuthGuard('jwt'))
+  @HttpCode(HttpStatus.OK)
   async updateUser(
     @Param('id') id: string,
     @Body() dto: UpdateUserDto,
     @Req() req: any,
   ) {
-    // 본인 확인
+    // Authorization: Check if user is updating their own profile
     if (req.user.id !== id) {
-      throw new Error('권한이 없습니다.')
+      throw new ForbiddenException('You can only update your own profile')
     }
 
     return this.usersService.update(id, dto)
   }
 
-  // 사용자의 프로젝트 목록
+  /**
+   * GET /api/users/:id/projects
+   * Get all projects where user is a member
+   * Public endpoint - shows user's project portfolio
+   */
   @Get(':id/projects')
+  @HttpCode(HttpStatus.OK)
   async getUserProjects(@Param('id') id: string) {
     return this.usersService.findUserProjects(id)
   }

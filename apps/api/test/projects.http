@@ -1,0 +1,129 @@
+### WKU Software Crew - Projects API Test
+### Phase 3: Project Management System
+### Base URL: http://localhost:3001
+
+@baseUrl = http://localhost:3001/api
+@token = YOUR_JWT_TOKEN_HERE
+@projectId = YOUR_PROJECT_ID_HERE
+@userId = YOUR_USER_ID_HERE
+
+### 1. Get all projects (Public)
+GET {{baseUrl}}/projects
+Content-Type: application/json
+
+### 2. Get projects with filters
+GET {{baseUrl}}/projects?visibility=PUBLIC&tags=backend,typescript&search=crew&page=1&limit=10
+Content-Type: application/json
+
+### 3. Create a new project (Protected - JWT required)
+POST {{baseUrl}}/projects
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "WKU Software Crew Platform",
+  "slug": "wku-crew-platform",
+  "description": "원광대학교 소프트웨어 개발 동아리 통합 플랫폼",
+  "visibility": "PUBLIC",
+  "githubRepo": "https://github.com/wku-crew/saas-crew",
+  "deployUrl": "https://crew.wku.ac.kr",
+  "tags": ["typescript", "react", "nestjs", "prisma"],
+  "coverImage": "https://images.unsplash.com/photo-1522071820081-009f0129c71c"
+}
+
+### 4. Get project by ID (Public)
+GET {{baseUrl}}/projects/{{projectId}}
+Content-Type: application/json
+
+### 5. Update project (Protected - OWNER/ADMIN only)
+PATCH {{baseUrl}}/projects/{{projectId}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "description": "Updated description for WKU Software Crew Platform",
+  "tags": ["typescript", "react", "nestjs", "prisma", "postgresql"],
+  "deployUrl": "https://app.crew.wku.ac.kr"
+}
+
+### 6. Add member to project (Protected - OWNER/ADMIN only)
+POST {{baseUrl}}/projects/{{projectId}}/members
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "userId": "{{userId}}",
+  "role": "MEMBER"
+}
+
+### 7. Remove member from project (Protected - OWNER/ADMIN only)
+DELETE {{baseUrl}}/projects/{{projectId}}/members/{{userId}}
+Authorization: Bearer {{token}}
+
+### 8. Delete project (Protected - OWNER only)
+DELETE {{baseUrl}}/projects/{{projectId}}
+Authorization: Bearer {{token}}
+
+### Additional Test Scenarios
+
+### 9. Create PRIVATE project
+POST {{baseUrl}}/projects
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Secret Backend Project",
+  "slug": "secret-backend",
+  "description": "Internal backend development project",
+  "visibility": "PRIVATE",
+  "tags": ["backend", "api"]
+}
+
+### 10. Create TEAM project
+POST {{baseUrl}}/projects
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Team Learning Project",
+  "slug": "team-learning",
+  "description": "Collaborative learning project for team members",
+  "visibility": "TEAM",
+  "tags": ["learning", "collaboration"]
+}
+
+### 11. Add ADMIN member
+POST {{baseUrl}}/projects/{{projectId}}/members
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "userId": "{{userId}}",
+  "role": "ADMIN"
+}
+
+### 12. Add VIEWER member
+POST {{baseUrl}}/projects/{{projectId}}/members
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "userId": "{{userId}}",
+  "role": "VIEWER"
+}
+
+### 13. Filter by visibility - PUBLIC only
+GET {{baseUrl}}/projects?visibility=PUBLIC
+Content-Type: application/json
+
+### 14. Filter by tags
+GET {{baseUrl}}/projects?tags=typescript,react
+Content-Type: application/json
+
+### 15. Search projects
+GET {{baseUrl}}/projects?search=crew
+Content-Type: application/json
+
+### 16. Pagination test
+GET {{baseUrl}}/projects?page=2&limit=5
+Content-Type: application/json

@@ -1,37 +1,74 @@
-import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common'
+import {
+  Injectable,
+  NotFoundException,
+  ForbiddenException,
+  ConflictException,
+  BadRequestException,
+} from '@nestjs/common'
 import { PrismaService } from '../prisma/prisma.service'
-import { CreateProjectDto } from './dto/create-project.dto'
-import { UpdateProjectDto } from './dto/update-project.dto'
-import { ProjectQueryDto } from './dto/project-query.dto'
+import { CreateProjectDto, UpdateProjectDto, ProjectQueryDto, AddMemberDto } from './dto'
+import { ProjectRole, Visibility } from '@prisma/client'
 
+/**
+ * Projects Service
+ * Business logic layer for project management
+ * Handles CRUD operations, member management, and authorization
+ */
 @Injectable()
 export class ProjectsService {
   constructor(private prisma: PrismaService) {}
 
-  async findMany(query: ProjectQueryDto) {
-    const { level, status, page = 1, limit = 12 } = query
+  /**
+   * Find all projects with optional filters
+   * Repository Layer: Complex query with pagination and filtering
+   */
+  async findAll(query: ProjectQueryDto) {
+    const { visibility, tags, search, page = 1, limit = 20 } = query
     const skip = (page - 1) * limit
 
-    const where: any = {
-      visibility: 'PUBLIC',
+    // Build where clause
+    const where: any = {}
+
+    if (visibility) {
+      where.visibility = visibility
     }
 
-    if (level) where.courseLevel = level
-    if (status) where.status = status
+    if (tags) {
+      const tagArray = tags.split(',').map((tag) => tag.trim())
+      where.tags = {
+        hasSome: tagArray,
+      }
+    }
 
-    const [items, total] = await Promise.all([
+    if (search) {
+      where.OR = [
+        { name: { contains: search, mode: 'insensitive' } },
+        { description: { contains: search, mode: 'insensitive' } },
+      ]
+    }
+
+    // Execute query with pagination
+    const [projects, total] = await Promise.all([
       this.prisma.project.findMany({
         where,
         skip,
         take: limit,
         orderBy: { createdAt: 'desc' },
-        include: {
-          owner: {
+        select: {
+          id: true,
+          name: true,
+          slug: true,
+          description: true,
+          visibility: true,
+          githubRepo: true,
+          deployUrl: true,
+          tags: true,
+          coverImage: true,
+          createdAt: true,
+          updatedAt: true,
+          _count: {
             select: {
-              id: true,
-              name: true,
-              avatar: true,
-              rank: true,
+              members: true,
             },
           },
         },
@@ -40,145 +77,292 @@ export class ProjectsService {
     ])
 
     return {
-      items,
-      total,
-      page,
-      pageSize: limit,
-      totalPages: Math.ceil(total / limit),
+      data: projects,
+      meta: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
+      },
     }
   }
 
-  async findBySlug(slug: string) {
-    const project = await this.prisma.project.findUnique({
-      where: { slug },
-      include: {
-        owner: {
-          select: {
-            id: true,
-            name: true,
-            avatar: true,
-            rank: true,
-            level: true,
+  /**
+   * Create a new project
+   * Business Logic: Creates project with creator as OWNER
+   */
+  async create(dto: CreateProjectDto, userId: string) {
+    // Check if slug already exists
+    const existingProject = await this.prisma.project.findUnique({
+      where: { slug: dto.slug },
+    })
+
+    if (existingProject) {
+      throw new ConflictException(`Project with slug '${dto.slug}' already exists`)
+    }
+
+    // Create project with creator as owner
+    const project = await this.prisma.project.create({
+      data: {
+        ...dto,
+        members: {
+          create: {
+            userId,
+            role: ProjectRole.OWNER,
           },
         },
-        comments: {
+      },
+      include: {
+        members: {
           include: {
             user: {
               select: {
                 id: true,
                 name: true,
+                email: true,
                 avatar: true,
               },
             },
           },
-          orderBy: { createdAt: 'desc' },
-        },
-        _count: {
-          select: { likes: true },
         },
       },
-    })
-
-    if (!project) {
-      throw new NotFoundException('프로젝트를 찾을 수 없습니다.')
-    }
-
-    // 조회수 증가
-    await this.prisma.project.update({
-      where: { id: project.id },
-      data: { viewCount: { increment: 1 } },
     })
 
     return project
   }
 
-  async create(dto: CreateProjectDto, userId: string) {
-    // slug 생성 (title -> slug)
-    const slug = this.generateSlug(dto.title)
-
-    return this.prisma.project.create({
-      data: {
-        ...dto,
-        slug,
-        ownerId: userId,
+  /**
+   * Find project by ID
+   * Repository Layer: Get detailed project information
+   */
+  async findById(id: string) {
+    const project = await this.prisma.project.findUnique({
+      where: { id },
+      include: {
+        members: {
+          include: {
+            user: {
+              select: {
+                id: true,
+                name: true,
+                email: true,
+                avatar: true,
+                department: true,
+                grade: true,
+              },
+            },
+          },
+          orderBy: { joinedAt: 'asc' },
+        },
       },
     })
-  }
-
-  async update(id: string, dto: UpdateProjectDto, userId: string) {
-    const project = await this.prisma.project.findUnique({ where: { id } })
 
     if (!project) {
-      throw new NotFoundException('프로젝트를 찾을 수 없습니다.')
+      throw new NotFoundException(`Project with ID ${id} not found`)
     }
 
-    if (project.ownerId !== userId) {
-      throw new ForbiddenException('수정 권한이 없습니다.')
+    return project
+  }
+
+  /**
+   * Update project information
+   * Business Logic: Validates ownership and updates data
+   */
+  async update(id: string, dto: UpdateProjectDto, userId: string) {
+    // Check if user has OWNER or ADMIN role
+    const member = await this.findProjectMember(id, userId)
+
+    if (!member || (member.role !== ProjectRole.OWNER && member.role !== ProjectRole.ADMIN)) {
+      throw new ForbiddenException('Only OWNER or ADMIN can update project details')
     }
 
-    // 상태가 COMPLETED로 변경되면 completedAt 설정
-    const data: any = { ...dto }
-    if (dto.status === 'COMPLETED' && !project.completedAt) {
-      data.completedAt = new Date()
-    }
-
+    // Update project
     return this.prisma.project.update({
       where: { id },
-      data,
+      data: dto,
+      include: {
+        members: {
+          include: {
+            user: {
+              select: {
+                id: true,
+                name: true,
+                email: true,
+                avatar: true,
+              },
+            },
+          },
+        },
+      },
     })
   }
 
+  /**
+   * Delete project
+   * Business Logic: Only OWNER can delete projects
+   */
   async delete(id: string, userId: string) {
-    const project = await this.prisma.project.findUnique({ where: { id } })
+    // Check if user is OWNER
+    const member = await this.findProjectMember(id, userId)
 
-    if (!project) {
-      throw new NotFoundException('프로젝트를 찾을 수 없습니다.')
+    if (!member || member.role !== ProjectRole.OWNER) {
+      throw new ForbiddenException('Only project OWNER can delete the project')
     }
 
-    if (project.ownerId !== userId) {
-      throw new ForbiddenException('삭제 권한이 없습니다.')
-    }
+    // Delete project (cascade deletes members)
+    await this.prisma.project.delete({
+      where: { id },
+    })
 
-    await this.prisma.project.delete({ where: { id } })
-
-    return { success: true }
+    return { message: 'Project deleted successfully' }
   }
 
-  async toggleLike(projectId: string, userId: string) {
-    const existingLike = await this.prisma.like.findUnique({
+  /**
+   * Add member to project
+   * Business Logic: Only OWNER or ADMIN can add members
+   */
+  async addMember(projectId: string, dto: AddMemberDto, requesterId: string) {
+    // Check if requester has OWNER or ADMIN role
+    const requester = await this.findProjectMember(projectId, requesterId)
+
+    if (!requester || (requester.role !== ProjectRole.OWNER && requester.role !== ProjectRole.ADMIN)) {
+      throw new ForbiddenException('Only OWNER or ADMIN can add members')
+    }
+
+    // Check if user exists
+    const user = await this.prisma.user.findUnique({
+      where: { id: dto.userId },
+    })
+
+    if (!user) {
+      throw new NotFoundException(`User with ID ${dto.userId} not found`)
+    }
+
+    // Check if user is already a member
+    const existingMember = await this.prisma.projectMember.findUnique({
       where: {
-        userId_projectId: { userId, projectId },
+        projectId_userId: {
+          projectId,
+          userId: dto.userId,
+        },
       },
     })
 
-    if (existingLike) {
-      // 좋아요 취소
-      await this.prisma.like.delete({ where: { id: existingLike.id } })
-      await this.prisma.project.update({
-        where: { id: projectId },
-        data: { likeCount: { decrement: 1 } },
-      })
-      return { liked: false }
-    } else {
-      // 좋아요
-      await this.prisma.like.create({
-        data: { userId, projectId },
-      })
-      await this.prisma.project.update({
-        where: { id: projectId },
-        data: { likeCount: { increment: 1 } },
-      })
-      return { liked: true }
+    if (existingMember) {
+      throw new ConflictException('User is already a member of this project')
     }
+
+    // ADMIN cannot add OWNER
+    if (requester.role === ProjectRole.ADMIN && dto.role === ProjectRole.OWNER) {
+      throw new ForbiddenException('ADMIN cannot add OWNER role')
+    }
+
+    // Add member
+    const member = await this.prisma.projectMember.create({
+      data: {
+        projectId,
+        userId: dto.userId,
+        role: dto.role,
+      },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            avatar: true,
+          },
+        },
+      },
+    })
+
+    return member
   }
 
-  private generateSlug(title: string): string {
-    const base = title
-      .toLowerCase()
-      .replace(/[^a-z0-9가-힣]+/g, '-')
-      .replace(/^-+|-+$/g, '')
+  /**
+   * Remove member from project
+   * Business Logic: Only OWNER or ADMIN can remove members
+   */
+  async removeMember(projectId: string, userId: string, requesterId: string) {
+    // Check if requester has OWNER or ADMIN role
+    const requester = await this.findProjectMember(projectId, requesterId)
 
-    const random = Math.random().toString(36).substring(2, 8)
-    return `${base}-${random}`
+    if (!requester || (requester.role !== ProjectRole.OWNER && requester.role !== ProjectRole.ADMIN)) {
+      throw new ForbiddenException('Only OWNER or ADMIN can remove members')
+    }
+
+    // Check if target member exists
+    const targetMember = await this.findProjectMember(projectId, userId)
+
+    if (!targetMember) {
+      throw new NotFoundException('Member not found in this project')
+    }
+
+    // Cannot remove OWNER
+    if (targetMember.role === ProjectRole.OWNER) {
+      throw new ForbiddenException('Cannot remove project OWNER')
+    }
+
+    // ADMIN cannot remove other ADMIN
+    if (requester.role === ProjectRole.ADMIN && targetMember.role === ProjectRole.ADMIN) {
+      throw new ForbiddenException('ADMIN cannot remove other ADMIN')
+    }
+
+    // Remove member
+    await this.prisma.projectMember.delete({
+      where: {
+        projectId_userId: {
+          projectId,
+          userId,
+        },
+      },
+    })
+
+    return { message: 'Member removed successfully' }
+  }
+
+  /**
+   * Helper: Find project member
+   * Private method for authorization checks
+   */
+  private async findProjectMember(projectId: string, userId: string) {
+    return this.prisma.projectMember.findUnique({
+      where: {
+        projectId_userId: {
+          projectId,
+          userId,
+        },
+      },
+    })
+  }
+
+  /**
+   * Check if user has access to project
+   * Business Logic: Authorization helper
+   */
+  async checkAccess(projectId: string, userId: string | null): Promise<boolean> {
+    const project = await this.prisma.project.findUnique({
+      where: { id: projectId },
+      select: {
+        visibility: true,
+      },
+    })
+
+    if (!project) {
+      return false
+    }
+
+    // PUBLIC projects are accessible to everyone
+    if (project.visibility === Visibility.PUBLIC) {
+      return true
+    }
+
+    // PRIVATE and TEAM projects require membership
+    if (!userId) {
+      return false
+    }
+
+    const member = await this.findProjectMember(projectId, userId)
+    return !!member
   }
 }

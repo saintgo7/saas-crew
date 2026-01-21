@@ -1,4 +1,4 @@
-import { IsString, IsOptional, IsArray, IsInt, Min, Max } from 'class-validator'
+import { IsString, IsOptional, IsInt, Min, Max, IsIn } from 'class-validator'
 
 export class UpdateUserDto {
   @IsOptional()
@@ -10,9 +10,8 @@ export class UpdateUserDto {
   bio?: string
 
   @IsOptional()
-  @IsArray()
-  @IsString({ each: true })
-  skills?: string[]
+  @IsString()
+  avatar?: string
 
   @IsOptional()
   @IsString()
@@ -23,4 +22,14 @@ export class UpdateUserDto {
   @Min(1)
   @Max(6)
   grade?: number
+
+  @IsOptional()
+  @IsString()
+  @IsIn(['light', 'dark'])
+  theme?: string
+
+  @IsOptional()
+  @IsString()
+  @IsIn(['ko', 'en'])
+  language?: string
 }

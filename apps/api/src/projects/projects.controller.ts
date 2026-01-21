@@ -9,39 +9,65 @@ import {
   Query,
   UseGuards,
   Req,
+  HttpCode,
+  HttpStatus,
 } from '@nestjs/common'
 import { AuthGuard } from '@nestjs/passport'
 import { ProjectsService } from './projects.service'
-import { CreateProjectDto } from './dto/create-project.dto'
-import { UpdateProjectDto } from './dto/update-project.dto'
-import { ProjectQueryDto } from './dto/project-query.dto'
+import { CreateProjectDto, UpdateProjectDto, ProjectQueryDto, AddMemberDto } from './dto'
 
+/**
+ * Projects Controller
+ * Handles HTTP requests for project management
+ * Clean Architecture: Controller -> Service -> Repository (Prisma)
+ */
 @Controller('projects')
 export class ProjectsController {
-  constructor(private projectsService: ProjectsService) {}
+  constructor(private readonly projectsService: ProjectsService) {}
 
-  // 프로젝트 목록 (필터링)
+  /**
+   * GET /api/projects
+   * Get all projects with optional filters
+   * Public endpoint - supports filtering by visibility, tags, and search
+   */
   @Get()
+  @HttpCode(HttpStatus.OK)
   async getProjects(@Query() query: ProjectQueryDto) {
-    return this.projectsService.findMany(query)
+    return this.projectsService.findAll(query)
   }
 
-  // 프로젝트 상세
-  @Get(':slug')
-  async getProject(@Param('slug') slug: string) {
-    return this.projectsService.findBySlug(slug)
-  }
-
-  // 프로젝트 생성
+  /**
+   * POST /api/projects
+   * Create a new project
+   * Protected endpoint - requires JWT authentication
+   * Creator automatically becomes OWNER
+   */
   @Post()
   @UseGuards(AuthGuard('jwt'))
+  @HttpCode(HttpStatus.CREATED)
   async createProject(@Body() dto: CreateProjectDto, @Req() req: any) {
     return this.projectsService.create(dto, req.user.id)
   }
 
-  // 프로젝트 수정
+  /**
+   * GET /api/projects/:id
+   * Get project details by ID
+   * Public endpoint - returns detailed project information
+   */
+  @Get(':id')
+  @HttpCode(HttpStatus.OK)
+  async getProject(@Param('id') id: string) {
+    return this.projectsService.findById(id)
+  }
+
+  /**
+   * PATCH /api/projects/:id
+   * Update project information
+   * Protected endpoint - requires OWNER or ADMIN role
+   */
   @Patch(':id')
   @UseGuards(AuthGuard('jwt'))
+  @HttpCode(HttpStatus.OK)
   async updateProject(
     @Param('id') id: string,
     @Body() dto: UpdateProjectDto,
@@ -50,17 +76,48 @@ export class ProjectsController {
     return this.projectsService.update(id, dto, req.user.id)
   }
 
-  // 프로젝트 삭제
+  /**
+   * DELETE /api/projects/:id
+   * Delete project
+   * Protected endpoint - requires OWNER role only
+   */
   @Delete(':id')
   @UseGuards(AuthGuard('jwt'))
+  @HttpCode(HttpStatus.OK)
   async deleteProject(@Param('id') id: string, @Req() req: any) {
     return this.projectsService.delete(id, req.user.id)
   }
 
-  // 좋아요 토글
-  @Post(':id/like')
+  /**
+   * POST /api/projects/:id/members
+   * Add member to project
+   * Protected endpoint - requires OWNER or ADMIN role
+   */
+  @Post(':id/members')
   @UseGuards(AuthGuard('jwt'))
-  async toggleLike(@Param('id') id: string, @Req() req: any) {
-    return this.projectsService.toggleLike(id, req.user.id)
+  @HttpCode(HttpStatus.CREATED)
+  async addMember(
+    @Param('id') id: string,
+    @Body() dto: AddMemberDto,
+    @Req() req: any,
+  ) {
+    return this.projectsService.addMember(id, dto, req.user.id)
+  }
+
+  /**
+   * DELETE /api/projects/:id/members/:userId
+   * Remove member from project
+   * Protected endpoint - requires OWNER or ADMIN role
+   * Cannot remove OWNER
+   */
+  @Delete(':id/members/:userId')
+  @UseGuards(AuthGuard('jwt'))
+  @HttpCode(HttpStatus.OK)
+  async removeMember(
+    @Param('id') id: string,
+    @Param('userId') userId: string,
+    @Req() req: any,
+  ) {
+    return this.projectsService.removeMember(id, userId, req.user.id)
   }
 }
