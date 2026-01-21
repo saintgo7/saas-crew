@@ -2,59 +2,22 @@
   "name": "wku-software-crew",
   "version": "0.1.0",
   "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
-    "db:push": "prisma db push",
-    "db:studio": "prisma studio",
-    "db:generate": "prisma generate",
-    "db:migrate": "prisma migrate dev",
-    "db:seed": "tsx prisma/seed.ts",
-    "test": "vitest",
-    "test:ui": "vitest --ui",
-    "type-check": "tsc --noEmit"
-  },
-  "dependencies": {
-    "next": "14.2.18",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "@prisma/client": "^5.22.0",
-    "@auth/prisma-adapter": "^2.7.4",
-    "next-auth": "^5.0.0-beta.25",
-    "@tanstack/react-query": "^5.62.7",
-    "zod": "^3.23.8",
-    "zustand": "^5.0.2",
-    "clsx": "^2.1.1",
-    "tailwind-merge": "^2.5.5",
-    "class-variance-authority": "^0.7.1",
-    "lucide-react": "^0.462.0",
-    "date-fns": "^4.1.0"
+    "dev": "npm run dev --workspace=apps/web",
+    "dev:api": "npm run dev --workspace=apps/api",
+    "dev:all": "npm run dev --workspaces --if-present",
+    "build": "npm run build --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present",
+    "clean": "rm -rf apps/*/node_modules apps/*/.next apps/*/dist packages/*/node_modules node_modules"
   },
   "devDependencies": {
-    "@types/node": "^22",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
-    "typescript": "^5",
-    "prisma": "^5.22.0",
-    "tsx": "^4.19.2",
-    "eslint": "^8",
-    "eslint-config-next": "14.2.18",
-    "tailwindcss": "^3.4.1",
-    "postcss": "^8",
-    "autoprefixer": "^10.4.20",
-    "@tailwindcss/typography": "^0.5.15",
-    "@tailwindcss/forms": "^0.5.9",
-    "vitest": "^2.1.8",
-    "@vitejs/plugin-react": "^4.3.4",
-    "@testing-library/react": "^16.0.1",
-    "@testing-library/jest-dom": "^6.6.3",
-    "prettier": "^3.4.2",
-    "prettier-plugin-tailwindcss": "^0.6.9"
+    "typescript": "^5.3.3"
   },
   "engines": {
-    "node": ">=20.0.0",
-    "npm": ">=10.0.0"
+    "node": ">=20.0.0"
   }
 }
