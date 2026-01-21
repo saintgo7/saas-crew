@@ -7,11 +7,14 @@ import { ProjectsModule } from './projects/projects.module'
 import { CoursesModule } from './courses/courses.module'
 import { ChaptersModule } from './chapters/chapters.module'
 import { EnrollmentsModule } from './enrollments/enrollments.module'
+import { PostsModule } from './posts/posts.module'
+import { CommentsModule } from './comments/comments.module'
+import { VotesModule } from './votes/votes.module'
 
 /**
  * App Module
  * Root module of the application
- * Phase 5: Course management system with LMS features
+ * Phase 6: Community features with posts, comments, and voting system
  */
 @Module({
   imports: [
@@ -25,6 +28,9 @@ import { EnrollmentsModule } from './enrollments/enrollments.module'
     CoursesModule,
     ChaptersModule,
     EnrollmentsModule,
+    PostsModule,
+    CommentsModule,
+    VotesModule,
   ],
 })
 export class AppModule {}

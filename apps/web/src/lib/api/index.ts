@@ -1,4 +1,5 @@
 export { apiClient } from './client'
 export { dashboardApi } from './dashboard'
 export { coursesApi } from './courses'
+export { communityApi } from './community'
 export type * from './types'

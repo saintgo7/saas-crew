@@ -27,9 +27,15 @@ wku-software-crew/
 │   │
 │   └── api/                # NestJS 백엔드 (학교 서버)
 │       ├── src/
-│       │   ├── auth/      # 인증 모듈
+│       │   ├── auth/      # 인증 모듈 (GitHub OAuth, JWT)
 │       │   ├── users/     # 사용자 모듈
 │       │   ├── projects/  # 프로젝트 모듈
+│       │   ├── courses/   # 강좌 모듈
+│       │   ├── chapters/  # 챕터 모듈
+│       │   ├── enrollments/ # 수강 모듈
+│       │   ├── posts/     # 게시글 모듈
+│       │   ├── comments/  # 댓글 모듈
+│       │   ├── votes/     # 투표 모듈
 │       │   └── prisma/    # Prisma 서비스
 │       ├── prisma/        # DB 스키마
 │       └── package.json
@@ -142,7 +148,53 @@ npm run clean        # node_modules, .next, dist 삭제
 ## 🔗 관련 문서
 
 - [PROJECT_SPEC.md](./PROJECT_SPEC.md) - 상세 프로젝트 스펙
+- [docs/PHASE_6_API_ENDPOINTS.md](./docs/PHASE_6_API_ENDPOINTS.md) - Phase 6 커뮤니티 API 문서
 - [docs/](./docs/) - 기획 문서
+
+## 📋 개발 진행 현황
+
+### Phase 1: 프로젝트 초기 설정 (완료)
+- Monorepo 구조 설정 (apps/web, apps/api, packages/shared)
+- Next.js 14 + TypeScript + TailwindCSS
+- NestJS + Prisma + PostgreSQL
+
+### Phase 2: 인증 시스템 (완료)
+- GitHub OAuth 로그인
+- JWT 인증
+- 사용자 프로필 관리
+
+### Phase 3: 사용자 관리 (완료)
+- 사용자 CRUD API
+- 레벨 시스템 (Junior/Senior/Master)
+- 프로필 업데이트
+
+### Phase 4: 프로젝트 관리 (완료)
+- 프로젝트 CRUD API
+- 팀원 관리 (Owner/Admin/Member/Viewer)
+- 공개/비공개 설정
+
+### Phase 5: 학습 관리 시스템 (완료)
+- 강좌 관리 (Courses)
+- 챕터 관리 (Chapters)
+- 수강 관리 (Enrollments)
+- 진도 추적
+
+### Phase 6: 커뮤니티 기능 (완료)
+- 게시글 시스템 (Posts)
+  - 필터링, 검색, 페이지네이션
+  - 조회수 추적
+- 댓글 시스템 (Comments)
+  - 계층형 댓글 (parent-child)
+  - 베스트 답변 선택
+- 투표 시스템 (Votes)
+  - Upvote/Downvote
+  - 중복 투표 방지
+  - 투표 통계
+
+### Phase 7: 프론트엔드 개발 (예정)
+- UI/UX 구현
+- 상태 관리 (React Query + Zustand)
+- 반응형 디자인
 
 ## 📞 문의
 

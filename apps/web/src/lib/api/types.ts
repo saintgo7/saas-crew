@@ -131,3 +131,81 @@ export interface CourseDetailResponse {
   enrollment?: CourseEnrollment
   isEnrolled: boolean
 }
+
+// Community System Types
+export interface PostAuthor {
+  id: string
+  name: string
+  profileImage?: string
+  level: number
+}
+
+export interface Comment {
+  id: string
+  postId: string
+  parentId?: string
+  authorId: string
+  author: PostAuthor
+  content: string
+  votes: number
+  hasVoted?: boolean
+  voteType?: 'upvote' | 'downvote'
+  isAccepted: boolean
+  replies?: Comment[]
+  createdAt: string
+  updatedAt: string
+}
+
+export interface Post {
+  id: string
+  title: string
+  content: string
+  authorId: string
+  author: PostAuthor
+  tags: string[]
+  votes: number
+  hasVoted?: boolean
+  voteType?: 'upvote' | 'downvote'
+  views: number
+  commentsCount: number
+  hasAcceptedAnswer: boolean
+  createdAt: string
+  updatedAt: string
+}
+
+export interface PostWithComments extends Post {
+  comments: Comment[]
+}
+
+export interface PostsListResponse {
+  posts: Post[]
+  total: number
+  page: number
+  pageSize: number
+}
+
+export type PostSortBy = 'latest' | 'popular' | 'views'
+
+export interface PostFilters {
+  tag?: string
+  search?: string
+  sortBy?: PostSortBy
+  page?: number
+  pageSize?: number
+}
+
+export interface CreatePostInput {
+  title: string
+  content: string
+  tags: string[]
+}
+
+export interface CreateCommentInput {
+  postId: string
+  content: string
+  parentId?: string
+}
+
+export interface VoteInput {
+  type: 'upvote' | 'downvote'
+}
