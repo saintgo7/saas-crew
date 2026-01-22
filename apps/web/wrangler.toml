@@ -1,0 +1,38 @@
+# Cloudflare Pages Configuration
+# WKU Software Crew - Frontend Deployment
+
+name = "wku-crew-web"
+compatibility_date = "2024-01-01"
+compatibility_flags = ["nodejs_compat"]
+
+# Build Settings
+[build]
+command = "pnpm build"
+cwd = "apps/web"
+
+[build.environment]
+NODE_VERSION = "20"
+
+# Development Settings
+[env.development]
+name = "wku-crew-web-dev"
+
+[env.development.vars]
+NEXT_PUBLIC_API_URL = "https://api-dev.wku-crew.com"
+NEXT_PUBLIC_ENVIRONMENT = "development"
+
+# Staging Settings
+[env.staging]
+name = "wku-crew-web-staging"
+
+[env.staging.vars]
+NEXT_PUBLIC_API_URL = "https://api-staging.wku-crew.com"
+NEXT_PUBLIC_ENVIRONMENT = "staging"
+
+# Production Settings
+[env.production]
+name = "wku-crew-web"
+
+[env.production.vars]
+NEXT_PUBLIC_API_URL = "https://api.wku-crew.com"
+NEXT_PUBLIC_ENVIRONMENT = "production"

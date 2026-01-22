@@ -1,0 +1,304 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main, develop]
+  push:
+    branches: [develop]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # ===========================================================================
+  # Code Quality Checks
+  # ===========================================================================
+  lint:
+    name: Lint & Type Check
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint API
+        run: pnpm --filter @wku-crew/api lint
+
+      - name: Lint Web
+        run: pnpm --filter @wku-crew/web lint
+
+      - name: Type check Web
+        run: pnpm --filter @wku-crew/web type-check
+
+  # ===========================================================================
+  # API Tests
+  # ===========================================================================
+  test-api:
+    name: API Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: wku_crew_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Generate Prisma Client
+        run: pnpm --filter @wku-crew/api db:generate
+
+      - name: Apply database schema
+        run: pnpm --filter @wku-crew/api db:push
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/wku_crew_test
+
+      - name: Run unit tests
+        run: pnpm --filter @wku-crew/api test
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/wku_crew_test
+          JWT_SECRET: test-jwt-secret
+
+      - name: Run E2E tests
+        run: pnpm --filter @wku-crew/api test:e2e
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/wku_crew_test
+          JWT_SECRET: test-jwt-secret
+          GITHUB_CLIENT_ID: test-client-id
+          GITHUB_CLIENT_SECRET: test-client-secret
+          GITHUB_CALLBACK_URL: http://localhost:4000/api/auth/github/callback
+          FRONTEND_URL: http://localhost:3000
+
+      - name: Upload coverage
+        uses: codecov/codecov-action@v4
+        with:
+          files: apps/api/coverage/lcov.info
+          flags: api
+          fail_ci_if_error: false
+
+  # ===========================================================================
+  # Frontend Tests
+  # ===========================================================================
+  test-web:
+    name: Frontend Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build frontend
+        run: pnpm --filter @wku-crew/web build
+        env:
+          NEXT_PUBLIC_API_URL: http://localhost:4000
+          NEXTAUTH_URL: http://localhost:3000
+          NEXTAUTH_SECRET: test-secret
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+        working-directory: apps/web
+
+      - name: Run E2E tests
+        run: pnpm --filter @wku-crew/web test:e2e -- --project=chromium
+        env:
+          BASE_URL: http://localhost:3000
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report
+          path: apps/web/playwright-report/
+          retention-days: 7
+
+  # ===========================================================================
+  # Build Check
+  # ===========================================================================
+  build:
+    name: Build Check
+    runs-on: ubuntu-latest
+    needs: [lint, test-api, test-web]
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Generate Prisma Client
+        run: pnpm --filter @wku-crew/api db:generate
+
+      - name: Build API
+        run: pnpm --filter @wku-crew/api build
+
+      - name: Build Web
+        run: pnpm --filter @wku-crew/web build
+        env:
+          NEXT_PUBLIC_API_URL: https://api.wku-crew.com
+          NEXTAUTH_URL: https://wku-crew.com
+          NEXTAUTH_SECRET: build-check-secret
+
+      - name: Build Docker image (API)
+        run: docker build -f apps/api/Dockerfile -t wku-crew-api:test .
+
+  # ===========================================================================
+  # Security Scan
+  # ===========================================================================
+  security:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run npm audit
+        run: pnpm audit --audit-level=high
+        continue-on-error: true
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          severity: 'HIGH,CRITICAL'
+          exit-code: '0'
+
+  # ===========================================================================
+  # PR Summary
+  # ===========================================================================
+  pr-summary:
+    name: PR Summary
+    runs-on: ubuntu-latest
+    needs: [lint, test-api, test-web, build, security]
+    if: github.event_name == 'pull_request'
+
+    steps:
+      - name: Create PR comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+
+            const botComment = comments.find(comment =>
+              comment.user.type === 'Bot' &&
+              comment.body.includes('CI Summary')
+            );
+
+            const body = `## CI Summary
+
+            | Check | Status |
+            |-------|--------|
+            | Lint & Type Check | ${{ needs.lint.result == 'success' && '✅ Passed' || '❌ Failed' }} |
+            | API Tests | ${{ needs.test-api.result == 'success' && '✅ Passed' || '❌ Failed' }} |
+            | Frontend Tests | ${{ needs.test-web.result == 'success' && '✅ Passed' || '❌ Failed' }} |
+            | Build Check | ${{ needs.build.result == 'success' && '✅ Passed' || '❌ Failed' }} |
+            | Security Scan | ${{ needs.security.result == 'success' && '✅ Passed' || '⚠️ Check Results' }} |
+
+            [View detailed results](https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId})
+            `;
+
+            if (botComment) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: botComment.id,
+                body
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body
+              });
+            }

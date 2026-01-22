@@ -66,6 +66,36 @@ Controller -> Service -> Repository (Prisma)
    - 쿼리 실행
    - 데이터 매핑
 
+## API Documentation
+
+### Swagger UI (Interactive Documentation)
+
+API 서버 실행 후 브라우저에서 접속:
+
+```
+http://localhost:4000/api/docs
+```
+
+**제공 기능:**
+- 모든 엔드포인트 상세 정보
+- 요청/응답 스키마
+- 실시간 API 테스트 (Try it out)
+- JWT 인증 테스트
+- 예제 요청/응답
+
+### OpenAPI Specification 생성
+
+```bash
+pnpm swagger:generate
+```
+
+`openapi.json` 파일이 생성되며, Postman, Insomnia 등에서 import 가능합니다.
+
+### 문서 파일
+
+- [API Documentation](./docs/API_DOCUMENTATION.md) - 완전한 API 레퍼런스 가이드
+- [Swagger Setup Guide](./docs/SWAGGER_SETUP.md) - Swagger 구현 세부사항
+
 ## API Endpoints
 
 ### Authentication
@@ -77,6 +107,29 @@ Controller -> Service -> Repository (Prisma)
 - `GET /api/users/:id` - 사용자 프로필 조회
 - `PATCH /api/users/:id` - 사용자 프로필 수정 (보호됨)
 - `GET /api/users/:id/projects` - 사용자 프로젝트 목록
+
+### Projects
+- `GET /api/projects` - 프로젝트 목록
+- `POST /api/projects` - 프로젝트 생성 (보호됨)
+- `GET /api/projects/:id` - 프로젝트 상세
+- `PATCH /api/projects/:id` - 프로젝트 수정 (보호됨)
+- `DELETE /api/projects/:id` - 프로젝트 삭제 (보호됨)
+
+### Courses
+- `GET /api/courses` - 강좌 목록
+- `POST /api/courses` - 강좌 생성 (보호됨)
+- `GET /api/courses/:id` - 강좌 상세
+- `PATCH /api/courses/:id` - 강좌 수정 (보호됨)
+- `DELETE /api/courses/:id` - 강좌 삭제 (보호됨)
+
+### Posts
+- `GET /api/posts` - 게시글 목록
+- `POST /api/posts` - 게시글 작성 (보호됨)
+- `GET /api/posts/:id` - 게시글 상세
+- `PATCH /api/posts/:id` - 게시글 수정 (보호됨)
+- `DELETE /api/posts/:id` - 게시글 삭제 (보호됨)
+
+**전체 엔드포인트 목록은 Swagger UI에서 확인하세요.**
 
 ## Development
 
@@ -109,11 +162,19 @@ pnpm build
 # Production
 pnpm start
 
+# API Documentation
+pnpm swagger:generate  # Generate OpenAPI spec
+
 # Database
 pnpm db:push      # Push schema changes
 pnpm db:generate  # Generate Prisma Client
 pnpm db:migrate   # Run migrations
 pnpm db:studio    # Open Prisma Studio
+
+# Testing
+pnpm test         # Unit tests
+pnpm test:e2e     # E2E tests
+pnpm test:cov     # Test coverage
 ```
 
 ## Code Standards

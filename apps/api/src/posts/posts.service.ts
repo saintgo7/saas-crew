@@ -19,6 +19,10 @@ export class PostsService {
   /**
    * Find all posts with optional filters
    * Repository Layer: Complex query with pagination and filtering
+   *
+   * Performance Optimization: Vote scores are now calculated in a single
+   * batch query using groupBy instead of N+1 individual queries.
+   * This reduces database round trips from N+2 to 3 queries.
    */
   async findAll(query: PostQueryDto) {
     const { tags, search, page = 1, limit = 20 } = query
@@ -41,7 +45,7 @@ export class PostsService {
       ]
     }
 
-    // Execute query with pagination
+    // Execute query with pagination - fetch posts and count in parallel
     const [posts, total] = await Promise.all([
       this.prisma.post.findMany({
         where,
@@ -77,20 +81,34 @@ export class PostsService {
       this.prisma.post.count({ where }),
     ])
 
-    // Calculate vote scores for each post
-    const postsWithVotes = await Promise.all(
-      posts.map(async (post) => {
-        const voteSum = await this.prisma.vote.aggregate({
-          where: { postId: post.id },
-          _sum: { value: true },
-        })
+    // Performance Fix: Batch vote calculation using groupBy
+    // This replaces N individual queries with a single aggregation query
+    const postIds = posts.map((post) => post.id)
 
-        return {
-          ...post,
-          voteScore: voteSum._sum.value || 0,
-        }
-      }),
-    )
+    // Only query votes if there are posts
+    const voteScoresMap = new Map<string, number>()
+    if (postIds.length > 0) {
+      const voteAggregations = await this.prisma.vote.groupBy({
+        by: ['postId'],
+        where: {
+          postId: { in: postIds },
+        },
+        _sum: {
+          value: true,
+        },
+      })
+
+      // Build a lookup map for O(1) access
+      for (const agg of voteAggregations) {
+        voteScoresMap.set(agg.postId, agg._sum.value || 0)
+      }
+    }
+
+    // Map vote scores to posts using the lookup map
+    const postsWithVotes = posts.map((post) => ({
+      ...post,
+      voteScore: voteScoresMap.get(post.id) || 0,
+    }))
 
     return {
       data: postsWithVotes,

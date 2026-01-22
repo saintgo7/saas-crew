@@ -1,0 +1,2197 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/api/health": {
+      "get": {
+        "operationId": "HealthController_health",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/health/ready": {
+      "get": {
+        "operationId": "HealthController_readiness",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/health/live": {
+      "get": {
+        "operationId": "HealthController_liveness",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/auth/github": {
+      "get": {
+        "operationId": "AuthController_githubLogin",
+        "summary": "Initiate GitHub OAuth",
+        "description": "Redirects to GitHub authorization page to start OAuth flow",
+        "parameters": [],
+        "responses": {
+          "302": {
+            "description": "Redirects to GitHub OAuth authorization page"
+          }
+        },
+        "tags": [
+          "Authentication"
+        ]
+      }
+    },
+    "/api/auth/github/callback": {
+      "get": {
+        "operationId": "AuthController_githubCallback",
+        "summary": "GitHub OAuth callback",
+        "description": "Handles GitHub OAuth callback, creates/updates user, and redirects to frontend with JWT token",
+        "parameters": [],
+        "responses": {
+          "302": {
+            "description": "Redirects to frontend with JWT token in query parameter"
+          },
+          "401": {
+            "description": "Authentication failed"
+          }
+        },
+        "tags": [
+          "Authentication"
+        ]
+      }
+    },
+    "/api/auth/me": {
+      "get": {
+        "operationId": "AuthController_getMe",
+        "summary": "Get current user",
+        "description": "Returns the currently authenticated user profile",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Current user profile retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "id": "123e4567-e89b-12d3-a456-426614174000",
+                    "email": "user@example.com",
+                    "name": "John Doe",
+                    "avatar": "https://github.com/username.png",
+                    "githubId": "12345678",
+                    "department": "Computer Science",
+                    "grade": 3,
+                    "bio": "Full-stack developer",
+                    "theme": "dark",
+                    "language": "ko",
+                    "createdAt": "2024-01-01T00:00:00.000Z",
+                    "updatedAt": "2024-01-01T00:00:00.000Z"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token"
+          }
+        },
+        "tags": [
+          "Authentication"
+        ],
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ]
+      }
+    },
+    "/api/users/{id}": {
+      "get": {
+        "operationId": "UsersController_getUser",
+        "summary": "Get user profile",
+        "description": "Retrieve user profile information by user ID",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "User ID (UUID)",
+            "schema": {
+              "example": "123e4567-e89b-12d3-a456-426614174000",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User profile retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "id": "123e4567-e89b-12d3-a456-426614174000",
+                    "email": "user@example.com",
+                    "name": "John Doe",
+                    "avatar": "https://github.com/username.png",
+                    "department": "Computer Science",
+                    "grade": 3,
+                    "bio": "Full-stack developer",
+                    "theme": "dark",
+                    "language": "ko",
+                    "createdAt": "2024-01-01T00:00:00.000Z",
+                    "updatedAt": "2024-01-01T00:00:00.000Z"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found"
+          }
+        },
+        "tags": [
+          "Users"
+        ]
+      },
+      "patch": {
+        "operationId": "UsersController_updateUser",
+        "summary": "Update user profile",
+        "description": "Update user profile information. Users can only update their own profile.",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "User ID (must match authenticated user)",
+            "schema": {
+              "example": "123e4567-e89b-12d3-a456-426614174000",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User profile updated successfully"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token"
+          },
+          "403": {
+            "description": "Forbidden - Cannot update other users profiles"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        },
+        "tags": [
+          "Users"
+        ],
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ]
+      }
+    },
+    "/api/users/{id}/projects": {
+      "get": {
+        "operationId": "UsersController_getUserProjects",
+        "summary": "Get user projects",
+        "description": "Retrieve all projects where the user is a member",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "User ID",
+            "schema": {
+              "example": "123e4567-e89b-12d3-a456-426614174000",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User projects retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": [
+                    {
+                      "id": "456e7890-e12b-34d5-a678-426614174111",
+                      "name": "E-Commerce Platform",
+                      "slug": "ecommerce-platform",
+                      "description": "Full-stack e-commerce solution",
+                      "visibility": "PUBLIC",
+                      "role": "OWNER",
+                      "createdAt": "2024-01-01T00:00:00.000Z"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found"
+          }
+        },
+        "tags": [
+          "Users"
+        ]
+      }
+    },
+    "/api/projects": {
+      "get": {
+        "operationId": "ProjectsController_getProjects",
+        "summary": "Get all projects",
+        "description": "Retrieve projects with optional filtering and pagination",
+        "parameters": [
+          {
+            "name": "visibility",
+            "required": false,
+            "in": "query",
+            "description": "Filter by visibility",
+            "schema": {
+              "example": "PUBLIC",
+              "enum": [
+                "PUBLIC",
+                "PRIVATE",
+                "TEAM"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "tags",
+            "required": false,
+            "in": "query",
+            "description": "Filter by tags (comma-separated)",
+            "schema": {
+              "example": "React,TypeScript",
+              "type": "string"
+            }
+          },
+          {
+            "name": "search",
+            "required": false,
+            "in": "query",
+            "description": "Search projects by name or description",
+            "schema": {
+              "example": "e-commerce",
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Page number",
+            "schema": {
+              "minimum": 1,
+              "default": 1,
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Items per page",
+            "schema": {
+              "minimum": 1,
+              "default": 10,
+              "example": 10,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Projects retrieved successfully"
+          }
+        },
+        "tags": [
+          "Projects"
+        ]
+      },
+      "post": {
+        "operationId": "ProjectsController_createProject",
+        "summary": "Create project",
+        "description": "Create a new project. The creator automatically becomes the project owner.",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateProjectDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Project created successfully"
+          },
+          "400": {
+            "description": "Invalid input data"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "tags": [
+          "Projects"
+        ],
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ]
+      }
+    },
+    "/api/projects/{id}": {
+      "get": {
+        "operationId": "ProjectsController_getProject",
+        "summary": "Get project by ID",
+        "description": "Retrieve detailed project information including members",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Project ID",
+            "schema": {
+              "example": "456e7890-e12b-34d5-a678-426614174111",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Project retrieved successfully"
+          },
+          "404": {
+            "description": "Project not found"
+          }
+        },
+        "tags": [
+          "Projects"
+        ]
+      },
+      "patch": {
+        "operationId": "ProjectsController_updateProject",
+        "summary": "Update project",
+        "description": "Update project information. Requires OWNER or ADMIN role.",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Project ID",
+            "schema": {
+              "example": "456e7890-e12b-34d5-a678-426614174111",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateProjectDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Project updated successfully"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions"
+          },
+          "404": {
+            "description": "Project not found"
+          }
+        },
+        "tags": [
+          "Projects"
+        ],
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "ProjectsController_deleteProject",
+        "summary": "Delete project",
+        "description": "Delete a project. Only the project owner can delete the project.",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Project ID",
+            "schema": {
+              "example": "456e7890-e12b-34d5-a678-426614174111",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Project deleted successfully"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - Only owner can delete"
+          },
+          "404": {
+            "description": "Project not found"
+          }
+        },
+        "tags": [
+          "Projects"
+        ],
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ]
+      }
+    },
+    "/api/projects/{id}/members": {
+      "post": {
+        "operationId": "ProjectsController_addMember",
+        "summary": "Add project member",
+        "description": "Add a member to the project. Requires OWNER or ADMIN role.",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Project ID",
+            "schema": {
+              "example": "456e7890-e12b-34d5-a678-426614174111",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddMemberDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Member added successfully"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions"
+          },
+          "404": {
+            "description": "Project or user not found"
+          }
+        },
+        "tags": [
+          "Projects"
+        ],
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ]
+      }
+    },
+    "/api/projects/{id}/members/{userId}": {
+      "delete": {
+        "operationId": "ProjectsController_removeMember",
+        "summary": "Remove project member",
+        "description": "Remove a member from the project. Cannot remove the owner. Requires OWNER or ADMIN role.",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Project ID",
+            "schema": {
+              "example": "456e7890-e12b-34d5-a678-426614174111",
+              "type": "string"
+            }
+          },
+          {
+            "name": "userId",
+            "required": true,
+            "in": "path",
+            "description": "User ID to remove",
+            "schema": {
+              "example": "123e4567-e89b-12d3-a456-426614174000",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Member removed successfully"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - Cannot remove owner or insufficient permissions"
+          },
+          "404": {
+            "description": "Project or member not found"
+          }
+        },
+        "tags": [
+          "Projects"
+        ],
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ]
+      }
+    },
+    "/api/courses": {
+      "get": {
+        "operationId": "CoursesController_getCourses",
+        "summary": "Get all courses",
+        "description": "Retrieve courses with optional filtering and pagination",
+        "parameters": [
+          {
+            "name": "level",
+            "required": false,
+            "in": "query",
+            "description": "Filter by course level",
+            "schema": {
+              "example": "BEGINNER",
+              "enum": [
+                "JUNIOR",
+                "SENIOR",
+                "MASTER"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "published",
+            "required": false,
+            "in": "query",
+            "description": "Filter by published status",
+            "schema": {
+              "example": true,
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "featured",
+            "required": false,
+            "in": "query",
+            "description": "Filter by featured status",
+            "schema": {
+              "example": false,
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "tags",
+            "required": false,
+            "in": "query",
+            "description": "Filter by tags (comma-separated)",
+            "schema": {
+              "example": "React,JavaScript",
+              "type": "string"
+            }
+          },
+          {
+            "name": "search",
+            "required": false,
+            "in": "query",
+            "description": "Search courses by title or description",
+            "schema": {
+              "example": "react hooks",
+              "type": "string"
+            }
+          },
+          {
+            "name": "category",
+            "required": false,
+            "in": "query",
+            "description": "Filter by category",
+            "schema": {
+              "example": "Web Development",
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Page number",
+            "schema": {
+              "minimum": 1,
+              "default": 1,
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Items per page",
+            "schema": {
+              "minimum": 1,
+              "default": 10,
+              "example": 10,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Courses retrieved successfully"
+          }
+        },
+        "tags": [
+          "Courses"
+        ]
+      },
+      "post": {
+        "operationId": "CoursesController_createCourse",
+        "summary": "Create course",
+        "description": "Create a new course. Requires admin authentication.",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCourseDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Course created successfully"
+          },
+          "400": {
+            "description": "Invalid input data"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "tags": [
+          "Courses"
+        ],
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ]
+      }
+    },
+    "/api/courses/{id}": {
+      "get": {
+        "operationId": "CoursesController_getCourse",
+        "summary": "Get course by ID",
+        "description": "Retrieve detailed course information including chapters",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Course ID",
+            "schema": {
+              "example": "789e0123-e45b-67d8-a901-426614174222",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Course retrieved successfully"
+          },
+          "404": {
+            "description": "Course not found"
+          }
+        },
+        "tags": [
+          "Courses"
+        ]
+      },
+      "patch": {
+        "operationId": "CoursesController_updateCourse",
+        "summary": "Update course",
+        "description": "Update course information. Requires admin authentication.",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Course ID",
+            "schema": {
+              "example": "789e0123-e45b-67d8-a901-426614174222",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCourseDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Course updated successfully"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Course not found"
+          }
+        },
+        "tags": [
+          "Courses"
+        ],
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "CoursesController_deleteCourse",
+        "summary": "Delete course",
+        "description": "Delete a course. Requires admin authentication.",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Course ID",
+            "schema": {
+              "example": "789e0123-e45b-67d8-a901-426614174222",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Course deleted successfully"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Course not found"
+          }
+        },
+        "tags": [
+          "Courses"
+        ],
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ]
+      }
+    },
+    "/api/chapters/{id}": {
+      "get": {
+        "operationId": "ChaptersController_getChapter",
+        "summary": "Get chapter details",
+        "description": "Retrieve chapter information. Includes user progress if authenticated.",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Chapter ID",
+            "schema": {
+              "example": "012e3456-e78b-90d1-a234-426614174333",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Chapter retrieved successfully"
+          },
+          "404": {
+            "description": "Chapter not found"
+          }
+        },
+        "tags": [
+          "Chapters"
+        ]
+      }
+    },
+    "/api/chapters/{id}/progress": {
+      "patch": {
+        "operationId": "ChaptersController_updateProgress",
+        "summary": "Update chapter progress",
+        "description": "Update video position for resume functionality",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Chapter ID",
+            "schema": {
+              "example": "012e3456-e78b-90d1-a234-426614174333",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateProgressDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Progress updated successfully"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Chapter not found"
+          }
+        },
+        "tags": [
+          "Chapters"
+        ],
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ]
+      }
+    },
+    "/api/chapters/{id}/complete": {
+      "post": {
+        "operationId": "ChaptersController_completeChapter",
+        "summary": "Complete chapter",
+        "description": "Mark a chapter as completed",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Chapter ID",
+            "schema": {
+              "example": "012e3456-e78b-90d1-a234-426614174333",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Chapter marked as completed"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Chapter not found"
+          }
+        },
+        "tags": [
+          "Chapters"
+        ],
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ]
+      }
+    },
+    "/api/courses/{id}/enroll": {
+      "post": {
+        "operationId": "EnrollmentsController_enrollInCourse",
+        "summary": "Enroll in course",
+        "description": "Enroll the authenticated user in a course",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Course ID",
+            "schema": {
+              "example": "789e0123-e45b-67d8-a901-426614174222",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Successfully enrolled in course"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Course not found"
+          },
+          "409": {
+            "description": "Already enrolled"
+          }
+        },
+        "tags": [
+          "Enrollments"
+        ],
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "EnrollmentsController_cancelEnrollment",
+        "summary": "Cancel enrollment",
+        "description": "Cancel enrollment in a course",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Course ID",
+            "schema": {
+              "example": "789e0123-e45b-67d8-a901-426614174222",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Enrollment cancelled successfully"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Enrollment not found"
+          }
+        },
+        "tags": [
+          "Enrollments"
+        ],
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ]
+      }
+    },
+    "/api/courses/{id}/progress": {
+      "get": {
+        "operationId": "EnrollmentsController_getCourseProgress",
+        "summary": "Get course progress",
+        "description": "Retrieve the authenticated users progress in a specific course",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Course ID",
+            "schema": {
+              "example": "789e0123-e45b-67d8-a901-426614174222",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Progress retrieved successfully"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Enrollment not found"
+          }
+        },
+        "tags": [
+          "Enrollments"
+        ],
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ]
+      }
+    },
+    "/api/courses/enrollments/me": {
+      "get": {
+        "operationId": "EnrollmentsController_getMyEnrollments",
+        "summary": "Get my enrollments",
+        "description": "Retrieve all course enrollments for the authenticated user",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Enrollments retrieved successfully"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "tags": [
+          "Enrollments"
+        ],
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ]
+      }
+    },
+    "/api/posts": {
+      "get": {
+        "operationId": "PostsController_getPosts",
+        "summary": "Get all posts",
+        "description": "Retrieve posts with optional filtering, search, and pagination",
+        "parameters": [
+          {
+            "name": "tags",
+            "required": false,
+            "in": "query",
+            "description": "Filter by tags (comma-separated)",
+            "schema": {
+              "example": "React,Performance",
+              "type": "string"
+            }
+          },
+          {
+            "name": "search",
+            "required": false,
+            "in": "query",
+            "description": "Search in title and content",
+            "schema": {
+              "example": "react hooks",
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Page number",
+            "schema": {
+              "minimum": 1,
+              "default": 1,
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Items per page",
+            "schema": {
+              "minimum": 1,
+              "default": 20,
+              "example": 20,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Posts retrieved successfully"
+          }
+        },
+        "tags": [
+          "Posts"
+        ]
+      },
+      "post": {
+        "operationId": "PostsController_createPost",
+        "summary": "Create post",
+        "description": "Create a new community post",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePostDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Post created successfully"
+          },
+          "400": {
+            "description": "Invalid input data"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "tags": [
+          "Posts"
+        ],
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ]
+      }
+    },
+    "/api/posts/{id}": {
+      "get": {
+        "operationId": "PostsController_getPost",
+        "summary": "Get post by ID",
+        "description": "Retrieve detailed post information including comments and votes. Increments view count.",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Post ID",
+            "schema": {
+              "example": "345e6789-e01b-23d4-a567-426614174444",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Post retrieved successfully"
+          },
+          "404": {
+            "description": "Post not found"
+          }
+        },
+        "tags": [
+          "Posts"
+        ]
+      },
+      "patch": {
+        "operationId": "PostsController_updatePost",
+        "summary": "Update post",
+        "description": "Update post information. Only the author can update the post.",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Post ID",
+            "schema": {
+              "example": "345e6789-e01b-23d4-a567-426614174444",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePostDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Post updated successfully"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - Only author can update"
+          },
+          "404": {
+            "description": "Post not found"
+          }
+        },
+        "tags": [
+          "Posts"
+        ],
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "PostsController_deletePost",
+        "summary": "Delete post",
+        "description": "Delete a post. Only the author can delete the post.",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Post ID",
+            "schema": {
+              "example": "345e6789-e01b-23d4-a567-426614174444",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Post deleted successfully"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - Only author can delete"
+          },
+          "404": {
+            "description": "Post not found"
+          }
+        },
+        "tags": [
+          "Posts"
+        ],
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ]
+      }
+    },
+    "/api/posts/{id}/comments": {
+      "get": {
+        "operationId": "CommentsController_getComments",
+        "summary": "Get post comments",
+        "description": "Retrieve all comments for a post in hierarchical structure",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Post ID",
+            "schema": {
+              "example": "345e6789-e01b-23d4-a567-426614174444",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Comments retrieved successfully"
+          },
+          "404": {
+            "description": "Post not found"
+          }
+        },
+        "tags": [
+          "Comments"
+        ]
+      },
+      "post": {
+        "operationId": "CommentsController_createComment",
+        "summary": "Create comment",
+        "description": "Create a new comment on a post or reply to an existing comment",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Post ID",
+            "schema": {
+              "example": "345e6789-e01b-23d4-a567-426614174444",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCommentDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Comment created successfully"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Post not found"
+          }
+        },
+        "tags": [
+          "Comments"
+        ],
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ]
+      }
+    },
+    "/api/comments/{id}": {
+      "patch": {
+        "operationId": "CommentsController_updateComment",
+        "summary": "Update comment",
+        "description": "Update comment content. Only the author can update.",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Comment ID",
+            "schema": {
+              "example": "678e9012-e34b-56d7-a890-426614174555",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCommentDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Comment updated successfully"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - Only author can update"
+          },
+          "404": {
+            "description": "Comment not found"
+          }
+        },
+        "tags": [
+          "Comments"
+        ],
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "CommentsController_deleteComment",
+        "summary": "Delete comment",
+        "description": "Delete a comment. Only the author can delete.",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Comment ID",
+            "schema": {
+              "example": "678e9012-e34b-56d7-a890-426614174555",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Comment deleted successfully"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - Only author can delete"
+          },
+          "404": {
+            "description": "Comment not found"
+          }
+        },
+        "tags": [
+          "Comments"
+        ],
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ]
+      }
+    },
+    "/api/comments/{id}/accept": {
+      "post": {
+        "operationId": "CommentsController_acceptAnswer",
+        "summary": "Accept answer",
+        "description": "Mark a comment as the accepted answer. Only the post author can accept.",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Comment ID",
+            "schema": {
+              "example": "678e9012-e34b-56d7-a890-426614174555",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Comment accepted as answer"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - Only post author can accept"
+          },
+          "404": {
+            "description": "Comment not found"
+          }
+        },
+        "tags": [
+          "Comments"
+        ],
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ]
+      }
+    },
+    "/api/posts/{id}/vote": {
+      "post": {
+        "operationId": "VotesController_vote",
+        "summary": "Vote on post",
+        "description": "Upvote (1) or downvote (-1) a post. Updates existing vote if already voted.",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Post ID",
+            "schema": {
+              "example": "345e6789-e01b-23d4-a567-426614174444",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VoteDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Vote recorded successfully"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Post not found"
+          }
+        },
+        "tags": [
+          "Votes"
+        ],
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "VotesController_removeVote",
+        "summary": "Remove vote",
+        "description": "Remove your vote from a post",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Post ID",
+            "schema": {
+              "example": "345e6789-e01b-23d4-a567-426614174444",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Vote removed successfully"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Post or vote not found"
+          }
+        },
+        "tags": [
+          "Votes"
+        ],
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ]
+      }
+    },
+    "/api/posts/{id}/votes": {
+      "get": {
+        "operationId": "VotesController_getVotes",
+        "summary": "Get vote statistics",
+        "description": "Retrieve vote statistics for a post. Includes user vote status if authenticated.",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Post ID",
+            "schema": {
+              "example": "345e6789-e01b-23d4-a567-426614174444",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Vote statistics retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "upvotes": 42,
+                    "downvotes": 3,
+                    "score": 39,
+                    "userVote": 1
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Post not found"
+          }
+        },
+        "tags": [
+          "Votes"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "WKU Software Crew API",
+    "description": "RESTful API for WKU Software Crew platform - A comprehensive learning and collaboration platform for software development students",
+    "version": "1.0",
+    "contact": {
+      "name": "WKU Software Crew",
+      "url": "https://github.com/wku-crew",
+      "email": "contact@wku-crew.com"
+    }
+  },
+  "tags": [
+    {
+      "name": "Authentication",
+      "description": "GitHub OAuth authentication endpoints"
+    },
+    {
+      "name": "Users",
+      "description": "User profile management"
+    },
+    {
+      "name": "Projects",
+      "description": "Project creation and collaboration"
+    },
+    {
+      "name": "Courses",
+      "description": "Online learning courses"
+    },
+    {
+      "name": "Chapters",
+      "description": "Course chapters and progress tracking"
+    },
+    {
+      "name": "Enrollments",
+      "description": "Course enrollment management"
+    },
+    {
+      "name": "Posts",
+      "description": "Community forum posts"
+    },
+    {
+      "name": "Comments",
+      "description": "Post comments and replies"
+    },
+    {
+      "name": "Votes",
+      "description": "Upvote/downvote system"
+    }
+  ],
+  "servers": [],
+  "components": {
+    "securitySchemes": {
+      "JWT-auth": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http",
+        "name": "JWT",
+        "description": "Enter JWT token",
+        "in": "header"
+      }
+    },
+    "schemas": {
+      "UpdateUserDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "User display name",
+            "example": "John Doe"
+          },
+          "bio": {
+            "type": "string",
+            "description": "User biography or introduction",
+            "example": "Full-stack developer passionate about open source"
+          },
+          "avatar": {
+            "type": "string",
+            "description": "Profile picture URL",
+            "example": "https://github.com/username.png"
+          },
+          "department": {
+            "type": "string",
+            "description": "University department",
+            "example": "Computer Science"
+          },
+          "grade": {
+            "type": "number",
+            "description": "Academic grade (1-6)",
+            "example": 3,
+            "minimum": 1,
+            "maximum": 6
+          },
+          "theme": {
+            "type": "string",
+            "description": "UI theme preference",
+            "example": "dark",
+            "enum": [
+              "light",
+              "dark"
+            ]
+          },
+          "language": {
+            "type": "string",
+            "description": "Preferred language",
+            "example": "ko",
+            "enum": [
+              "ko",
+              "en"
+            ]
+          }
+        }
+      },
+      "CreateProjectDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Project name",
+            "example": "E-Commerce Platform",
+            "minLength": 2,
+            "maxLength": 100
+          },
+          "slug": {
+            "type": "string",
+            "description": "URL-friendly project identifier",
+            "example": "ecommerce-platform",
+            "minLength": 2,
+            "maxLength": 100
+          },
+          "description": {
+            "type": "string",
+            "description": "Project description",
+            "example": "A full-stack e-commerce solution built with Next.js and NestJS",
+            "maxLength": 500
+          },
+          "visibility": {
+            "type": "string",
+            "description": "Project visibility",
+            "enum": [
+              "PUBLIC",
+              "PRIVATE",
+              "TEAM"
+            ],
+            "example": "PUBLIC",
+            "default": "PUBLIC"
+          },
+          "githubRepo": {
+            "type": "string",
+            "description": "GitHub repository URL",
+            "example": "https://github.com/username/repo"
+          },
+          "deployUrl": {
+            "type": "string",
+            "description": "Deployment URL",
+            "example": "https://myproject.vercel.app"
+          },
+          "tags": {
+            "description": "Project tags for categorization",
+            "example": [
+              "React",
+              "TypeScript",
+              "Node.js"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "coverImage": {
+            "type": "string",
+            "description": "Project cover image URL",
+            "example": "https://images.example.com/project-cover.jpg"
+          }
+        },
+        "required": [
+          "name",
+          "slug"
+        ]
+      },
+      "UpdateProjectDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Project name",
+            "example": "E-Commerce Platform v2",
+            "minLength": 2,
+            "maxLength": 100
+          },
+          "description": {
+            "type": "string",
+            "description": "Project description",
+            "example": "Updated description with new features",
+            "maxLength": 500
+          },
+          "visibility": {
+            "type": "string",
+            "description": "Project visibility",
+            "enum": [
+              "PUBLIC",
+              "PRIVATE",
+              "TEAM"
+            ],
+            "example": "PRIVATE"
+          },
+          "githubRepo": {
+            "type": "string",
+            "description": "GitHub repository URL",
+            "example": "https://github.com/username/new-repo"
+          },
+          "deployUrl": {
+            "type": "string",
+            "description": "Deployment URL",
+            "example": "https://myproject-v2.vercel.app"
+          },
+          "tags": {
+            "description": "Project tags",
+            "example": [
+              "React",
+              "TypeScript",
+              "PostgreSQL"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "coverImage": {
+            "type": "string",
+            "description": "Project cover image URL",
+            "example": "https://images.example.com/new-cover.jpg"
+          }
+        }
+      },
+      "AddMemberDto": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "description": "User ID to add as member",
+            "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          "role": {
+            "type": "string",
+            "description": "Role to assign to the member",
+            "enum": [
+              "OWNER",
+              "ADMIN",
+              "MEMBER",
+              "VIEWER"
+            ],
+            "example": "MEMBER"
+          }
+        },
+        "required": [
+          "userId",
+          "role"
+        ]
+      },
+      "CreateCourseDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Course title",
+            "example": "Introduction to React",
+            "minLength": 2,
+            "maxLength": 200
+          },
+          "slug": {
+            "type": "string",
+            "description": "URL-friendly course identifier",
+            "example": "intro-to-react",
+            "minLength": 2,
+            "maxLength": 200
+          },
+          "description": {
+            "type": "string",
+            "description": "Course description",
+            "example": "Learn the fundamentals of React including components, hooks, and state management",
+            "minLength": 10
+          },
+          "thumbnail": {
+            "type": "string",
+            "description": "Course thumbnail image URL",
+            "example": "https://images.example.com/react-course.jpg"
+          },
+          "level": {
+            "type": "string",
+            "description": "Course difficulty level",
+            "enum": [
+              "JUNIOR",
+              "SENIOR",
+              "MASTER"
+            ],
+            "example": "BEGINNER"
+          },
+          "duration": {
+            "type": "number",
+            "description": "Total course duration in minutes",
+            "example": 180,
+            "minimum": 0
+          },
+          "published": {
+            "type": "boolean",
+            "description": "Whether the course is published",
+            "example": true,
+            "default": false
+          },
+          "featured": {
+            "type": "boolean",
+            "description": "Whether the course is featured",
+            "example": false,
+            "default": false
+          },
+          "tags": {
+            "description": "Course tags for categorization",
+            "example": [
+              "React",
+              "JavaScript",
+              "Frontend"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "category": {
+            "type": "string",
+            "description": "Course category",
+            "example": "Web Development"
+          }
+        },
+        "required": [
+          "title",
+          "slug",
+          "description",
+          "level",
+          "duration"
+        ]
+      },
+      "UpdateCourseDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Course title",
+            "example": "Advanced React Patterns",
+            "minLength": 2,
+            "maxLength": 200
+          },
+          "slug": {
+            "type": "string",
+            "description": "URL-friendly course identifier",
+            "example": "advanced-react-patterns",
+            "minLength": 2,
+            "maxLength": 200
+          },
+          "description": {
+            "type": "string",
+            "description": "Course description",
+            "example": "Deep dive into advanced React patterns and best practices",
+            "minLength": 10
+          },
+          "thumbnail": {
+            "type": "string",
+            "description": "Course thumbnail image URL",
+            "example": "https://images.example.com/advanced-react.jpg"
+          },
+          "level": {
+            "type": "string",
+            "description": "Course difficulty level",
+            "enum": [
+              "JUNIOR",
+              "SENIOR",
+              "MASTER"
+            ],
+            "example": "ADVANCED"
+          },
+          "duration": {
+            "type": "number",
+            "description": "Total course duration in minutes",
+            "example": 240,
+            "minimum": 0
+          },
+          "published": {
+            "type": "boolean",
+            "description": "Whether the course is published",
+            "example": true
+          },
+          "featured": {
+            "type": "boolean",
+            "description": "Whether the course is featured",
+            "example": true
+          },
+          "tags": {
+            "description": "Course tags",
+            "example": [
+              "React",
+              "Advanced",
+              "JavaScript"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "category": {
+            "type": "string",
+            "description": "Course category",
+            "example": "Advanced Web Development"
+          }
+        }
+      },
+      "UpdateProgressDto": {
+        "type": "object",
+        "properties": {
+          "lastPosition": {
+            "type": "number",
+            "description": "Last video position in seconds",
+            "example": 120,
+            "minimum": 0
+          }
+        }
+      },
+      "CreatePostDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Post title",
+            "example": "How to optimize React performance",
+            "maxLength": 200
+          },
+          "slug": {
+            "type": "string",
+            "description": "URL-friendly post identifier",
+            "example": "how-to-optimize-react-performance",
+            "maxLength": 100
+          },
+          "content": {
+            "type": "string",
+            "description": "Post content in Markdown format",
+            "example": "# Introduction\n\nThis post explains React performance optimization..."
+          },
+          "tags": {
+            "description": "Post tags",
+            "example": [
+              "React",
+              "Performance",
+              "Optimization"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "title",
+          "slug",
+          "content"
+        ]
+      },
+      "UpdatePostDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Post title",
+            "example": "Advanced React performance tips",
+            "maxLength": 200
+          },
+          "slug": {
+            "type": "string",
+            "description": "URL-friendly post identifier",
+            "example": "advanced-react-performance-tips",
+            "maxLength": 100
+          },
+          "content": {
+            "type": "string",
+            "description": "Post content in Markdown format",
+            "example": "# Updated Introduction\n\nThis updated post..."
+          },
+          "tags": {
+            "description": "Post tags",
+            "example": [
+              "React",
+              "Performance",
+              "Advanced"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "CreateCommentDto": {
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "string",
+            "description": "Comment content",
+            "example": "Great post! This really helped me understand the concept."
+          },
+          "parentId": {
+            "type": "string",
+            "description": "Parent comment ID for nested replies",
+            "example": "678e9012-e34b-56d7-a890-426614174555"
+          }
+        },
+        "required": [
+          "content"
+        ]
+      },
+      "UpdateCommentDto": {
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "string",
+            "description": "Updated comment content",
+            "example": "Updated: This post is even better after re-reading it!"
+          }
+        },
+        "required": [
+          "content"
+        ]
+      },
+      "VoteDto": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "number",
+            "description": "Vote value: 1 for upvote, -1 for downvote",
+            "example": 1,
+            "minimum": -1,
+            "maximum": 1,
+            "enum": [
+              -1,
+              1
+            ]
+          }
+        },
+        "required": [
+          "value"
+        ]
+      }
+    }
+  }
+}

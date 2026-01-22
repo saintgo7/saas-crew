@@ -11,6 +11,13 @@ import {
   HttpStatus,
 } from '@nestjs/common'
 import { AuthGuard } from '@nestjs/passport'
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiBearerAuth,
+  ApiParam,
+} from '@nestjs/swagger'
 import { ChaptersService } from './chapters.service'
 import { UpdateProgressDto } from './dto'
 
@@ -19,6 +26,7 @@ import { UpdateProgressDto } from './dto'
  * Handles HTTP requests for chapter progress management
  * Clean Architecture: Controller -> Service -> Repository (Prisma)
  */
+@ApiTags('Chapters')
 @Controller('chapters')
 export class ChaptersController {
   constructor(private readonly chaptersService: ChaptersService) {}
@@ -30,6 +38,23 @@ export class ChaptersController {
    */
   @Get(':id')
   @HttpCode(HttpStatus.OK)
+  @ApiOperation({
+    summary: 'Get chapter details',
+    description: 'Retrieve chapter information. Includes user progress if authenticated.',
+  })
+  @ApiParam({
+    name: 'id',
+    description: 'Chapter ID',
+    example: '012e3456-e78b-90d1-a234-426614174333',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Chapter retrieved successfully',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Chapter not found',
+  })
   async getChapter(@Param('id') id: string, @Req() req: any) {
     const userId = req.user?.id || null
     return this.chaptersService.getChapterWithProgress(id, userId)
@@ -43,6 +68,28 @@ export class ChaptersController {
   @Patch(':id/progress')
   @UseGuards(AuthGuard('jwt'))
   @HttpCode(HttpStatus.OK)
+  @ApiBearerAuth('JWT-auth')
+  @ApiOperation({
+    summary: 'Update chapter progress',
+    description: 'Update video position for resume functionality',
+  })
+  @ApiParam({
+    name: 'id',
+    description: 'Chapter ID',
+    example: '012e3456-e78b-90d1-a234-426614174333',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Progress updated successfully',
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Chapter not found',
+  })
   async updateProgress(
     @Param('id') id: string,
     @Body() dto: UpdateProgressDto,
@@ -59,6 +106,28 @@ export class ChaptersController {
   @Post(':id/complete')
   @UseGuards(AuthGuard('jwt'))
   @HttpCode(HttpStatus.OK)
+  @ApiBearerAuth('JWT-auth')
+  @ApiOperation({
+    summary: 'Complete chapter',
+    description: 'Mark a chapter as completed',
+  })
+  @ApiParam({
+    name: 'id',
+    description: 'Chapter ID',
+    example: '012e3456-e78b-90d1-a234-426614174333',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Chapter marked as completed',
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Chapter not found',
+  })
   async completeChapter(@Param('id') id: string, @Req() req: any) {
     return this.chaptersService.completeChapter(id, req.user.id)
   }

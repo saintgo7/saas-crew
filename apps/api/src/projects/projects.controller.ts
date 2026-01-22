@@ -13,6 +13,13 @@ import {
   HttpStatus,
 } from '@nestjs/common'
 import { AuthGuard } from '@nestjs/passport'
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiBearerAuth,
+  ApiParam,
+} from '@nestjs/swagger'
 import { ProjectsService } from './projects.service'
 import { CreateProjectDto, UpdateProjectDto, ProjectQueryDto, AddMemberDto } from './dto'
 
@@ -21,6 +28,7 @@ import { CreateProjectDto, UpdateProjectDto, ProjectQueryDto, AddMemberDto } fro
  * Handles HTTP requests for project management
  * Clean Architecture: Controller -> Service -> Repository (Prisma)
  */
+@ApiTags('Projects')
 @Controller('projects')
 export class ProjectsController {
   constructor(private readonly projectsService: ProjectsService) {}
@@ -32,6 +40,14 @@ export class ProjectsController {
    */
   @Get()
   @HttpCode(HttpStatus.OK)
+  @ApiOperation({
+    summary: 'Get all projects',
+    description: 'Retrieve projects with optional filtering and pagination',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Projects retrieved successfully',
+  })
   async getProjects(@Query() query: ProjectQueryDto) {
     return this.projectsService.findAll(query)
   }
@@ -45,6 +61,23 @@ export class ProjectsController {
   @Post()
   @UseGuards(AuthGuard('jwt'))
   @HttpCode(HttpStatus.CREATED)
+  @ApiBearerAuth('JWT-auth')
+  @ApiOperation({
+    summary: 'Create project',
+    description: 'Create a new project. The creator automatically becomes the project owner.',
+  })
+  @ApiResponse({
+    status: 201,
+    description: 'Project created successfully',
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized',
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Invalid input data',
+  })
   async createProject(@Body() dto: CreateProjectDto, @Req() req: any) {
     return this.projectsService.create(dto, req.user.id)
   }
@@ -56,6 +89,23 @@ export class ProjectsController {
    */
   @Get(':id')
   @HttpCode(HttpStatus.OK)
+  @ApiOperation({
+    summary: 'Get project by ID',
+    description: 'Retrieve detailed project information including members',
+  })
+  @ApiParam({
+    name: 'id',
+    description: 'Project ID',
+    example: '456e7890-e12b-34d5-a678-426614174111',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Project retrieved successfully',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Project not found',
+  })
   async getProject(@Param('id') id: string) {
     return this.projectsService.findById(id)
   }
@@ -68,6 +118,32 @@ export class ProjectsController {
   @Patch(':id')
   @UseGuards(AuthGuard('jwt'))
   @HttpCode(HttpStatus.OK)
+  @ApiBearerAuth('JWT-auth')
+  @ApiOperation({
+    summary: 'Update project',
+    description: 'Update project information. Requires OWNER or ADMIN role.',
+  })
+  @ApiParam({
+    name: 'id',
+    description: 'Project ID',
+    example: '456e7890-e12b-34d5-a678-426614174111',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Project updated successfully',
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized',
+  })
+  @ApiResponse({
+    status: 403,
+    description: 'Forbidden - Insufficient permissions',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Project not found',
+  })
   async updateProject(
     @Param('id') id: string,
     @Body() dto: UpdateProjectDto,
@@ -84,6 +160,32 @@ export class ProjectsController {
   @Delete(':id')
   @UseGuards(AuthGuard('jwt'))
   @HttpCode(HttpStatus.OK)
+  @ApiBearerAuth('JWT-auth')
+  @ApiOperation({
+    summary: 'Delete project',
+    description: 'Delete a project. Only the project owner can delete the project.',
+  })
+  @ApiParam({
+    name: 'id',
+    description: 'Project ID',
+    example: '456e7890-e12b-34d5-a678-426614174111',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Project deleted successfully',
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized',
+  })
+  @ApiResponse({
+    status: 403,
+    description: 'Forbidden - Only owner can delete',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Project not found',
+  })
   async deleteProject(@Param('id') id: string, @Req() req: any) {
     return this.projectsService.delete(id, req.user.id)
   }
@@ -96,6 +198,32 @@ export class ProjectsController {
   @Post(':id/members')
   @UseGuards(AuthGuard('jwt'))
   @HttpCode(HttpStatus.CREATED)
+  @ApiBearerAuth('JWT-auth')
+  @ApiOperation({
+    summary: 'Add project member',
+    description: 'Add a member to the project. Requires OWNER or ADMIN role.',
+  })
+  @ApiParam({
+    name: 'id',
+    description: 'Project ID',
+    example: '456e7890-e12b-34d5-a678-426614174111',
+  })
+  @ApiResponse({
+    status: 201,
+    description: 'Member added successfully',
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized',
+  })
+  @ApiResponse({
+    status: 403,
+    description: 'Forbidden - Insufficient permissions',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Project or user not found',
+  })
   async addMember(
     @Param('id') id: string,
     @Body() dto: AddMemberDto,
@@ -113,6 +241,37 @@ export class ProjectsController {
   @Delete(':id/members/:userId')
   @UseGuards(AuthGuard('jwt'))
   @HttpCode(HttpStatus.OK)
+  @ApiBearerAuth('JWT-auth')
+  @ApiOperation({
+    summary: 'Remove project member',
+    description: 'Remove a member from the project. Cannot remove the owner. Requires OWNER or ADMIN role.',
+  })
+  @ApiParam({
+    name: 'id',
+    description: 'Project ID',
+    example: '456e7890-e12b-34d5-a678-426614174111',
+  })
+  @ApiParam({
+    name: 'userId',
+    description: 'User ID to remove',
+    example: '123e4567-e89b-12d3-a456-426614174000',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Member removed successfully',
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized',
+  })
+  @ApiResponse({
+    status: 403,
+    description: 'Forbidden - Cannot remove owner or insufficient permissions',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Project or member not found',
+  })
   async removeMember(
     @Param('id') id: string,
     @Param('userId') userId: string,

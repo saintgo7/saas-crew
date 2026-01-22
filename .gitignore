@@ -13,6 +13,9 @@ out/
 # Testing
 coverage/
 .vitest/
+test-results/
+playwright-report/
+playwright/.cache/
 
 # Environment files
 .env
@@ -48,3 +51,14 @@ next-env.d.ts
 *.pem
 .vercel
 .turbo
+
+# API Documentation
+# openapi.json - Generated OpenAPI spec (commit this for reference)
+
+# Deployment
+ssl/
+backups/*.sql.gz
+.wrangler/
+
+# Docker
+docker-compose.override.yml

@@ -1,0 +1,17 @@
+# Cloudflare Pages Redirects
+# https://developers.cloudflare.com/pages/configuration/redirects/
+
+# API Proxy (if needed for SSR)
+/api/* https://api.wku-crew.com/api/:splat 200
+
+# SPA Fallback - Next.js handles this automatically
+# but keeping for reference
+# /* /index.html 200
+
+# Legacy redirects
+/login /auth/signin 301
+/signup /auth/signup 301
+/register /auth/signup 301
+
+# SEO redirects
+/about /about-us 301
