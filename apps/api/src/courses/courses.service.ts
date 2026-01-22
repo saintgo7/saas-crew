@@ -99,13 +99,11 @@ export class CoursesService {
     ])
 
     return {
-      data: courses,
-      meta: {
-        total,
-        page,
-        limit,
-        totalPages: Math.ceil(total / limit),
-      },
+      courses,
+      total,
+      page,
+      pageSize: limit,
+      totalPages: Math.ceil(total / limit),
     }
   }
 

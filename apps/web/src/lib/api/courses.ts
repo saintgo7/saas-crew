@@ -23,7 +23,7 @@ export const coursesApi = {
     if (params?.level) searchParams.set('level', params.level)
     if (params?.difficulty) searchParams.set('difficulty', params.difficulty)
     if (params?.page) searchParams.set('page', params.page.toString())
-    if (params?.pageSize) searchParams.set('pageSize', params.pageSize.toString())
+    if (params?.pageSize) searchParams.set('limit', params.pageSize.toString())
     if (params?.search) searchParams.set('search', params.search)
 
     const query = searchParams.toString()
