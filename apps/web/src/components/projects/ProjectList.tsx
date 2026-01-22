@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { useProjects } from '@/lib/hooks/use-projects'
 import { ProjectCard } from './ProjectCard'
-import { AlertCircle, Loader2, Folder } from 'lucide-react'
+import { AlertCircle, Loader2, Folder, Search } from 'lucide-react'
 
 const visibilityFilters = [
   { value: undefined, label: '전체' },
@@ -15,9 +15,23 @@ export function ProjectList() {
   const [selectedVisibility, setSelectedVisibility] = useState<
     'PUBLIC' | 'PRIVATE' | undefined
   >(undefined)
+  const [searchQuery, setSearchQuery] = useState('')
+  const [debouncedSearch, setDebouncedSearch] = useState('')
+
+  // Debounce search
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value
+    setSearchQuery(value)
+
+    // Simple debounce
+    setTimeout(() => {
+      setDebouncedSearch(value)
+    }, 300)
+  }
 
   const { data, isLoading, error } = useProjects({
     visibility: selectedVisibility,
+    search: debouncedSearch || undefined,
     limit: 20,
   })
 
@@ -43,6 +57,18 @@ export function ProjectList() {
 
   return (
     <div className="space-y-6">
+      {/* Search Bar */}
+      <div className="relative">
+        <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
+        <input
+          type="text"
+          placeholder="프로젝트 검색..."
+          value={searchQuery}
+          onChange={handleSearchChange}
+          className="w-full rounded-lg border border-gray-200 bg-white py-2 pl-10 pr-4 text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:placeholder-gray-400"
+        />
+      </div>
+
       {/* Filter Tabs */}
       <div className="flex items-center gap-2 overflow-x-auto pb-2">
         {visibilityFilters.map((filter) => (
