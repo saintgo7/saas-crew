@@ -176,7 +176,13 @@ export class CoursesService {
       throw new NotFoundException(`Course with ID ${id} not found`)
     }
 
-    return course
+    // Return in CourseDetailResponse format
+    // TODO: Add actual enrollment data when authentication is implemented
+    return {
+      course,
+      enrollment: null,
+      isEnrolled: false,
+    }
   }
 
   /**

@@ -85,7 +85,20 @@ export function CourseDetail({ courseId }: CourseDetailProps) {
     )
   }
 
-  const { course, enrollment, isEnrolled } = data
+  // Support both response formats
+  const course = 'course' in data ? data.course : data
+  const enrollment = 'enrollment' in data ? data.enrollment : undefined
+  const isEnrolled = 'isEnrolled' in data ? data.isEnrolled : false
+
+  if (!course) {
+    return (
+      <div className="rounded-lg border border-gray-200 bg-gray-50 p-8 text-center dark:border-gray-700 dark:bg-gray-800">
+        <p className="text-gray-600 dark:text-gray-400">
+          코스를 찾을 수 없습니다
+        </p>
+      </div>
+    )
+  }
 
   const handleEnroll = async () => {
     try {
