@@ -1,0 +1,179 @@
+{
+  "common": {
+    "login": "로그인",
+    "logout": "로그아웃",
+    "search": "검색",
+    "submit": "제출",
+    "cancel": "취소",
+    "save": "저장",
+    "delete": "삭제",
+    "edit": "수정",
+    "loading": "로딩 중...",
+    "error": "오류가 발생했습니다",
+    "noData": "데이터가 없습니다",
+    "viewMore": "더 보기",
+    "back": "뒤로",
+    "next": "다음",
+    "previous": "이전"
+  },
+  "nav": {
+    "home": "홈",
+    "projects": "프로젝트",
+    "courses": "코스",
+    "community": "커뮤니티",
+    "dashboard": "대시보드",
+    "about": "소개"
+  },
+  "home": {
+    "title": "WKU Software Crew",
+    "subtitle": "함께 성장하는 개발자 커뮤니티",
+    "description": "원광대학교 소프트웨어 크루와 함께 코딩 실력을 키워보세요",
+    "getStarted": "시작하기",
+    "learnMore": "더 알아보기",
+    "features": {
+      "title": "주요 기능",
+      "levelSystem": "레벨 시스템",
+      "levelSystemDesc": "Junior에서 Master까지 체계적인 성장 추적",
+      "projects": "프로젝트 관리",
+      "projectsDesc": "팀 프로젝트 협업 및 쇼케이스",
+      "courses": "온라인 코스",
+      "coursesDesc": "레벨별 맞춤 학습 콘텐츠",
+      "community": "커뮤니티",
+      "communityDesc": "Q&A 게시판과 지식 공유"
+    }
+  },
+  "projects": {
+    "title": "프로젝트",
+    "subtitle": "크루들이 진행하고 있는 프로젝트를 확인해보세요",
+    "searchPlaceholder": "프로젝트 검색...",
+    "createProject": "프로젝트 생성",
+    "noProjects": "프로젝트가 없습니다",
+    "filter": {
+      "all": "전체",
+      "public": "공개",
+      "private": "비공개"
+    },
+    "card": {
+      "members": "멤버",
+      "viewDetails": "상세 보기"
+    }
+  },
+  "courses": {
+    "title": "코스",
+    "subtitle": "레벨에 맞는 코스를 선택하고 학습하세요",
+    "searchPlaceholder": "코스 검색...",
+    "noCourses": "코스가 없습니다",
+    "level": {
+      "junior": "Junior",
+      "senior": "Senior",
+      "master": "Master"
+    },
+    "difficulty": {
+      "beginner": "초급",
+      "intermediate": "중급",
+      "advanced": "고급"
+    },
+    "card": {
+      "chapters": "챕터",
+      "enrolled": "수강 중",
+      "duration": "소요 시간"
+    },
+    "detail": {
+      "enroll": "수강 신청",
+      "unenroll": "수강 취소",
+      "enrolled": "수강 중",
+      "progress": "내 진도",
+      "objectives": "학습 목표",
+      "prerequisites": "선수 과목",
+      "curriculum": "강의 커리큘럼",
+      "tags": "태그"
+    }
+  },
+  "community": {
+    "title": "커뮤니티",
+    "subtitle": "질문하고 답변하며 함께 성장하는 Q&A 게시판",
+    "searchPlaceholder": "게시글 검색...",
+    "createPost": "질문하기",
+    "noPosts": "게시글이 없습니다",
+    "loading": "게시글을 불러오는 중...",
+    "error": "게시글 목록을 불러오는데 실패했습니다",
+    "filter": {
+      "all": "전체",
+      "latest": "최신순",
+      "popular": "인기순",
+      "views": "조회수순"
+    },
+    "card": {
+      "votes": "투표",
+      "comments": "댓글",
+      "views": "조회"
+    },
+    "detail": {
+      "writeComment": "댓글 작성",
+      "acceptAnswer": "답변 채택",
+      "accepted": "채택됨"
+    }
+  },
+  "dashboard": {
+    "title": "대시보드",
+    "subtitle": "나의 활동 현황을 확인해보세요",
+    "welcome": "환영합니다",
+    "myProjects": "내 프로젝트",
+    "myCourses": "수강 중인 코스",
+    "recentActivity": "최근 활동",
+    "levelProgress": "레벨 진행도",
+    "stats": {
+      "projects": "프로젝트",
+      "courses": "코스",
+      "posts": "게시글",
+      "comments": "댓글"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "로그인",
+      "subtitle": "크루에 합류하여 함께 성장하세요",
+      "withGithub": "GitHub로 로그인",
+      "info": "원광대학교 학생만 가입할 수 있습니다.",
+      "notice": "현재 인증 시스템이 구현되지 않았습니다. 실제 로그인 기능은 NextAuth.js를 통해 구현될 예정입니다.",
+      "features": {
+        "title": "로그인하면 다음 기능을 사용할 수 있습니다:",
+        "projects": "프로젝트 생성 및 관리",
+        "courses": "코스 수강 및 학습 진도 추적",
+        "community": "커뮤니티 질문 및 답변",
+        "levelUp": "레벨업 시스템 및 XP 획득"
+      }
+    }
+  },
+  "about": {
+    "title": "소개",
+    "subtitle": "WKU Software Crew에 대해 알아보세요",
+    "mission": {
+      "title": "우리의 미션",
+      "description": "원광대학교 학생들의 소프트웨어 역량 강화와 협업 문화 조성"
+    },
+    "features": {
+      "title": "플랫폼 특징",
+      "levelSystem": "레벨 시스템으로 체계적인 성장 추적",
+      "projects": "팀 프로젝트 관리 및 협업",
+      "courses": "레벨별 맞춤 온라인 코스",
+      "community": "활발한 Q&A 커뮤니티"
+    }
+  },
+  "footer": {
+    "copyright": "WKU Software Crew",
+    "rights": "All rights reserved",
+    "contact": "문의하기",
+    "terms": "이용약관",
+    "privacy": "개인정보처리방침"
+  },
+  "theme": {
+    "light": "라이트 모드",
+    "dark": "다크 모드",
+    "system": "시스템 설정"
+  },
+  "language": {
+    "ko": "한국어",
+    "en": "English"
+  }
+}

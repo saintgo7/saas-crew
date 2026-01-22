@@ -1,0 +1,179 @@
+{
+  "common": {
+    "login": "Login",
+    "logout": "Logout",
+    "search": "Search",
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "noData": "No data available",
+    "viewMore": "View More",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous"
+  },
+  "nav": {
+    "home": "Home",
+    "projects": "Projects",
+    "courses": "Courses",
+    "community": "Community",
+    "dashboard": "Dashboard",
+    "about": "About"
+  },
+  "home": {
+    "title": "WKU Software Crew",
+    "subtitle": "A Developer Community Growing Together",
+    "description": "Improve your coding skills with WKU Software Crew",
+    "getStarted": "Get Started",
+    "learnMore": "Learn More",
+    "features": {
+      "title": "Key Features",
+      "levelSystem": "Level System",
+      "levelSystemDesc": "Track your growth from Junior to Master",
+      "projects": "Project Management",
+      "projectsDesc": "Team project collaboration and showcase",
+      "courses": "Online Courses",
+      "coursesDesc": "Level-appropriate learning content",
+      "community": "Community",
+      "communityDesc": "Q&A boards and knowledge sharing"
+    }
+  },
+  "projects": {
+    "title": "Projects",
+    "subtitle": "Explore projects from our crew members",
+    "searchPlaceholder": "Search projects...",
+    "createProject": "Create Project",
+    "noProjects": "No projects found",
+    "filter": {
+      "all": "All",
+      "public": "Public",
+      "private": "Private"
+    },
+    "card": {
+      "members": "Members",
+      "viewDetails": "View Details"
+    }
+  },
+  "courses": {
+    "title": "Courses",
+    "subtitle": "Choose a course that matches your level",
+    "searchPlaceholder": "Search courses...",
+    "noCourses": "No courses found",
+    "level": {
+      "junior": "Junior",
+      "senior": "Senior",
+      "master": "Master"
+    },
+    "difficulty": {
+      "beginner": "Beginner",
+      "intermediate": "Intermediate",
+      "advanced": "Advanced"
+    },
+    "card": {
+      "chapters": "Chapters",
+      "enrolled": "Enrolled",
+      "duration": "Duration"
+    },
+    "detail": {
+      "enroll": "Enroll",
+      "unenroll": "Unenroll",
+      "enrolled": "Enrolled",
+      "progress": "My Progress",
+      "objectives": "Learning Objectives",
+      "prerequisites": "Prerequisites",
+      "curriculum": "Curriculum",
+      "tags": "Tags"
+    }
+  },
+  "community": {
+    "title": "Community",
+    "subtitle": "Q&A board where we grow together",
+    "searchPlaceholder": "Search posts...",
+    "createPost": "Ask Question",
+    "noPosts": "No posts found",
+    "loading": "Loading posts...",
+    "error": "Failed to load posts",
+    "filter": {
+      "all": "All",
+      "latest": "Latest",
+      "popular": "Popular",
+      "views": "Most Viewed"
+    },
+    "card": {
+      "votes": "Votes",
+      "comments": "Comments",
+      "views": "Views"
+    },
+    "detail": {
+      "writeComment": "Write a comment",
+      "acceptAnswer": "Accept Answer",
+      "accepted": "Accepted"
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "Check your activity status",
+    "welcome": "Welcome",
+    "myProjects": "My Projects",
+    "myCourses": "Enrolled Courses",
+    "recentActivity": "Recent Activity",
+    "levelProgress": "Level Progress",
+    "stats": {
+      "projects": "Projects",
+      "courses": "Courses",
+      "posts": "Posts",
+      "comments": "Comments"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Login",
+      "subtitle": "Join the crew and grow together",
+      "withGithub": "Login with GitHub",
+      "info": "Only Wonkwang University students can sign up.",
+      "notice": "Authentication system is not yet implemented. Login functionality will be implemented via NextAuth.js.",
+      "features": {
+        "title": "After logging in, you can:",
+        "projects": "Create and manage projects",
+        "courses": "Enroll in courses and track progress",
+        "community": "Ask and answer questions",
+        "levelUp": "Level up and earn XP"
+      }
+    }
+  },
+  "about": {
+    "title": "About",
+    "subtitle": "Learn about WKU Software Crew",
+    "mission": {
+      "title": "Our Mission",
+      "description": "Strengthening software capabilities and fostering collaboration culture among Wonkwang University students"
+    },
+    "features": {
+      "title": "Platform Features",
+      "levelSystem": "Track growth systematically with level system",
+      "projects": "Team project management and collaboration",
+      "courses": "Level-appropriate online courses",
+      "community": "Active Q&A community"
+    }
+  },
+  "footer": {
+    "copyright": "WKU Software Crew",
+    "rights": "All rights reserved",
+    "contact": "Contact Us",
+    "terms": "Terms of Service",
+    "privacy": "Privacy Policy"
+  },
+  "theme": {
+    "light": "Light Mode",
+    "dark": "Dark Mode",
+    "system": "System"
+  },
+  "language": {
+    "ko": "Korean",
+    "en": "English"
+  }
+}
