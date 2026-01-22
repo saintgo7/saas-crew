@@ -10,11 +10,12 @@ import { EnrollmentsModule } from './enrollments/enrollments.module'
 import { PostsModule } from './posts/posts.module'
 import { CommentsModule } from './comments/comments.module'
 import { VotesModule } from './votes/votes.module'
+import { HealthModule } from './health/health.module'
 
 /**
  * App Module
  * Root module of the application
- * Phase 6: Community features with posts, comments, and voting system
+ * Includes health check endpoints for container orchestration
  */
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { VotesModule } from './votes/votes.module'
       isGlobal: true,
     }),
     PrismaModule,
+    HealthModule,
     AuthModule,
     UsersModule,
     ProjectsModule,

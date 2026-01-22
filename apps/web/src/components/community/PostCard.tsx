@@ -1,6 +1,8 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
+import { memo, useMemo } from 'react'
 import { MessageSquare, Eye, CheckCircle2 } from 'lucide-react'
 import type { Post } from '@/lib/api/types'
 import { formatDistanceToNow } from 'date-fns'
@@ -10,11 +12,36 @@ interface PostCardProps {
   post: Post
 }
 
-export function PostCard({ post }: PostCardProps) {
+/**
+ * PostCard Component - Performance Optimized
+ *
+ * Optimizations applied:
+ * 1. React.memo - prevents re-renders when parent updates but post data unchanged
+ * 2. Next.js Image - automatic image optimization, lazy loading, proper sizing
+ * 3. useMemo for date formatting - avoids recalculation on every render
+ */
+function PostCardComponent({ post }: PostCardProps) {
+  // Memoize date formatting to prevent recalculation on re-renders
+  const formattedDate = useMemo(
+    () =>
+      formatDistanceToNow(new Date(post.createdAt), {
+        addSuffix: true,
+        locale: ko,
+      }),
+    [post.createdAt]
+  )
+
+  // Memoize author initial to prevent recalculation
+  const authorInitial = useMemo(
+    () => post.author.name.charAt(0).toUpperCase(),
+    [post.author.name]
+  )
+
   return (
     <Link
       href={`/community/${post.id}`}
       className="block rounded-lg border border-gray-200 bg-white p-6 transition-all hover:border-blue-300 hover:shadow-md dark:border-gray-700 dark:bg-gray-800 dark:hover:border-blue-600"
+      prefetch={false}
     >
       <div className="flex gap-4">
         {/* Vote Count */}
@@ -58,14 +85,17 @@ export function PostCard({ post }: PostCardProps) {
             {/* Author */}
             <div className="flex items-center gap-2">
               {post.author.profileImage ? (
-                <img
+                <Image
                   src={post.author.profileImage}
                   alt={post.author.name}
-                  className="h-6 w-6 rounded-full"
+                  width={24}
+                  height={24}
+                  className="rounded-full"
+                  loading="lazy"
                 />
               ) : (
                 <div className="flex h-6 w-6 items-center justify-center rounded-full bg-blue-600 text-xs font-semibold text-white">
-                  {post.author.name.charAt(0).toUpperCase()}
+                  {authorInitial}
                 </div>
               )}
               <span className="font-medium">{post.author.name}</span>
@@ -87,15 +117,13 @@ export function PostCard({ post }: PostCardProps) {
             </div>
 
             {/* Time */}
-            <span className="ml-auto">
-              {formatDistanceToNow(new Date(post.createdAt), {
-                addSuffix: true,
-                locale: ko,
-              })}
-            </span>
+            <span className="ml-auto">{formattedDate}</span>
           </div>
         </div>
       </div>
     </Link>
   )
 }
+
+// Export memoized component to prevent unnecessary re-renders
+export const PostCard = memo(PostCardComponent)

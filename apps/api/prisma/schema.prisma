@@ -126,8 +126,15 @@ model Course {
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
 
+  // Performance Indexes:
+  // - slug: unique constraint indexed for detail page lookups
+  // - [level, published]: compound index for filtered course listing
+  // - [featured desc, createdAt desc]: optimized for default sort order
+  // - tags: GIN index for array contains queries
   @@index([slug])
   @@index([level, published])
+  @@index([featured(sort: Desc), createdAt(sort: Desc)])
+  @@index([tags], type: Gin)
   @@map("courses")
 }
 
@@ -318,8 +325,15 @@ model Post {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 
+  // Performance Indexes:
+  // - authorId: fast author post lookups
+  // - slug: unique constraint already indexed
+  // - createdAt desc: optimized for default sorting (latest posts)
+  // - tags: GIN index for array contains queries (hasSome)
   @@index([authorId])
   @@index([slug])
+  @@index([createdAt(sort: Desc)])
+  @@index([tags], type: Gin)
   @@map("posts")
 }
 
@@ -360,6 +374,9 @@ model Vote {
 
   createdAt DateTime @default(now())
 
+  // Performance Indexes:
+  // - [userId, postId]: unique constraint for duplicate vote prevention
+  // - postId: optimized for vote aggregation queries (groupBy postId)
   @@unique([userId, postId])
   @@index([postId])
   @@map("votes")
