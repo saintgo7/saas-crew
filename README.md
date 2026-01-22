@@ -33,6 +33,8 @@
 ### 📂 프로젝트 관리
 - 프로젝트 생성/수정/삭제
 - 팀원 멤버십 관리 (Owner/Admin/Member/Viewer)
+- 실시간 검색 및 필터링 (디바운스 최적화)
+- 공개/비공개 프로젝트 필터링
 - 프로젝트 쇼케이스 및 태그 기반 검색
 
 ### 📚 온라인 코스
@@ -160,6 +162,17 @@ npm run dev:api    # 백엔드만 (포트 4000)
 - Swagger 문서: http://localhost:4000/api/docs
 - Health Check: http://localhost:4000/api/health
 
+**사용 가능한 페이지:**
+- `/` - 홈페이지 (플랫폼 소개)
+- `/projects` - 프로젝트 목록 (검색 및 필터링)
+- `/projects/[id]` - 프로젝트 상세 페이지
+- `/courses` - 코스 목록
+- `/courses/[id]` - 코스 상세 및 수강 신청
+- `/community` - 커뮤니티 Q&A
+- `/dashboard` - 사용자 대시보드
+- `/about` - 플랫폼 소개
+- `/auth/login` - 로그인 페이지 (GitHub OAuth 준비 중)
+
 ## 📁 프로젝트 구조
 
 ```
@@ -190,7 +203,17 @@ saas-crew/
 │   └── web/                      # Next.js 프론트엔드
 │       ├── src/
 │       │   ├── app/             # App Router 페이지
+│       │   │   ├── projects/   # 프로젝트 목록/상세
+│       │   │   ├── courses/    # 코스 목록/상세
+│       │   │   ├── community/  # 커뮤니티 Q&A
+│       │   │   ├── dashboard/  # 사용자 대시보드
+│       │   │   ├── about/      # 플랫폼 소개
+│       │   │   └── auth/       # 인증 (로그인)
 │       │   ├── components/      # React 컴포넌트
+│       │   │   ├── layout/     # 레이아웃 (Header, Footer)
+│       │   │   ├── projects/   # 프로젝트 컴포넌트
+│       │   │   ├── courses/    # 코스 컴포넌트
+│       │   │   └── community/  # 커뮤니티 컴포넌트
 │       │   └── lib/             # 유틸리티, API 클라이언트
 │       ├── e2e/                 # Playwright E2E 테스트
 │       ├── public/              # 정적 파일
@@ -278,9 +301,14 @@ NEXT_PUBLIC_API_URL="http://localhost:4000"
 ### 테스트 커버리지
 
 - **단위 테스트**: 114개 (97-100% coverage)
-- **통합 테스트**: 100+ 개
+- **통합 테스트**: 100+ 개 (17/17 엔드포인트 검증 통과)
 - **E2E 테스트**: 126+ 개
 - **총 테스트**: 340+ 개
+
+**최근 통합 테스트 결과** (2026-01-22)
+- ✅ 17/17 엔드포인트 정상 동작 확인
+- ✅ Frontend: 7개 페이지 모두 200 OK
+- ✅ Backend: API 헬스체크, CRUD 작업 검증 완료
 
 ### 테스트 실행
 
@@ -407,6 +435,16 @@ Conventional Commits 사용:
 - [x] Phase 6: 커뮤니티 기능
 - [x] Phase 7: 테스트 및 품질 관리
 - [x] Phase 8: 문서화 및 배포 준비
+
+### 최근 개선사항 (2026-01-22)
+- ✅ 전역 네비게이션 시스템 추가 (Header 컴포넌트)
+- ✅ 프로젝트 실시간 검색 기능 (디바운스 300ms)
+- ✅ 플랫폼 소개 페이지 추가
+- ✅ 로그인 UI 페이지 추가 (NextAuth 연동 준비)
+- ✅ 404 에러 핸들링 개선
+- ✅ 통합 테스트 자동화 (17 엔드포인트)
+
+### 향후 계획
 - [ ] 실시간 알림 시스템 (WebSocket)
 - [ ] 이메일 인증 시스템
 - [ ] 파일 업로드 기능
