@@ -105,36 +105,41 @@ model VerificationToken {
 // ============================================
 
 model Course {
-  id          String      @id @default(cuid())
-  title       String
-  slug        String      @unique
-  description String      @db.Text
-  thumbnail   String?
-  level       CourseLevel
-  duration    Int         // minutes
-  published   Boolean     @default(false)
-  featured    Boolean     @default(false)
+  id            String      @id @default(cuid())
+  title         String
+  slug          String      @unique
+  description   String      @db.Text
+  thumbnail     String?
+  level         CourseLevel
+  duration      Int         // hours
+  published     Boolean     @default(false)
+  featured      Boolean     @default(false)
 
   // Content
-  chapters    Chapter[]
-  enrollments Enrollment[]
+  chapters      Chapter[]
+  enrollments   Enrollment[]
 
   // Metadata
-  tags        String[]
-  category    String?
+  tags          String[]
+  category      String?
+  topics        String[]    // Course topics/learning objectives
+  prerequisites String[]    // Required course IDs
+  order         Int         @default(0)  // Sort order within category
 
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
 
   // Performance Indexes:
   // - slug: unique constraint indexed for detail page lookups
   // - [level, published]: compound index for filtered course listing
   // - [featured desc, createdAt desc]: optimized for default sort order
   // - tags: GIN index for array contains queries
+  // - [category, order]: optimized for category-based sorted listing
   @@index([slug])
   @@index([level, published])
   @@index([featured(sort: Desc), createdAt(sort: Desc)])
   @@index([tags], type: Gin)
+  @@index([category, order])
   @@map("courses")
 }
 

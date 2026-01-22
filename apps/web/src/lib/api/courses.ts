@@ -14,17 +14,21 @@ export const coursesApi = {
    */
   async getCourses(params?: {
     level?: CourseLevel
+    category?: 'FRONTEND' | 'BACKEND' | 'DATABASE'
     difficulty?: 'beginner' | 'intermediate' | 'advanced'
     page?: number
     pageSize?: number
     search?: string
+    published?: boolean
   }): Promise<CoursesListResponse> {
     const searchParams = new URLSearchParams()
     if (params?.level) searchParams.set('level', params.level)
+    if (params?.category) searchParams.set('category', params.category)
     if (params?.difficulty) searchParams.set('difficulty', params.difficulty)
     if (params?.page) searchParams.set('page', params.page.toString())
     if (params?.pageSize) searchParams.set('limit', params.pageSize.toString())
     if (params?.search) searchParams.set('search', params.search)
+    if (params?.published !== undefined) searchParams.set('published', params.published.toString())
 
     const query = searchParams.toString()
     return apiClient.get<CoursesListResponse>(

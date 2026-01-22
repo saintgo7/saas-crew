@@ -110,20 +110,30 @@ export interface Chapter {
 
 export interface Course {
   id: string
+  slug: string
   title: string
   description: string
   level: CourseLevel
-  difficulty: 'beginner' | 'intermediate' | 'advanced'
+  difficulty?: 'beginner' | 'intermediate' | 'advanced'
   coverImage?: string
-  duration: number // total minutes
-  chaptersCount: number
-  enrolledCount: number
-  instructorId: string
-  instructorName: string
+  thumbnail?: string
+  duration: number // hours
+  chaptersCount?: number
+  enrolledCount?: number
+  instructorId?: string
+  instructorName?: string
   instructorImage?: string
   tags: string[]
-  prerequisites?: string[]
-  learningObjectives: string[]
+  category?: string
+  topics?: string[] // Learning objectives
+  prerequisites?: string[] // Required course IDs
+  order?: number
+  published?: boolean
+  featured?: boolean
+  _count?: {
+    chapters: number
+    enrollments: number
+  }
   createdAt: string
   updatedAt: string
 }

@@ -85,6 +85,9 @@ export class CoursesService {
           featured: true,
           tags: true,
           category: true,
+          topics: true,
+          prerequisites: true,
+          order: true,
           createdAt: true,
           updatedAt: true,
           _count: {
