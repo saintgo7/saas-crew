@@ -57,7 +57,7 @@ export interface DashboardData {
 }
 
 // Course System Types
-export type CourseLevel = 'junior' | 'senior' | 'master'
+export type CourseLevel = 'JUNIOR' | 'SENIOR' | 'MASTER'
 
 export interface Chapter {
   id: string

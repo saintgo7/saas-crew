@@ -8,9 +8,9 @@ import type { CourseLevel } from '@/lib/api/types'
 
 const levelFilters = [
   { value: undefined, label: '전체' },
-  { value: 'junior' as CourseLevel, label: 'Junior' },
-  { value: 'senior' as CourseLevel, label: 'Senior' },
-  { value: 'master' as CourseLevel, label: 'Master' },
+  { value: 'JUNIOR' as CourseLevel, label: 'Junior' },
+  { value: 'SENIOR' as CourseLevel, label: 'Senior' },
+  { value: 'MASTER' as CourseLevel, label: 'Master' },
 ]
 
 export function CourseList() {
