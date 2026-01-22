@@ -323,13 +323,32 @@
     },
     "members": "{count} members"
   },
+  "profile": {
+    "title": "My Profile",
+    "subtitle": "View and edit your profile information",
+    "details": "Profile Details",
+    "editProfile": "Edit Profile",
+    "name": "Name",
+    "email": "Email",
+    "bio": "Bio",
+    "bioPlaceholder": "Tell us about yourself",
+    "department": "Department",
+    "departmentPlaceholder": "e.g., Computer Science",
+    "grade": "Year",
+    "gradeYear": "Year {year}",
+    "level": "Level & Experience",
+    "joined": "Joined",
+    "notSet": "Not set",
+    "imageNote": "Profile image is synced from your GitHub account"
+  },
   "auth": {
     "login": {
       "title": "Login",
       "subtitle": "Join the crew and grow together",
       "withGithub": "Login with GitHub",
       "info": "Only Wonkwang University students can register.",
-      "notice": "Authentication system is not yet implemented. Login functionality will be implemented through NextAuth.js.",
+      "notice": "Notice",
+      "noticeDesc": "Sign in easily with your GitHub account. Additional benefits available when linked with Wonkwang University email.",
       "features": {
         "title": "Login to access these features:",
         "projects": "Create and manage projects",
@@ -337,6 +356,14 @@
         "community": "Community Q&A participation",
         "levelUp": "Level up system and earn XP"
       }
+    },
+    "callback": {
+      "loading": "Processing login...",
+      "pleaseWait": "Please wait a moment",
+      "success": "Login successful!",
+      "redirecting": "Redirecting to dashboard...",
+      "error": "Login failed",
+      "tryAgain": "Try again"
     }
   },
   "about": {

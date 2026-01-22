@@ -3,8 +3,14 @@
 import { Github } from 'lucide-react'
 import { useTranslations } from '@/i18n/LanguageContext'
 
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'
+
 export default function LoginPage() {
   const t = useTranslations()
+
+  const handleGithubLogin = () => {
+    window.location.href = `${API_BASE_URL}/api/auth/github`
+  }
 
   return (
     <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center px-4">
@@ -26,14 +32,14 @@ export default function LoginPage() {
           {/* Login Info */}
           <div className="mb-6 rounded-lg bg-blue-50 p-4 dark:bg-blue-900/20">
             <p className="text-sm text-blue-800 dark:text-blue-200">
-              <strong>{t('common.error').split(' ')[0]}:</strong> {t('auth.login.notice')}
+              <strong>{t('auth.login.notice').split(':')[0]}:</strong> {t('auth.login.noticeDesc')}
             </p>
           </div>
 
           {/* GitHub Login Button */}
           <button
-            disabled
-            className="flex w-full items-center justify-center gap-3 rounded-lg border border-gray-300 bg-gray-800 px-4 py-3 font-medium text-white opacity-50 cursor-not-allowed dark:border-gray-600"
+            onClick={handleGithubLogin}
+            className="flex w-full items-center justify-center gap-3 rounded-lg border border-gray-300 bg-gray-800 px-4 py-3 font-medium text-white transition-colors hover:bg-gray-700 dark:border-gray-600"
           >
             <Github className="h-5 w-5" />
             <span>{t('auth.login.withGithub')}</span>

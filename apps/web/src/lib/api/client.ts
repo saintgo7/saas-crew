@@ -1,4 +1,10 @@
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'
+
+function getAuthHeaders(): HeadersInit {
+  if (typeof window === 'undefined') return {}
+  const token = localStorage.getItem('auth_token')
+  return token ? { Authorization: `Bearer ${token}` } : {}
+}
 
 class ApiError extends Error {
   constructor(
@@ -31,6 +37,7 @@ export const apiClient = {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
+        ...getAuthHeaders(),
         ...options?.headers,
       },
       credentials: 'include',
@@ -44,6 +51,7 @@ export const apiClient = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        ...getAuthHeaders(),
         ...options?.headers,
       },
       body: data ? JSON.stringify(data) : undefined,
@@ -58,6 +66,7 @@ export const apiClient = {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
+        ...getAuthHeaders(),
         ...options?.headers,
       },
       body: data ? JSON.stringify(data) : undefined,
@@ -72,6 +81,7 @@ export const apiClient = {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
+        ...getAuthHeaders(),
         ...options?.headers,
       },
       credentials: 'include',
@@ -85,6 +95,7 @@ export const apiClient = {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
+        ...getAuthHeaders(),
         ...options?.headers,
       },
       body: data ? JSON.stringify(data) : undefined,

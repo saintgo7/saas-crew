@@ -4,11 +4,28 @@ export interface User {
   name: string
   studentId?: string
   department?: string
+  bio?: string
+  grade?: number
   role: 'student' | 'mentor' | 'admin'
+  rank?: 'JUNIOR' | 'SENIOR' | 'MASTER'
   level: number
   experiencePoints: number
   profileImage?: string
+  avatar?: string
+  githubId?: string
+  theme?: string
+  language?: string
   createdAt: string
+  updatedAt?: string
+}
+
+export interface UpdateUserInput {
+  name?: string
+  bio?: string
+  department?: string
+  grade?: number
+  theme?: string
+  language?: string
 }
 
 export interface Project {
