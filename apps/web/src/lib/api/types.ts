@@ -13,19 +13,29 @@ export interface User {
 
 export interface Project {
   id: string
-  title: string
+  name: string
+  slug: string
   description: string
-  status: 'planning' | 'in_progress' | 'completed' | 'archived'
-  startDate: string
-  endDate?: string
-  teamMembers: {
-    userId: string
-    name: string
-    role: string
-    profileImage?: string
-  }[]
-  progress: number
+  visibility: 'PUBLIC' | 'PRIVATE'
+  githubRepo?: string
+  deployUrl?: string
+  coverImage?: string
   tags: string[]
+  createdAt: string
+  updatedAt: string
+  _count?: {
+    members: number
+  }
+}
+
+export interface ProjectsListResponse {
+  data: Project[]
+  meta: {
+    total: number
+    page: number
+    limit: number
+    totalPages: number
+  }
 }
 
 export interface CourseProgress {
