@@ -172,16 +172,7 @@ export class PostsService {
    * Increments view count
    */
   async findById(id: string) {
-    // Increment view count
-    await this.prisma.post.update({
-      where: { id },
-      data: {
-        viewCount: {
-          increment: 1,
-        },
-      },
-    })
-
+    // First check if post exists
     const post = await this.prisma.post.findUnique({
       where: { id },
       include: {
@@ -207,6 +198,16 @@ export class PostsService {
     if (!post) {
       throw new NotFoundException(`Post with ID ${id} not found`)
     }
+
+    // Increment view count (only if post exists)
+    await this.prisma.post.update({
+      where: { id },
+      data: {
+        viewCount: {
+          increment: 1,
+        },
+      },
+    })
 
     // Calculate vote score
     const voteSum = await this.prisma.vote.aggregate({
