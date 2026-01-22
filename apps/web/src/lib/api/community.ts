@@ -20,11 +20,10 @@ export const communityApi = {
   async getPosts(filters?: PostFilters): Promise<PostsListResponse> {
     const params = new URLSearchParams()
 
-    if (filters?.tag) params.set('tag', filters.tag)
+    if (filters?.tag) params.set('tags', filters.tag)
     if (filters?.search) params.set('search', filters.search)
-    if (filters?.sortBy) params.set('sortBy', filters.sortBy)
     if (filters?.page) params.set('page', filters.page.toString())
-    if (filters?.pageSize) params.set('pageSize', filters.pageSize.toString())
+    if (filters?.pageSize) params.set('limit', filters.pageSize.toString())
 
     const query = params.toString()
     const endpoint = query ? `/api/posts?${query}` : '/api/posts'

@@ -111,13 +111,11 @@ export class PostsService {
     }))
 
     return {
-      data: postsWithVotes,
-      meta: {
-        total,
-        page,
-        limit,
-        totalPages: Math.ceil(total / limit),
-      },
+      posts: postsWithVotes,
+      total,
+      page,
+      pageSize: limit,
+      totalPages: Math.ceil(total / limit),
     }
   }
 
