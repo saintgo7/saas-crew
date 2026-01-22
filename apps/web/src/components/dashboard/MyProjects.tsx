@@ -45,47 +45,61 @@ export function MyProjects({ projects }: MyProjectsProps) {
             <div className="flex items-start justify-between gap-4 mb-3">
               <div className="flex-1 min-w-0">
                 <h4 className="text-base font-semibold text-gray-900 dark:text-white truncate">
-                  {project.title}
+                  {project.name}
                 </h4>
                 <p className="text-sm text-gray-600 dark:text-gray-300 mt-1 line-clamp-2">
                   {project.description}
                 </p>
               </div>
-              <span
-                className={`inline-flex px-2.5 py-1 rounded-full text-xs font-medium whitespace-nowrap ${
-                  statusConfig[project.status].color
-                }`}
-              >
-                {statusConfig[project.status].label}
-              </span>
+              {project.status && (
+                <span
+                  className={`inline-flex px-2.5 py-1 rounded-full text-xs font-medium whitespace-nowrap ${
+                    statusConfig[project.status].color
+                  }`}
+                >
+                  {statusConfig[project.status].label}
+                </span>
+              )}
             </div>
 
             {/* Progress Bar */}
-            <div className="mb-3">
-              <div className="flex items-center justify-between text-xs text-gray-600 dark:text-gray-400 mb-1">
-                <span>진행률</span>
-                <span className="font-medium">{project.progress}%</span>
+            {project.progress !== undefined && (
+              <div className="mb-3">
+                <div className="flex items-center justify-between text-xs text-gray-600 dark:text-gray-400 mb-1">
+                  <span>진행률</span>
+                  <span className="font-medium">{project.progress}%</span>
+                </div>
+                <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                  <div
+                    className="bg-blue-600 h-2 rounded-full transition-all"
+                    style={{ width: `${project.progress}%` }}
+                  />
+                </div>
               </div>
-              <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                <div
-                  className="bg-blue-600 h-2 rounded-full transition-all"
-                  style={{ width: `${project.progress}%` }}
-                />
-              </div>
-            </div>
+            )}
 
             {/* Meta Info */}
             <div className="flex flex-wrap items-center gap-4 text-xs text-gray-600 dark:text-gray-400">
-              <div className="flex items-center gap-1">
-                <Calendar className="w-3.5 h-3.5" />
-                <span>
-                  {format(new Date(project.startDate), 'yyyy.MM.dd', { locale: ko })}
-                </span>
-              </div>
-              <div className="flex items-center gap-1">
-                <Users className="w-3.5 h-3.5" />
-                <span>{project.teamMembers.length}명</span>
-              </div>
+              {project.startDate && (
+                <div className="flex items-center gap-1">
+                  <Calendar className="w-3.5 h-3.5" />
+                  <span>
+                    {format(new Date(project.startDate), 'yyyy.MM.dd', { locale: ko })}
+                  </span>
+                </div>
+              )}
+              {project.teamMembers && (
+                <div className="flex items-center gap-1">
+                  <Users className="w-3.5 h-3.5" />
+                  <span>{project.teamMembers.length}명</span>
+                </div>
+              )}
+              {project._count && (
+                <div className="flex items-center gap-1">
+                  <Users className="w-3.5 h-3.5" />
+                  <span>{project._count.members}명</span>
+                </div>
+              )}
               {project.tags.length > 0 && (
                 <div className="flex items-center gap-1">
                   <Tag className="w-3.5 h-3.5" />
@@ -109,7 +123,7 @@ export function MyProjects({ projects }: MyProjectsProps) {
             </div>
 
             {/* Team Members */}
-            {project.teamMembers.length > 0 && (
+            {project.teamMembers && project.teamMembers.length > 0 && (
               <div className="mt-3 pt-3 border-t border-gray-200 dark:border-gray-700">
                 <div className="flex items-center gap-2">
                   <span className="text-xs text-gray-600 dark:text-gray-400">팀원:</span>

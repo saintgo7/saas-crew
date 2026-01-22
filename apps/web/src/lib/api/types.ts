@@ -17,6 +17,10 @@ export interface Project {
   slug: string
   description: string
   visibility: 'PUBLIC' | 'PRIVATE'
+  status?: 'planning' | 'in_progress' | 'completed' | 'archived'
+  progress?: number
+  startDate?: string
+  teamMembers?: any[]
   githubRepo?: string
   deployUrl?: string
   coverImage?: string

@@ -39,7 +39,10 @@ export const mockUsers = {
 /**
  * Mock NextAuth session for authenticated users
  */
-async function mockAuthSession(page: Page, user: typeof mockUsers.junior) {
+async function mockAuthSession(
+  page: Page,
+  user: typeof mockUsers[keyof typeof mockUsers]
+) {
   // Mock NextAuth session cookie and storage
   const session = {
     user: {
