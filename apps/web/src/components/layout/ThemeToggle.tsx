@@ -3,8 +3,10 @@
 import { useTheme } from 'next-themes'
 import { Moon, Sun, Monitor } from 'lucide-react'
 import { useEffect, useState } from 'react'
+import { useTranslations } from '@/i18n/LanguageContext'
 
 export function ThemeToggle() {
+  const t = useTranslations()
   const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
 
@@ -37,10 +39,10 @@ export function ThemeToggle() {
       className="flex h-9 w-9 items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-600 transition-colors hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700"
       title={
         theme === 'light'
-          ? 'Light mode'
+          ? t('theme.light')
           : theme === 'dark'
-            ? 'Dark mode'
-            : 'System mode'
+            ? t('theme.dark')
+            : t('theme.system')
       }
     >
       {theme === 'light' && <Sun className="h-4 w-4" />}

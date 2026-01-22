@@ -393,10 +393,16 @@
   "theme": {
     "light": "Light Mode",
     "dark": "Dark Mode",
-    "system": "System"
+    "system": "System",
+    "toggle": "Change theme"
   },
   "language": {
     "ko": "Korean",
-    "en": "English"
+    "en": "English",
+    "change": "Change language"
+  },
+  "accessibility": {
+    "upvote": "Upvote",
+    "downvote": "Downvote"
   }
 }

@@ -393,10 +393,16 @@
   "theme": {
     "light": "라이트 모드",
     "dark": "다크 모드",
-    "system": "시스템 설정"
+    "system": "시스템 설정",
+    "toggle": "테마 변경"
   },
   "language": {
     "ko": "한국어",
-    "en": "English"
+    "en": "English",
+    "change": "언어 변경"
+  },
+  "accessibility": {
+    "upvote": "추천",
+    "downvote": "비추천"
   }
 }

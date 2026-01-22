@@ -1,11 +1,12 @@
 'use client'
 
-import { useLanguage } from '@/i18n/LanguageContext'
+import { useLanguage, useTranslations } from '@/i18n/LanguageContext'
 import { Globe } from 'lucide-react'
 import { useState, useRef, useEffect } from 'react'
 import { locales, getLocaleLabel } from '@/i18n/config'
 
 export function LanguageSwitcher() {
+  const t = useTranslations()
   const { locale, setLocale } = useLanguage()
   const [isOpen, setIsOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
@@ -27,7 +28,7 @@ export function LanguageSwitcher() {
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="flex h-9 items-center gap-1.5 rounded-lg border border-gray-200 bg-white px-2.5 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700"
-        title="Change language"
+        title={t('language.change')}
       >
         <Globe className="h-4 w-4" />
         <span className="hidden sm:inline">{locale.toUpperCase()}</span>

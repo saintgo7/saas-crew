@@ -2,6 +2,7 @@
 
 import { ChevronUp, ChevronDown } from 'lucide-react'
 import { useState } from 'react'
+import { useTranslations } from '@/i18n/LanguageContext'
 
 interface VoteButtonsProps {
   votes: number
@@ -20,6 +21,7 @@ export function VoteButtons({
   disabled = false,
   size = 'md',
 }: VoteButtonsProps) {
+  const t = useTranslations()
   const [isVoting, setIsVoting] = useState(false)
 
   const handleVote = async (type: 'upvote' | 'downvote') => {
@@ -47,7 +49,7 @@ export function VoteButtons({
             ? 'text-blue-600 hover:text-blue-700'
             : 'text-gray-400 hover:text-blue-600'
         }`}
-        aria-label="Upvote"
+        aria-label={t('accessibility.upvote')}
       >
         <ChevronUp className={iconSize} />
       </button>
@@ -74,7 +76,7 @@ export function VoteButtons({
             ? 'text-orange-600 hover:text-orange-700'
             : 'text-gray-400 hover:text-orange-600'
         }`}
-        aria-label="Downvote"
+        aria-label={t('accessibility.downvote')}
       >
         <ChevronDown className={iconSize} />
       </button>
