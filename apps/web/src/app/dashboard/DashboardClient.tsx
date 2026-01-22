@@ -7,9 +7,11 @@ import { CourseProgress } from '@/components/dashboard/CourseProgress'
 import { LevelProgress } from '@/components/dashboard/LevelProgress'
 import { DashboardSkeleton } from '@/components/dashboard/DashboardSkeleton'
 import { AlertCircle } from 'lucide-react'
+import { useTranslations } from '@/i18n/LanguageContext'
 
 export function DashboardClient() {
   const { user, projects, courseProgress, levelProgress, isLoading, errors } = useDashboard()
+  const t = useTranslations()
 
   // Show loading state
   if (isLoading) {
@@ -25,10 +27,10 @@ export function DashboardClient() {
             <AlertCircle className="w-6 h-6 text-red-600 dark:text-red-400" />
             <div>
               <h3 className="font-semibold text-red-900 dark:text-red-100">
-                데이터를 불러오는데 실패했습니다
+                {t('common.error')}
               </h3>
               <p className="text-sm text-red-700 dark:text-red-300 mt-1">
-                {errors.user instanceof Error ? errors.user.message : '알 수 없는 오류가 발생했습니다'}
+                {errors.user instanceof Error ? errors.user.message : t('common.error')}
               </p>
             </div>
           </div>
@@ -45,10 +47,10 @@ export function DashboardClient() {
             <AlertCircle className="w-6 h-6 text-yellow-600 dark:text-yellow-400" />
             <div>
               <h3 className="font-semibold text-yellow-900 dark:text-yellow-100">
-                로그인이 필요합니다
+                {t('common.login')}
               </h3>
               <p className="text-sm text-yellow-700 dark:text-yellow-300 mt-1">
-                대시보드를 보려면 먼저 로그인해주세요
+                {t('auth.login.subtitle')}
               </p>
             </div>
           </div>

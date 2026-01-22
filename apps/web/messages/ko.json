@@ -14,7 +14,11 @@
     "viewMore": "더 보기",
     "back": "뒤로",
     "next": "다음",
-    "previous": "이전"
+    "previous": "이전",
+    "joinCrew": "크루에 합류하기",
+    "startNow": "지금 바로 시작하세요",
+    "wkuStudentOnly": "원광대학교 학생이라면 누구나 참여할 수 있습니다",
+    "contactAdmin": "문의사항이 있으시면 관리자에게 연락해주세요"
   },
   "nav": {
     "home": "홈",
@@ -25,21 +29,59 @@
     "about": "소개"
   },
   "home": {
-    "title": "WKU Software Crew",
-    "subtitle": "함께 성장하는 개발자 커뮤니티",
-    "description": "원광대학교 소프트웨어 크루와 함께 코딩 실력을 키워보세요",
-    "getStarted": "시작하기",
-    "learnMore": "더 알아보기",
-    "features": {
-      "title": "주요 기능",
-      "levelSystem": "레벨 시스템",
-      "levelSystemDesc": "Junior에서 Master까지 체계적인 성장 추적",
-      "projects": "프로젝트 관리",
-      "projectsDesc": "팀 프로젝트 협업 및 쇼케이스",
-      "courses": "온라인 코스",
-      "coursesDesc": "레벨별 맞춤 학습 콘텐츠",
-      "community": "커뮤니티",
-      "communityDesc": "Q&A 게시판과 지식 공유"
+    "badge": "원광대학교 소프트웨어 크루",
+    "title": "함께 성장하는",
+    "titleHighlight": "개발자 크루",
+    "description": "개인 프로젝트를 통해 Junior에서 Master까지,",
+    "descriptionSub": "동아리처럼 함께 배우고 성장하는 플랫폼",
+    "startWithGithub": "GitHub로 시작하기",
+    "browseProjects": "프로젝트 둘러보기",
+    "levelSystem": {
+      "title": "성장하는 레벨 시스템",
+      "subtitle": "프로젝트를 완성하며 Junior에서 Master까지 성장하세요",
+      "junior": {
+        "name": "Junior",
+        "level": "Lv. 1-10",
+        "description": "프로그래밍의 첫 걸음",
+        "feature1": "기본 문법 학습",
+        "feature2": "첫 개인 프로젝트 완성",
+        "feature3": "Git 기초 사용법"
+      },
+      "senior": {
+        "name": "Senior",
+        "level": "Lv. 11-30",
+        "description": "실력을 키우는 단계",
+        "feature1": "풀스택 프로젝트 경험",
+        "feature2": "크루 내 멘토링 참여",
+        "feature3": "팀 프로젝트 협업"
+      },
+      "master": {
+        "name": "Master",
+        "level": "Lv. 31-50",
+        "description": "전문가로의 도약",
+        "feature1": "기업 연계 프로젝트",
+        "feature2": "크루 리더 역할",
+        "feature3": "신입 멘토링"
+      }
+    },
+    "howItWorks": {
+      "title": "어떻게 진행되나요?",
+      "step1": {
+        "title": "가입하기",
+        "description": "GitHub 계정으로 간단 가입"
+      },
+      "step2": {
+        "title": "프로젝트 시작",
+        "description": "나만의 프로젝트 아이디어로 시작"
+      },
+      "step3": {
+        "title": "완성하고 공유",
+        "description": "프로젝트 완성 후 쇼케이스 등록"
+      },
+      "step4": {
+        "title": "레벨업!",
+        "description": "XP를 얻고 다음 레벨로 성장"
+      }
     }
   },
   "projects": {
@@ -56,6 +98,11 @@
     "card": {
       "members": "멤버",
       "viewDetails": "상세 보기"
+    },
+    "status": {
+      "active": "진행중",
+      "completed": "완료",
+      "paused": "일시정지"
     }
   },
   "courses": {
@@ -112,6 +159,15 @@
       "writeComment": "댓글 작성",
       "acceptAnswer": "답변 채택",
       "accepted": "채택됨"
+    },
+    "new": {
+      "title": "새 질문 작성",
+      "titleLabel": "제목",
+      "titlePlaceholder": "질문 제목을 입력하세요",
+      "contentLabel": "내용",
+      "contentPlaceholder": "질문 내용을 입력하세요",
+      "tagsLabel": "태그",
+      "submit": "질문 등록"
     }
   },
   "dashboard": {
@@ -122,12 +178,20 @@
     "myCourses": "수강 중인 코스",
     "recentActivity": "최근 활동",
     "levelProgress": "레벨 진행도",
+    "viewAll": "전체보기",
     "stats": {
       "projects": "프로젝트",
       "courses": "코스",
       "posts": "게시글",
       "comments": "댓글"
-    }
+    },
+    "profile": {
+      "editProfile": "프로필 편집",
+      "level": "레벨",
+      "xp": "XP"
+    },
+    "noProjects": "참여 중인 프로젝트가 없습니다",
+    "noCourses": "수강 중인 코스가 없습니다"
   },
   "auth": {
     "login": {
@@ -146,23 +210,52 @@
     }
   },
   "about": {
-    "title": "소개",
-    "subtitle": "WKU Software Crew에 대해 알아보세요",
+    "title": "WKU Software Crew",
+    "subtitle": "원광대학교 학생들을 위한 소프트웨어 성장 플랫폼",
     "mission": {
-      "title": "우리의 미션",
-      "description": "원광대학교 학생들의 소프트웨어 역량 강화와 협업 문화 조성"
+      "title": "미션",
+      "description": "개인 프로젝트를 통해 Junior에서 Master까지 성장하는 학생 주도 소프트웨어 교육 플랫폼입니다. 동아리처럼 함께 배우고, 멘토링을 주고받으며, 실전 경험을 쌓아갑니다."
     },
     "features": {
-      "title": "플랫폼 특징",
-      "levelSystem": "레벨 시스템으로 체계적인 성장 추적",
-      "projects": "팀 프로젝트 관리 및 협업",
-      "courses": "레벨별 맞춤 온라인 코스",
-      "community": "활발한 Q&A 커뮤니티"
+      "title": "핵심 기능",
+      "levelSystem": {
+        "title": "레벨 시스템",
+        "description": "프로젝트 완성으로 XP를 얻고 Junior, Senior, Master로 성장합니다."
+      },
+      "projectManagement": {
+        "title": "프로젝트 관리",
+        "description": "개인 및 팀 프로젝트를 등록하고, GitHub 연동으로 포트폴리오를 관리합니다."
+      },
+      "community": {
+        "title": "커뮤니티",
+        "description": "Q&A 게시판에서 질문하고 답변하며, 멘토링을 주고받습니다."
+      }
+    },
+    "howItWorks": {
+      "title": "진행 방식",
+      "step1": {
+        "title": "GitHub로 가입",
+        "description": "GitHub 계정으로 간편하게 가입하고 시작하세요."
+      },
+      "step2": {
+        "title": "프로젝트 시작",
+        "description": "나만의 프로젝트 아이디어로 시작하거나 기존 프로젝트에 참여하세요."
+      },
+      "step3": {
+        "title": "코스 수강",
+        "description": "레벨별 코스를 통해 필요한 기술을 학습하세요."
+      },
+      "step4": {
+        "title": "레벨업과 성장",
+        "description": "프로젝트를 완성하고 XP를 얻어 다음 레벨로 성장하세요."
+      }
     }
   },
   "footer": {
-    "copyright": "WKU Software Crew",
-    "rights": "All rights reserved",
+    "copyright": "© 2026 WKU Software Crew. All rights reserved.",
+    "about": "소개",
+    "projects": "프로젝트",
+    "github": "GitHub",
     "contact": "문의하기",
     "terms": "이용약관",
     "privacy": "개인정보처리방침"

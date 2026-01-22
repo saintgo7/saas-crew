@@ -11,10 +11,14 @@
     "loading": "Loading...",
     "error": "An error occurred",
     "noData": "No data available",
-    "viewMore": "View More",
+    "viewMore": "View more",
     "back": "Back",
     "next": "Next",
-    "previous": "Previous"
+    "previous": "Previous",
+    "joinCrew": "Join the Crew",
+    "startNow": "Start Now",
+    "wkuStudentOnly": "Open to all Wonkwang University students",
+    "contactAdmin": "Contact the administrator for any inquiries"
   },
   "nav": {
     "home": "Home",
@@ -25,26 +29,64 @@
     "about": "About"
   },
   "home": {
-    "title": "WKU Software Crew",
-    "subtitle": "A Developer Community Growing Together",
-    "description": "Improve your coding skills with WKU Software Crew",
-    "getStarted": "Get Started",
-    "learnMore": "Learn More",
-    "features": {
-      "title": "Key Features",
-      "levelSystem": "Level System",
-      "levelSystemDesc": "Track your growth from Junior to Master",
-      "projects": "Project Management",
-      "projectsDesc": "Team project collaboration and showcase",
-      "courses": "Online Courses",
-      "coursesDesc": "Level-appropriate learning content",
-      "community": "Community",
-      "communityDesc": "Q&A boards and knowledge sharing"
+    "badge": "WKU Software Crew",
+    "title": "Growing Together",
+    "titleHighlight": "Developer Crew",
+    "description": "From Junior to Master through personal projects,",
+    "descriptionSub": "A platform to learn and grow together like a club",
+    "startWithGithub": "Start with GitHub",
+    "browseProjects": "Browse Projects",
+    "levelSystem": {
+      "title": "Growing Level System",
+      "subtitle": "Grow from Junior to Master by completing projects",
+      "junior": {
+        "name": "Junior",
+        "level": "Lv. 1-10",
+        "description": "First steps in programming",
+        "feature1": "Learn basic syntax",
+        "feature2": "Complete first personal project",
+        "feature3": "Git basics"
+      },
+      "senior": {
+        "name": "Senior",
+        "level": "Lv. 11-30",
+        "description": "Building your skills",
+        "feature1": "Full-stack project experience",
+        "feature2": "Crew mentoring participation",
+        "feature3": "Team project collaboration"
+      },
+      "master": {
+        "name": "Master",
+        "level": "Lv. 31-50",
+        "description": "Leap to expertise",
+        "feature1": "Industry-linked projects",
+        "feature2": "Crew leader role",
+        "feature3": "New member mentoring"
+      }
+    },
+    "howItWorks": {
+      "title": "How does it work?",
+      "step1": {
+        "title": "Sign Up",
+        "description": "Easy sign up with GitHub account"
+      },
+      "step2": {
+        "title": "Start Project",
+        "description": "Start with your own project idea"
+      },
+      "step3": {
+        "title": "Complete & Share",
+        "description": "Register to showcase after completion"
+      },
+      "step4": {
+        "title": "Level Up!",
+        "description": "Earn XP and grow to the next level"
+      }
     }
   },
   "projects": {
     "title": "Projects",
-    "subtitle": "Explore projects from our crew members",
+    "subtitle": "Check out projects from crew members",
     "searchPlaceholder": "Search projects...",
     "createProject": "Create Project",
     "noProjects": "No projects found",
@@ -56,11 +98,16 @@
     "card": {
       "members": "Members",
       "viewDetails": "View Details"
+    },
+    "status": {
+      "active": "Active",
+      "completed": "Completed",
+      "paused": "Paused"
     }
   },
   "courses": {
     "title": "Courses",
-    "subtitle": "Choose a course that matches your level",
+    "subtitle": "Choose and learn courses that match your level",
     "searchPlaceholder": "Search courses...",
     "noCourses": "No courses found",
     "level": {
@@ -91,7 +138,7 @@
   },
   "community": {
     "title": "Community",
-    "subtitle": "Q&A board where we grow together",
+    "subtitle": "Q&A board to ask questions and grow together",
     "searchPlaceholder": "Search posts...",
     "createPost": "Ask Question",
     "noPosts": "No posts found",
@@ -112,6 +159,15 @@
       "writeComment": "Write a comment",
       "acceptAnswer": "Accept Answer",
       "accepted": "Accepted"
+    },
+    "new": {
+      "title": "Write New Question",
+      "titleLabel": "Title",
+      "titlePlaceholder": "Enter question title",
+      "contentLabel": "Content",
+      "contentPlaceholder": "Enter question content",
+      "tagsLabel": "Tags",
+      "submit": "Submit Question"
     }
   },
   "dashboard": {
@@ -122,48 +178,85 @@
     "myCourses": "Enrolled Courses",
     "recentActivity": "Recent Activity",
     "levelProgress": "Level Progress",
+    "viewAll": "View All",
     "stats": {
       "projects": "Projects",
       "courses": "Courses",
       "posts": "Posts",
       "comments": "Comments"
-    }
+    },
+    "profile": {
+      "editProfile": "Edit Profile",
+      "level": "Level",
+      "xp": "XP"
+    },
+    "noProjects": "No projects joined yet",
+    "noCourses": "No courses enrolled yet"
   },
   "auth": {
     "login": {
       "title": "Login",
       "subtitle": "Join the crew and grow together",
       "withGithub": "Login with GitHub",
-      "info": "Only Wonkwang University students can sign up.",
-      "notice": "Authentication system is not yet implemented. Login functionality will be implemented via NextAuth.js.",
+      "info": "Only Wonkwang University students can register.",
+      "notice": "Authentication system is not yet implemented. Login functionality will be implemented through NextAuth.js.",
       "features": {
-        "title": "After logging in, you can:",
+        "title": "Login to access these features:",
         "projects": "Create and manage projects",
-        "courses": "Enroll in courses and track progress",
-        "community": "Ask and answer questions",
-        "levelUp": "Level up and earn XP"
+        "courses": "Take courses and track progress",
+        "community": "Community Q&A participation",
+        "levelUp": "Level up system and earn XP"
       }
     }
   },
   "about": {
-    "title": "About",
-    "subtitle": "Learn about WKU Software Crew",
+    "title": "WKU Software Crew",
+    "subtitle": "Software growth platform for Wonkwang University students",
     "mission": {
-      "title": "Our Mission",
-      "description": "Strengthening software capabilities and fostering collaboration culture among Wonkwang University students"
+      "title": "Mission",
+      "description": "A student-driven software education platform to grow from Junior to Master through personal projects. Learn together like a club, give and receive mentoring, and gain real-world experience."
     },
     "features": {
-      "title": "Platform Features",
-      "levelSystem": "Track growth systematically with level system",
-      "projects": "Team project management and collaboration",
-      "courses": "Level-appropriate online courses",
-      "community": "Active Q&A community"
+      "title": "Key Features",
+      "levelSystem": {
+        "title": "Level System",
+        "description": "Earn XP by completing projects and grow through Junior, Senior, and Master levels."
+      },
+      "projectManagement": {
+        "title": "Project Management",
+        "description": "Register personal and team projects, and manage your portfolio with GitHub integration."
+      },
+      "community": {
+        "title": "Community",
+        "description": "Ask and answer questions on the Q&A board, and exchange mentoring."
+      }
+    },
+    "howItWorks": {
+      "title": "How It Works",
+      "step1": {
+        "title": "Sign Up with GitHub",
+        "description": "Easily sign up and start with your GitHub account."
+      },
+      "step2": {
+        "title": "Start a Project",
+        "description": "Start with your own project idea or join existing projects."
+      },
+      "step3": {
+        "title": "Take Courses",
+        "description": "Learn necessary skills through level-appropriate courses."
+      },
+      "step4": {
+        "title": "Level Up & Grow",
+        "description": "Complete projects and earn XP to advance to the next level."
+      }
     }
   },
   "footer": {
-    "copyright": "WKU Software Crew",
-    "rights": "All rights reserved",
-    "contact": "Contact Us",
+    "copyright": "© 2026 WKU Software Crew. All rights reserved.",
+    "about": "About",
+    "projects": "Projects",
+    "github": "GitHub",
+    "contact": "Contact",
     "terms": "Terms of Service",
     "privacy": "Privacy Policy"
   },
