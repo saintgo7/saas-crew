@@ -2,23 +2,28 @@
 
 import { Trophy, Star, TrendingUp } from 'lucide-react'
 import { formatDistanceToNow } from 'date-fns'
-import { ko } from 'date-fns/locale'
+import { ko, enUS } from 'date-fns/locale'
 import type { LevelProgress as LevelProgressType } from '@/lib/api/types'
+import { useTranslations, useLanguage } from '@/i18n/LanguageContext'
 
 interface LevelProgressProps {
   levelProgress?: LevelProgressType
 }
 
 export function LevelProgress({ levelProgress }: LevelProgressProps) {
+  const t = useTranslations()
+  const { locale } = useLanguage()
+  const dateLocale = locale === 'ko' ? ko : enUS
+
   if (!levelProgress) {
     return (
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-          레벨 진행률
+          {t('dashboard.levelProgress')}
         </h3>
         <div className="text-center py-12 text-gray-500 dark:text-gray-400">
           <TrendingUp className="w-12 h-12 mx-auto mb-3 opacity-50" />
-          <p>레벨 정보를 불러오는 중입니다</p>
+          <p>{t('dashboard.profile.loadingLevel')}</p>
         </div>
       </div>
     )
@@ -29,7 +34,7 @@ export function LevelProgress({ levelProgress }: LevelProgressProps) {
   return (
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
       <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">
-        레벨 진행률
+        {t('dashboard.levelProgress')}
       </h3>
 
       {/* Level Display */}
@@ -37,13 +42,13 @@ export function LevelProgress({ levelProgress }: LevelProgressProps) {
         <div className="inline-flex items-center justify-center w-24 h-24 bg-gradient-to-br from-yellow-400 via-yellow-500 to-orange-500 rounded-full shadow-lg mb-3">
           <span className="text-4xl font-bold text-white">{currentLevel}</span>
         </div>
-        <p className="text-sm text-gray-600 dark:text-gray-400">현재 레벨</p>
+        <p className="text-sm text-gray-600 dark:text-gray-400">{t('dashboard.profile.currentLevel')}</p>
       </div>
 
       {/* XP Progress */}
       <div className="mb-6">
         <div className="flex items-center justify-between text-sm mb-2">
-          <span className="text-gray-600 dark:text-gray-400">경험치</span>
+          <span className="text-gray-600 dark:text-gray-400">{t('dashboard.profile.xpProgress')}</span>
           <span className="font-medium text-gray-900 dark:text-white">
             {currentXP.toLocaleString()} / {nextLevelXP.toLocaleString()} XP
           </span>
@@ -60,7 +65,7 @@ export function LevelProgress({ levelProgress }: LevelProgressProps) {
           </div>
         </div>
         <p className="text-xs text-gray-500 dark:text-gray-400 mt-2 text-center">
-          다음 레벨까지 {(nextLevelXP - currentXP).toLocaleString()} XP 남음
+          {t('dashboard.profile.xpRemaining', { xp: (nextLevelXP - currentXP).toLocaleString() })}
         </p>
       </div>
 
@@ -70,7 +75,7 @@ export function LevelProgress({ levelProgress }: LevelProgressProps) {
           <div className="flex items-center gap-2 mb-3">
             <Trophy className="w-5 h-5 text-yellow-500" />
             <h4 className="font-semibold text-gray-900 dark:text-white">
-              최근 업적 ({achievements.length})
+              {t('dashboard.profile.recentAchievements')} ({achievements.length})
             </h4>
           </div>
           <div className="space-y-2">
@@ -91,7 +96,7 @@ export function LevelProgress({ levelProgress }: LevelProgressProps) {
                   <p className="text-xs text-gray-600 dark:text-gray-400">
                     {formatDistanceToNow(new Date(achievement.earnedAt), {
                       addSuffix: true,
-                      locale: ko,
+                      locale: dateLocale,
                     })}
                   </p>
                 </div>

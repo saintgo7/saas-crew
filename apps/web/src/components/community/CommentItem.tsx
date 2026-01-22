@@ -2,11 +2,12 @@
 
 import { useState } from 'react'
 import { formatDistanceToNow } from 'date-fns'
-import { ko } from 'date-fns/locale'
+import { ko, enUS } from 'date-fns/locale'
 import { Reply, CheckCircle2 } from 'lucide-react'
 import { VoteButtons } from './VoteButtons'
 import { CommentForm } from './CommentForm'
 import type { Comment } from '@/lib/api/types'
+import { useTranslations, useLanguage } from '@/i18n/LanguageContext'
 
 interface CommentItemProps {
   comment: Comment
@@ -29,6 +30,9 @@ export function CommentItem({
   onReply,
   onAccept,
 }: CommentItemProps) {
+  const t = useTranslations()
+  const { locale } = useLanguage()
+  const dateLocale = locale === 'ko' ? ko : enUS
   const [showReplyForm, setShowReplyForm] = useState(false)
   const isPostAuthor = currentUserId === postAuthorId
   const isCommentAuthor = currentUserId === comment.authorId
@@ -84,14 +88,14 @@ export function CommentItem({
                     {comment.isAccepted && (
                       <span className="flex items-center gap-1 rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-700 dark:bg-green-900/30 dark:text-green-400">
                         <CheckCircle2 className="h-3 w-3" />
-                        베스트 답변
+                        {t('community.comment.bestAnswer')}
                       </span>
                     )}
                   </div>
                   <span className="text-xs text-gray-500 dark:text-gray-400">
                     {formatDistanceToNow(new Date(comment.createdAt), {
                       addSuffix: true,
-                      locale: ko,
+                      locale: dateLocale,
                     })}
                   </span>
                 </div>
@@ -104,7 +108,7 @@ export function CommentItem({
                   className="flex items-center gap-1 rounded-lg bg-green-50 px-3 py-1 text-sm font-medium text-green-700 transition-colors hover:bg-green-100 dark:bg-green-900/20 dark:text-green-400 dark:hover:bg-green-900/30"
                 >
                   <CheckCircle2 className="h-4 w-4" />
-                  <span>답변 채택</span>
+                  <span>{t('community.comment.acceptAnswer')}</span>
                 </button>
               )}
             </div>
@@ -124,7 +128,7 @@ export function CommentItem({
                   className="flex items-center gap-1 text-sm font-medium text-gray-600 transition-colors hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400"
                 >
                   <Reply className="h-4 w-4" />
-                  <span>답글</span>
+                  <span>{t('community.comment.reply')}</span>
                 </button>
               </div>
             )}
@@ -137,8 +141,8 @@ export function CommentItem({
                   parentId={comment.id}
                   onSubmit={handleReply}
                   onCancel={() => setShowReplyForm(false)}
-                  placeholder={`${comment.author.name}님에게 답글 작성...`}
-                  buttonText="답글 작성"
+                  placeholder={t('community.comment.replyPlaceholder', { name: comment.author.name })}
+                  buttonText={t('community.comment.replySubmit')}
                 />
               </div>
             )}

@@ -6,7 +6,8 @@ import { memo, useMemo } from 'react'
 import { MessageSquare, Eye, CheckCircle2 } from 'lucide-react'
 import type { Post } from '@/lib/api/types'
 import { formatDistanceToNow } from 'date-fns'
-import { ko } from 'date-fns/locale'
+import { ko, enUS } from 'date-fns/locale'
+import { useLanguage } from '@/i18n/LanguageContext'
 
 interface PostCardProps {
   post: Post
@@ -21,14 +22,17 @@ interface PostCardProps {
  * 3. useMemo for date formatting - avoids recalculation on every render
  */
 function PostCardComponent({ post }: PostCardProps) {
+  const { locale } = useLanguage()
+  const dateLocale = locale === 'ko' ? ko : enUS
+
   // Memoize date formatting to prevent recalculation on re-renders
   const formattedDate = useMemo(
     () =>
       formatDistanceToNow(new Date(post.createdAt), {
         addSuffix: true,
-        locale: ko,
+        locale: dateLocale,
       }),
-    [post.createdAt]
+    [post.createdAt, dateLocale]
   )
 
   // Memoize author initial to prevent recalculation

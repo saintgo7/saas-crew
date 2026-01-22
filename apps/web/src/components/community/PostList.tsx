@@ -5,18 +5,20 @@ import { usePosts, useTags } from '@/lib/hooks/use-community'
 import { PostCard } from './PostCard'
 import { AlertCircle, Loader2, MessageSquare, Search } from 'lucide-react'
 import type { PostSortBy } from '@/lib/api/types'
-
-const sortOptions: { value: PostSortBy; label: string }[] = [
-  { value: 'latest', label: '최신순' },
-  { value: 'popular', label: '인기순' },
-  { value: 'views', label: '조회수순' },
-]
+import { useTranslations } from '@/i18n/LanguageContext'
 
 export function PostList() {
+  const t = useTranslations()
   const [selectedTag, setSelectedTag] = useState<string | undefined>(undefined)
   const [sortBy, setSortBy] = useState<PostSortBy>('latest')
   const [searchQuery, setSearchQuery] = useState('')
   const [searchInput, setSearchInput] = useState('')
+
+  const sortOptions: { value: PostSortBy; label: string }[] = [
+    { value: 'latest', label: t('community.filter.latest') },
+    { value: 'popular', label: t('community.filter.popular') },
+    { value: 'views', label: t('community.filter.views') },
+  ]
 
   const { data: tags } = useTags()
   const { data, isLoading, error } = usePosts({
@@ -38,12 +40,12 @@ export function PostList() {
           <AlertCircle className="h-6 w-6 text-red-600 dark:text-red-400" />
           <div>
             <h3 className="font-semibold text-red-900 dark:text-red-100">
-              게시글 목록을 불러오는데 실패했습니다
+              {t('community.error')}
             </h3>
             <p className="mt-1 text-sm text-red-700 dark:text-red-300">
               {error instanceof Error
                 ? error.message
-                : '알 수 없는 오류가 발생했습니다'}
+                : t('community.unknownError')}
             </p>
           </div>
         </div>
@@ -60,7 +62,7 @@ export function PostList() {
           type="text"
           value={searchInput}
           onChange={(e) => setSearchInput(e.target.value)}
-          placeholder="게시글 검색..."
+          placeholder={t('community.searchPlaceholder')}
           className="w-full rounded-lg border border-gray-300 bg-white py-3 pl-12 pr-4 text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:placeholder-gray-400"
         />
       </form>
@@ -77,7 +79,7 @@ export function PostList() {
                 : 'bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600'
             }`}
           >
-            전체
+            {t('community.filter.all')}
           </button>
           {tags?.map((tag) => (
             <button
@@ -118,7 +120,7 @@ export function PostList() {
           <div className="text-center">
             <Loader2 className="mx-auto h-12 w-12 animate-spin text-blue-600" />
             <p className="mt-4 text-sm text-gray-600 dark:text-gray-400">
-              게시글을 불러오는 중...
+              {t('community.loading')}
             </p>
           </div>
         </div>
@@ -132,7 +134,7 @@ export function PostList() {
               <div className="text-center">
                 <MessageSquare className="mx-auto h-12 w-12 text-gray-400" />
                 <p className="mt-4 text-gray-600 dark:text-gray-400">
-                  표시할 게시글이 없습니다
+                  {t('community.noPostsToShow')}
                 </p>
               </div>
             </div>
@@ -146,7 +148,7 @@ export function PostList() {
 
               {/* Post Count */}
               <div className="text-center text-sm text-gray-600 dark:text-gray-400">
-                총 {data.total}개의 게시글
+                {t('community.totalPosts', { count: data.total })}
               </div>
             </>
           )}

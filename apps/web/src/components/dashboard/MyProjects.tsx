@@ -2,29 +2,38 @@
 
 import { Calendar, Users, Tag } from 'lucide-react'
 import { format } from 'date-fns'
-import { ko } from 'date-fns/locale'
+import { ko, enUS } from 'date-fns/locale'
 import type { Project } from '@/lib/api/types'
+import { useTranslations, useLanguage } from '@/i18n/LanguageContext'
 
 interface MyProjectsProps {
   projects: Project[]
 }
 
-const statusConfig = {
-  planning: { label: '계획중', color: 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200' },
-  in_progress: { label: '진행중', color: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200' },
-  completed: { label: '완료', color: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' },
-  archived: { label: '보관됨', color: 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400' },
+const statusColorConfig = {
+  planning: 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200',
+  in_progress: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
+  completed: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
+  archived: 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400',
 }
 
 export function MyProjects({ projects }: MyProjectsProps) {
+  const t = useTranslations()
+  const { locale } = useLanguage()
+  const dateLocale = locale === 'ko' ? ko : enUS
+
+  const getStatusLabel = (status: string) => {
+    return t(`dashboard.projectStatus.${status}`)
+  }
+
   if (projects.length === 0) {
     return (
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-          내 프로젝트
+          {t('dashboard.myProjects')}
         </h3>
         <div className="text-center py-12 text-gray-500 dark:text-gray-400">
-          <p>진행중인 프로젝트가 없습니다</p>
+          <p>{t('dashboard.noProjects')}</p>
         </div>
       </div>
     )
@@ -33,7 +42,7 @@ export function MyProjects({ projects }: MyProjectsProps) {
   return (
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
       <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-        내 프로젝트 ({projects.length})
+        {t('dashboard.myProjects')} ({projects.length})
       </h3>
       <div className="space-y-4">
         {projects.map((project) => (
@@ -54,10 +63,10 @@ export function MyProjects({ projects }: MyProjectsProps) {
               {project.status && (
                 <span
                   className={`inline-flex px-2.5 py-1 rounded-full text-xs font-medium whitespace-nowrap ${
-                    statusConfig[project.status].color
+                    statusColorConfig[project.status]
                   }`}
                 >
-                  {statusConfig[project.status].label}
+                  {getStatusLabel(project.status)}
                 </span>
               )}
             </div>
@@ -66,7 +75,7 @@ export function MyProjects({ projects }: MyProjectsProps) {
             {project.progress !== undefined && (
               <div className="mb-3">
                 <div className="flex items-center justify-between text-xs text-gray-600 dark:text-gray-400 mb-1">
-                  <span>진행률</span>
+                  <span>{t('dashboard.progress')}</span>
                   <span className="font-medium">{project.progress}%</span>
                 </div>
                 <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
@@ -84,20 +93,20 @@ export function MyProjects({ projects }: MyProjectsProps) {
                 <div className="flex items-center gap-1">
                   <Calendar className="w-3.5 h-3.5" />
                   <span>
-                    {format(new Date(project.startDate), 'yyyy.MM.dd', { locale: ko })}
+                    {format(new Date(project.startDate), 'yyyy.MM.dd', { locale: dateLocale })}
                   </span>
                 </div>
               )}
               {project.teamMembers && (
                 <div className="flex items-center gap-1">
                   <Users className="w-3.5 h-3.5" />
-                  <span>{project.teamMembers.length}명</span>
+                  <span>{t('dashboard.members', { count: project.teamMembers.length })}</span>
                 </div>
               )}
               {project._count && (
                 <div className="flex items-center gap-1">
                   <Users className="w-3.5 h-3.5" />
-                  <span>{project._count.members}명</span>
+                  <span>{t('dashboard.members', { count: project._count.members })}</span>
                 </div>
               )}
               {project.tags.length > 0 && (
@@ -126,7 +135,7 @@ export function MyProjects({ projects }: MyProjectsProps) {
             {project.teamMembers && project.teamMembers.length > 0 && (
               <div className="mt-3 pt-3 border-t border-gray-200 dark:border-gray-700">
                 <div className="flex items-center gap-2">
-                  <span className="text-xs text-gray-600 dark:text-gray-400">팀원:</span>
+                  <span className="text-xs text-gray-600 dark:text-gray-400">{t('dashboard.teamMembers')}:</span>
                   <div className="flex -space-x-2">
                     {project.teamMembers.slice(0, 5).map((member) => (
                       <div

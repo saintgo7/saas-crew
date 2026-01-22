@@ -1,7 +1,7 @@
 'use client'
 
 import { formatDistanceToNow } from 'date-fns'
-import { ko } from 'date-fns/locale'
+import { ko, enUS } from 'date-fns/locale'
 import { Eye, Calendar, CheckCircle2 } from 'lucide-react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
@@ -9,6 +9,7 @@ import rehypeSanitize from 'rehype-sanitize'
 import { VoteButtons } from './VoteButtons'
 import { CommentList } from './CommentList'
 import type { PostWithComments } from '@/lib/api/types'
+import { useTranslations, useLanguage } from '@/i18n/LanguageContext'
 
 interface PostDetailProps {
   post: PostWithComments
@@ -29,6 +30,9 @@ export function PostDetail({
   onCreateComment,
   onAcceptComment,
 }: PostDetailProps) {
+  const t = useTranslations()
+  const { locale } = useLanguage()
+  const dateLocale = locale === 'ko' ? ko : enUS
   const isAuthor = currentUserId === post.authorId
 
   return (
@@ -96,7 +100,7 @@ export function PostDetail({
                   <span>
                     {formatDistanceToNow(new Date(post.createdAt), {
                       addSuffix: true,
-                      locale: ko,
+                      locale: dateLocale,
                     })}
                   </span>
                 </div>
@@ -104,7 +108,7 @@ export function PostDetail({
                 {/* Views */}
                 <div className="flex items-center gap-1">
                   <Eye className="h-4 w-4" />
-                  <span>조회 {post.views}</span>
+                  <span>{t('community.comment.views')} {post.views}</span>
                 </div>
               </div>
             </div>

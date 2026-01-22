@@ -2,23 +2,28 @@
 
 import { BookOpen, CheckCircle2, Clock } from 'lucide-react'
 import { formatDistanceToNow } from 'date-fns'
-import { ko } from 'date-fns/locale'
+import { ko, enUS } from 'date-fns/locale'
 import type { CourseProgress as CourseProgressType } from '@/lib/api/types'
+import { useTranslations, useLanguage } from '@/i18n/LanguageContext'
 
 interface CourseProgressProps {
   courses: CourseProgressType[]
 }
 
 export function CourseProgress({ courses }: CourseProgressProps) {
+  const t = useTranslations()
+  const { locale } = useLanguage()
+  const dateLocale = locale === 'ko' ? ko : enUS
+
   if (courses.length === 0) {
     return (
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-          코스 진행 상황
+          {t('dashboard.courseProgress')}
         </h3>
         <div className="text-center py-12 text-gray-500 dark:text-gray-400">
           <BookOpen className="w-12 h-12 mx-auto mb-3 opacity-50" />
-          <p>수강중인 코스가 없습니다</p>
+          <p>{t('dashboard.noCourses')}</p>
         </div>
       </div>
     )
@@ -28,10 +33,10 @@ export function CourseProgress({ courses }: CourseProgressProps) {
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-          코스 진행 상황
+          {t('dashboard.courseProgress')}
         </h3>
         <span className="text-sm text-gray-600 dark:text-gray-400">
-          총 {courses.length}개 코스
+          {t('dashboard.totalCourses', { count: courses.length })}
         </span>
       </div>
 
@@ -55,7 +60,7 @@ export function CourseProgress({ courses }: CourseProgressProps) {
                   <span>
                     {formatDistanceToNow(new Date(course.lastAccessedAt), {
                       addSuffix: true,
-                      locale: ko,
+                      locale: dateLocale,
                     })}
                   </span>
                 </div>
@@ -67,7 +72,7 @@ export function CourseProgress({ courses }: CourseProgressProps) {
               <div className="flex items-center gap-1 text-gray-600 dark:text-gray-300">
                 <CheckCircle2 className="w-4 h-4 text-green-600" />
                 <span>
-                  {course.completedModules}/{course.totalModules} 모듈 완료
+                  {t('dashboard.modulesCompleted', { completed: course.completedModules, total: course.totalModules })}
                 </span>
               </div>
               <span className="text-gray-400">·</span>

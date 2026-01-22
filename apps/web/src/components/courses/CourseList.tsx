@@ -5,18 +5,20 @@ import { useCourses } from '@/lib/hooks/use-courses'
 import { CourseCard } from './CourseCard'
 import { AlertCircle, Loader2, BookOpen } from 'lucide-react'
 import type { CourseLevel } from '@/lib/api/types'
-
-const levelFilters = [
-  { value: undefined, label: '전체' },
-  { value: 'JUNIOR' as CourseLevel, label: 'Junior' },
-  { value: 'SENIOR' as CourseLevel, label: 'Senior' },
-  { value: 'MASTER' as CourseLevel, label: 'Master' },
-]
+import { useTranslations } from '@/i18n/LanguageContext'
 
 export function CourseList() {
+  const t = useTranslations()
   const [selectedLevel, setSelectedLevel] = useState<CourseLevel | undefined>(
     undefined
   )
+
+  const levelFilters = [
+    { value: undefined, label: t('courses.level.all') },
+    { value: 'JUNIOR' as CourseLevel, label: t('courses.level.junior') },
+    { value: 'SENIOR' as CourseLevel, label: t('courses.level.senior') },
+    { value: 'MASTER' as CourseLevel, label: t('courses.level.master') },
+  ]
 
   const { data, isLoading, error } = useCourses({
     level: selectedLevel,
@@ -30,12 +32,12 @@ export function CourseList() {
           <AlertCircle className="h-6 w-6 text-red-600 dark:text-red-400" />
           <div>
             <h3 className="font-semibold text-red-900 dark:text-red-100">
-              코스 목록을 불러오는데 실패했습니다
+              {t('courses.error')}
             </h3>
             <p className="mt-1 text-sm text-red-700 dark:text-red-300">
               {error instanceof Error
                 ? error.message
-                : '알 수 없는 오류가 발생했습니다'}
+                : t('courses.unknownError')}
             </p>
           </div>
         </div>
@@ -68,7 +70,7 @@ export function CourseList() {
           <div className="text-center">
             <Loader2 className="mx-auto h-12 w-12 animate-spin text-blue-600" />
             <p className="mt-4 text-sm text-gray-600 dark:text-gray-400">
-              코스를 불러오는 중...
+              {t('courses.loading')}
             </p>
           </div>
         </div>
@@ -82,7 +84,7 @@ export function CourseList() {
               <div className="text-center">
                 <BookOpen className="mx-auto h-12 w-12 text-gray-400" />
                 <p className="mt-4 text-gray-600 dark:text-gray-400">
-                  표시할 코스가 없습니다
+                  {t('courses.noCoursesToShow')}
                 </p>
               </div>
             </div>
@@ -96,7 +98,7 @@ export function CourseList() {
 
               {/* Course Count */}
               <div className="text-center text-sm text-gray-600 dark:text-gray-400">
-                총 {data.total}개의 코스
+                {t('courses.totalCourses', { count: data.total })}
               </div>
             </>
           )}

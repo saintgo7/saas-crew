@@ -5,6 +5,7 @@ import { CheckCircle2, Circle, Clock, Play } from 'lucide-react'
 import type { Chapter, ChapterProgress } from '@/lib/api/types'
 import { cn } from '@/lib/utils'
 import { useUpdateChapterProgress } from '@/lib/hooks/use-courses'
+import { useTranslations } from '@/i18n/LanguageContext'
 
 interface ChapterListProps {
   chapters: Chapter[]
@@ -19,6 +20,7 @@ export function ChapterList({
   isEnrolled,
   className,
 }: ChapterListProps) {
+  const t = useTranslations()
   const [expandedChapter, setExpandedChapter] = useState<string | null>(null)
   const updateProgress = useUpdateChapterProgress()
 
@@ -42,7 +44,7 @@ export function ChapterList({
     return (
       <div className="rounded-lg border border-gray-200 bg-gray-50 p-8 text-center dark:border-gray-700 dark:bg-gray-800">
         <p className="text-gray-600 dark:text-gray-400">
-          아직 등록된 챕터가 없습니다
+          {t('courses.chapter.noChapters')}
         </p>
       </div>
     )
@@ -89,11 +91,11 @@ export function ChapterList({
                   <div className="flex-1">
                     <div className="flex items-center gap-2">
                       <span className="text-xs font-medium text-gray-500 dark:text-gray-400">
-                        챕터 {index + 1}
+                        {t('courses.chapter.title', { number: index + 1 })}
                       </span>
                       {isCompleted && (
                         <span className="rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-800 dark:bg-green-900 dark:text-green-200">
-                          완료
+                          {t('courses.chapter.completed')}
                         </span>
                       )}
                     </div>
@@ -115,7 +117,7 @@ export function ChapterList({
                   {/* Duration */}
                   <div className="flex items-center gap-1 text-sm text-gray-500 dark:text-gray-400">
                     <Clock className="h-4 w-4" />
-                    <span>{chapter.duration}분</span>
+                    <span>{t('courses.chapter.duration', { minutes: chapter.duration })}</span>
                   </div>
                 </div>
               </div>
@@ -140,7 +142,7 @@ export function ChapterList({
                       className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700"
                     >
                       <Play className="h-4 w-4" />
-                      강의 영상 보기
+                      {t('courses.chapter.watchVideo')}
                     </a>
                   </div>
                 )}
@@ -149,7 +151,7 @@ export function ChapterList({
                 {chapter.resources && chapter.resources.length > 0 && (
                   <div className="mt-4">
                     <h5 className="mb-2 text-sm font-semibold text-gray-900 dark:text-white">
-                      학습 자료
+                      {t('courses.chapter.resources')}
                     </h5>
                     <ul className="space-y-2">
                       {chapter.resources.map((resource, idx) => (

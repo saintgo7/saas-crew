@@ -5,12 +5,14 @@ import { PostDetail } from '@/components/community'
 import { Loader2, AlertCircle, ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import { useUserStore } from '@/store/user-store'
+import { useTranslations } from '@/i18n/LanguageContext'
 
 interface PostDetailClientProps {
   postId: string
 }
 
 export function PostDetailClient({ postId }: PostDetailClientProps) {
+  const t = useTranslations()
   const { data: post, isLoading, error } = usePost(postId)
   const votePost = useVotePost()
   const voteComment = useVoteComment()
@@ -59,12 +61,12 @@ export function PostDetailClient({ postId }: PostDetailClientProps) {
           <AlertCircle className="h-6 w-6 text-red-600 dark:text-red-400" />
           <div>
             <h3 className="font-semibold text-red-900 dark:text-red-100">
-              게시글을 불러오는데 실패했습니다
+              {t('community.errorDetail')}
             </h3>
             <p className="mt-1 text-sm text-red-700 dark:text-red-300">
               {error instanceof Error
                 ? error.message
-                : '알 수 없는 오류가 발생했습니다'}
+                : t('community.unknownError')}
             </p>
           </div>
         </div>
@@ -78,7 +80,7 @@ export function PostDetailClient({ postId }: PostDetailClientProps) {
         <div className="text-center">
           <Loader2 className="mx-auto h-12 w-12 animate-spin text-blue-600" />
           <p className="mt-4 text-sm text-gray-600 dark:text-gray-400">
-            게시글을 불러오는 중...
+            {t('community.loadingDetail')}
           </p>
         </div>
       </div>
@@ -93,7 +95,7 @@ export function PostDetailClient({ postId }: PostDetailClientProps) {
         className="inline-flex items-center gap-2 text-sm font-medium text-gray-600 transition-colors hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
       >
         <ArrowLeft className="h-4 w-4" />
-        <span>커뮤니티로 돌아가기</span>
+        <span>{t('community.backToList')}</span>
       </Link>
 
       {/* Post Detail */}

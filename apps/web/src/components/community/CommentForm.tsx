@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { Send, Loader2 } from 'lucide-react'
+import { useTranslations } from '@/i18n/LanguageContext'
 
 interface CommentFormProps {
   postId: string
@@ -17,9 +18,12 @@ export function CommentForm({
   parentId,
   onSubmit,
   onCancel,
-  placeholder = '댓글을 작성하세요...',
-  buttonText = '댓글 작성',
+  placeholder,
+  buttonText,
 }: CommentFormProps) {
+  const t = useTranslations()
+  const defaultPlaceholder = placeholder || t('community.comment.placeholder')
+  const defaultButtonText = buttonText || t('community.comment.submit')
   const [content, setContent] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -41,7 +45,7 @@ export function CommentForm({
       <textarea
         value={content}
         onChange={(e) => setContent(e.target.value)}
-        placeholder={placeholder}
+        placeholder={defaultPlaceholder}
         rows={parentId ? 3 : 4}
         className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:placeholder-gray-400"
         disabled={isSubmitting}
@@ -55,7 +59,7 @@ export function CommentForm({
             disabled={isSubmitting}
             className="rounded-lg px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-100 disabled:opacity-50 dark:text-gray-300 dark:hover:bg-gray-700"
           >
-            취소
+            {t('community.comment.cancel')}
           </button>
         )}
         <button
@@ -66,12 +70,12 @@ export function CommentForm({
           {isSubmitting ? (
             <>
               <Loader2 className="h-4 w-4 animate-spin" />
-              <span>작성 중...</span>
+              <span>{t('community.comment.submittingComment')}</span>
             </>
           ) : (
             <>
               <Send className="h-4 w-4" />
-              <span>{buttonText}</span>
+              <span>{defaultButtonText}</span>
             </>
           )}
         </button>

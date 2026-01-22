@@ -2,12 +2,26 @@
 
 import { User as UserIcon, Mail, GraduationCap, Award } from 'lucide-react'
 import type { User } from '@/lib/api/types'
+import { useTranslations } from '@/i18n/LanguageContext'
 
 interface ProfileWidgetProps {
   user: User
 }
 
 export function ProfileWidget({ user }: ProfileWidgetProps) {
+  const t = useTranslations()
+
+  const getRoleLabel = (role: string) => {
+    switch (role) {
+      case 'admin':
+        return t('dashboard.role.admin')
+      case 'mentor':
+        return t('dashboard.role.mentor')
+      default:
+        return t('dashboard.role.student')
+    }
+  }
+
   return (
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
       <div className="flex items-start gap-4">
@@ -68,7 +82,7 @@ export function ProfileWidget({ user }: ProfileWidgetProps) {
                 : 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
             }`}
           >
-            {user.role === 'admin' ? '관리자' : user.role === 'mentor' ? '멘토' : '학생'}
+            {getRoleLabel(user.role)}
           </span>
         </div>
       </div>

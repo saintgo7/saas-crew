@@ -8,7 +8,7 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'WKU Software Crew',
-  description: '원광대학교 소프트웨어 크루 - 학생 주도 소프트웨어 교육 및 창업 플랫폼',
+  description: 'WKU Software Crew - Student-driven software education and startup platform',
 }
 
 export default function RootLayout({

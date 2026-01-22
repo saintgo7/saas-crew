@@ -4,6 +4,7 @@ import { CommentItem } from './CommentItem'
 import { CommentForm } from './CommentForm'
 import { MessageSquare } from 'lucide-react'
 import type { Comment } from '@/lib/api/types'
+import { useTranslations } from '@/i18n/LanguageContext'
 
 interface CommentListProps {
   comments: Comment[]
@@ -26,6 +27,7 @@ export function CommentList({
   onCreateComment,
   onAccept,
 }: CommentListProps) {
+  const t = useTranslations()
   // Filter top-level comments (those without parentId)
   const topLevelComments = comments.filter((comment) => !comment.parentId)
 
@@ -35,7 +37,7 @@ export function CommentList({
       <div className="flex items-center gap-2">
         <MessageSquare className="h-5 w-5 text-gray-600 dark:text-gray-400" />
         <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
-          답변 {comments.length}개
+          {t('community.comment.answerCount', { count: comments.length })}
         </h2>
       </div>
 
@@ -44,8 +46,8 @@ export function CommentList({
         <CommentForm
           postId={postId}
           onSubmit={onCreateComment}
-          placeholder="답변을 작성하세요..."
-          buttonText="답변 작성"
+          placeholder={t('community.comment.answerPlaceholder')}
+          buttonText={t('community.comment.answerSubmit')}
         />
       </div>
 
@@ -56,7 +58,7 @@ export function CommentList({
             <div className="text-center">
               <MessageSquare className="mx-auto h-12 w-12 text-gray-400" />
               <p className="mt-4 text-gray-600 dark:text-gray-400">
-                아직 답변이 없습니다. 첫 번째 답변을 작성해보세요.
+                {t('community.comment.noAnswers')}
               </p>
             </div>
           </div>

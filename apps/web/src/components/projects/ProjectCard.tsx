@@ -1,14 +1,21 @@
+'use client'
+
 import Link from 'next/link'
 import { Users, Github, ExternalLink, Eye, Lock } from 'lucide-react'
 import type { Project } from '@/lib/api/types'
 import { formatDistanceToNow } from 'date-fns'
-import { ko } from 'date-fns/locale'
+import { ko, enUS } from 'date-fns/locale'
+import { useTranslations, useLanguage } from '@/i18n/LanguageContext'
 
 interface ProjectCardProps {
   project: Project
 }
 
 export function ProjectCard({ project }: ProjectCardProps) {
+  const t = useTranslations()
+  const { locale } = useLanguage()
+  const dateLocale = locale === 'ko' ? ko : enUS
+
   return (
     <Link
       href={`/projects/${project.id}`}
@@ -79,13 +86,13 @@ export function ProjectCard({ project }: ProjectCardProps) {
       <div className="flex items-center justify-between border-t border-gray-100 pt-4 dark:border-gray-700">
         <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
           <Users className="h-4 w-4" />
-          <span>{project._count?.members || 0}명 참여</span>
+          <span>{t('projects.membersCount', { count: project._count?.members || 0 })}</span>
         </div>
 
         <div className="text-xs text-gray-500 dark:text-gray-400">
           {formatDistanceToNow(new Date(project.createdAt), {
             addSuffix: true,
-            locale: ko,
+            locale: dateLocale,
           })}
         </div>
       </div>

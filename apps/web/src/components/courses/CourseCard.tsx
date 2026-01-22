@@ -1,8 +1,11 @@
+'use client'
+
 import Link from 'next/link'
 import Image from 'next/image'
 import { Clock, Users, BookOpen } from 'lucide-react'
 import type { Course } from '@/lib/api/types'
 import { cn } from '@/lib/utils'
+import { useTranslations } from '@/i18n/LanguageContext'
 
 interface CourseCardProps {
   course: Course
@@ -15,19 +18,12 @@ const levelColors = {
   MASTER: 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200',
 }
 
-const levelLabels = {
-  JUNIOR: 'Junior',
-  SENIOR: 'Senior',
-  MASTER: 'Master',
-}
-
-const difficultyLabels = {
-  beginner: '초급',
-  intermediate: '중급',
-  advanced: '고급',
-}
-
 export function CourseCard({ course, className }: CourseCardProps) {
+  const t = useTranslations()
+
+  const getLevelLabel = (level: string) => t(`courses.level.${level.toLowerCase()}`)
+  const getDifficultyLabel = (difficulty: string) => t(`courses.difficulty.${difficulty}`)
+
   return (
     <Link href={`/courses/${course.id}`}>
       <article
@@ -59,7 +55,7 @@ export function CourseCard({ course, className }: CourseCardProps) {
                 levelColors[course.level]
               )}
             >
-              {levelLabels[course.level]}
+              {getLevelLabel(course.level)}
             </span>
           </div>
         </div>
@@ -80,15 +76,15 @@ export function CourseCard({ course, className }: CourseCardProps) {
           <div className="mb-4 flex flex-wrap items-center gap-4 text-xs text-gray-500 dark:text-gray-400">
             <div className="flex items-center gap-1">
               <Clock className="h-4 w-4" />
-              <span>{Math.floor(course.duration / 60)}시간</span>
+              <span>{t('courses.hours', { hours: Math.floor(course.duration / 60) })}</span>
             </div>
             <div className="flex items-center gap-1">
               <BookOpen className="h-4 w-4" />
-              <span>{course.chaptersCount}개 챕터</span>
+              <span>{t('courses.chaptersCount', { count: course.chaptersCount })}</span>
             </div>
             <div className="flex items-center gap-1">
               <Users className="h-4 w-4" />
-              <span>{course.enrolledCount}명 수강 중</span>
+              <span>{t('courses.enrolledCount', { count: course.enrolledCount })}</span>
             </div>
           </div>
 
@@ -125,7 +121,7 @@ export function CourseCard({ course, className }: CourseCardProps) {
               </span>
             </div>
             <span className="text-xs text-gray-500 dark:text-gray-400">
-              {difficultyLabels[course.difficulty]}
+              {getDifficultyLabel(course.difficulty)}
             </span>
           </div>
         </div>

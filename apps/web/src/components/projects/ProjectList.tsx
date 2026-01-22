@@ -4,19 +4,21 @@ import { useState } from 'react'
 import { useProjects } from '@/lib/hooks/use-projects'
 import { ProjectCard } from './ProjectCard'
 import { AlertCircle, Loader2, Folder, Search } from 'lucide-react'
-
-const visibilityFilters = [
-  { value: undefined, label: '전체' },
-  { value: 'PUBLIC' as const, label: '공개' },
-  { value: 'PRIVATE' as const, label: '비공개' },
-]
+import { useTranslations } from '@/i18n/LanguageContext'
 
 export function ProjectList() {
+  const t = useTranslations()
   const [selectedVisibility, setSelectedVisibility] = useState<
     'PUBLIC' | 'PRIVATE' | undefined
   >(undefined)
   const [searchQuery, setSearchQuery] = useState('')
   const [debouncedSearch, setDebouncedSearch] = useState('')
+
+  const visibilityFilters = [
+    { value: undefined, label: t('projects.filter.all') },
+    { value: 'PUBLIC' as const, label: t('projects.filter.public') },
+    { value: 'PRIVATE' as const, label: t('projects.filter.private') },
+  ]
 
   // Debounce search
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -42,12 +44,12 @@ export function ProjectList() {
           <AlertCircle className="h-6 w-6 text-red-600 dark:text-red-400" />
           <div>
             <h3 className="font-semibold text-red-900 dark:text-red-100">
-              프로젝트 목록을 불러오는데 실패했습니다
+              {t('projects.error')}
             </h3>
             <p className="mt-1 text-sm text-red-700 dark:text-red-300">
               {error instanceof Error
                 ? error.message
-                : '알 수 없는 오류가 발생했습니다'}
+                : t('projects.unknownError')}
             </p>
           </div>
         </div>
@@ -62,7 +64,7 @@ export function ProjectList() {
         <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
         <input
           type="text"
-          placeholder="프로젝트 검색..."
+          placeholder={t('projects.searchPlaceholder')}
           value={searchQuery}
           onChange={handleSearchChange}
           className="w-full rounded-lg border border-gray-200 bg-white py-2 pl-10 pr-4 text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:placeholder-gray-400"
@@ -92,7 +94,7 @@ export function ProjectList() {
           <div className="text-center">
             <Loader2 className="mx-auto h-12 w-12 animate-spin text-blue-600" />
             <p className="mt-4 text-sm text-gray-600 dark:text-gray-400">
-              프로젝트를 불러오는 중...
+              {t('projects.loading')}
             </p>
           </div>
         </div>
@@ -106,7 +108,7 @@ export function ProjectList() {
               <div className="text-center">
                 <Folder className="mx-auto h-12 w-12 text-gray-400" />
                 <p className="mt-4 text-gray-600 dark:text-gray-400">
-                  표시할 프로젝트가 없습니다
+                  {t('projects.noProjectsToShow')}
                 </p>
               </div>
             </div>
@@ -120,7 +122,7 @@ export function ProjectList() {
 
               {/* Project Count */}
               <div className="text-center text-sm text-gray-600 dark:text-gray-400">
-                총 {data.meta.total}개의 프로젝트
+                {t('projects.totalProjects', { count: data.meta.total })}
               </div>
             </>
           )}
