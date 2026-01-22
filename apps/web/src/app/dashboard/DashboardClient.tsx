@@ -1,5 +1,7 @@
 'use client'
 
+import { useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import { useDashboard } from '@/lib/hooks/use-dashboard'
 import { ProfileWidget } from '@/components/dashboard/ProfileWidget'
 import { MyProjects } from '@/components/dashboard/MyProjects'
@@ -12,14 +14,40 @@ import { useTranslations } from '@/i18n/LanguageContext'
 export function DashboardClient() {
   const { user, projects, courseProgress, levelProgress, isLoading, errors } = useDashboard()
   const t = useTranslations()
+  const router = useRouter()
+
+  // Check if error is unauthorized (401)
+  const isUnauthorized = (error: unknown): boolean => {
+    if (!error) return false
+    // Check for ApiError with status property
+    if (error && typeof error === 'object' && 'status' in error) {
+      return (error as { status: number }).status === 401
+    }
+    // Fallback to message check
+    const message = error instanceof Error ? error.message : ''
+    return message.toLowerCase().includes('unauthorized') || message.includes('401')
+  }
+
+  // Redirect to login if unauthorized
+  useEffect(() => {
+    if (errors.user && isUnauthorized(errors.user)) {
+      localStorage.removeItem('auth_token')
+      router.push('/auth/login')
+    }
+  }, [errors.user, router])
 
   // Show loading state
   if (isLoading) {
     return <DashboardSkeleton />
   }
 
-  // Show error state
+  // Redirect for unauthorized errors (handled by useEffect, show loading while redirecting)
   if (errors.user) {
+    if (isUnauthorized(errors.user)) {
+      return <DashboardSkeleton />
+    }
+
+    // Show error state for other errors
     return (
       <div className="container mx-auto px-4 py-8">
         <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-6">
