@@ -5,6 +5,7 @@ import { setupSwagger } from './swagger'
 import * as compression from 'compression'
 import helmet from 'helmet'
 import { LoggingInterceptor } from './common/interceptors/logging.interceptor'
+import { HttpExceptionFilter } from './common/filters/http-exception.filter'
 
 /**
  * Bootstrap the NestJS application with performance and security optimizations
@@ -122,6 +123,9 @@ async function bootstrap() {
 
   // Performance: Global logging interceptor
   // Tracks response times and logs p50, p95, p99 metrics
+
+  // Security: Global exception filter with safe error handling
+  app.useGlobalFilters(new HttpExceptionFilter())
   app.useGlobalInterceptors(new LoggingInterceptor())
 
   // API Prefix
