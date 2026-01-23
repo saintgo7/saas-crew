@@ -1,11 +1,15 @@
 # =============================================================================
 # WKU Software Crew API - Production Dockerfile
 # Multi-stage build for optimized production image
+# Using Debian slim for better Prisma/native module compatibility
 # =============================================================================
 
 # Stage 1: Dependencies
-FROM node:20-alpine AS deps
+FROM node:20-slim AS deps
 WORKDIR /app
+
+# Install OpenSSL for Prisma
+RUN apt-get update && apt-get install -y openssl && rm -rf /var/lib/apt/lists/*
 
 # Install pnpm
 RUN corepack enable && corepack prepare pnpm@10 --activate
@@ -20,8 +24,11 @@ COPY packages/shared/package.json ./packages/shared/
 RUN pnpm install --frozen-lockfile --shamefully-hoist
 
 # Stage 2: Builder
-FROM node:20-alpine AS builder
+FROM node:20-slim AS builder
 WORKDIR /app
+
+# Install OpenSSL for Prisma generate
+RUN apt-get update && apt-get install -y openssl && rm -rf /var/lib/apt/lists/*
 
 # Install pnpm
 RUN corepack enable && corepack prepare pnpm@10 --activate
@@ -41,15 +48,19 @@ RUN pnpm --filter @wku-crew/api db:generate
 RUN pnpm --filter @wku-crew/api build
 
 # Stage 3: Production Runner
-FROM node:20-alpine AS runner
+FROM node:20-slim AS runner
 WORKDIR /app
 
-# Install dumb-init for proper PID 1 handling
-RUN apk add --no-cache dumb-init
+# Install required runtime dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    dumb-init \
+    openssl \
+    wget \
+    && rm -rf /var/lib/apt/lists/*
 
 # Create non-root user for security
-RUN addgroup --system --gid 1001 nodejs && \
-    adduser --system --uid 1001 nestjs
+RUN groupadd --system --gid 1001 nodejs && \
+    useradd --system --uid 1001 --gid nodejs nestjs
 
 # Set production environment
 ENV NODE_ENV=production
