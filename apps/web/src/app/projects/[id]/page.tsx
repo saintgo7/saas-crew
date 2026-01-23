@@ -4,6 +4,9 @@ import { ProjectDetailContent } from './ProjectDetailContent'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'
 
+// Performance: Revalidate every 60 seconds (ISR)
+export const revalidate = 60
+
 interface PageProps {
   params: {
     id: string
@@ -13,7 +16,7 @@ interface PageProps {
 async function getProject(id: string) {
   try {
     const response = await fetch(`${API_URL}/api/projects/${id}`, {
-      cache: 'no-store',
+      next: { revalidate: 60 }, // ISR with 60 second revalidation
     })
 
     if (!response.ok) {

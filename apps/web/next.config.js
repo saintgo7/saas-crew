@@ -36,6 +36,9 @@ const nextConfig = {
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
   },
   
+  // Use webpack instead of turbopack due to custom config
+  turbopack: {},
+
   experimental: {
     serverActions: {
       bodySizeLimit: '2mb',
