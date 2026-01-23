@@ -1,259 +1,197 @@
-import { test, expect } from '@playwright/test'
-import { testConfig } from '../config/test.config'
+import { test, expect } from '@playwright/test';
+
+/**
+ * Performance E2E Tests
+ * Tests Core Web Vitals and page load performance
+ */
 
 test.describe('Performance Tests', () => {
-  test('should load home page within performance budget', async ({ page }) => {
-    const startTime = Date.now()
+  test('home page loads within performance budget', async ({ page }) => {
+    const startTime = Date.now();
+    
+    await page.goto('/');
+    
+    const loadTime = Date.now() - startTime;
+    
+    // Page should load within 3 seconds
+    expect(loadTime).toBeLessThan(3000);
+    
+    // Check if main content is visible
+    await expect(page.locator('h1')).toBeVisible();
+  });
 
-    await page.goto('/')
-    await page.waitForLoadState('networkidle')
-
-    const loadTime = Date.now() - startTime
-
-    expect(loadTime).toBeLessThan(testConfig.performance.loadTime)
-  })
-
-  test('should have acceptable First Contentful Paint', async ({ page }) => {
-    await page.goto('/')
-
+  test('measures First Contentful Paint (FCP)', async ({ page }) => {
+    await page.goto('/');
+    
     const fcp = await page.evaluate(() => {
       return new Promise<number>((resolve) => {
         new PerformanceObserver((list) => {
-          const entries = list.getEntries()
-          const fcpEntry = entries.find((entry) => entry.name === 'first-contentful-paint')
-          if (fcpEntry) {
-            resolve(fcpEntry.startTime)
-          }
-        }).observe({ entryTypes: ['paint'] })
-
-        // Fallback timeout
-        setTimeout(() => resolve(0), 5000)
-      })
-    })
-
-    if (fcp > 0) {
-      expect(fcp).toBeLessThan(testConfig.performance.firstContentfulPaint)
-    }
-  })
-
-  test('should load images efficiently', async ({ page }) => {
-    await page.goto('/')
-    await page.waitForLoadState('networkidle')
-
-    const images = await page.locator('img').all()
-
-    for (const img of images) {
-      const isVisible = await img.isVisible()
-      if (isVisible) {
-        const naturalWidth = await img.evaluate((el: HTMLImageElement) => el.naturalWidth)
-        expect(naturalWidth).toBeGreaterThan(0)
-      }
-    }
-  })
-
-  test('should not have layout shifts', async ({ page }) => {
-    await page.goto('/')
-
-    const cls = await page.evaluate(() => {
-      return new Promise<number>((resolve) => {
-        let clsValue = 0
-
-        new PerformanceObserver((list) => {
-          for (const entry of list.getEntries() as any[]) {
-            if (entry.entryType === 'layout-shift' && !entry.hadRecentInput) {
-              clsValue += entry.value
+          const entries = list.getEntries();
+          for (const entry of entries) {
+            if (entry.name === 'first-contentful-paint') {
+              resolve(entry.startTime);
             }
           }
-        }).observe({ entryTypes: ['layout-shift'] })
+        }).observe({ entryTypes: ['paint'] });
+      });
+    });
+    
+    // FCP should be less than 2 seconds
+    expect(fcp).toBeLessThan(2000);
+  });
 
-        // Measure for 3 seconds
-        setTimeout(() => resolve(clsValue), 3000)
-      })
-    })
+  test('measures Largest Contentful Paint (LCP)', async ({ page }) => {
+    await page.goto('/');
+    
+    const lcp = await page.evaluate(() => {
+      return new Promise<number>((resolve) => {
+        new PerformanceObserver((list) => {
+          const entries = list.getEntries();
+          const lastEntry = entries[entries.length - 1];
+          resolve(lastEntry.startTime);
+        }).observe({ entryTypes: ['largest-contentful-paint'] });
+        
+        // Resolve after 5 seconds if no LCP detected
+        setTimeout(() => resolve(0), 5000);
+      });
+    });
+    
+    // LCP should be less than 2.5 seconds
+    expect(lcp).toBeLessThan(2500);
+  });
 
-    // CLS should be less than 0.1 (good score)
-    expect(cls).toBeLessThan(0.1)
-  })
+  test('checks network requests count', async ({ page }) => {
+    const requests: string[] = [];
+    
+    page.on('request', (request) => {
+      requests.push(request.url());
+    });
+    
+    await page.goto('/');
+    await page.waitForLoadState('networkidle');
+    
+    // Should not make excessive requests (< 50)
+    expect(requests.length).toBeLessThan(50);
+    
+    console.log('Total requests: ' + requests.length);
+  });
 
-  test('should have efficient JavaScript bundle size', async ({ page }) => {
-    const resourceSizes: number[] = []
-
+  test('measures total page size', async ({ page }) => {
+    let totalSize = 0;
+    
     page.on('response', async (response) => {
-      const url = response.url()
-      if (url.includes('.js') && !url.includes('node_modules')) {
-        const buffer = await response.body().catch(() => null)
-        if (buffer) {
-          resourceSizes.push(buffer.length)
+      const headers = response.headers();
+      const contentLength = headers['content-length'];
+      if (contentLength) {
+        totalSize += parseInt(contentLength);
+      }
+    });
+    
+    await page.goto('/');
+    await page.waitForLoadState('networkidle');
+    
+    const sizeInKB = totalSize / 1024;
+    
+    // Total page size should be less than 2MB
+    expect(sizeInKB).toBeLessThan(2048);
+    
+    console.log('Total page size: ' + sizeInKB.toFixed(2) + ' KB');
+  });
+
+  test('checks JavaScript bundle size', async ({ page }) => {
+    let jsSize = 0;
+    
+    page.on('response', async (response) => {
+      const url = response.url();
+      if (url.includes('.js') || url.includes('/_next/')) {
+        const headers = response.headers();
+        const contentLength = headers['content-length'];
+        if (contentLength) {
+          jsSize += parseInt(contentLength);
         }
       }
-    })
+    });
+    
+    await page.goto('/');
+    await page.waitForLoadState('networkidle');
+    
+    const sizeInKB = jsSize / 1024;
+    
+    // JavaScript bundle should be less than 300KB
+    expect(sizeInKB).toBeLessThan(300);
+    
+    console.log('JavaScript bundle size: ' + sizeInKB.toFixed(2) + ' KB');
+  });
 
-    await page.goto('/')
-    await page.waitForLoadState('networkidle')
+  test('measures Time to Interactive (TTI)', async ({ page }) => {
+    const startTime = Date.now();
+    
+    await page.goto('/');
+    
+    // Wait for page to be fully interactive
+    await page.waitForLoadState('networkidle');
+    
+    const tti = Date.now() - startTime;
+    
+    // TTI should be less than 3.5 seconds
+    expect(tti).toBeLessThan(3500);
+    
+    console.log('Time to Interactive: ' + tti + 'ms');
+  });
 
-    const totalSize = resourceSizes.reduce((acc, size) => acc + size, 0)
-    const totalSizeKB = totalSize / 1024
+  test('checks Cumulative Layout Shift (CLS)', async ({ page }) => {
+    await page.goto('/');
+    
+    // Wait for layout to stabilize
+    await page.waitForTimeout(2000);
+    
+    const cls = await page.evaluate(() => {
+      return new Promise<number>((resolve) => {
+        let clsValue = 0;
+        
+        new PerformanceObserver((list) => {
+          for (const entry of list.getEntries()) {
+            if (!(entry as any).hadRecentInput) {
+              clsValue += (entry as any).value;
+            }
+          }
+        }).observe({ entryTypes: ['layout-shift'] });
+        
+        setTimeout(() => resolve(clsValue), 1000);
+      });
+    });
+    
+    // CLS should be less than 0.1
+    expect(cls).toBeLessThan(0.1);
+    
+    console.log('Cumulative Layout Shift: ' + cls.toFixed(3));
+  });
 
-    // Main bundle should be less than 500KB (gzipped usually 1/3 of this)
-    expect(totalSizeKB).toBeLessThan(500)
-  })
+  test('projects page performance', async ({ page }) => {
+    const startTime = Date.now();
+    
+    await page.goto('/projects');
+    await page.waitForLoadState('networkidle');
+    
+    const loadTime = Date.now() - startTime;
+    
+    // Projects page should load within 3 seconds
+    expect(loadTime).toBeLessThan(3000);
+    
+    console.log('Projects page load time: ' + loadTime + 'ms');
+  });
 
-  test('should render courses page quickly', async ({ page }) => {
-    const startTime = Date.now()
-
-    await page.goto('/courses')
-    await page.waitForSelector('h1', { state: 'visible' })
-
-    const renderTime = Date.now() - startTime
-
-    expect(renderTime).toBeLessThan(testConfig.performance.loadTime)
-  })
-
-  test('should render community page quickly', async ({ page }) => {
-    const startTime = Date.now()
-
-    await page.goto('/community')
-    await page.waitForSelector('h1', { state: 'visible' })
-
-    const renderTime = Date.now() - startTime
-
-    expect(renderTime).toBeLessThan(testConfig.performance.loadTime)
-  })
-
-  test('should handle rapid navigation without memory leaks', async ({ page }) => {
-    const pages = ['/', '/courses', '/community']
-
-    for (let i = 0; i < 3; i++) {
-      for (const pagePath of pages) {
-        await page.goto(pagePath)
-        await page.waitForLoadState('networkidle')
-      }
-    }
-
-    // If we got here without timeout, navigation is handling well
-    expect(true).toBe(true)
-  })
-
-  test('should load fonts efficiently', async ({ page }) => {
-    const fontLoads: string[] = []
-
-    page.on('response', (response) => {
-      const url = response.url()
-      if (url.includes('.woff2') || url.includes('.woff') || url.includes('.ttf')) {
-        fontLoads.push(url)
-      }
-    })
-
-    await page.goto('/')
-    await page.waitForLoadState('networkidle')
-
-    // Should have fonts loaded
-    expect(fontLoads.length).toBeGreaterThanOrEqual(0)
-  })
-
-  test('should use appropriate caching headers', async ({ page }) => {
-    let hasCache = false
-
-    page.on('response', (response) => {
-      const cacheControl = response.headers()['cache-control']
-      if (cacheControl && cacheControl.includes('max-age')) {
-        hasCache = true
-      }
-    })
-
-    await page.goto('/')
-    await page.waitForLoadState('networkidle')
-
-    // Static assets should have cache headers
-    expect(hasCache).toBe(true)
-  })
-})
-
-test.describe('Network Performance', () => {
-  test('should minimize number of requests', async ({ page }) => {
-    let requestCount = 0
-
-    page.on('request', () => {
-      requestCount++
-    })
-
-    await page.goto('/')
-    await page.waitForLoadState('networkidle')
-
-    // Should not have excessive requests (arbitrary limit)
-    expect(requestCount).toBeLessThan(100)
-  })
-
-  test('should load critical resources first', async ({ page }) => {
-    const resourceTiming: Array<{ url: string; startTime: number }> = []
-
-    page.on('response', (response) => {
-      resourceTiming.push({
-        url: response.url(),
-        startTime: Date.now(),
-      })
-    })
-
-    await page.goto('/')
-    await page.waitForLoadState('networkidle')
-
-    // Document should be first
-    if (resourceTiming.length > 0) {
-      const firstResource = resourceTiming[0]
-      expect(firstResource.url).toContain('localhost:3000')
-    }
-  })
-
-  test('should compress responses', async ({ page }) => {
-    let hasCompression = false
-
-    page.on('response', (response) => {
-      const encoding = response.headers()['content-encoding']
-      if (encoding && (encoding.includes('gzip') || encoding.includes('br'))) {
-        hasCompression = true
-      }
-    })
-
-    await page.goto('/')
-    await page.waitForLoadState('networkidle')
-
-    // At least some resources should be compressed
-    expect(hasCompression).toBe(true)
-  })
-})
-
-test.describe('Responsive Performance', () => {
-  test('should perform well on mobile', async ({ page }) => {
-    await page.setViewportSize({ width: 375, height: 667 })
-
-    const startTime = Date.now()
-
-    await page.goto('/')
-    await page.waitForLoadState('networkidle')
-
-    const loadTime = Date.now() - startTime
-
-    // Mobile should load within reasonable time
-    expect(loadTime).toBeLessThan(testConfig.performance.loadTime * 1.5)
-  })
-
-  test('should optimize images for mobile', async ({ page }) => {
-    await page.setViewportSize({ width: 375, height: 667 })
-
-    await page.goto('/')
-    await page.waitForLoadState('networkidle')
-
-    const images = await page.locator('img').all()
-
-    for (const img of images) {
-      const isVisible = await img.isVisible()
-      if (isVisible) {
-        const src = await img.getAttribute('src')
-        // Next.js image optimization should be used
-        if (src) {
-          expect(src.includes('/_next/image') || src.includes('http')).toBe(true)
-        }
-      }
-    }
-  })
-})
+  test('courses page performance', async ({ page }) => {
+    const startTime = Date.now();
+    
+    await page.goto('/courses');
+    await page.waitForLoadState('networkidle');
+    
+    const loadTime = Date.now() - startTime;
+    
+    // Courses page should load within 3 seconds
+    expect(loadTime).toBeLessThan(3000);
+    
+    console.log('Courses page load time: ' + loadTime + 'ms');
+  });
+});

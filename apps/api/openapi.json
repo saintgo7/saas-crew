@@ -51,6 +51,9 @@
         "responses": {
           "302": {
             "description": "Redirects to GitHub OAuth authorization page"
+          },
+          "429": {
+            "description": "Too many requests - Rate limit exceeded"
           }
         },
         "summary": "Initiate GitHub OAuth",
@@ -70,6 +73,9 @@
           },
           "401": {
             "description": "Authentication failed"
+          },
+          "429": {
+            "description": "Too many requests - Rate limit exceeded"
           }
         },
         "summary": "GitHub OAuth callback",
@@ -109,6 +115,9 @@
           },
           "401": {
             "description": "Unauthorized - Invalid or missing JWT token"
+          },
+          "429": {
+            "description": "Too many requests - Rate limit exceeded"
           }
         },
         "security": [

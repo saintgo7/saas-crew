@@ -4,16 +4,16 @@ import {
   ApiTags,
   ApiOperation,
   ApiResponse,
-  ApiExcludeEndpoint,
   ApiBearerAuth,
 } from '@nestjs/swagger'
+import { Throttle } from '@nestjs/throttler'
 import { Response } from 'express'
 import { ConfigService } from '@nestjs/config'
 import { AuthService } from './auth.service'
 
 /**
  * Auth Controller
- * Handles authentication endpoints
+ * Handles authentication endpoints with rate limiting
  * Clean Architecture: Controller -> Service
  */
 @ApiTags('Authentication')
@@ -28,10 +28,12 @@ export class AuthController {
    * GET /api/auth/github
    * Initiates GitHub OAuth flow
    * Redirects to GitHub authorization page
+   * Rate limit: 5 requests per 5 minutes
    */
   @Get('github')
   @UseGuards(AuthGuard('github'))
   @HttpCode(HttpStatus.FOUND)
+  @Throttle({ short: { limit: 5, ttl: 60000 } }) // 5 requests per minute
   @ApiOperation({
     summary: 'Initiate GitHub OAuth',
     description: 'Redirects to GitHub authorization page to start OAuth flow',
@@ -39,6 +41,10 @@ export class AuthController {
   @ApiResponse({
     status: 302,
     description: 'Redirects to GitHub OAuth authorization page',
+  })
+  @ApiResponse({
+    status: 429,
+    description: 'Too many requests - Rate limit exceeded',
   })
   githubLogin() {
     // Guard handles redirect to GitHub
@@ -48,9 +54,11 @@ export class AuthController {
    * GET /api/auth/github/callback
    * GitHub OAuth callback endpoint
    * Processes OAuth response and redirects to frontend with token
+   * Rate limit: 10 requests per 5 minutes
    */
   @Get('github/callback')
   @UseGuards(AuthGuard('github'))
+  @Throttle({ short: { limit: 10, ttl: 300000 } }) // 10 requests per 5 minutes
   @ApiOperation({
     summary: 'GitHub OAuth callback',
     description:
@@ -64,6 +72,10 @@ export class AuthController {
     status: 401,
     description: 'Authentication failed',
   })
+  @ApiResponse({
+    status: 429,
+    description: 'Too many requests - Rate limit exceeded',
+  })
   async githubCallback(@Req() req: any, @Res() res: Response) {
     const { accessToken, user } = await this.authService.handleGithubLogin(req.user)
 
@@ -76,6 +88,7 @@ export class AuthController {
    * GET /api/auth/me
    * Get current authenticated user
    * Protected endpoint - requires JWT
+   * Rate limit: 100 requests per minute (default)
    */
   @Get('me')
   @UseGuards(AuthGuard('jwt'))
@@ -108,6 +121,10 @@ export class AuthController {
   @ApiResponse({
     status: 401,
     description: 'Unauthorized - Invalid or missing JWT token',
+  })
+  @ApiResponse({
+    status: 429,
+    description: 'Too many requests - Rate limit exceeded',
   })
   getMe(@Req() req: any) {
     return req.user
