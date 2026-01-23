@@ -40,6 +40,9 @@ const nextConfig = {
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
   },
 
+  // Required for Next.js 16+ when using webpack config with bundle analyzer
+  turbopack: {},
+
   experimental: {
     serverActions: {
       bodySizeLimit: '2mb',
