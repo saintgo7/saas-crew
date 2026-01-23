@@ -5,6 +5,12 @@ name = "saas-crew-web"
 main = ".open-next/worker.js"
 compatibility_date = "2026-01-23"
 compatibility_flags = ["nodejs_compat"]
+workers_dev = true
+
+# Custom domain routing (must be before any sections)
+routes = [
+  { pattern = "crew.abada.kr/*", zone_name = "abada.kr" }
+]
 
 [assets]
 directory = ".open-next/assets"
