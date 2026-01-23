@@ -22,7 +22,10 @@ export function CourseCard({ course, className }: CourseCardProps) {
   const t = useTranslations()
 
   const getLevelLabel = (level: string) => t(`courses.level.${level.toLowerCase()}`)
-  const getDifficultyLabel = (difficulty: string) => t(`courses.difficulty.${difficulty}`)
+  const getDifficultyLabel = (difficulty?: string) => {
+    if (!difficulty) return t('courses.difficulty.beginner')
+    return t(`courses.difficulty.${difficulty}`)
+  }
 
   return (
     <Link href={`/courses/${course.id}`}>
@@ -76,15 +79,15 @@ export function CourseCard({ course, className }: CourseCardProps) {
           <div className="mb-4 flex flex-wrap items-center gap-4 text-xs text-gray-500 dark:text-gray-400">
             <div className="flex items-center gap-1">
               <Clock className="h-4 w-4" />
-              <span>{t('courses.hours', { hours: Math.floor(course.duration / 60) })}</span>
+              <span>{t('courses.hours', { hours: Math.floor((course.duration || 0) / 60) })}</span>
             </div>
             <div className="flex items-center gap-1">
               <BookOpen className="h-4 w-4" />
-              <span>{t('courses.chaptersCount', { count: course.chaptersCount })}</span>
+              <span>{t('courses.chaptersCount', { count: course.chaptersCount ?? course._count?.chapters ?? 0 })}</span>
             </div>
             <div className="flex items-center gap-1">
               <Users className="h-4 w-4" />
-              <span>{t('courses.enrolledCount', { count: course.enrolledCount })}</span>
+              <span>{t('courses.enrolledCount', { count: course.enrolledCount ?? course._count?.enrollments ?? 0 })}</span>
             </div>
           </div>
 

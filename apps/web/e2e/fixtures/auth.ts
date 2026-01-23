@@ -12,7 +12,11 @@ export const mockUsers = {
     avatar: 'https://avatars.githubusercontent.com/u/1?v=4',
     level: 5,
     xp: 250,
+    experiencePoints: 250,
     tier: 'JUNIOR' as const,
+    rank: 'JUNIOR' as const,
+    role: 'student' as const,
+    createdAt: new Date().toISOString(),
   },
   senior: {
     id: 'test-user-2',
@@ -22,7 +26,11 @@ export const mockUsers = {
     avatar: 'https://avatars.githubusercontent.com/u/2?v=4',
     level: 20,
     xp: 5000,
+    experiencePoints: 5000,
     tier: 'SENIOR' as const,
+    rank: 'SENIOR' as const,
+    role: 'student' as const,
+    createdAt: new Date().toISOString(),
   },
   master: {
     id: 'test-user-3',
@@ -32,7 +40,11 @@ export const mockUsers = {
     avatar: 'https://avatars.githubusercontent.com/u/3?v=4',
     level: 40,
     xp: 15000,
+    experiencePoints: 15000,
     tier: 'MASTER' as const,
+    rank: 'MASTER' as const,
+    role: 'mentor' as const,
+    createdAt: new Date().toISOString(),
   },
 }
 
@@ -58,6 +70,15 @@ async function mockAuthSession(
   await page.addInitScript((sessionData) => {
     window.localStorage.setItem('next-auth.session-token', JSON.stringify(sessionData))
   }, session)
+
+  // Set user store data (for zustand user-storage)
+  await page.addInitScript((userData) => {
+    window.localStorage.setItem('auth_token', 'mock-session-token')
+    window.localStorage.setItem('user-storage', JSON.stringify({
+      state: { user: userData },
+      version: 0
+    }))
+  }, user)
 
   // Mock the session cookie
   await page.context().addCookies([

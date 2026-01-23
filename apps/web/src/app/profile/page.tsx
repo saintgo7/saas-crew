@@ -181,10 +181,12 @@ export default function ProfilePage() {
                   <Calendar className="h-4 w-4" />
                 </div>
                 <p className="mt-1 text-sm font-medium text-gray-900 dark:text-white">
-                  {formatDistanceToNow(new Date(user.createdAt), {
-                    addSuffix: true,
-                    locale: dateLocale,
-                  })}
+                  {user.createdAt && !isNaN(new Date(user.createdAt).getTime())
+                    ? formatDistanceToNow(new Date(user.createdAt), {
+                        addSuffix: true,
+                        locale: dateLocale,
+                      })
+                    : '-'}
                 </p>
                 <p className="text-sm text-gray-500">{t('profile.joined')}</p>
               </div>

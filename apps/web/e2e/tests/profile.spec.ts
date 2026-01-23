@@ -17,6 +17,8 @@ test.describe('Profile Page', () => {
             rank: 'JUNIOR',
             department: 'Computer Science',
             grade: 3,
+            role: 'student',
+            createdAt: new Date().toISOString(),
           }
         },
         version: 0
@@ -166,6 +168,9 @@ test.describe('User Menu in Header', () => {
             email: 'test@example.com',
             level: 5,
             profileImage: null,
+            role: 'student',
+            experiencePoints: 500,
+            createdAt: new Date().toISOString(),
           }
         },
         version: 0
