@@ -10,8 +10,8 @@ import { AppModule } from '../../src/app.module'
  */
 describe('Authentication Security (e2e)', () => {
   let app: INestApplication
-  let authToken: string
-  let adminToken: string
+  let authToken: string | null = null
+  let adminToken: string | null = null
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -19,7 +19,8 @@ describe('Authentication Security (e2e)', () => {
     }).compile()
 
     app = moduleFixture.createNestApplication()
-    
+    app.setGlobalPrefix('api')
+
     // Apply same security settings as production
     app.useGlobalPipes(
       new ValidationPipe({
@@ -28,7 +29,7 @@ describe('Authentication Security (e2e)', () => {
         transform: true,
       }),
     )
-    
+
     await app.init()
 
     // Setup: Create test users and get tokens
@@ -44,13 +45,13 @@ describe('Authentication Security (e2e)', () => {
   describe('JWT Authentication', () => {
     it('should reject requests without JWT token', () => {
       return request(app.getHttpServer())
-        .get('/api/users/me')
+        .get('/api/auth/me')
         .expect(401)
     })
 
     it('should reject requests with invalid JWT token', () => {
       return request(app.getHttpServer())
-        .get('/api/users/me')
+        .get('/api/auth/me')
         .set('Authorization', 'Bearer invalid-token')
         .expect(401)
     })
@@ -60,17 +61,17 @@ describe('Authentication Security (e2e)', () => {
       const expiredToken = 'expired-jwt-token'
       
       return request(app.getHttpServer())
-        .get('/api/users/me')
+        .get('/api/auth/me')
         .set('Authorization', `Bearer ${expiredToken}`)
         .expect(401)
     })
 
-    it('should accept requests with valid JWT token', () => {
+    it('should accept requests with valid JWT token', async () => {
       if (!authToken) {
         return // Skip if token not available
       }
 
-      return request(app.getHttpServer())
+      await request(app.getHttpServer())
         .get('/api/auth/me')
         .set('Authorization', `Bearer ${authToken}`)
         .expect(200)
@@ -78,23 +79,23 @@ describe('Authentication Security (e2e)', () => {
   })
 
   describe('Role-Based Access Control (RBAC)', () => {
-    it('should deny non-admin access to admin routes', () => {
+    it('should deny non-admin access to admin routes', async () => {
       if (!authToken) {
         return
       }
 
-      return request(app.getHttpServer())
+      await request(app.getHttpServer())
         .get('/api/admin/stats')
         .set('Authorization', `Bearer ${authToken}`)
         .expect(403) // Forbidden
     })
 
-    it('should allow admin access to admin routes', () => {
+    it('should allow admin access to admin routes', async () => {
       if (!adminToken) {
         return
       }
 
-      return request(app.getHttpServer())
+      await request(app.getHttpServer())
         .get('/api/admin/stats')
         .set('Authorization', `Bearer ${adminToken}`)
         .expect(200)
@@ -117,12 +118,12 @@ describe('Authentication Security (e2e)', () => {
   })
 
   describe('Ownership Verification', () => {
-    it('should allow users to update their own resources', () => {
+    it('should allow users to update their own resources', async () => {
       if (!authToken) {
         return
       }
 
-      return request(app.getHttpServer())
+      await request(app.getHttpServer())
         .patch('/api/users/me')
         .set('Authorization', `Bearer ${authToken}`)
         .send({ bio: 'Updated bio' })

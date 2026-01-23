@@ -10,6 +10,7 @@ import { AppModule } from '../../src/app.module'
  */
 describe('CORS Policy (e2e)', () => {
   let app: INestApplication
+  const allowedOrigins = ['http://localhost:3000', 'http://localhost:3001']
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -17,6 +18,29 @@ describe('CORS Policy (e2e)', () => {
     }).compile()
 
     app = moduleFixture.createNestApplication()
+    app.setGlobalPrefix('api')
+
+    // Enable CORS with same configuration as production
+    app.enableCors({
+      origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
+        if (!origin) {
+          callback(null, true)
+          return
+        }
+
+        if (allowedOrigins.includes(origin)) {
+          callback(null, true)
+        } else {
+          callback(new Error('Not allowed by CORS'))
+        }
+      },
+      credentials: true,
+      methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+      allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+      exposedHeaders: ['X-Total-Count', 'X-Page-Count'],
+      maxAge: 3600,
+    })
+
     await app.init()
   })
 
@@ -31,7 +55,7 @@ describe('CORS Policy (e2e)', () => {
         .set('Origin', 'http://localhost:3000')
 
       expect(response.status).toBe(200)
-      expect(response.headers['access-control-allow-origin']).toBeDefined()
+      expect(response.headers['access-control-allow-origin']).toBe('http://localhost:3000')
     })
 
     it('should allow requests from localhost:3001', async () => {
@@ -40,7 +64,7 @@ describe('CORS Policy (e2e)', () => {
         .set('Origin', 'http://localhost:3001')
 
       expect(response.status).toBe(200)
-      expect(response.headers['access-control-allow-origin']).toBeDefined()
+      expect(response.headers['access-control-allow-origin']).toBe('http://localhost:3001')
     })
 
     it('should reject requests from unauthorized origins', async () => {
@@ -48,9 +72,8 @@ describe('CORS Policy (e2e)', () => {
         .get('/api/health')
         .set('Origin', 'http://malicious.com')
 
-      // Should either not include CORS headers or reject
-      // Note: Some implementations allow the request but don't send CORS headers
-      if (response.headers['access-control-allow-origin']) {
+      // Should either return error or not include CORS header for malicious origin
+      if (response.status === 200) {
         expect(response.headers['access-control-allow-origin']).not.toBe('http://malicious.com')
       }
     })
@@ -112,7 +135,7 @@ describe('CORS Policy (e2e)', () => {
   describe('Exposed Headers', () => {
     it('should expose pagination headers', async () => {
       const response = await request(app.getHttpServer())
-        .get('/api/users')
+        .get('/api/health')
         .set('Origin', 'http://localhost:3000')
 
       if (response.headers['access-control-expose-headers']) {

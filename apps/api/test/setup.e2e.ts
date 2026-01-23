@@ -5,7 +5,7 @@
 
 // Set test environment variables
 process.env.NODE_ENV = 'test'
-process.env.DATABASE_URL = process.env.TEST_DATABASE_URL || 'postgresql://postgres:postgres@localhost:5432/wku_crew_test'
+process.env.DATABASE_URL = process.env.TEST_DATABASE_URL || 'postgresql://wku_user:wku_pass123@localhost:5433/wku_crew?schema=public'
 process.env.JWT_SECRET = 'test-jwt-secret-key-for-e2e-testing'
 process.env.JWT_EXPIRES_IN = '1d'
 process.env.GITHUB_CLIENT_ID = 'test-github-client-id'

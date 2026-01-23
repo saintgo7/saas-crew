@@ -29,21 +29,22 @@ import { AdminModule } from './admin/admin.module'
       isGlobal: true,
     }),
     // Security: Rate limiting to prevent abuse
+    // Higher limits for test environment
     ThrottlerModule.forRoot([
       {
         name: 'short',
         ttl: 1000, // 1 second
-        limit: 10, // 10 requests per second
+        limit: process.env.NODE_ENV === 'test' ? 1000 : 10,
       },
       {
         name: 'medium',
         ttl: 10000, // 10 seconds
-        limit: 50, // 50 requests per 10 seconds
+        limit: process.env.NODE_ENV === 'test' ? 5000 : 50,
       },
       {
         name: 'long',
         ttl: 60000, // 1 minute
-        limit: 100, // 100 requests per minute
+        limit: process.env.NODE_ENV === 'test' ? 10000 : 100,
       },
     ]),
     PrismaModule,

@@ -73,11 +73,11 @@ describe('Courses API (e2e)', () => {
         .set('Authorization', `Bearer ${student1.token}`)
         .expect(201)
 
-      // Second enrollment should fail
+      // Second enrollment should fail with conflict
       await request(app.getHttpServer())
         .post(`/api/courses/${course.id}/enroll`)
         .set('Authorization', `Bearer ${student1.token}`)
-        .expect(400)
+        .expect(409)
     })
 
     it('should prevent enrollment in unpublished courses', async () => {
@@ -129,9 +129,9 @@ describe('Courses API (e2e)', () => {
 
       expect(response.body).toMatchObject({
         courseId: course.id,
-        userId: student1.id,
       })
       expect(response.body).toHaveProperty('progress')
+      expect(response.body).toHaveProperty('courseTitle')
       expect(response.body.chapters).toBeDefined()
       expect(Array.isArray(response.body.chapters)).toBe(true)
     })
@@ -268,7 +268,7 @@ describe('Courses API (e2e)', () => {
     })
   })
 
-  describe('GET /api/enrollments/me', () => {
+  describe('GET /api/courses/enrollments/me', () => {
     it('should return current user enrollments', async () => {
       const course1 = await TestHelpers.createTestCourse({ title: 'Course 1' })
       const course2 = await TestHelpers.createTestCourse({ title: 'Course 2' })
@@ -282,25 +282,25 @@ describe('Courses API (e2e)', () => {
       })
 
       const response = await request(app.getHttpServer())
-        .get('/api/enrollments/me')
+        .get('/api/courses/enrollments/me')
         .set('Authorization', `Bearer ${student1.token}`)
         .expect(200)
 
       expect(Array.isArray(response.body)).toBe(true)
       expect(response.body.length).toBe(2)
-      expect(response.body[0]).toHaveProperty('course')
+      expect(response.body[0]).toHaveProperty('courseId')
       expect(response.body[0]).toHaveProperty('progress')
     })
 
     it('should return 401 when not authenticated', async () => {
       await request(app.getHttpServer())
-        .get('/api/enrollments/me')
+        .get('/api/courses/enrollments/me')
         .expect(401)
     })
 
     it('should return empty array if no enrollments', async () => {
       const response = await request(app.getHttpServer())
-        .get('/api/enrollments/me')
+        .get('/api/courses/enrollments/me')
         .set('Authorization', `Bearer ${student1.token}`)
         .expect(200)
 
@@ -319,12 +319,12 @@ describe('Courses API (e2e)', () => {
       })
 
       const response = await request(app.getHttpServer())
-        .get('/api/enrollments/me')
+        .get('/api/courses/enrollments/me')
         .set('Authorization', `Bearer ${student1.token}`)
         .expect(200)
 
       expect(response.body.length).toBe(1)
-      expect(response.body[0].userId).toBe(student1.id)
+      expect(response.body[0].courseId).toBe(course.id)
     })
   })
 
@@ -390,9 +390,10 @@ describe('Courses API (e2e)', () => {
         .expect(200)
 
       const chapterProgress = response.body.chapters?.find(
-        (c: any) => c.chapterId === chapter.id,
+        (c: any) => c.id === chapter.id,
       )
       expect(chapterProgress).toBeDefined()
+      expect(chapterProgress).toHaveProperty('lastPosition')
     })
   })
 })

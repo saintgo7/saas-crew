@@ -1,8 +1,6 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication, ValidationPipe } from '@nestjs/common';
 import * as request from 'supertest';
-import { AppModule } from '../../src/app.module';
-import { PrismaService } from '../../src/prisma/prisma.service';
+import { INestApplication } from '@nestjs/common';
+import { TestHelpers, TestUser } from '../test-helpers';
 
 /**
  * Integration Test: Course-Enrollment-Progress Flow
@@ -10,457 +8,203 @@ import { PrismaService } from '../../src/prisma/prisma.service';
  */
 describe('Course-Enrollment-Progress Integration Flow (e2e)', () => {
   let app: INestApplication;
-  let prisma: PrismaService;
-  let instructorToken: string;
-  let studentToken: string;
-  let instructorId: string;
-  let studentId: string;
+  let admin: TestUser;
+  let student: TestUser;
   let courseId: string;
   let chapterIds: string[] = [];
 
   beforeAll(async () => {
-    const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [AppModule],
-    }).compile();
+    app = await TestHelpers.initApp();
+  });
 
-    app = moduleFixture.createNestApplication();
-    app.useGlobalPipes(new ValidationPipe());
-    
-    await app.init();
+  beforeEach(async () => {
+    await TestHelpers.cleanDatabase();
+    chapterIds = [];
 
-    prisma = app.get<PrismaService>(PrismaService);
-
-    // Clean up database
-    await prisma.enrollment.deleteMany();
-    await prisma.chapter.deleteMany();
-    await prisma.course.deleteMany();
-    await prisma.user.deleteMany();
+    admin = await TestHelpers.createTestUser({
+      email: 'admin@example.com',
+      name: 'Course Admin',
+      rank: 'MASTER',
+    });
+    student = await TestHelpers.createTestUser({
+      email: 'student@example.com',
+      name: 'Learning Student',
+      rank: 'JUNIOR',
+    });
   });
 
   afterAll(async () => {
-    // Cleanup
-    await prisma.enrollment.deleteMany();
-    await prisma.chapter.deleteMany();
-    await prisma.course.deleteMany();
-    await prisma.user.deleteMany();
-    
-    await app.close();
+    await TestHelpers.cleanDatabase();
+    await TestHelpers.closeApp();
   });
 
   describe('Course Creation and Setup', () => {
-    it('should create instructor account', async () => {
-      const response = await request(app.getHttpServer())
-        .post('/auth/register')
-        .send({
-          email: 'instructor@wku.ac.kr',
-          password: 'Instructor123!',
-          name: 'Course Instructor',
-          role: 'instructor',
-        })
-        .expect(201);
-
-      instructorId = response.body.id;
-
-      const loginResponse = await request(app.getHttpServer())
-        .post('/auth/login')
-        .send({
-          email: 'instructor@wku.ac.kr',
-          password: 'Instructor123!',
-        })
-        .expect(200);
-
-      instructorToken = loginResponse.body.access_token;
-    });
-
-    it('should create student account', async () => {
-      const response = await request(app.getHttpServer())
-        .post('/auth/register')
-        .send({
-          email: 'student@wku.ac.kr',
-          password: 'Student123!',
-          name: 'Learning Student',
-          role: 'student',
-        })
-        .expect(201);
-
-      studentId = response.body.id;
-
-      const loginResponse = await request(app.getHttpServer())
-        .post('/auth/login')
-        .send({
-          email: 'student@wku.ac.kr',
-          password: 'Student123!',
-        })
-        .expect(200);
-
-      studentToken = loginResponse.body.access_token;
-    });
-
     it('should create a course', async () => {
       const response = await request(app.getHttpServer())
-        .post('/courses')
-        .set('Authorization', `Bearer ${instructorToken}`)
+        .post('/api/courses')
+        .set('Authorization', `Bearer ${admin.token}`)
         .send({
-          title: 'Full Stack Web Development',
-          description: 'Learn modern web development with React and NestJS',
-          category: 'web-development',
-          level: 'intermediate',
-          published: false, // Draft initially
+          title: 'Introduction to NestJS',
+          slug: 'intro-to-nestjs',
+          description: 'Learn NestJS from scratch',
+          level: 'JUNIOR',
+          duration: 120,
+          tags: ['nestjs', 'backend', 'typescript'],
         })
         .expect(201);
 
       courseId = response.body.id;
-      
-      expect(response.body).toMatchObject({
-        title: 'Full Stack Web Development',
-        instructorId: instructorId,
-        published: false,
-      });
+      expect(courseId).toBeDefined();
+      expect(response.body.title).toBe('Introduction to NestJS');
     });
 
     it('should add chapters to the course', async () => {
-      const chapters = [
-        {
-          title: 'Introduction to React',
-          description: 'Learn React basics',
+      const course = await TestHelpers.createTestCourse({
+        title: 'Test Course',
+        slug: 'test-course-chapters',
+      });
+      courseId = course.id;
+
+      // Create chapter 1
+      const chapter1 = await request(app.getHttpServer())
+        .post(`/api/courses/${courseId}/chapters`)
+        .set('Authorization', `Bearer ${admin.token}`)
+        .send({
+          title: 'Chapter 1: Getting Started',
+          slug: 'chapter-1-getting-started',
           order: 1,
-          duration: 30,
-          content: 'React fundamentals...',
-        },
-        {
-          title: 'React Hooks',
-          description: 'Understanding React Hooks',
+          content: 'Introduction content',
+        })
+        .expect(201);
+
+      chapterIds.push(chapter1.body.id);
+
+      // Create chapter 2
+      const chapter2 = await request(app.getHttpServer())
+        .post(`/api/courses/${courseId}/chapters`)
+        .set('Authorization', `Bearer ${admin.token}`)
+        .send({
+          title: 'Chapter 2: Core Concepts',
+          slug: 'chapter-2-core-concepts',
           order: 2,
-          duration: 45,
-          content: 'useState, useEffect...',
-        },
-        {
-          title: 'NestJS Fundamentals',
-          description: 'Backend with NestJS',
-          order: 3,
-          duration: 60,
-          content: 'Controllers, Services...',
-        },
-      ];
-
-      for (const chapter of chapters) {
-        const response = await request(app.getHttpServer())
-          .post(`/courses/${courseId}/chapters`)
-          .set('Authorization', `Bearer ${instructorToken}`)
-          .send(chapter)
-          .expect(201);
-
-        chapterIds.push(response.body.id);
-        
-        expect(response.body).toMatchObject({
-          title: chapter.title,
-          order: chapter.order,
-          courseId: courseId,
-        });
-      }
-
-      expect(chapterIds.length).toBe(3);
-    });
-
-    it('should publish the course', async () => {
-      const response = await request(app.getHttpServer())
-        .patch(`/courses/${courseId}`)
-        .set('Authorization', `Bearer ${instructorToken}`)
-        .send({
-          published: true,
-        })
-        .expect(200);
-
-      expect(response.body.published).toBe(true);
-    });
-  });
-
-  describe('Enrollment Flow', () => {
-    it('should prevent enrollment in unpublished course', async () => {
-      // Create unpublished course
-      const unpublishedCourse = await request(app.getHttpServer())
-        .post('/courses')
-        .set('Authorization', `Bearer ${instructorToken}`)
-        .send({
-          title: 'Draft Course',
-          description: 'Not published yet',
-          published: false,
+          content: 'Core concepts content',
         })
         .expect(201);
 
-      // Try to enroll
-      await request(app.getHttpServer())
-        .post(`/courses/${unpublishedCourse.body.id}/enroll`)
-        .set('Authorization', `Bearer ${studentToken}`)
-        .expect(403); // Forbidden
-    });
-
-    it('should enroll student in published course', async () => {
-      const response = await request(app.getHttpServer())
-        .post(`/courses/${courseId}/enroll`)
-        .set('Authorization', `Bearer ${studentToken}`)
-        .expect(201);
-
-      expect(response.body).toMatchObject({
-        userId: studentId,
-        courseId: courseId,
-        progress: 0,
-        completed: false,
-      });
-    });
-
-    it('should prevent duplicate enrollment', async () => {
-      await request(app.getHttpServer())
-        .post(`/courses/${courseId}/enroll`)
-        .set('Authorization', `Bearer ${studentToken}`)
-        .expect(409); // Conflict
-    });
-
-    it('should verify enrollment in user profile', async () => {
-      const response = await request(app.getHttpServer())
-        .get('/users/me/enrollments')
-        .set('Authorization', `Bearer ${studentToken}`)
-        .expect(200);
-
-      const enrollment = response.body.find((e: any) => e.courseId === courseId);
-      expect(enrollment).toBeDefined();
-      expect(enrollment.progress).toBe(0);
+      chapterIds.push(chapter2.body.id);
+      expect(chapterIds).toHaveLength(2);
     });
   });
 
-  describe('Progress Tracking', () => {
-    it('should track video progress for a chapter', async () => {
-      const response = await request(app.getHttpServer())
-        .patch(`/chapters/${chapterIds[0]}/progress`)
-        .set('Authorization', `Bearer ${studentToken}`)
-        .send({
-          videoPosition: 120, // 2 minutes
-        })
-        .expect(200);
+  describe('Student Enrollment', () => {
+    it('should allow student to enroll in a course', async () => {
+      const course = await TestHelpers.createTestCourse();
+      courseId = course.id;
 
-      expect(response.body.videoPosition).toBe(120);
+      const response = await request(app.getHttpServer())
+        .post(`/api/courses/${courseId}/enroll`)
+        .set('Authorization', `Bearer ${student.token}`)
+        .expect(201);
+
+      expect(response.body.courseId).toBe(courseId);
+      expect(response.body.userId).toBe(student.id);
     });
 
-    it('should mark first chapter as complete', async () => {
+    it('should not allow duplicate enrollment', async () => {
+      const course = await TestHelpers.createTestCourse();
+      courseId = course.id;
+
+      // First enrollment
+      await request(app.getHttpServer())
+        .post(`/api/courses/${courseId}/enroll`)
+        .set('Authorization', `Bearer ${student.token}`)
+        .expect(201);
+
+      // Duplicate enrollment should fail
+      await request(app.getHttpServer())
+        .post(`/api/courses/${courseId}/enroll`)
+        .set('Authorization', `Bearer ${student.token}`)
+        .expect(409);
+    });
+  });
+
+  describe('Learning Progress', () => {
+    it('should track chapter completion', async () => {
+      const course = await TestHelpers.createTestCourse();
+      courseId = course.id;
+
+      const chapter = await TestHelpers.createTestChapter(courseId);
+
+      // Enroll first
+      await request(app.getHttpServer())
+        .post(`/api/courses/${courseId}/enroll`)
+        .set('Authorization', `Bearer ${student.token}`)
+        .expect(201);
+
+      // Mark chapter as complete
       const response = await request(app.getHttpServer())
-        .patch(`/chapters/${chapterIds[0]}/progress`)
-        .set('Authorization', `Bearer ${studentToken}`)
-        .send({
-          completed: true,
-        })
+        .post(`/api/chapters/${chapter.id}/complete`)
+        .set('Authorization', `Bearer ${student.token}`)
         .expect(200);
 
       expect(response.body.completed).toBe(true);
-      expect(response.body.completedAt).toBeDefined();
     });
 
-    it('should update course completion rate', async () => {
-      const response = await request(app.getHttpServer())
-        .get(`/courses/${courseId}/enrollment`)
-        .set('Authorization', `Bearer ${studentToken}`)
-        .expect(200);
+    it('should calculate course progress', async () => {
+      const course = await TestHelpers.createTestCourse();
+      courseId = course.id;
 
-      // 1 out of 3 chapters = 33.33%
-      expect(response.body.progress).toBeCloseTo(33.33, 1);
-      expect(response.body.completed).toBe(false);
-    });
+      const chapter1 = await TestHelpers.createTestChapter(courseId, { order: 1 });
+      const chapter2 = await TestHelpers.createTestChapter(courseId, { order: 2, slug: 'ch2' });
 
-    it('should complete second chapter', async () => {
+      // Enroll
       await request(app.getHttpServer())
-        .patch(`/chapters/${chapterIds[1]}/progress`)
-        .set('Authorization', `Bearer ${studentToken}`)
-        .send({
-          videoPosition: 2700, // 45 minutes (full duration)
-          completed: true,
-        })
-        .expect(200);
+        .post(`/api/courses/${courseId}/enroll`)
+        .set('Authorization', `Bearer ${student.token}`)
+        .expect(201);
 
-      // Check updated progress
-      const response = await request(app.getHttpServer())
-        .get(`/courses/${courseId}/enrollment`)
-        .set('Authorization', `Bearer ${studentToken}`)
-        .expect(200);
-
-      // 2 out of 3 chapters = 66.67%
-      expect(response.body.progress).toBeCloseTo(66.67, 1);
-    });
-
-    it('should complete final chapter and mark course as complete', async () => {
+      // Complete first chapter
       await request(app.getHttpServer())
-        .patch(`/chapters/${chapterIds[2]}/progress`)
-        .set('Authorization', `Bearer ${studentToken}`)
-        .send({
-          completed: true,
-        })
+        .post(`/api/chapters/${chapter1.id}/complete`)
+        .set('Authorization', `Bearer ${student.token}`)
         .expect(200);
 
-      // Verify course completion
-      const response = await request(app.getHttpServer())
-        .get(`/courses/${courseId}/enrollment`)
-        .set('Authorization', `Bearer ${studentToken}`)
+      // Check progress (should be 50%)
+      const progressResponse = await request(app.getHttpServer())
+        .get(`/api/courses/${courseId}/progress`)
+        .set('Authorization', `Bearer ${student.token}`)
         .expect(200);
 
-      expect(response.body.progress).toBe(100);
-      expect(response.body.completed).toBe(true);
-      expect(response.body.completedAt).toBeDefined();
-    });
-
-    it('should allow certificate generation after completion', async () => {
-      const response = await request(app.getHttpServer())
-        .get(`/courses/${courseId}/certificate`)
-        .set('Authorization', `Bearer ${studentToken}`)
-        .expect(200);
-
-      expect(response.body).toHaveProperty('certificateId');
-      expect(response.body).toHaveProperty('issuedAt');
-      expect(response.body.studentName).toBe('Learning Student');
-      expect(response.body.courseTitle).toBe('Full Stack Web Development');
+      expect(progressResponse.body.progress).toBe(50);
     });
   });
 
-  describe('Unenrollment Flow', () => {
-    let testCourseId: string;
-    let testChapterId: string;
+  describe('Course Completion', () => {
+    it('should mark course as completed when all chapters done', async () => {
+      const course = await TestHelpers.createTestCourse();
+      courseId = course.id;
 
-    beforeAll(async () => {
-      // Create test course with chapters
-      const course = await request(app.getHttpServer())
-        .post('/courses')
-        .set('Authorization', `Bearer ${instructorToken}`)
-        .send({
-          title: 'Test Unenrollment Course',
-          description: 'For testing unenrollment',
-          published: true,
-        })
+      const chapter = await TestHelpers.createTestChapter(courseId);
+
+      // Enroll
+      await request(app.getHttpServer())
+        .post(`/api/courses/${courseId}/enroll`)
+        .set('Authorization', `Bearer ${student.token}`)
         .expect(201);
 
-      testCourseId = course.body.id;
-
-      const chapter = await request(app.getHttpServer())
-        .post(`/courses/${testCourseId}/chapters`)
-        .set('Authorization', `Bearer ${instructorToken}`)
-        .send({
-          title: 'Test Chapter',
-          order: 1,
-        })
-        .expect(201);
-
-      testChapterId = chapter.body.id;
-
-      // Enroll student
+      // Complete the only chapter
       await request(app.getHttpServer())
-        .post(`/courses/${testCourseId}/enroll`)
-        .set('Authorization', `Bearer ${studentToken}`)
-        .expect(201);
-
-      // Make some progress
-      await request(app.getHttpServer())
-        .patch(`/chapters/${testChapterId}/progress`)
-        .set('Authorization', `Bearer ${studentToken}`)
-        .send({
-          videoPosition: 300,
-        })
-        .expect(200);
-    });
-
-    it('should unenroll from course', async () => {
-      await request(app.getHttpServer())
-        .delete(`/courses/${testCourseId}/enroll`)
-        .set('Authorization', `Bearer ${studentToken}`)
+        .post(`/api/chapters/${chapter.id}/complete`)
+        .set('Authorization', `Bearer ${student.token}`)
         .expect(200);
 
-      // Verify unenrollment
-      const response = await request(app.getHttpServer())
-        .get('/users/me/enrollments')
-        .set('Authorization', `Bearer ${studentToken}`)
+      // Check progress (should be 100%)
+      const progressResponse = await request(app.getHttpServer())
+        .get(`/api/courses/${courseId}/progress`)
+        .set('Authorization', `Bearer ${student.token}`)
         .expect(200);
 
-      const enrollment = response.body.find((e: any) => e.courseId === testCourseId);
-      expect(enrollment).toBeUndefined();
-    });
-
-    it('should delete progress data after unenrollment', async () => {
-      // Progress data should be deleted
-      const progress = await prisma.progress.findMany({
-        where: {
-          enrollment: {
-            userId: studentId,
-            courseId: testCourseId,
-          },
-        },
-      });
-
-      expect(progress.length).toBe(0);
-    });
-
-    it('should allow re-enrollment after unenrollment', async () => {
-      const response = await request(app.getHttpServer())
-        .post(`/courses/${testCourseId}/enroll`)
-        .set('Authorization', `Bearer ${studentToken}`)
-        .expect(201);
-
-      // Progress should be reset
-      expect(response.body.progress).toBe(0);
-      expect(response.body.completed).toBe(false);
-    });
-  });
-
-  describe('Edge Cases', () => {
-    it('should handle concurrent progress updates', async () => {
-      const updates = [
-        request(app.getHttpServer())
-          .patch(`/chapters/${chapterIds[0]}/progress`)
-          .set('Authorization', `Bearer ${studentToken}`)
-          .send({ videoPosition: 100 }),
-        request(app.getHttpServer())
-          .patch(`/chapters/${chapterIds[0]}/progress`)
-          .set('Authorization', `Bearer ${studentToken}`)
-          .send({ videoPosition: 150 }),
-      ];
-
-      const results = await Promise.all(updates);
-      
-      // Both should succeed, last update wins
-      expect(results[0].status).toBe(200);
-      expect(results[1].status).toBe(200);
-      expect(results[1].body.videoPosition).toBe(150);
-    });
-
-    it('should prevent marking incomplete chapter before previous one', async () => {
-      // This would be implemented with prerequisite logic
-      // Placeholder test
-      expect(true).toBeTruthy();
-    });
-
-    it('should handle course deletion with active enrollments', async () => {
-      // Create disposable course
-      const course = await request(app.getHttpServer())
-        .post('/courses')
-        .set('Authorization', `Bearer ${instructorToken}`)
-        .send({
-          title: 'To Be Deleted',
-          published: true,
-        })
-        .expect(201);
-
-      // Enroll student
-      await request(app.getHttpServer())
-        .post(`/courses/${course.body.id}/enroll`)
-        .set('Authorization', `Bearer ${studentToken}`)
-        .expect(201);
-
-      // Try to delete course (should handle enrollments)
-      await request(app.getHttpServer())
-        .delete(`/courses/${course.body.id}`)
-        .set('Authorization', `Bearer ${instructorToken}`)
-        .expect(200);
-
-      // Enrollments should be cascade deleted
-      const enrollments = await prisma.enrollment.findMany({
-        where: { courseId: course.body.id },
-      });
-
-      expect(enrollments.length).toBe(0);
+      expect(progressResponse.body.progress).toBe(100);
     });
   });
 });

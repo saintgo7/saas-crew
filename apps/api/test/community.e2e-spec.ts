@@ -39,8 +39,9 @@ describe('Community API (e2e)', () => {
         .get('/api/posts')
         .expect(200)
 
-      expect(Array.isArray(response.body)).toBe(true)
-      expect(response.body.length).toBeGreaterThanOrEqual(2)
+      expect(response.body.posts).toBeDefined()
+      expect(Array.isArray(response.body.posts)).toBe(true)
+      expect(response.body.posts.length).toBeGreaterThanOrEqual(2)
     })
 
     it('should filter posts by tags', async () => {
@@ -57,7 +58,7 @@ describe('Community API (e2e)', () => {
         .get('/api/posts?tags=react')
         .expect(200)
 
-      const reactPost = response.body.find((p: any) => p.title === 'React Post')
+      const reactPost = response.body.posts.find((p: any) => p.title === 'React Post')
       expect(reactPost).toBeDefined()
     })
 
@@ -71,7 +72,7 @@ describe('Community API (e2e)', () => {
         .get('/api/posts?search=TypeScript')
         .expect(200)
 
-      expect(response.body.length).toBeGreaterThanOrEqual(1)
+      expect(response.body.posts.length).toBeGreaterThanOrEqual(1)
     })
 
     it('should support pagination', async () => {
@@ -86,7 +87,9 @@ describe('Community API (e2e)', () => {
         .get('/api/posts?page=1&limit=10')
         .expect(200)
 
-      expect(response.body.length).toBeLessThanOrEqual(10)
+      expect(response.body.posts.length).toBeLessThanOrEqual(10)
+      expect(response.body).toHaveProperty('total')
+      expect(response.body).toHaveProperty('totalPages')
     })
   })
 
@@ -94,6 +97,7 @@ describe('Community API (e2e)', () => {
     it('should create post when authenticated', async () => {
       const postData = {
         title: 'My New Post',
+        slug: 'my-new-post-' + Date.now(),
         content: 'This is my post content with **markdown**',
         tags: ['test', 'new'],
       }
@@ -138,6 +142,7 @@ describe('Community API (e2e)', () => {
         .set('Authorization', `Bearer ${user1.token}`)
         .send({
           title: 'How to Learn React in 2024',
+          slug: 'how-to-learn-react-' + Date.now(),
           content: 'Post content',
         })
         .expect(201)
@@ -186,7 +191,7 @@ describe('Community API (e2e)', () => {
         .expect(404)
     })
 
-    it('should include comments and votes', async () => {
+    it('should include comments and votes count', async () => {
       const post = await TestHelpers.createTestPost(user1.id)
       await TestHelpers.createTestComment(post.id, user2.id)
 
@@ -194,8 +199,10 @@ describe('Community API (e2e)', () => {
         .get(`/api/posts/${post.id}`)
         .expect(200)
 
-      expect(response.body).toHaveProperty('comments')
-      expect(Array.isArray(response.body.comments)).toBe(true)
+      // Response includes _count for comments and votes
+      expect(response.body).toHaveProperty('_count')
+      expect(response.body._count).toHaveProperty('comments')
+      expect(response.body._count.comments).toBeGreaterThanOrEqual(1)
     })
   })
 

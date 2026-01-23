@@ -3,7 +3,7 @@
  * Shared utilities for integration tests
  */
 
-import { INestApplication } from '@nestjs/common'
+import { INestApplication, ValidationPipe } from '@nestjs/common'
 import { Test, TestingModule } from '@nestjs/testing'
 import { PrismaService } from '../src/prisma/prisma.service'
 import { AppModule } from '../src/app.module'
@@ -34,6 +34,18 @@ export class TestHelpers {
 
     // Apply same middleware/pipes as main app
     this.app.setGlobalPrefix('api')
+
+    // Apply ValidationPipe for proper request validation
+    this.app.useGlobalPipes(
+      new ValidationPipe({
+        whitelist: true,
+        forbidNonWhitelisted: true,
+        transform: true,
+        transformOptions: {
+          enableImplicitConversion: true,
+        },
+      }),
+    )
 
     await this.app.init()
 
@@ -84,11 +96,12 @@ export class TestHelpers {
       rank: string
     }>,
   ): Promise<TestUser> {
+    const uniqueId = `${Date.now()}-${Math.random().toString(36).substring(2, 9)}`
     const user = await this.prisma.user.create({
       data: {
-        email: data?.email || `test-${Date.now()}@example.com`,
+        email: data?.email || `test-${uniqueId}@example.com`,
         name: data?.name || 'Test User',
-        githubId: data?.githubId || `github-${Date.now()}`,
+        githubId: data?.githubId || `github-${uniqueId}`,
         rank: (data?.rank as any) || 'JUNIOR',
       },
     })
@@ -113,11 +126,12 @@ export class TestHelpers {
    */
   static async createTestUsers(count: number): Promise<TestUser[]> {
     const users: TestUser[] = []
+    const timestamp = Date.now()
     for (let i = 0; i < count; i++) {
       const user = await this.createTestUser({
-        email: `user${i}@example.com`,
+        email: `user${i}-${timestamp}@example.com`,
         name: `User ${i}`,
-        githubId: `github-${i}`,
+        githubId: `github-${i}-${timestamp}`,
       })
       users.push(user)
     }
