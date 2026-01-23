@@ -16,7 +16,8 @@ COPY apps/api/package.json ./apps/api/
 COPY packages/shared/package.json ./packages/shared/
 
 # Install dependencies (production + dev for build)
-RUN pnpm install --frozen-lockfile
+# Use shamefully-hoist for traditional node_modules structure (needed for Prisma)
+RUN pnpm install --frozen-lockfile --shamefully-hoist
 
 # Stage 2: Builder
 FROM node:20-alpine AS builder
