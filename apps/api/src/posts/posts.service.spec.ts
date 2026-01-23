@@ -84,14 +84,12 @@ describe('PostsService', () => {
 
       const result = await service.findAll(query)
 
-      expect(result.data).toHaveLength(2)
-      expect(result.data[0]).toHaveProperty('voteScore')
-      expect(result.meta).toEqual({
-        total: 2,
-        page: 1,
-        limit: 20,
-        totalPages: 1,
-      })
+      expect(result.posts).toHaveLength(2)
+      expect(result.posts[0]).toHaveProperty('voteScore')
+      expect(result.total).toBe(2)
+      expect(result.page).toBe(1)
+      expect(result.pageSize).toBe(20)
+      expect(result.totalPages).toBe(1)
     })
 
     it('should filter by tags', async () => {
@@ -148,7 +146,7 @@ describe('PostsService', () => {
 
       const result = await service.findAll(query)
 
-      expect(result.data[0].voteScore).toBe(0)
+      expect(result.posts[0].voteScore).toBe(0)
     })
   })
 

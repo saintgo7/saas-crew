@@ -2,7 +2,18 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { User as UserIcon, Edit2, Award, Calendar, Github, Trophy } from 'lucide-react'
+import Link from 'next/link'
+import {
+  User as UserIcon,
+  Edit2,
+  Award,
+  Calendar,
+  Github,
+  Trophy,
+  Twitter,
+  Linkedin,
+  Globe,
+} from 'lucide-react'
 import { useUserStore } from '@/store/user-store'
 import { useTranslations, useLanguage } from '@/i18n/LanguageContext'
 import { ProfileForm } from '@/components/profile/ProfileForm'
@@ -192,18 +203,63 @@ export default function ProfilePage() {
               </div>
             </div>
 
-            {/* GitHub Link */}
-            {user.githubId && (
+            {/* Social Links */}
+            {(user.githubId || user.socialLinks?.github || user.socialLinks?.twitter || user.socialLinks?.linkedin || user.socialLinks?.website) && (
               <div className="mt-4 border-t border-gray-200 pt-4 dark:border-gray-700">
-                <a
-                  href={`https://github.com/${user.githubId}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2 text-gray-600 transition-colors hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
-                >
-                  <Github className="h-5 w-5" />
-                  <span>{user.githubId}</span>
-                </a>
+                <div className="flex flex-wrap items-center justify-center gap-4">
+                  {/* GitHub */}
+                  {(user.githubId || user.socialLinks?.github) && (
+                    <a
+                      href={`https://github.com/${user.socialLinks?.github || user.githubId}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 text-gray-600 transition-colors hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+                      title="GitHub"
+                    >
+                      <Github className="h-5 w-5" />
+                      <span className="text-sm">{user.socialLinks?.github || user.githubId}</span>
+                    </a>
+                  )}
+                  {/* Twitter */}
+                  {user.socialLinks?.twitter && (
+                    <a
+                      href={`https://twitter.com/${user.socialLinks.twitter}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 text-gray-600 transition-colors hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+                      title="Twitter / X"
+                    >
+                      <Twitter className="h-5 w-5" />
+                      <span className="text-sm">@{user.socialLinks.twitter}</span>
+                    </a>
+                  )}
+                  {/* LinkedIn */}
+                  {user.socialLinks?.linkedin && (
+                    <a
+                      href={`https://linkedin.com/in/${user.socialLinks.linkedin}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 text-gray-600 transition-colors hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+                      title="LinkedIn"
+                    >
+                      <Linkedin className="h-5 w-5" />
+                      <span className="text-sm">{user.socialLinks.linkedin}</span>
+                    </a>
+                  )}
+                  {/* Website */}
+                  {user.socialLinks?.website && (
+                    <a
+                      href={user.socialLinks.website.startsWith('http') ? user.socialLinks.website : `https://${user.socialLinks.website}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 text-gray-600 transition-colors hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+                      title={t('profile.website')}
+                    >
+                      <Globe className="h-5 w-5" />
+                      <span className="text-sm">{user.socialLinks.website.replace(/^https?:\/\//, '')}</span>
+                    </a>
+                  )}
+                </div>
               </div>
             )}
           </div>
@@ -217,13 +273,21 @@ export default function ProfilePage() {
                 {isEditing ? t('profile.editProfile') : t('profile.details')}
               </h3>
               {!isEditing && (
-                <button
-                  onClick={() => setIsEditing(true)}
-                  className="flex items-center gap-2 rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-50 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700"
-                >
-                  <Edit2 className="h-4 w-4" />
-                  {t('common.edit')}
-                </button>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => setIsEditing(true)}
+                    className="flex items-center gap-2 rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-50 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700"
+                  >
+                    <Edit2 className="h-4 w-4" />
+                    {t('common.edit')}
+                  </button>
+                  <Link
+                    href="/profile/edit"
+                    className="flex items-center gap-2 rounded-lg bg-blue-600 px-3 py-2 text-sm text-white transition-colors hover:bg-blue-700"
+                  >
+                    {t('profile.editProfile')}
+                  </Link>
+                </div>
               )}
             </div>
 

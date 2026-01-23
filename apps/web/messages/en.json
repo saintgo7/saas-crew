@@ -18,7 +18,73 @@
     "joinCrew": "Join the Crew",
     "startNow": "Start Now",
     "wkuStudentOnly": "Open to all Wonkwang University students",
-    "contactAdmin": "Contact the administrator for any inquiries"
+    "contactAdmin": "Contact the administrator for any inquiries",
+    "tryAgain": "Try Again",
+    "goHome": "Go Home",
+    "goBack": "Go Back",
+    "retrying": "Retrying..."
+  },
+  "errors": {
+    "generic": {
+      "title": "Something went wrong",
+      "message": "An unexpected error occurred. Please try again."
+    },
+    "network": {
+      "title": "Connection Error",
+      "message": "Unable to connect. Please check your internet connection and try again."
+    },
+    "server": {
+      "title": "Server Error",
+      "message": "The server encountered an error. Please try again later."
+    },
+    "unauthorized": {
+      "title": "Access Denied",
+      "message": "You do not have permission to access this resource. Please log in or contact support."
+    },
+    "notFound": {
+      "title": "Not Found",
+      "message": "The requested resource could not be found."
+    },
+    "pageNotFound": {
+      "title": "Page Not Found",
+      "message": "The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.",
+      "lookingFor": "Maybe you were looking for:"
+    },
+    "somethingWentWrong": "Oops! Something went wrong",
+    "unexpectedError": "We encountered an unexpected error. Please try again.",
+    "persistProblem": "If this problem persists, please contact support@wku-crew.com.",
+    "errorId": "Error ID"
+  },
+  "toast": {
+    "success": {
+      "saved": "Saved successfully",
+      "deleted": "Deleted successfully",
+      "created": "Created successfully",
+      "updated": "Updated successfully",
+      "enrolled": "Successfully enrolled",
+      "unenrolled": "Successfully unenrolled",
+      "posted": "Posted successfully",
+      "commented": "Comment added",
+      "voted": "Vote recorded"
+    },
+    "error": {
+      "saveFailed": "Failed to save",
+      "deleteFailed": "Failed to delete",
+      "createFailed": "Failed to create",
+      "updateFailed": "Failed to update",
+      "enrollFailed": "Failed to enroll",
+      "loadFailed": "Failed to load",
+      "networkError": "Network error occurred",
+      "unauthorized": "Please log in"
+    },
+    "info": {
+      "processing": "Processing...",
+      "loading": "Loading..."
+    },
+    "warning": {
+      "unsavedChanges": "You have unsaved changes",
+      "sessionExpiring": "Your session is about to expire"
+    }
   },
   "nav": {
     "home": "Home",
@@ -129,6 +195,46 @@
     "notFound": {
       "title": "Project Not Found",
       "description": "The requested project does not exist or has been deleted."
+    },
+    "form": {
+      "name": "Project Name",
+      "namePlaceholder": "Enter project name",
+      "nameRequired": "Project name is required",
+      "nameTooShort": "Project name must be at least 3 characters",
+      "nameTooLong": "Project name cannot exceed 100 characters",
+      "description": "Project Description",
+      "descriptionPlaceholder": "Describe your project",
+      "descriptionRequired": "Project description is required",
+      "descriptionTooShort": "Project description must be at least 10 characters",
+      "visibility": "Visibility",
+      "tags": "Tags (max 10)",
+      "newTagPlaceholder": "Enter new tag...",
+      "suggestedTags": "Suggested tags:",
+      "techStack": "Tech Stack (max 15)",
+      "newTechPlaceholder": "Enter new tech...",
+      "suggestedTech": "Suggested tech:",
+      "githubRepo": "GitHub Repository",
+      "deployUrl": "Deploy URL",
+      "invalidUrl": "Please enter a valid URL",
+      "submitting": "Saving...",
+      "create": "Create Project",
+      "update": "Update Project",
+      "error": "Failed to save project"
+    },
+    "new": {
+      "title": "Create New Project",
+      "subtitle": "Start a new project",
+      "tips": {
+        "title": "Project Writing Tips",
+        "tip1": "Write a clear and specific project name",
+        "tip2": "Describe the purpose and features of your project in detail",
+        "tip3": "Select appropriate tags and tech stack to improve searchability",
+        "tip4": "Link your GitHub repository and deploy URL for portfolio use"
+      }
+    },
+    "edit": {
+      "title": "Edit Project",
+      "backToProject": "Back to Project"
     }
   },
   "courses": {
@@ -248,7 +354,25 @@
       "acceptAnswer": "Accept Answer",
       "views": "views",
       "cancel": "Cancel",
-      "submittingComment": "Submitting..."
+      "submittingComment": "Submitting...",
+      "edit": "Edit",
+      "delete": "Delete",
+      "update": "Update",
+      "edited": "edited",
+      "moreActions": "More actions",
+      "confirmDelete": "Are you sure you want to delete?",
+      "loginToComment": "Please log in to write a comment.",
+      "markdownSupported": "Markdown syntax is supported.",
+      "validation": {
+        "required": "Please enter content.",
+        "minLength": "Please enter at least {min} characters.",
+        "maxLength": "Maximum {max} characters allowed."
+      },
+      "error": {
+        "submitFailed": "Failed to submit comment.",
+        "editFailed": "Failed to edit comment.",
+        "deleteFailed": "Failed to delete comment."
+      }
     },
     "form": {
       "titleLabel": "Title",
@@ -291,7 +415,14 @@
       "projects": "Projects",
       "courses": "Courses",
       "posts": "Posts",
-      "comments": "Comments"
+      "comments": "Comments",
+      "achievements": "Achievements",
+      "coursesEnrolled": "Courses Enrolled",
+      "coursesCompleted": "Courses Completed",
+      "contributions": "Contributions",
+      "daysActive": "Days Active",
+      "streak": "streak",
+      "overview": "Stats Overview"
     },
     "profile": {
       "editProfile": "Edit Profile",
@@ -305,11 +436,20 @@
     },
     "noProjects": "No projects joined yet",
     "noCourses": "No courses enrolled yet",
+    "noActivity": "No recent activity",
+    "noActivityHint": "Start learning courses or contributing to see your activity here",
+    "noAchievements": "Complete activities to earn achievements!",
     "courseProgress": "Course Progress",
     "totalCourses": "{count} courses total",
     "modulesCompleted": "{completed}/{total} modules completed",
     "progress": "Progress",
     "teamMembers": "Team Members",
+    "continueLearning": "Continue Learning",
+    "reviewCourse": "Review Course",
+    "browseCourses": "Browse Courses",
+    "createProject": "Create Project",
+    "viewProject": "View Details",
+    "completed": "Completed",
     "role": {
       "admin": "Admin",
       "mentor": "Mentor",
@@ -328,6 +468,8 @@
     "subtitle": "View and edit your profile information",
     "details": "Profile Details",
     "editProfile": "Edit Profile",
+    "editSubtitle": "Update your profile information and save changes",
+    "backToProfile": "Back to Profile",
     "name": "Name",
     "email": "Email",
     "bio": "Bio",
@@ -339,7 +481,36 @@
     "level": "Level & Experience",
     "joined": "Joined",
     "notSet": "Not set",
-    "imageNote": "Profile image is synced from your GitHub account"
+    "imageNote": "Profile image is synced from GitHub or you can enter a custom URL",
+    "avatarSection": "Profile Image",
+    "avatarUrl": "Image URL",
+    "avatarUrlPlaceholder": "https://example.com/avatar.jpg",
+    "socialLinks": "Social Links",
+    "website": "Website",
+    "socialPlaceholder": {
+      "github": "username",
+      "twitter": "username",
+      "linkedin": "username",
+      "website": "https://example.com"
+    },
+    "saveSuccess": "Profile saved successfully",
+    "saveError": "Failed to save profile",
+    "notAuthenticated": "Authentication required",
+    "helpTitle": "Profile Tips",
+    "helpTip1": "Using your real name makes it easier for other crew members to recognize you",
+    "helpTip2": "Include your interests and tech stack in your bio",
+    "helpTip3": "Adding social links helps you connect with other crew members",
+    "validation": {
+      "nameRequired": "Name is required",
+      "nameMinLength": "Name must be at least 2 characters",
+      "nameMaxLength": "Name cannot exceed 50 characters",
+      "bioMaxLength": "Bio cannot exceed 500 characters",
+      "departmentMaxLength": "Department cannot exceed 100 characters",
+      "invalidUrl": "Please enter a valid URL",
+      "invalidGithub": "Please enter a valid GitHub username",
+      "invalidTwitter": "Please enter a valid Twitter username",
+      "invalidLinkedin": "Please enter a valid LinkedIn profile"
+    }
   },
   "auth": {
     "login": {

@@ -88,7 +88,7 @@ async function bootstrap() {
     : ['http://localhost:3000', 'http://localhost:3001']
 
   app.enableCors({
-    origin: (origin, callback) => {
+    origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
       // Allow requests with no origin (mobile apps, Postman, etc.)
       if (!origin) {
         callback(null, true)

@@ -5,6 +5,7 @@ import type {
   PostFilters,
   CreatePostInput,
   CreateCommentInput,
+  UpdateCommentInput,
   VoteInput,
   Post,
   Comment,
@@ -77,6 +78,23 @@ export const communityApi = {
    */
   async acceptComment(commentId: string): Promise<Comment> {
     return apiClient.post<Comment>(`/api/comments/${commentId}/accept`)
+  },
+
+  /**
+   * Update a comment (author only)
+   */
+  async updateComment(
+    commentId: string,
+    input: UpdateCommentInput
+  ): Promise<Comment> {
+    return apiClient.patch<Comment>(`/api/comments/${commentId}`, input)
+  },
+
+  /**
+   * Delete a comment (author only)
+   */
+  async deleteComment(commentId: string): Promise<void> {
+    return apiClient.delete<void>(`/api/comments/${commentId}`)
   },
 
   /**

@@ -1,389 +1,417 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { getRepositoryToken } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { EnrollmentsService } from './enrollments.service';
-import { Enrollment } from './entities/enrollment.entity';
-import { Course } from '../courses/entities/course.entity';
-import { User } from '../users/entities/user.entity';
-import { NotFoundException, ConflictException, ForbiddenException } from '@nestjs/common';
+import { Test, TestingModule } from '@nestjs/testing'
+import {
+  NotFoundException,
+  ConflictException,
+  BadRequestException,
+} from '@nestjs/common'
+import { EnrollmentsService } from './enrollments.service'
+import { PrismaService } from '../prisma/prisma.service'
 
 describe('EnrollmentsService', () => {
-  let service: EnrollmentsService;
-  let enrollmentRepository: Repository<Enrollment>;
-  let courseRepository: Repository<Course>;
+  let service: EnrollmentsService
+  let prisma: PrismaService
 
-  const mockEnrollmentRepository = {
-    create: jest.fn(),
-    save: jest.fn(),
-    find: jest.fn(),
-    findOne: jest.fn(),
-    delete: jest.fn(),
-    createQueryBuilder: jest.fn(() => ({
-      leftJoinAndSelect: jest.fn().mockReturnThis(),
-      where: jest.fn().mockReturnThis(),
-      andWhere: jest.fn().mockReturnThis(),
-      getOne: jest.fn(),
-      getMany: jest.fn(),
-    })),
-  };
+  const mockPrismaService = {
+    course: {
+      findUnique: jest.fn(),
+    },
+    enrollment: {
+      findUnique: jest.fn(),
+      findMany: jest.fn(),
+      create: jest.fn(),
+      delete: jest.fn(),
+      update: jest.fn(),
+    },
+    progress: {
+      findMany: jest.fn(),
+      deleteMany: jest.fn(),
+    },
+  }
 
-  const mockCourseRepository = {
-    findOne: jest.fn(),
-  };
-
-  const mockUser: Partial<User> = {
-    id: '1',
-    email: 'student@wku.ac.kr',
-    name: 'Test Student',
-  };
-
-  const mockCourse: Partial<Course> = {
-    id: '1',
+  const mockCourse = {
+    id: 'course-1',
     title: 'Test Course',
-    description: 'Test Description',
-    isPublished: true,
-    instructorId: '2',
-  };
+    slug: 'test-course',
+    description: 'A test course',
+    thumbnail: 'https://example.com/thumb.jpg',
+    level: 'JUNIOR',
+    duration: 120,
+    published: true,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  }
 
-  const mockEnrollment: Partial<Enrollment> = {
-    id: '1',
-    userId: '1',
-    courseId: '1',
-    enrolledAt: new Date(),
+  const mockEnrollment = {
+    id: 'enrollment-1',
+    userId: 'user-1',
+    courseId: 'course-1',
     progress: 0,
-    completed: false,
-  };
+    completedAt: null,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  }
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         EnrollmentsService,
         {
-          provide: getRepositoryToken(Enrollment),
-          useValue: mockEnrollmentRepository,
-        },
-        {
-          provide: getRepositoryToken(Course),
-          useValue: mockCourseRepository,
+          provide: PrismaService,
+          useValue: mockPrismaService,
         },
       ],
-    }).compile();
+    }).compile()
 
-    service = module.get<EnrollmentsService>(EnrollmentsService);
-    enrollmentRepository = module.get<Repository<Enrollment>>(
-      getRepositoryToken(Enrollment),
-    );
-    courseRepository = module.get<Repository<Course>>(
-      getRepositoryToken(Course),
-    );
-  });
+    service = module.get<EnrollmentsService>(EnrollmentsService)
+    prisma = module.get<PrismaService>(PrismaService)
 
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
+    jest.clearAllMocks()
+  })
 
   describe('enroll', () => {
-    it('should successfully enroll a user in a course', async () => {
-      mockCourseRepository.findOne.mockResolvedValue(mockCourse);
-      mockEnrollmentRepository.findOne.mockResolvedValue(null);
-      mockEnrollmentRepository.create.mockReturnValue(mockEnrollment);
-      mockEnrollmentRepository.save.mockResolvedValue(mockEnrollment);
+    it('should successfully enroll user in a course', async () => {
+      mockPrismaService.course.findUnique.mockResolvedValue(mockCourse)
+      mockPrismaService.enrollment.findUnique.mockResolvedValue(null)
+      mockPrismaService.enrollment.create.mockResolvedValue({
+        ...mockEnrollment,
+        course: {
+          id: mockCourse.id,
+          title: mockCourse.title,
+          slug: mockCourse.slug,
+          thumbnail: mockCourse.thumbnail,
+          level: mockCourse.level,
+          duration: mockCourse.duration,
+        },
+      })
 
-      const result = await service.enroll('1', '1');
+      const result = await service.enroll('course-1', 'user-1')
 
-      expect(result).toEqual(mockEnrollment);
-      expect(mockCourseRepository.findOne).toHaveBeenCalledWith({
-        where: { id: '1' },
-      });
-      expect(mockEnrollmentRepository.save).toHaveBeenCalled();
-    });
+      expect(result).toMatchObject({
+        userId: 'user-1',
+        courseId: 'course-1',
+      })
+      expect(prisma.course.findUnique).toHaveBeenCalledWith({
+        where: { id: 'course-1' },
+      })
+      expect(prisma.enrollment.create).toHaveBeenCalledWith({
+        data: {
+          userId: 'user-1',
+          courseId: 'course-1',
+        },
+        include: {
+          course: {
+            select: {
+              id: true,
+              title: true,
+              slug: true,
+              thumbnail: true,
+              level: true,
+              duration: true,
+            },
+          },
+        },
+      })
+    })
 
     it('should throw NotFoundException when course does not exist', async () => {
-      mockCourseRepository.findOne.mockResolvedValue(null);
+      mockPrismaService.course.findUnique.mockResolvedValue(null)
 
-      await expect(service.enroll('1', '999')).rejects.toThrow(
+      await expect(service.enroll('non-existent', 'user-1')).rejects.toThrow(
         NotFoundException,
-      );
-    });
+      )
+      await expect(service.enroll('non-existent', 'user-1')).rejects.toThrow(
+        'Course with ID non-existent not found',
+      )
+    })
+
+    it('should throw BadRequestException when course is not published', async () => {
+      mockPrismaService.course.findUnique.mockResolvedValue({
+        ...mockCourse,
+        published: false,
+      })
+
+      await expect(service.enroll('course-1', 'user-1')).rejects.toThrow(
+        BadRequestException,
+      )
+      await expect(service.enroll('course-1', 'user-1')).rejects.toThrow(
+        'Cannot enroll in unpublished course',
+      )
+    })
 
     it('should throw ConflictException when already enrolled', async () => {
-      mockCourseRepository.findOne.mockResolvedValue(mockCourse);
-      mockEnrollmentRepository.findOne.mockResolvedValue(mockEnrollment);
+      mockPrismaService.course.findUnique.mockResolvedValue(mockCourse)
+      mockPrismaService.enrollment.findUnique.mockResolvedValue(mockEnrollment)
 
-      await expect(service.enroll('1', '1')).rejects.toThrow(
+      await expect(service.enroll('course-1', 'user-1')).rejects.toThrow(
         ConflictException,
-      );
-    });
+      )
+      await expect(service.enroll('course-1', 'user-1')).rejects.toThrow(
+        'Already enrolled in this course',
+      )
+    })
+  })
 
-    it('should throw ForbiddenException when enrolling in unpublished course', async () => {
-      const unpublishedCourse = { ...mockCourse, isPublished: false };
-      mockCourseRepository.findOne.mockResolvedValue(unpublishedCourse);
-      mockEnrollmentRepository.findOne.mockResolvedValue(null);
+  describe('cancelEnrollment', () => {
+    it('should successfully cancel enrollment and delete progress', async () => {
+      mockPrismaService.enrollment.findUnique.mockResolvedValue(mockEnrollment)
+      mockPrismaService.progress.deleteMany.mockResolvedValue({ count: 5 })
+      mockPrismaService.enrollment.delete.mockResolvedValue(mockEnrollment)
 
-      await expect(service.enroll('1', '1')).rejects.toThrow(
-        ForbiddenException,
-      );
-    });
+      const result = await service.cancelEnrollment('course-1', 'user-1')
 
-    it('should allow instructor to enroll in own course', async () => {
-      const instructorCourse = { ...mockCourse, instructorId: '1' };
-      mockCourseRepository.findOne.mockResolvedValue(instructorCourse);
-      mockEnrollmentRepository.findOne.mockResolvedValue(null);
-      mockEnrollmentRepository.create.mockReturnValue(mockEnrollment);
-      mockEnrollmentRepository.save.mockResolvedValue(mockEnrollment);
+      expect(result).toEqual({ message: 'Enrollment cancelled successfully' })
+      expect(prisma.progress.deleteMany).toHaveBeenCalledWith({
+        where: {
+          userId: 'user-1',
+          chapter: {
+            courseId: 'course-1',
+          },
+        },
+      })
+      expect(prisma.enrollment.delete).toHaveBeenCalledWith({
+        where: {
+          userId_courseId: {
+            userId: 'user-1',
+            courseId: 'course-1',
+          },
+        },
+      })
+    })
 
-      const result = await service.enroll('1', '1');
+    it('should throw NotFoundException when not enrolled', async () => {
+      mockPrismaService.enrollment.findUnique.mockResolvedValue(null)
 
-      expect(result).toEqual(mockEnrollment);
-    });
-  });
-
-  describe('unenroll', () => {
-    it('should successfully unenroll a user from a course', async () => {
-      mockEnrollmentRepository.findOne.mockResolvedValue(mockEnrollment);
-      mockEnrollmentRepository.delete.mockResolvedValue({ affected: 1 });
-
-      await service.unenroll('1', '1');
-
-      expect(mockEnrollmentRepository.delete).toHaveBeenCalledWith({
-        userId: '1',
-        courseId: '1',
-      });
-    });
-
-    it('should throw NotFoundException when enrollment does not exist', async () => {
-      mockEnrollmentRepository.findOne.mockResolvedValue(null);
-
-      await expect(service.unenroll('1', '999')).rejects.toThrow(
+      await expect(service.cancelEnrollment('course-1', 'user-1')).rejects.toThrow(
         NotFoundException,
-      );
-    });
+      )
+      await expect(service.cancelEnrollment('course-1', 'user-1')).rejects.toThrow(
+        'Not enrolled in this course',
+      )
+    })
+  })
 
-    it('should handle deletion failure gracefully', async () => {
-      mockEnrollmentRepository.findOne.mockResolvedValue(mockEnrollment);
-      mockEnrollmentRepository.delete.mockResolvedValue({ affected: 0 });
+  describe('getCourseProgress', () => {
+    const mockChapters = [
+      { id: 'chapter-1', title: 'Chapter 1', slug: 'chapter-1', order: 1, duration: 30 },
+      { id: 'chapter-2', title: 'Chapter 2', slug: 'chapter-2', order: 2, duration: 45 },
+      { id: 'chapter-3', title: 'Chapter 3', slug: 'chapter-3', order: 3, duration: 60 },
+    ]
 
-      await expect(service.unenroll('1', '1')).rejects.toThrow(
+    const mockEnrollmentWithCourse = {
+      ...mockEnrollment,
+      course: {
+        ...mockCourse,
+        chapters: mockChapters,
+      },
+    }
+
+    it('should return course progress with chapter details', async () => {
+      const mockProgresses = [
+        {
+          chapterId: 'chapter-1',
+          completed: true,
+          lastPosition: 30,
+          completedAt: new Date(),
+          chapter: { id: 'chapter-1', title: 'Chapter 1', order: 1 },
+        },
+        {
+          chapterId: 'chapter-2',
+          completed: false,
+          lastPosition: 20,
+          completedAt: null,
+          chapter: { id: 'chapter-2', title: 'Chapter 2', order: 2 },
+        },
+      ]
+
+      mockPrismaService.enrollment.findUnique.mockResolvedValue(mockEnrollmentWithCourse)
+      mockPrismaService.progress.findMany.mockResolvedValue(mockProgresses)
+      mockPrismaService.enrollment.update.mockResolvedValue({
+        ...mockEnrollment,
+        progress: 33,
+      })
+
+      const result = await service.getCourseProgress('course-1', 'user-1')
+
+      expect(result).toMatchObject({
+        courseId: 'course-1',
+        courseTitle: 'Test Course',
+        totalChapters: 3,
+        completedChapters: 1,
+        progress: 33,
+      })
+      expect(result.chapters).toHaveLength(3)
+      expect(result.chapters[0].completed).toBe(true)
+      expect(result.chapters[1].completed).toBe(false)
+      expect(result.chapters[2].completed).toBe(false)
+    })
+
+    it('should throw NotFoundException when not enrolled', async () => {
+      mockPrismaService.enrollment.findUnique.mockResolvedValue(null)
+
+      await expect(service.getCourseProgress('course-1', 'user-1')).rejects.toThrow(
         NotFoundException,
-      );
-    });
-  });
+      )
+      await expect(service.getCourseProgress('course-1', 'user-1')).rejects.toThrow(
+        'Not enrolled in this course',
+      )
+    })
 
-  describe('findUserEnrollments', () => {
-    it('should return all enrollments for a user', async () => {
-      const enrollments = [mockEnrollment, { ...mockEnrollment, id: '2' }];
-      const queryBuilder = {
-        leftJoinAndSelect: jest.fn().mockReturnThis(),
-        where: jest.fn().mockReturnThis(),
-        andWhere: jest.fn().mockReturnThis(),
-        getMany: jest.fn().mockResolvedValue(enrollments),
-      };
-      mockEnrollmentRepository.createQueryBuilder.mockReturnValue(
-        queryBuilder,
-      );
+    it('should calculate 100% progress when all chapters completed', async () => {
+      const mockProgresses = mockChapters.map((chapter) => ({
+        chapterId: chapter.id,
+        completed: true,
+        lastPosition: chapter.duration,
+        completedAt: new Date(),
+        chapter: { id: chapter.id, title: chapter.title, order: chapter.order },
+      }))
 
-      const result = await service.findUserEnrollments('1');
-
-      expect(result).toEqual(enrollments);
-      expect(queryBuilder.where).toHaveBeenCalledWith('enrollment.userId = :userId', {
-        userId: '1',
-      });
-    });
-
-    it('should filter enrollments by completion status', async () => {
-      const completedEnrollments = [
-        { ...mockEnrollment, completed: true },
-      ];
-      const queryBuilder = {
-        leftJoinAndSelect: jest.fn().mockReturnThis(),
-        where: jest.fn().mockReturnThis(),
-        andWhere: jest.fn().mockReturnThis(),
-        getMany: jest.fn().mockResolvedValue(completedEnrollments),
-      };
-      mockEnrollmentRepository.createQueryBuilder.mockReturnValue(
-        queryBuilder,
-      );
-
-      const result = await service.findUserEnrollments('1', { completed: true });
-
-      expect(result).toEqual(completedEnrollments);
-      expect(queryBuilder.andWhere).toHaveBeenCalledWith(
-        'enrollment.completed = :completed',
-        { completed: true },
-      );
-    });
-
-    it('should return empty array when user has no enrollments', async () => {
-      const queryBuilder = {
-        leftJoinAndSelect: jest.fn().mockReturnThis(),
-        where: jest.fn().mockReturnThis(),
-        andWhere: jest.fn().mockReturnThis(),
-        getMany: jest.fn().mockResolvedValue([]),
-      };
-      mockEnrollmentRepository.createQueryBuilder.mockReturnValue(
-        queryBuilder,
-      );
-
-      const result = await service.findUserEnrollments('999');
-
-      expect(result).toEqual([]);
-    });
-  });
-
-  describe('findEnrollment', () => {
-    it('should return enrollment when it exists', async () => {
-      mockEnrollmentRepository.findOne.mockResolvedValue(mockEnrollment);
-
-      const result = await service.findEnrollment('1', '1');
-
-      expect(result).toEqual(mockEnrollment);
-      expect(mockEnrollmentRepository.findOne).toHaveBeenCalledWith({
-        where: { userId: '1', courseId: '1' },
-      });
-    });
-
-    it('should return null when enrollment does not exist', async () => {
-      mockEnrollmentRepository.findOne.mockResolvedValue(null);
-
-      const result = await service.findEnrollment('1', '999');
-
-      expect(result).toBeNull();
-    });
-  });
-
-  describe('updateProgress', () => {
-    it('should update enrollment progress', async () => {
-      const updatedEnrollment = { ...mockEnrollment, progress: 50 };
-      mockEnrollmentRepository.findOne.mockResolvedValue(mockEnrollment);
-      mockEnrollmentRepository.save.mockResolvedValue(updatedEnrollment);
-
-      const result = await service.updateProgress('1', '1', 50);
-
-      expect(result.progress).toBe(50);
-      expect(mockEnrollmentRepository.save).toHaveBeenCalled();
-    });
-
-    it('should mark enrollment as completed when progress reaches 100', async () => {
-      const completedEnrollment = {
+      mockPrismaService.enrollment.findUnique.mockResolvedValue(mockEnrollmentWithCourse)
+      mockPrismaService.progress.findMany.mockResolvedValue(mockProgresses)
+      mockPrismaService.enrollment.update.mockResolvedValue({
         ...mockEnrollment,
         progress: 100,
-        completed: true,
-        completedAt: expect.any(Date),
-      };
-      mockEnrollmentRepository.findOne.mockResolvedValue(mockEnrollment);
-      mockEnrollmentRepository.save.mockResolvedValue(completedEnrollment);
+        completedAt: new Date(),
+      })
 
-      const result = await service.updateProgress('1', '1', 100);
+      const result = await service.getCourseProgress('course-1', 'user-1')
 
-      expect(result.progress).toBe(100);
-      expect(result.completed).toBe(true);
-      expect(result.completedAt).toBeDefined();
-    });
+      expect(result.progress).toBe(100)
+      expect(result.completedChapters).toBe(3)
+    })
 
-    it('should throw NotFoundException when enrollment does not exist', async () => {
-      mockEnrollmentRepository.findOne.mockResolvedValue(null);
+    it('should update enrollment progress if changed', async () => {
+      mockPrismaService.enrollment.findUnique.mockResolvedValue({
+        ...mockEnrollmentWithCourse,
+        progress: 20,
+      })
+      mockPrismaService.progress.findMany.mockResolvedValue([
+        {
+          chapterId: 'chapter-1',
+          completed: true,
+          lastPosition: 30,
+          completedAt: new Date(),
+          chapter: { id: 'chapter-1', title: 'Chapter 1', order: 1 },
+        },
+      ])
+      mockPrismaService.enrollment.update.mockResolvedValue({
+        ...mockEnrollment,
+        progress: 33,
+      })
 
-      await expect(service.updateProgress('1', '999', 50)).rejects.toThrow(
-        NotFoundException,
-      );
-    });
+      await service.getCourseProgress('course-1', 'user-1')
 
-    it('should not allow progress to exceed 100', async () => {
-      mockEnrollmentRepository.findOne.mockResolvedValue(mockEnrollment);
-      
-      await expect(service.updateProgress('1', '1', 150)).rejects.toThrow();
-    });
+      expect(prisma.enrollment.update).toHaveBeenCalledWith({
+        where: {
+          userId_courseId: {
+            userId: 'user-1',
+            courseId: 'course-1',
+          },
+        },
+        data: {
+          progress: 33,
+          completedAt: null,
+        },
+      })
+    })
+  })
 
-    it('should not allow negative progress', async () => {
-      mockEnrollmentRepository.findOne.mockResolvedValue(mockEnrollment);
-      
-      await expect(service.updateProgress('1', '1', -10)).rejects.toThrow();
-    });
-  });
+  describe('getUserEnrollments', () => {
+    const mockEnrollments = [
+      {
+        id: 'enrollment-1',
+        userId: 'user-1',
+        courseId: 'course-1',
+        progress: 50,
+        completedAt: null,
+        createdAt: new Date('2024-01-01'),
+        course: {
+          id: 'course-1',
+          title: 'Course 1',
+          slug: 'course-1',
+          description: 'Description 1',
+          thumbnail: 'thumb1.jpg',
+          level: 'JUNIOR',
+          duration: 120,
+          _count: { chapters: 10 },
+        },
+      },
+      {
+        id: 'enrollment-2',
+        userId: 'user-1',
+        courseId: 'course-2',
+        progress: 100,
+        completedAt: new Date('2024-01-15'),
+        createdAt: new Date('2024-01-10'),
+        course: {
+          id: 'course-2',
+          title: 'Course 2',
+          slug: 'course-2',
+          description: 'Description 2',
+          thumbnail: 'thumb2.jpg',
+          level: 'SENIOR',
+          duration: 180,
+          _count: { chapters: 15 },
+        },
+      },
+    ]
 
-  describe('getCourseEnrollmentCount', () => {
-    it('should return enrollment count for a course', async () => {
-      const queryBuilder = {
-        where: jest.fn().mockReturnThis(),
-        getCount: jest.fn().mockResolvedValue(42),
-      };
-      mockEnrollmentRepository.createQueryBuilder.mockReturnValue(
-        queryBuilder,
-      );
+    it('should return all user enrollments', async () => {
+      mockPrismaService.enrollment.findMany.mockResolvedValue(mockEnrollments)
 
-      const result = await service.getCourseEnrollmentCount('1');
+      const result = await service.getUserEnrollments('user-1')
 
-      expect(result).toBe(42);
-      expect(queryBuilder.where).toHaveBeenCalledWith('enrollment.courseId = :courseId', {
-        courseId: '1',
-      });
-    });
+      expect(result).toHaveLength(2)
+      expect(result[0]).toMatchObject({
+        courseId: 'course-1',
+        courseTitle: 'Course 1',
+        progress: 50,
+        totalChapters: 10,
+      })
+      expect(result[1]).toMatchObject({
+        courseId: 'course-2',
+        courseTitle: 'Course 2',
+        progress: 100,
+        totalChapters: 15,
+      })
+      expect(prisma.enrollment.findMany).toHaveBeenCalledWith({
+        where: { userId: 'user-1' },
+        orderBy: { createdAt: 'desc' },
+        include: {
+          course: {
+            select: {
+              id: true,
+              title: true,
+              slug: true,
+              description: true,
+              thumbnail: true,
+              level: true,
+              duration: true,
+              _count: {
+                select: {
+                  chapters: true,
+                },
+              },
+            },
+          },
+        },
+      })
+    })
 
-    it('should return 0 when course has no enrollments', async () => {
-      const queryBuilder = {
-        where: jest.fn().mockReturnThis(),
-        getCount: jest.fn().mockResolvedValue(0),
-      };
-      mockEnrollmentRepository.createQueryBuilder.mockReturnValue(
-        queryBuilder,
-      );
+    it('should return empty array when user has no enrollments', async () => {
+      mockPrismaService.enrollment.findMany.mockResolvedValue([])
 
-      const result = await service.getCourseEnrollmentCount('999');
+      const result = await service.getUserEnrollments('user-1')
 
-      expect(result).toBe(0);
-    });
-  });
+      expect(result).toEqual([])
+    })
 
-  describe('isEnrolled', () => {
-    it('should return true when user is enrolled', async () => {
-      mockEnrollmentRepository.findOne.mockResolvedValue(mockEnrollment);
+    it('should include completion status and dates', async () => {
+      mockPrismaService.enrollment.findMany.mockResolvedValue(mockEnrollments)
 
-      const result = await service.isEnrolled('1', '1');
+      const result = await service.getUserEnrollments('user-1')
 
-      expect(result).toBe(true);
-    });
-
-    it('should return false when user is not enrolled', async () => {
-      mockEnrollmentRepository.findOne.mockResolvedValue(null);
-
-      const result = await service.isEnrolled('1', '999');
-
-      expect(result).toBe(false);
-    });
-  });
-
-  describe('bulkEnroll', () => {
-    it('should enroll multiple users in a course', async () => {
-      const userIds = ['1', '2', '3'];
-      mockCourseRepository.findOne.mockResolvedValue(mockCourse);
-      mockEnrollmentRepository.findOne.mockResolvedValue(null);
-      mockEnrollmentRepository.create.mockImplementation((data) => data);
-      mockEnrollmentRepository.save.mockImplementation((enrollment) => 
-        Promise.resolve({ ...enrollment, id: Math.random().toString() })
-      );
-
-      const result = await service.bulkEnroll(userIds, '1');
-
-      expect(result).toHaveLength(3);
-      expect(mockEnrollmentRepository.save).toHaveBeenCalledTimes(3);
-    });
-
-    it('should skip users already enrolled', async () => {
-      const userIds = ['1', '2', '3'];
-      mockCourseRepository.findOne.mockResolvedValue(mockCourse);
-      mockEnrollmentRepository.findOne
-        .mockResolvedValueOnce(mockEnrollment) // User 1 already enrolled
-        .mockResolvedValueOnce(null)           // User 2 not enrolled
-        .mockResolvedValueOnce(null);          // User 3 not enrolled
-      mockEnrollmentRepository.create.mockImplementation((data) => data);
-      mockEnrollmentRepository.save.mockImplementation((enrollment) => 
-        Promise.resolve({ ...enrollment, id: Math.random().toString() })
-      );
-
-      const result = await service.bulkEnroll(userIds, '1');
-
-      expect(result).toHaveLength(2); // Only 2 users enrolled
-      expect(mockEnrollmentRepository.save).toHaveBeenCalledTimes(2);
-    });
-  });
-});
+      expect(result[0].completedAt).toBeNull()
+      expect(result[1].completedAt).toBeDefined()
+    })
+  })
+})

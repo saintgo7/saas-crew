@@ -4,15 +4,26 @@ import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useDashboard } from '@/lib/hooks/use-dashboard'
 import { ProfileWidget } from '@/components/dashboard/ProfileWidget'
-import { MyProjects } from '@/components/dashboard/MyProjects'
-import { CourseProgress } from '@/components/dashboard/CourseProgress'
-import { LevelProgress } from '@/components/dashboard/LevelProgress'
+import { XPProgressWidget } from '@/components/dashboard/XPProgressWidget'
+import { ActivityFeedWidget } from '@/components/dashboard/ActivityFeedWidget'
+import { MyCoursesWidget } from '@/components/dashboard/MyCoursesWidget'
+import { MyProjectsWidget } from '@/components/dashboard/MyProjectsWidget'
+import { StatsOverviewWidget } from '@/components/dashboard/StatsOverviewWidget'
 import { DashboardSkeleton } from '@/components/dashboard/DashboardSkeleton'
 import { AlertCircle } from 'lucide-react'
 import { useTranslations } from '@/i18n/LanguageContext'
 
 export function DashboardClient() {
-  const { user, projects, courseProgress, levelProgress, isLoading, errors } = useDashboard()
+  const {
+    user,
+    projects,
+    courseProgress,
+    levelProgress,
+    activities,
+    stats,
+    isLoading,
+    errors,
+  } = useDashboard()
   const t = useTranslations()
   const router = useRouter()
 
@@ -95,19 +106,29 @@ export function DashboardClient() {
           <ProfileWidget user={user} />
         </div>
 
-        {/* Projects - 2/3 Width on Large Screens */}
-        <div className="lg:col-span-2">
-          <MyProjects projects={projects} />
-        </div>
-
-        {/* Level Progress - 1/3 Width on Large Screens */}
-        <div>
-          <LevelProgress levelProgress={levelProgress} />
-        </div>
-
-        {/* Course Progress - Full Width */}
+        {/* Stats Overview - Full Width */}
         <div className="lg:col-span-3">
-          <CourseProgress courses={courseProgress} />
+          <StatsOverviewWidget stats={stats} />
+        </div>
+
+        {/* XP Progress Widget - 1/3 Width on Large Screens */}
+        <div className="lg:col-span-1">
+          <XPProgressWidget levelProgress={levelProgress} rank={user.rank} />
+        </div>
+
+        {/* Activity Feed - 2/3 Width on Large Screens */}
+        <div className="lg:col-span-2">
+          <ActivityFeedWidget activities={activities} />
+        </div>
+
+        {/* My Courses Widget - Full Width */}
+        <div className="lg:col-span-3">
+          <MyCoursesWidget courses={courseProgress} maxCourses={4} />
+        </div>
+
+        {/* My Projects Widget - Full Width */}
+        <div className="lg:col-span-3">
+          <MyProjectsWidget projects={projects} maxProjects={4} />
         </div>
       </div>
     </div>

@@ -8,9 +8,9 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'
 export const revalidate = 60
 
 interface PageProps {
-  params: {
+  params: Promise<{
     id: string
-  }
+  }>
 }
 
 async function getProject(id: string) {
@@ -36,7 +36,8 @@ async function getProject(id: string) {
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
-  const project = await getProject(params.id)
+  const { id } = await params
+  const project = await getProject(id)
 
   if (!project) {
     return {
@@ -51,7 +52,8 @@ export async function generateMetadata({
 }
 
 export default async function ProjectDetailPage({ params }: PageProps) {
-  const project = await getProject(params.id)
+  const { id } = await params
+  const project = await getProject(id)
 
   if (!project) {
     notFound()

@@ -1,4 +1,11 @@
-import type { ProjectsListResponse, Project } from './types'
+import type {
+  ProjectsListResponse,
+  Project,
+  CreateProjectInput,
+  UpdateProjectInput,
+  ProjectWithOwner,
+} from './types'
+import { apiClient } from './client'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'
 
@@ -44,7 +51,7 @@ export const projectsApi = {
   /**
    * Get single project by ID
    */
-  async getProject(id: string): Promise<Project> {
+  async getProject(id: string): Promise<ProjectWithOwner> {
     const response = await fetch(`${API_URL}/api/projects/${id}`, {
       method: 'GET',
       headers: {
@@ -58,5 +65,26 @@ export const projectsApi = {
     }
 
     return response.json()
+  },
+
+  /**
+   * Create a new project
+   */
+  async createProject(data: CreateProjectInput): Promise<Project> {
+    return apiClient.post<Project>('/api/projects', data)
+  },
+
+  /**
+   * Update an existing project
+   */
+  async updateProject(id: string, data: UpdateProjectInput): Promise<Project> {
+    return apiClient.patch<Project>(`/api/projects/${id}`, data)
+  },
+
+  /**
+   * Delete a project
+   */
+  async deleteProject(id: string): Promise<void> {
+    return apiClient.delete(`/api/projects/${id}`)
   },
 }

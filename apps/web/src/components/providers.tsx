@@ -5,6 +5,7 @@ import { SessionProvider } from 'next-auth/react'
 import { ThemeProvider } from 'next-themes'
 import { useState } from 'react'
 import { LanguageProvider } from '@/i18n/LanguageContext'
+import { ToastProvider } from '@/components/ui/Toast'
 
 /**
  * Performance Optimized Query Client Configuration
@@ -40,7 +41,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
     <SessionProvider>
       <QueryClientProvider client={queryClient}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <LanguageProvider>{children}</LanguageProvider>
+          <LanguageProvider>
+            <ToastProvider>{children}</ToastProvider>
+          </LanguageProvider>
         </ThemeProvider>
       </QueryClientProvider>
     </SessionProvider>

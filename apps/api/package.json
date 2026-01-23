@@ -48,6 +48,9 @@
     "rxjs": "^7.8.1",
     "swagger-ui-express": "^5.0.1"
   },
+  "prisma": {
+    "seed": "ts-node prisma/seed-courses.ts"
+  },
   "devDependencies": {
     "@nestjs/cli": "^10.4.9",
     "@nestjs/testing": "^11.1.12",

@@ -300,8 +300,9 @@ describe('CoursesService', () => {
 
       const result = await service.findById('course-1')
 
-      expect(result).toEqual(courseWithChapters)
-      expect(result.chapters).toHaveLength(2)
+      expect(result.course).toEqual(courseWithChapters)
+      expect(result.course.chapters).toHaveLength(2)
+      expect(result.isEnrolled).toBe(false)
       expect(prisma.course.findUnique).toHaveBeenCalledWith({
         where: { id: 'course-1' },
         include: {

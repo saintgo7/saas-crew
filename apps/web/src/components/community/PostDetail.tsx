@@ -14,21 +14,27 @@ import { useTranslations, useLanguage } from '@/i18n/LanguageContext'
 interface PostDetailProps {
   post: PostWithComments
   currentUserId?: string
+  isCommentsLoading?: boolean
   onVote: (type: 'upvote' | 'downvote') => Promise<void>
   onCommentVote: (commentId: string, type: 'upvote' | 'downvote') => Promise<void>
   onReply: (parentId: string, content: string) => Promise<void>
   onCreateComment: (content: string) => Promise<void>
   onAcceptComment?: (commentId: string) => Promise<void>
+  onEditComment?: (commentId: string, content: string) => Promise<void>
+  onDeleteComment?: (commentId: string) => Promise<void>
 }
 
 export function PostDetail({
   post,
   currentUserId,
+  isCommentsLoading = false,
   onVote,
   onCommentVote,
   onReply,
   onCreateComment,
   onAcceptComment,
+  onEditComment,
+  onDeleteComment,
 }: PostDetailProps) {
   const t = useTranslations()
   const { locale } = useLanguage()
@@ -134,10 +140,13 @@ export function PostDetail({
         postId={post.id}
         postAuthorId={post.authorId}
         currentUserId={currentUserId}
+        isLoading={isCommentsLoading}
         onVote={onCommentVote}
         onReply={onReply}
         onCreateComment={onCreateComment}
         onAccept={isAuthor ? onAcceptComment : undefined}
+        onEdit={onEditComment}
+        onDelete={onDeleteComment}
       />
     </div>
   )

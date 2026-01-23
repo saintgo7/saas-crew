@@ -12,9 +12,11 @@ export interface User {
   experiencePoints: number
   profileImage?: string
   avatar?: string
+  avatarUrl?: string
   githubId?: string
   theme?: string
   language?: string
+  socialLinks?: SocialLinks
   createdAt: string
   updatedAt?: string
 }
@@ -26,6 +28,15 @@ export interface UpdateUserInput {
   grade?: number
   theme?: string
   language?: string
+  avatarUrl?: string
+  socialLinks?: SocialLinks
+}
+
+export interface SocialLinks {
+  github?: string
+  twitter?: string
+  linkedin?: string
+  website?: string
 }
 
 export interface Project {
@@ -56,6 +67,37 @@ export interface ProjectsListResponse {
     page: number
     limit: number
     totalPages: number
+  }
+}
+
+export interface CreateProjectInput {
+  name: string
+  description: string
+  visibility: 'PUBLIC' | 'PRIVATE'
+  tags?: string[]
+  techStack?: string[]
+  githubRepo?: string
+  deployUrl?: string
+  coverImage?: string
+}
+
+export interface UpdateProjectInput {
+  name?: string
+  description?: string
+  visibility?: 'PUBLIC' | 'PRIVATE'
+  tags?: string[]
+  techStack?: string[]
+  githubRepo?: string
+  deployUrl?: string
+  coverImage?: string
+}
+
+export interface ProjectWithOwner extends Project {
+  ownerId: string
+  owner?: {
+    id: string
+    name: string
+    profileImage?: string
   }
 }
 
@@ -247,6 +289,54 @@ export interface CreateCommentInput {
   parentId?: string
 }
 
+export interface UpdateCommentInput {
+  content: string
+}
+
 export interface VoteInput {
   type: 'upvote' | 'downvote'
+}
+
+// Dashboard Activity Feed Types
+export type ActivityType =
+  | 'course_progress'
+  | 'course_completed'
+  | 'post_created'
+  | 'comment_created'
+  | 'project_joined'
+  | 'achievement_earned'
+  | 'level_up'
+
+export interface ActivityItem {
+  id: string
+  type: ActivityType
+  title: string
+  description?: string
+  link?: string
+  createdAt: string
+  metadata?: {
+    courseId?: string
+    postId?: string
+    projectId?: string
+    achievementId?: string
+    progress?: number
+    level?: number
+  }
+}
+
+// Dashboard Stats Types
+export interface DashboardStats {
+  totalCoursesEnrolled: number
+  totalCoursesCompleted: number
+  totalProjects: number
+  totalContributions: number
+  daysActive: number
+  postsCreated?: number
+  commentsCreated?: number
+}
+
+// Extended Dashboard Data
+export interface ExtendedDashboardData extends DashboardData {
+  activities: ActivityItem[]
+  stats: DashboardStats
 }

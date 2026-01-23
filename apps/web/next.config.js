@@ -8,7 +8,6 @@ const nextConfig = {
   output: 'standalone',
   
   // Production optimizations
-  swcMinify: true, // Use SWC minifier (faster than Terser)
   compress: true,  // Enable gzip compression
   
   // Remove console logs in production
@@ -50,8 +49,6 @@ const nextConfig = {
       '@radix-ui/react-icons',
       'react-hook-form',
     ],
-    // Enable optimized font loading
-    optimizeFonts: true,
   },
   
   // Performance & Security: Configure headers for caching and security

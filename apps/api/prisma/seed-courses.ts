@@ -1,396 +1,342 @@
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient, CourseLevel } from '@prisma/client'
+import * as fs from 'fs'
+import * as path from 'path'
 
 const prisma = new PrismaClient()
 
-// Frontend Courses (10)
-const frontendCourses = [
-  {
-    id: 'frontend-01',
-    title: 'HTML/CSS 기초: 웹 페이지의 구조와 스타일',
-    description: '웹 개발의 근간이 되는 HTML과 CSS를 체계적으로 학습합니다. 시맨틱 마크업의 중요성을 이해하고, CSS 선택자와 박스 모델을 활용하여 기본적인 웹 페이지를 제작할 수 있는 능력을 기릅니다.',
-    level: 'JUNIOR',
-    duration: 16,
-    category: 'FRONTEND',
-    topics: ['HTML5 시맨틱 태그와 문서 구조', 'CSS 선택자와 우선순위', '박스 모델과 레이아웃 기초', '폼 요소와 테이블 마크업'],
-    prerequisites: [],
-    order: 1,
-  },
-  {
-    id: 'frontend-02',
-    title: 'JavaScript 기초: 프로그래밍 사고력 키우기',
-    description: 'JavaScript의 핵심 문법과 프로그래밍 기초 개념을 학습합니다. 변수, 함수, 조건문, 반복문 등 기본 문법을 익히고, DOM 조작을 통해 동적인 웹 페이지를 만드는 방법을 배웁니다.',
-    level: 'JUNIOR',
-    duration: 20,
-    category: 'FRONTEND',
-    topics: ['변수, 자료형, 연산자', '함수와 스코프', '배열과 객체 다루기', 'DOM 선택과 조작', '이벤트 처리 기초'],
-    prerequisites: ['frontend-01'],
-    order: 2,
-  },
-  {
-    id: 'frontend-03',
-    title: '반응형 웹 디자인과 CSS 심화',
-    description: '다양한 디바이스에 대응하는 반응형 웹 디자인 기법을 학습합니다. Flexbox와 Grid를 활용한 현대적인 레이아웃 구성과 미디어 쿼리를 통한 적응형 디자인을 익힙니다.',
-    level: 'JUNIOR',
-    duration: 18,
-    category: 'FRONTEND',
-    topics: ['Flexbox 레이아웃 마스터', 'CSS Grid 시스템', '미디어 쿼리와 브레이크포인트', 'CSS 변수와 전처리기 기초', '모바일 퍼스트 접근법'],
-    prerequisites: ['frontend-01'],
-    order: 3,
-  },
-  {
-    id: 'frontend-04',
-    title: 'React 기초: 컴포넌트 기반 UI 개발',
-    description: 'React의 핵심 개념인 컴포넌트, JSX, Props, State를 학습합니다. 함수형 컴포넌트와 기본 Hooks를 활용하여 재사용 가능한 UI 컴포넌트를 설계하고 구현하는 방법을 익힙니다.',
-    level: 'SENIOR',
-    duration: 24,
-    category: 'FRONTEND',
-    topics: ['JSX와 컴포넌트 구조', 'Props와 State 관리', 'useState와 useEffect Hooks', '조건부 렌더링과 리스트', '이벤트 핸들링'],
-    prerequisites: ['frontend-02', 'frontend-03'],
-    order: 4,
-  },
-  {
-    id: 'frontend-05',
-    title: '상태 관리와 React 심화',
-    description: '복잡한 애플리케이션의 상태를 효율적으로 관리하는 방법을 학습합니다. Context API, useReducer, 그리고 Zustand와 같은 상태 관리 라이브러리를 활용하여 확장 가능한 상태 관리 패턴을 구현합니다.',
-    level: 'SENIOR',
-    duration: 22,
-    category: 'FRONTEND',
-    topics: ['Context API와 Provider 패턴', 'useReducer를 활용한 복잡한 상태 관리', 'Zustand 상태 관리 라이브러리', '커스텀 Hooks 설계', '상태 정규화와 최적화'],
-    prerequisites: ['frontend-04'],
-    order: 5,
-  },
-  {
-    id: 'frontend-06',
-    title: 'API 통신과 비동기 처리',
-    description: 'REST API와의 통신 방법과 비동기 데이터 처리 패턴을 학습합니다. Fetch API, Axios, TanStack Query를 활용하여 서버 상태를 효율적으로 관리하고, 로딩과 에러 상태를 처리하는 방법을 익힙니다.',
-    level: 'SENIOR',
-    duration: 20,
-    category: 'FRONTEND',
-    topics: ['Promise와 async/await 심화', 'Fetch API와 Axios 활용', 'TanStack Query 기초', '로딩, 에러, 캐싱 전략', '낙관적 업데이트 패턴'],
-    prerequisites: ['frontend-04'],
-    order: 6,
-  },
-  {
-    id: 'frontend-07',
-    title: 'TypeScript로 견고한 프론트엔드 만들기',
-    description: 'TypeScript를 활용하여 타입 안전한 프론트엔드 코드를 작성하는 방법을 학습합니다. 인터페이스, 제네릭, 유틸리티 타입 등을 익히고, React 프로젝트에 TypeScript를 적용하는 실전 기법을 배웁니다.',
-    level: 'MASTER',
-    duration: 24,
-    category: 'FRONTEND',
-    topics: ['타입 시스템과 인터페이스', '제네릭과 유틸리티 타입', 'React 컴포넌트 타이핑', '타입 가드와 좁히기', 'API 응답 타입 정의'],
-    prerequisites: ['frontend-05', 'frontend-06'],
-    order: 7,
-  },
-  {
-    id: 'frontend-08',
-    title: 'Next.js로 풀스택 애플리케이션 구축',
-    description: 'Next.js의 핵심 기능인 서버 컴포넌트, App Router, 데이터 페칭 전략을 학습합니다. SEO 최적화, 이미지 최적화, 미들웨어 등을 활용하여 프로덕션 레벨의 웹 애플리케이션을 구축하는 방법을 익힙니다.',
-    level: 'MASTER',
-    duration: 28,
-    category: 'FRONTEND',
-    topics: ['App Router와 레이아웃 시스템', '서버 컴포넌트와 클라이언트 컴포넌트', '데이터 페칭과 캐싱 전략', 'Server Actions', '배포와 환경 설정'],
-    prerequisites: ['frontend-07'],
-    order: 8,
-  },
-  {
-    id: 'frontend-09',
-    title: '프론트엔드 테스팅 전략',
-    description: '안정적인 프론트엔드 애플리케이션을 위한 테스팅 전략을 학습합니다. Jest, React Testing Library, Playwright를 활용하여 단위 테스트, 통합 테스트, E2E 테스트를 작성하고, 테스트 주도 개발 방법론을 익힙니다.',
-    level: 'MASTER',
-    duration: 22,
-    category: 'FRONTEND',
-    topics: ['Jest와 단위 테스트 작성', 'React Testing Library 활용', '컴포넌트 통합 테스트', 'Playwright E2E 테스트', '테스트 커버리지와 CI 연동'],
-    prerequisites: ['frontend-07'],
-    order: 9,
-  },
-  {
-    id: 'frontend-10',
-    title: '프론트엔드 성능 최적화와 접근성',
-    description: '웹 성능 최적화 기법과 접근성 표준을 학습합니다. Core Web Vitals 지표를 이해하고, 코드 스플리팅, 이미지 최적화, 메모이제이션 등의 기법을 적용합니다. WCAG 가이드라인을 준수하는 접근성 높은 웹을 만드는 방법을 익힙니다.',
-    level: 'MASTER',
-    duration: 20,
-    category: 'FRONTEND',
-    topics: ['Core Web Vitals 분석과 개선', '코드 스플리팅과 지연 로딩', 'React 메모이제이션 전략', '이미지와 폰트 최적화', 'WCAG 접근성 가이드라인 적용'],
-    prerequisites: ['frontend-08', 'frontend-09'],
-    order: 10,
-  },
-]
-
-// Backend Courses (10)
-const backendCourses = [
-  {
-    id: 'backend-01',
-    title: 'Node.js 기초와 JavaScript 런타임 이해',
-    description: 'Node.js의 핵심 개념인 이벤트 루프, 비동기 프로그래밍, 모듈 시스템을 학습합니다. npm을 활용한 패키지 관리와 기본적인 파일 시스템 조작을 다룹니다.',
-    level: 'JUNIOR',
-    duration: 16,
-    category: 'BACKEND',
-    topics: ['Node.js 아키텍처와 이벤트 루프', '비동기 프로그래밍 (Callbacks, Promises, async/await)', 'CommonJS와 ES Modules', 'npm과 패키지 관리', '파일 시스템과 스트림'],
-    prerequisites: [],
-    order: 1,
-  },
-  {
-    id: 'backend-02',
-    title: 'Express.js로 웹 서버 구축하기',
-    description: 'Express.js 프레임워크를 사용하여 웹 서버를 구축하는 방법을 학습합니다. 라우팅, 미들웨어 패턴, 템플릿 엔진 사용법을 익힙니다.',
-    level: 'JUNIOR',
-    duration: 20,
-    category: 'BACKEND',
-    topics: ['Express.js 설치와 기본 구조', '라우팅과 라우터 모듈화', '미들웨어 개념과 활용', '요청/응답 객체 다루기', '에러 핸들링과 로깅'],
-    prerequisites: ['backend-01'],
-    order: 2,
-  },
-  {
-    id: 'backend-03',
-    title: 'RESTful API 설계와 구현',
-    description: 'REST 아키텍처 원칙에 따른 API 설계 방법론을 학습합니다. HTTP 메서드, 상태 코드, 리소스 설계 및 API 문서화 도구 활용법을 다룹니다.',
-    level: 'JUNIOR',
-    duration: 24,
-    category: 'BACKEND',
-    topics: ['REST 아키텍처 원칙과 제약조건', 'HTTP 메서드와 상태 코드 활용', '리소스 URI 설계 패턴', '요청 검증과 데이터 직렬화', 'Swagger/OpenAPI를 통한 API 문서화'],
-    prerequisites: ['backend-02'],
-    order: 3,
-  },
-  {
-    id: 'backend-04',
-    title: 'NestJS 프레임워크 마스터하기',
-    description: 'TypeScript 기반의 NestJS 프레임워크를 활용한 엔터프라이즈급 애플리케이션 개발을 학습합니다. 모듈, 컨트롤러, 프로바이더 패턴과 의존성 주입을 다룹니다.',
-    level: 'SENIOR',
-    duration: 28,
-    category: 'BACKEND',
-    topics: ['NestJS 아키텍처와 모듈 시스템', '컨트롤러와 프로바이더', '의존성 주입(DI)과 IoC 컨테이너', '파이프, 가드, 인터셉터', 'TypeORM/Prisma 통합'],
-    prerequisites: ['backend-03'],
-    order: 4,
-  },
-  {
-    id: 'backend-05',
-    title: '인증과 인가 시스템 구현',
-    description: 'JWT, OAuth 2.0, Session 기반 인증 시스템을 설계하고 구현하는 방법을 학습합니다. RBAC 기반 권한 관리와 보안 모범 사례를 다룹니다.',
-    level: 'SENIOR',
-    duration: 24,
-    category: 'BACKEND',
-    topics: ['세션 기반 vs 토큰 기반 인증', 'JWT 구조와 구현', 'OAuth 2.0과 소셜 로그인', 'RBAC/ABAC 권한 관리', '보안 취약점과 방어 전략'],
-    prerequisites: ['backend-04'],
-    order: 5,
-  },
-  {
-    id: 'backend-06',
-    title: '파일 처리와 클라우드 스토리지 연동',
-    description: '멀티파트 파일 업로드, 이미지 처리, 클라우드 스토리지 연동을 학습합니다. 대용량 파일 스트리밍과 CDN 활용 전략을 다룹니다.',
-    level: 'SENIOR',
-    duration: 20,
-    category: 'BACKEND',
-    topics: ['Multer를 활용한 파일 업로드', '이미지 리사이징과 최적화', 'AWS S3/MinIO 연동', '대용량 파일 스트리밍', 'CDN 구성과 캐싱 전략'],
-    prerequisites: ['backend-04'],
-    order: 6,
-  },
-  {
-    id: 'backend-07',
-    title: '마이크로서비스 아키텍처 설계',
-    description: '모놀리식에서 마이크로서비스로의 전환 전략과 설계 패턴을 학습합니다. 서비스 간 통신, 데이터 일관성, 분산 트랜잭션 처리를 다룹니다.',
-    level: 'MASTER',
-    duration: 32,
-    category: 'BACKEND',
-    topics: ['마이크로서비스 설계 원칙', '서비스 분리 전략과 도메인 주도 설계', '동기/비동기 통신 (gRPC, 메시지 큐)', 'API Gateway와 서비스 메시', '분산 트랜잭션과 Saga 패턴'],
-    prerequisites: ['backend-05', 'backend-06'],
-    order: 7,
-  },
-  {
-    id: 'backend-08',
-    title: 'Docker와 컨테이너 오케스트레이션',
-    description: 'Docker를 활용한 애플리케이션 컨테이너화와 Kubernetes 기반 오케스트레이션을 학습합니다. 컨테이너 네트워킹, 볼륨 관리, 스케일링 전략을 다룹니다.',
-    level: 'MASTER',
-    duration: 28,
-    category: 'BACKEND',
-    topics: ['Docker 이미지 빌드와 최적화', 'Docker Compose를 활용한 멀티 컨테이너', 'Kubernetes 핵심 개념 (Pod, Service, Deployment)', 'Helm 차트와 패키지 관리', '모니터링과 로그 수집'],
-    prerequisites: ['backend-07'],
-    order: 8,
-  },
-  {
-    id: 'backend-09',
-    title: 'CI/CD 파이프라인 구축',
-    description: 'GitHub Actions, GitLab CI를 활용한 자동화된 빌드, 테스트, 배포 파이프라인을 구축합니다. 블루-그린 배포, 카나리 배포 전략을 학습합니다.',
-    level: 'MASTER',
-    duration: 24,
-    category: 'BACKEND',
-    topics: ['CI/CD 개념과 파이프라인 설계', 'GitHub Actions 워크플로우 작성', '자동화된 테스트와 품질 게이트', '배포 전략 (Rolling, Blue-Green, Canary)', '인프라 as 코드 (Terraform 기초)'],
-    prerequisites: ['backend-08'],
-    order: 9,
-  },
-  {
-    id: 'backend-10',
-    title: '대규모 시스템 설계와 성능 최적화',
-    description: '대규모 트래픽을 처리하는 시스템 설계 원칙과 성능 최적화 기법을 학습합니다. 캐싱 전략, 데이터베이스 샤딩, 로드 밸런싱을 다룹니다.',
-    level: 'MASTER',
-    duration: 36,
-    category: 'BACKEND',
-    topics: ['확장성 있는 시스템 아키텍처', '캐싱 계층 설계 (Redis, CDN)', '데이터베이스 복제와 샤딩', '메시지 큐와 이벤트 소싱', '성능 모니터링과 병목 분석'],
-    prerequisites: ['backend-07', 'backend-09'],
-    order: 10,
-  },
-]
-
-// Database Courses (10)
-const databaseCourses = [
-  {
-    id: 'database-01',
-    title: 'SQL 기초와 데이터베이스 개념',
-    description: '데이터베이스의 기본 개념과 SQL 문법을 학습합니다. SELECT, INSERT, UPDATE, DELETE 등 기본 CRUD 작업을 실습하며 데이터 조작의 기초를 다집니다.',
-    level: 'JUNIOR',
-    duration: 12,
-    category: 'DATABASE',
-    topics: ['데이터베이스 기본 개념', 'SQL SELECT 문법', '데이터 조작 (INSERT, UPDATE, DELETE)', 'WHERE 조건절과 연산자', '정렬과 제한 (ORDER BY, LIMIT)'],
-    prerequisites: [],
-    order: 1,
-  },
-  {
-    id: 'database-02',
-    title: '관계형 데이터베이스 설계',
-    description: '정규화 이론과 ERD 설계 방법론을 학습합니다. 테이블 간의 관계를 정의하고 외래키 제약조건을 활용한 데이터 무결성 유지 방법을 익힙니다.',
-    level: 'JUNIOR',
-    duration: 15,
-    category: 'DATABASE',
-    topics: ['정규화 (1NF, 2NF, 3NF)', 'ERD 설계와 표기법', '기본키와 외래키', '테이블 관계 (1:1, 1:N, N:M)', '데이터 무결성 제약조건'],
-    prerequisites: ['database-01'],
-    order: 2,
-  },
-  {
-    id: 'database-03',
-    title: 'PostgreSQL 설치와 환경 구성',
-    description: 'PostgreSQL 데이터베이스 서버 설치 및 초기 설정을 다룹니다. psql CLI 도구 사용법과 기본 관리 명령어, 사용자 권한 관리를 실습합니다.',
-    level: 'JUNIOR',
-    duration: 10,
-    category: 'DATABASE',
-    topics: ['PostgreSQL 설치 및 설정', 'psql CLI 도구 활용', '데이터베이스 및 스키마 생성', '사용자 생성과 권한 관리', 'pg_dump를 활용한 백업'],
-    prerequisites: ['database-01'],
-    order: 3,
-  },
-  {
-    id: 'database-04',
-    title: '고급 SQL 쿼리 작성',
-    description: 'JOIN, 서브쿼리, 집계 함수를 활용한 복잡한 데이터 조회 기법을 학습합니다. 윈도우 함수와 CTE를 사용하여 분석 쿼리를 작성하는 방법을 익힙니다.',
-    level: 'SENIOR',
-    duration: 18,
-    category: 'DATABASE',
-    topics: ['다양한 JOIN 유형 (INNER, LEFT, RIGHT, FULL)', '서브쿼리와 상관 서브쿼리', '집계 함수와 GROUP BY', '윈도우 함수 (ROW_NUMBER, RANK, LAG, LEAD)', 'CTE (Common Table Expression)'],
-    prerequisites: ['database-02', 'database-03'],
-    order: 4,
-  },
-  {
-    id: 'database-05',
-    title: '인덱스와 쿼리 최적화 기초',
-    description: '인덱스의 원리와 종류를 이해하고 EXPLAIN을 활용한 실행 계획 분석 방법을 학습합니다. 쿼리 성능을 개선하기 위한 기본적인 최적화 기법을 실습합니다.',
-    level: 'SENIOR',
-    duration: 15,
-    category: 'DATABASE',
-    topics: ['B-Tree 인덱스 원리', '인덱스 생성과 관리', 'EXPLAIN ANALYZE 분석', '인덱스 스캔 vs 시퀀스 스캔', '복합 인덱스 설계'],
-    prerequisites: ['database-04'],
-    order: 5,
-  },
-  {
-    id: 'database-06',
-    title: 'Prisma ORM 실무 활용',
-    description: 'Prisma ORM을 사용한 타입 안전한 데이터베이스 접근 방법을 학습합니다. 스키마 정의, 마이그레이션, CRUD 작업 및 관계 데이터 처리를 실습합니다.',
-    level: 'SENIOR',
-    duration: 16,
-    category: 'DATABASE',
-    topics: ['Prisma 스키마 정의와 모델링', '마이그레이션 관리', 'Prisma Client CRUD 작업', '관계 데이터 조회 (include, select)', '트랜잭션 처리'],
-    prerequisites: ['database-04'],
-    order: 6,
-  },
-  {
-    id: 'database-07',
-    title: '데이터베이스 성능 최적화 심화',
-    description: '대용량 데이터 처리를 위한 고급 최적화 기법을 다룹니다. 파티셔닝, 커넥션 풀링, 쿼리 튜닝 전략을 통해 프로덕션 수준의 성능을 달성하는 방법을 학습합니다.',
-    level: 'MASTER',
-    duration: 20,
-    category: 'DATABASE',
-    topics: ['테이블 파티셔닝 (Range, List, Hash)', '커넥션 풀링 (PgBouncer)', '쿼리 플래너 통계와 VACUUM', '벌크 INSERT 최적화', '메모리 및 디스크 I/O 튜닝'],
-    prerequisites: ['database-05', 'database-06'],
-    order: 7,
-  },
-  {
-    id: 'database-08',
-    title: '데이터베이스 복제와 고가용성',
-    description: 'PostgreSQL 스트리밍 복제를 활용한 고가용성 아키텍처를 구성합니다. Primary-Replica 구조, 자동 페일오버, 로드 밸런싱 전략을 실습합니다.',
-    level: 'MASTER',
-    duration: 18,
-    category: 'DATABASE',
-    topics: ['스트리밍 복제 설정', '동기 vs 비동기 복제', '자동 페일오버 (Patroni)', '읽기 부하 분산', '복제 지연 모니터링'],
-    prerequisites: ['database-07'],
-    order: 8,
-  },
-  {
-    id: 'database-09',
-    title: 'NoSQL 데이터베이스와 Redis',
-    description: 'NoSQL 데이터베이스의 특성과 사용 사례를 학습합니다. Redis를 활용한 캐싱, 세션 관리, 메시지 큐 구현 및 MongoDB 기초를 다룹니다.',
-    level: 'MASTER',
-    duration: 16,
-    category: 'DATABASE',
-    topics: ['NoSQL vs RDBMS 비교', 'Redis 자료구조와 명령어', '캐싱 전략 (Cache-Aside, Write-Through)', 'Redis Pub/Sub과 Stream', 'MongoDB 문서 모델 기초'],
-    prerequisites: ['database-05'],
-    order: 9,
-  },
-  {
-    id: 'database-10',
-    title: '엔터프라이즈 데이터 모델링',
-    description: '대규모 시스템을 위한 데이터 모델링 전략을 학습합니다. 멀티테넌시 설계, 이벤트 소싱, CQRS 패턴 및 데이터 웨어하우스 설계 기법을 다룹니다.',
-    level: 'MASTER',
-    duration: 22,
-    category: 'DATABASE',
-    topics: ['멀티테넌시 데이터 모델', '이벤트 소싱과 CQRS', '스타 스키마와 스노우플레이크 스키마', '시계열 데이터 모델링', '데이터 아카이빙 전략'],
-    prerequisites: ['database-07', 'database-09'],
-    order: 10,
-  },
-]
-
-const allCourses = [...frontendCourses, ...backendCourses, ...databaseCourses]
-
-async function seedCourses() {
-  console.log('Seeding courses...')
-
-  for (const course of allCourses) {
-    const slug = course.id // Use id as slug
-    await prisma.course.upsert({
-      where: { slug },
-      update: {
-        title: course.title,
-        description: course.description,
-        level: course.level as 'JUNIOR' | 'SENIOR' | 'MASTER',
-        duration: course.duration,
-        category: course.category,
-        topics: course.topics,
-        prerequisites: course.prerequisites,
-        order: course.order,
-        published: true,
-      },
-      create: {
-        slug,
-        title: course.title,
-        description: course.description,
-        level: course.level as 'JUNIOR' | 'SENIOR' | 'MASTER',
-        duration: course.duration,
-        category: course.category,
-        topics: course.topics,
-        prerequisites: course.prerequisites,
-        order: course.order,
-        published: true,
-      },
-    })
-    console.log(`  - ${slug}: ${course.title}`)
-  }
-
-  console.log(`\nSeeded ${allCourses.length} courses successfully!`)
-  console.log(`  - Frontend: ${frontendCourses.length}`)
-  console.log(`  - Backend: ${backendCourses.length}`)
-  console.log(`  - Database: ${databaseCourses.length}`)
+interface Chapter {
+  title: string
+  slug: string
+  order: number
+  duration: number
+  videoUrl: string
+  content: string
 }
 
-seedCourses()
-  .catch((e) => {
-    console.error(e)
-    process.exit(1)
-  })
-  .finally(async () => {
-    await prisma.$disconnect()
-  })
+interface Course {
+  title: string
+  slug: string
+  description: string
+  level: CourseLevel
+  duration: number
+  published: boolean
+  featured: boolean
+  category: string
+  tags: string[]
+  topics: string[]
+  chapters: Chapter[]
+}
+
+const courses: Course[] = [
+  {
+    title: "Git & GitHub 완전 정복",
+    slug: "git-github-mastery",
+    description: "Git과 GitHub를 활용한 버전 관리와 협업 워크플로우를 마스터합니다. 실무에서 사용하는 브랜치 전략, Pull Request 워크플로우, 코드 리뷰 프로세스를 경험합니다.",
+    level: CourseLevel.JUNIOR,
+    duration: 8,
+    published: true,
+    featured: true,
+    category: "DevOps",
+    tags: ["Git", "GitHub", "Version Control", "Collaboration"],
+    topics: ["Git 기초 명령어", "브랜치 전략", "Pull Request", "코드 리뷰"],
+    chapters: [
+      {
+        title: "Git 소개와 설치",
+        slug: "intro-and-setup",
+        order: 1,
+        duration: 15,
+        videoUrl: "https://www.youtube.com/watch?v=HkdAHXoRtos",
+        content: "# Git 소개와 설치\n\nGit은 분산 버전 관리 시스템(DVCS)입니다.\n\n## 설치\n- macOS: brew install git\n- Windows: git-scm.com에서 다운로드\n- Linux: sudo apt install git\n\n## 초기 설정\ngit config --global user.name \"Your Name\"\ngit config --global user.email \"your@email.com\""
+      },
+      {
+        title: "Git 기본 명령어",
+        slug: "basic-commands",
+        order: 2,
+        duration: 25,
+        videoUrl: "https://www.youtube.com/watch?v=HVsySz-h9r4",
+        content: "# Git 기본 명령어\n\n## 저장소 생성\ngit init\ngit clone <url>\n\n## 변경사항 추적\ngit status\ngit add .\ngit commit -m \"message\"\n\n## 커밋 규칙 (Conventional Commits)\n- feat: 새 기능\n- fix: 버그 수정\n- docs: 문서\n- refactor: 리팩토링"
+      },
+      {
+        title: "브랜치와 병합",
+        slug: "branching-and-merging",
+        order: 3,
+        duration: 30,
+        videoUrl: "https://www.youtube.com/watch?v=e2IbNHi4uCI",
+        content: "# 브랜치와 병합\n\n## 브랜치 명령어\ngit branch\ngit checkout -b feature/name\ngit merge feature/name\n\n## Git Flow 전략\n- main: 프로덕션\n- develop: 개발\n- feature/*: 기능 개발\n- hotfix/*: 긴급 수정"
+      },
+      {
+        title: "GitHub 협업",
+        slug: "github-workflow",
+        order: 4,
+        duration: 35,
+        videoUrl: "https://www.youtube.com/watch?v=8lGpZkjnkt4",
+        content: "# GitHub 협업\n\n## Fork & PR 워크플로우\n1. Fork 저장소\n2. Clone 후 작업\n3. Push 후 PR 생성\n\n## 좋은 PR 작성\n- 명확한 제목\n- 변경 이유 설명\n- 스크린샷 첨부"
+      }
+    ]
+  },
+  {
+    title: "HTML/CSS 웹 기초",
+    slug: "html-css-fundamentals",
+    description: "웹 개발의 기초인 HTML과 CSS를 배웁니다. 시맨틱 마크업, Flexbox, Grid, 반응형 디자인을 학습합니다.",
+    level: CourseLevel.JUNIOR,
+    duration: 12,
+    published: true,
+    featured: true,
+    category: "Frontend",
+    tags: ["HTML", "CSS", "Web", "Frontend"],
+    topics: ["HTML5 시맨틱", "CSS 선택자", "Flexbox", "반응형 웹"],
+    chapters: [
+      {
+        title: "HTML 기초",
+        slug: "html-basics",
+        order: 1,
+        duration: 30,
+        videoUrl: "https://www.youtube.com/watch?v=UB1O30fR-EE",
+        content: "# HTML 기초\n\n## 문서 구조\n<!DOCTYPE html>\n<html><head><title>제목</title></head><body></body></html>\n\n## 시맨틱 태그\nheader, nav, main, article, section, aside, footer"
+      },
+      {
+        title: "CSS 기초",
+        slug: "css-basics",
+        order: 2,
+        duration: 35,
+        videoUrl: "https://www.youtube.com/watch?v=yfoY53QXEnI",
+        content: "# CSS 기초\n\n## 선택자\np { } / .class { } / #id { }\n\n## 박스 모델\nwidth, height, padding, border, margin"
+      },
+      {
+        title: "Flexbox 레이아웃",
+        slug: "flexbox-layout",
+        order: 3,
+        duration: 40,
+        videoUrl: "https://www.youtube.com/watch?v=fYq5PXgSsbE",
+        content: "# Flexbox\n\ndisplay: flex;\njustify-content: center;\nalign-items: center;\nflex-direction: row | column;\ngap: 1rem;"
+      },
+      {
+        title: "반응형 디자인",
+        slug: "responsive-design",
+        order: 4,
+        duration: 45,
+        videoUrl: "https://www.youtube.com/watch?v=srvUrASNj0s",
+        content: "# 반응형 웹\n\n## 미디어 쿼리\n@media (min-width: 768px) { }\n@media (min-width: 1024px) { }\n\n## 뷰포트\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">"
+      }
+    ]
+  },
+  {
+    title: "JavaScript 프로그래밍",
+    slug: "javascript-programming",
+    description: "JavaScript의 핵심 개념과 ES6+ 문법을 배웁니다. 변수, 함수, 객체, 비동기 프로그래밍을 학습합니다.",
+    level: CourseLevel.JUNIOR,
+    duration: 20,
+    published: true,
+    featured: true,
+    category: "Frontend",
+    tags: ["JavaScript", "ES6", "Programming"],
+    topics: ["변수와 타입", "함수", "배열/객체", "비동기"],
+    chapters: [
+      {
+        title: "JavaScript 기초",
+        slug: "js-intro",
+        order: 1,
+        duration: 25,
+        videoUrl: "https://www.youtube.com/watch?v=W6NZfCO5SIk",
+        content: "# JavaScript 기초\n\n## 변수\nlet name = \"홍길동\";\nconst PI = 3.14;\n\n## 타입\nstring, number, boolean, null, undefined, object, array"
+      },
+      {
+        title: "함수와 스코프",
+        slug: "functions-scope",
+        order: 2,
+        duration: 35,
+        videoUrl: "https://www.youtube.com/watch?v=iLWTnMzWtj4",
+        content: "# 함수\n\n## 선언 방식\nfunction fn() { }\nconst fn = () => { }\n\n## 스코프\n전역, 함수, 블록 스코프"
+      },
+      {
+        title: "배열과 객체",
+        slug: "arrays-objects",
+        order: 3,
+        duration: 40,
+        videoUrl: "https://www.youtube.com/watch?v=R8rmfD9Y5-c",
+        content: "# 배열과 객체\n\n## 배열 메서드\nmap, filter, reduce, find, some, every\n\n## 구조 분해\nconst { name } = user;\nconst [first] = array;"
+      },
+      {
+        title: "비동기 프로그래밍",
+        slug: "async-programming",
+        order: 4,
+        duration: 45,
+        videoUrl: "https://www.youtube.com/watch?v=vn3tm0quoqE",
+        content: "# 비동기\n\n## Promise\nfetch(url).then(res => res.json())\n\n## async/await\nasync function getData() {\n  const data = await fetch(url);\n  return data.json();\n}"
+      }
+    ]
+  },
+  {
+    title: "React 프론트엔드 개발",
+    slug: "react-frontend-development",
+    description: "React를 활용한 현대적인 프론트엔드 개발을 배웁니다. 컴포넌트, Hooks, 상태 관리를 학습합니다.",
+    level: CourseLevel.SENIOR,
+    duration: 25,
+    published: true,
+    featured: true,
+    category: "Frontend",
+    tags: ["React", "JavaScript", "Frontend", "SPA"],
+    topics: ["JSX", "컴포넌트", "Hooks", "상태 관리"],
+    chapters: [
+      {
+        title: "React 시작하기",
+        slug: "getting-started",
+        order: 1,
+        duration: 30,
+        videoUrl: "https://www.youtube.com/watch?v=Tn6-PIqc4UM",
+        content: "# React 시작\n\n## 프로젝트 생성\nnpm create vite@latest my-app -- --template react-ts\n\n## JSX\nfunction App() {\n  return <h1>Hello React</h1>;\n}"
+      },
+      {
+        title: "컴포넌트와 Props",
+        slug: "components-props",
+        order: 2,
+        duration: 35,
+        videoUrl: "https://www.youtube.com/watch?v=4UZrsTqkcW4",
+        content: "# 컴포넌트\n\nfunction Button({ children, onClick }) {\n  return <button onClick={onClick}>{children}</button>;\n}\n\n<Button onClick={fn}>Click</Button>"
+      },
+      {
+        title: "State와 이벤트",
+        slug: "state-events",
+        order: 3,
+        duration: 40,
+        videoUrl: "https://www.youtube.com/watch?v=O6P86uwfdR0",
+        content: "# State\n\nconst [count, setCount] = useState(0);\n\n<button onClick={() => setCount(count + 1)}>\n  Count: {count}\n</button>"
+      },
+      {
+        title: "React Hooks",
+        slug: "react-hooks-advanced",
+        order: 4,
+        duration: 50,
+        videoUrl: "https://www.youtube.com/watch?v=TNhaISOUy6Q",
+        content: "# Hooks\n\n## useEffect\nuseEffect(() => {\n  fetchData();\n  return () => cleanup();\n}, [deps]);\n\n## useMemo / useCallback\nconst value = useMemo(() => compute(), [deps]);"
+      }
+    ]
+  },
+  {
+    title: "TypeScript 마스터",
+    slug: "typescript-mastery",
+    description: "TypeScript로 타입 안전한 JavaScript 코드를 작성합니다.",
+    level: CourseLevel.SENIOR,
+    duration: 18,
+    published: true,
+    featured: false,
+    category: "Frontend",
+    tags: ["TypeScript", "JavaScript", "Static Typing"],
+    topics: ["기본 타입", "인터페이스", "제네릭"],
+    chapters: [
+      {
+        title: "TypeScript 기초",
+        slug: "ts-basics",
+        order: 1,
+        duration: 30,
+        videoUrl: "https://www.youtube.com/watch?v=BwuLxPH8IDs",
+        content: "# TypeScript 기초\n\nconst name: string = \"홍길동\";\nconst age: number = 25;\nconst numbers: number[] = [1, 2, 3];"
+      },
+      {
+        title: "인터페이스와 타입",
+        slug: "interfaces-types",
+        order: 2,
+        duration: 35,
+        videoUrl: "https://www.youtube.com/watch?v=zQnBQ4tB3ZA",
+        content: "# Interface\n\ninterface User {\n  id: number;\n  name: string;\n  email?: string;\n}\n\ntype ID = string | number;"
+      },
+      {
+        title: "제네릭",
+        slug: "generics",
+        order: 3,
+        duration: 40,
+        videoUrl: "https://www.youtube.com/watch?v=nViEqpgwxHE",
+        content: "# 제네릭\n\nfunction identity<T>(value: T): T {\n  return value;\n}\n\ninterface Response<T> {\n  data: T;\n  status: number;\n}"
+      }
+    ]
+  },
+  {
+    title: "Node.js 백엔드 개발",
+    slug: "nodejs-backend",
+    description: "Node.js와 Express로 백엔드 서버를 개발합니다.",
+    level: CourseLevel.SENIOR,
+    duration: 30,
+    published: true,
+    featured: false,
+    category: "Backend",
+    tags: ["Node.js", "Express", "REST API"],
+    topics: ["Node.js 기초", "Express", "REST API"],
+    chapters: [
+      {
+        title: "Node.js 시작하기",
+        slug: "nodejs-intro",
+        order: 1,
+        duration: 25,
+        videoUrl: "https://www.youtube.com/watch?v=TlB_eWDSMt4",
+        content: "# Node.js\n\n## 모듈\nexport const add = (a, b) => a + b;\nimport { add } from './math.js';"
+      },
+      {
+        title: "Express 기초",
+        slug: "express-basics",
+        order: 2,
+        duration: 35,
+        videoUrl: "https://www.youtube.com/watch?v=L72fhGm1tfE",
+        content: "# Express\n\nconst app = express();\napp.use(express.json());\napp.get('/users', (req, res) => res.json(users));\napp.listen(3000);"
+      }
+    ]
+  },
+  {
+    title: "SQL과 데이터베이스",
+    slug: "sql-databases",
+    description: "관계형 데이터베이스와 SQL을 마스터합니다.",
+    level: CourseLevel.SENIOR,
+    duration: 15,
+    published: true,
+    featured: false,
+    category: "Backend",
+    tags: ["SQL", "Database", "PostgreSQL"],
+    topics: ["SQL 기초", "테이블 설계", "JOIN"],
+    chapters: [
+      {
+        title: "SQL 기초",
+        slug: "sql-basics",
+        order: 1,
+        duration: 30,
+        videoUrl: "https://www.youtube.com/watch?v=HXV3zeQKqGY",
+        content: "# SQL 기초\n\nSELECT * FROM users;\nSELECT name FROM users WHERE age > 20;\nINSERT INTO users (name) VALUES ('홍길동');\nUPDATE users SET age = 26 WHERE id = 1;\nDELETE FROM users WHERE id = 1;"
+      }
+    ]
+  }
+]
+
+async function main() {
+  console.log('Seeding courses...')
+
+  for (const courseData of courses) {
+    const { chapters, ...course } = courseData
+
+    const createdCourse = await prisma.course.upsert({
+      where: { slug: course.slug },
+      update: course,
+      create: course,
+    })
+
+    console.log(`Created: ${createdCourse.title}`)
+
+    for (const chapter of chapters) {
+      await prisma.chapter.upsert({
+        where: {
+          courseId_slug: {
+            courseId: createdCourse.id,
+            slug: chapter.slug,
+          },
+        },
+        update: { ...chapter, courseId: createdCourse.id },
+        create: { ...chapter, courseId: createdCourse.id },
+      })
+    }
+
+    console.log(`  - ${chapters.length} chapters added`)
+  }
+
+  console.log('Done!')
+}
+
+main()
+  .catch(console.error)
+  .finally(() => prisma.$disconnect())

@@ -12,10 +12,10 @@ import { ConfigService } from '@nestjs/config'
 export class GithubStrategy extends PassportStrategy(Strategy, 'github') {
   constructor(private readonly config: ConfigService) {
     super({
-      clientID: config.get('GITHUB_CLIENT_ID'),
-      clientSecret: config.get('GITHUB_CLIENT_SECRET'),
+      clientID: config.get<string>('GITHUB_CLIENT_ID') || '',
+      clientSecret: config.get<string>('GITHUB_CLIENT_SECRET') || '',
       callbackURL:
-        config.get('GITHUB_CALLBACK_URL') ||
+        config.get<string>('GITHUB_CALLBACK_URL') ||
         'http://localhost:4000/api/auth/github/callback',
       scope: ['user:email'],
     })

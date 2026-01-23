@@ -18,7 +18,73 @@
     "joinCrew": "크루에 합류하기",
     "startNow": "지금 바로 시작하세요",
     "wkuStudentOnly": "원광대학교 학생이라면 누구나 참여할 수 있습니다",
-    "contactAdmin": "문의사항이 있으시면 관리자에게 연락해주세요"
+    "contactAdmin": "문의사항이 있으시면 관리자에게 연락해주세요",
+    "tryAgain": "다시 시도",
+    "goHome": "홈으로",
+    "goBack": "뒤로 가기",
+    "retrying": "재시도 중..."
+  },
+  "errors": {
+    "generic": {
+      "title": "문제가 발생했습니다",
+      "message": "예기치 않은 오류가 발생했습니다. 다시 시도해 주세요."
+    },
+    "network": {
+      "title": "연결 오류",
+      "message": "연결할 수 없습니다. 인터넷 연결을 확인하고 다시 시도해 주세요."
+    },
+    "server": {
+      "title": "서버 오류",
+      "message": "서버에서 오류가 발생했습니다. 잠시 후 다시 시도해 주세요."
+    },
+    "unauthorized": {
+      "title": "접근 거부",
+      "message": "이 리소스에 접근할 권한이 없습니다. 로그인하거나 관리자에게 문의하세요."
+    },
+    "notFound": {
+      "title": "찾을 수 없음",
+      "message": "요청한 리소스를 찾을 수 없습니다."
+    },
+    "pageNotFound": {
+      "title": "페이지를 찾을 수 없습니다",
+      "message": "찾으시는 페이지가 삭제되었거나, 이름이 변경되었거나, 일시적으로 사용할 수 없습니다.",
+      "lookingFor": "이것을 찾으셨나요?"
+    },
+    "somethingWentWrong": "문제가 발생했습니다",
+    "unexpectedError": "예기치 않은 오류가 발생했습니다. 다시 시도해 주세요.",
+    "persistProblem": "문제가 계속되면 support@wku-crew.com으로 문의해 주세요.",
+    "errorId": "오류 ID"
+  },
+  "toast": {
+    "success": {
+      "saved": "저장되었습니다",
+      "deleted": "삭제되었습니다",
+      "created": "생성되었습니다",
+      "updated": "업데이트되었습니다",
+      "enrolled": "수강 신청이 완료되었습니다",
+      "unenrolled": "수강이 취소되었습니다",
+      "posted": "게시되었습니다",
+      "commented": "댓글이 작성되었습니다",
+      "voted": "투표되었습니다"
+    },
+    "error": {
+      "saveFailed": "저장에 실패했습니다",
+      "deleteFailed": "삭제에 실패했습니다",
+      "createFailed": "생성에 실패했습니다",
+      "updateFailed": "업데이트에 실패했습니다",
+      "enrollFailed": "수강 신청에 실패했습니다",
+      "loadFailed": "로딩에 실패했습니다",
+      "networkError": "네트워크 오류가 발생했습니다",
+      "unauthorized": "로그인이 필요합니다"
+    },
+    "info": {
+      "processing": "처리 중...",
+      "loading": "로딩 중..."
+    },
+    "warning": {
+      "unsavedChanges": "저장되지 않은 변경사항이 있습니다",
+      "sessionExpiring": "세션이 곧 만료됩니다"
+    }
   },
   "nav": {
     "home": "홈",
@@ -129,6 +195,46 @@
     "notFound": {
       "title": "프로젝트를 찾을 수 없습니다",
       "description": "요청하신 프로젝트가 존재하지 않거나 삭제되었습니다."
+    },
+    "form": {
+      "name": "프로젝트 이름",
+      "namePlaceholder": "프로젝트 이름을 입력하세요",
+      "nameRequired": "프로젝트 이름은 필수입니다",
+      "nameTooShort": "프로젝트 이름은 최소 3자 이상이어야 합니다",
+      "nameTooLong": "프로젝트 이름은 100자를 초과할 수 없습니다",
+      "description": "프로젝트 설명",
+      "descriptionPlaceholder": "프로젝트에 대한 설명을 입력하세요",
+      "descriptionRequired": "프로젝트 설명은 필수입니다",
+      "descriptionTooShort": "프로젝트 설명은 최소 10자 이상이어야 합니다",
+      "visibility": "공개 설정",
+      "tags": "태그 (최대 10개)",
+      "newTagPlaceholder": "새 태그 입력...",
+      "suggestedTags": "추천 태그:",
+      "techStack": "기술 스택 (최대 15개)",
+      "newTechPlaceholder": "새 기술 입력...",
+      "suggestedTech": "추천 기술:",
+      "githubRepo": "GitHub 저장소",
+      "deployUrl": "배포 URL",
+      "invalidUrl": "올바른 URL 형식이 아닙니다",
+      "submitting": "저장 중...",
+      "create": "프로젝트 생성",
+      "update": "프로젝트 수정",
+      "error": "프로젝트 저장에 실패했습니다"
+    },
+    "new": {
+      "title": "새 프로젝트 생성",
+      "subtitle": "새로운 프로젝트를 시작하세요",
+      "tips": {
+        "title": "프로젝트 작성 팁",
+        "tip1": "명확하고 구체적인 프로젝트 이름을 작성하세요",
+        "tip2": "프로젝트의 목적과 기능을 상세히 설명해주세요",
+        "tip3": "적절한 태그와 기술 스택을 선택하여 검색에 도움을 주세요",
+        "tip4": "GitHub 저장소와 배포 URL을 연결하면 포트폴리오로 활용할 수 있습니다"
+      }
+    },
+    "edit": {
+      "title": "프로젝트 수정",
+      "backToProject": "프로젝트로 돌아가기"
     }
   },
   "courses": {
@@ -248,7 +354,25 @@
       "acceptAnswer": "답변 채택",
       "views": "조회",
       "cancel": "취소",
-      "submittingComment": "작성 중..."
+      "submittingComment": "작성 중...",
+      "edit": "수정",
+      "delete": "삭제",
+      "update": "수정하기",
+      "edited": "수정됨",
+      "moreActions": "더보기",
+      "confirmDelete": "정말 삭제하시겠습니까?",
+      "loginToComment": "댓글을 작성하려면 로그인이 필요합니다.",
+      "markdownSupported": "마크다운 문법을 지원합니다.",
+      "validation": {
+        "required": "내용을 입력해주세요.",
+        "minLength": "최소 {min}자 이상 입력해주세요.",
+        "maxLength": "최대 {max}자까지 입력할 수 있습니다."
+      },
+      "error": {
+        "submitFailed": "댓글 작성에 실패했습니다.",
+        "editFailed": "댓글 수정에 실패했습니다.",
+        "deleteFailed": "댓글 삭제에 실패했습니다."
+      }
     },
     "form": {
       "titleLabel": "제목",
@@ -291,7 +415,14 @@
       "projects": "프로젝트",
       "courses": "코스",
       "posts": "게시글",
-      "comments": "댓글"
+      "comments": "댓글",
+      "achievements": "업적",
+      "coursesEnrolled": "수강 중인 코스",
+      "coursesCompleted": "완료한 코스",
+      "contributions": "기여",
+      "daysActive": "활동 일수",
+      "streak": "연속",
+      "overview": "활동 통계"
     },
     "profile": {
       "editProfile": "프로필 편집",
@@ -305,11 +436,20 @@
     },
     "noProjects": "참여 중인 프로젝트가 없습니다",
     "noCourses": "수강 중인 코스가 없습니다",
+    "noActivity": "최근 활동이 없습니다",
+    "noActivityHint": "코스를 수강하거나 프로젝트에 참여하면 활동이 표시됩니다",
+    "noAchievements": "활동을 시작하여 업적을 획득하세요!",
     "courseProgress": "코스 진행 상황",
     "totalCourses": "총 {count}개 코스",
     "modulesCompleted": "{completed}/{total} 모듈 완료",
     "progress": "진행률",
     "teamMembers": "팀원",
+    "continueLearning": "학습 계속하기",
+    "reviewCourse": "복습하기",
+    "browseCourses": "코스 둘러보기",
+    "createProject": "프로젝트 생성",
+    "viewProject": "상세 보기",
+    "completed": "완료",
     "role": {
       "admin": "관리자",
       "mentor": "멘토",
@@ -328,6 +468,8 @@
     "subtitle": "프로필 정보를 확인하고 수정하세요",
     "details": "프로필 정보",
     "editProfile": "프로필 수정",
+    "editSubtitle": "프로필 정보를 수정하고 저장하세요",
+    "backToProfile": "프로필로 돌아가기",
     "name": "이름",
     "email": "이메일",
     "bio": "자기소개",
@@ -339,7 +481,36 @@
     "level": "레벨 및 경험치",
     "joined": "가입",
     "notSet": "미설정",
-    "imageNote": "프로필 이미지는 GitHub 계정에서 가져옵니다"
+    "imageNote": "프로필 이미지는 GitHub 계정에서 가져오거나 직접 URL을 입력할 수 있습니다",
+    "avatarSection": "프로필 이미지",
+    "avatarUrl": "이미지 URL",
+    "avatarUrlPlaceholder": "https://example.com/avatar.jpg",
+    "socialLinks": "소셜 링크",
+    "website": "웹사이트",
+    "socialPlaceholder": {
+      "github": "username",
+      "twitter": "username",
+      "linkedin": "username",
+      "website": "https://example.com"
+    },
+    "saveSuccess": "프로필이 성공적으로 저장되었습니다",
+    "saveError": "프로필 저장에 실패했습니다",
+    "notAuthenticated": "로그인이 필요합니다",
+    "helpTitle": "프로필 작성 팁",
+    "helpTip1": "실명을 사용하면 다른 크루들이 당신을 더 쉽게 알아볼 수 있습니다",
+    "helpTip2": "자기소개에 관심 분야와 기술 스택을 작성해보세요",
+    "helpTip3": "소셜 링크를 추가하면 다른 크루들과 더 쉽게 연결될 수 있습니다",
+    "validation": {
+      "nameRequired": "이름은 필수입니다",
+      "nameMinLength": "이름은 최소 2자 이상이어야 합니다",
+      "nameMaxLength": "이름은 최대 50자까지 입력할 수 있습니다",
+      "bioMaxLength": "자기소개는 최대 500자까지 입력할 수 있습니다",
+      "departmentMaxLength": "학과명은 최대 100자까지 입력할 수 있습니다",
+      "invalidUrl": "올바른 URL 형식이 아닙니다",
+      "invalidGithub": "올바른 GitHub 사용자명이 아닙니다",
+      "invalidTwitter": "올바른 Twitter 사용자명이 아닙니다",
+      "invalidLinkedin": "올바른 LinkedIn 프로필 주소가 아닙니다"
+    }
   },
   "auth": {
     "login": {

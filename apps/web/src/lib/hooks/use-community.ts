@@ -4,6 +4,7 @@ import type {
   PostFilters,
   CreatePostInput,
   CreateCommentInput,
+  UpdateCommentInput,
   VoteInput,
 } from '@/lib/api/types'
 
@@ -219,6 +220,135 @@ export const useAcceptComment = () => {
     onSuccess: (_, variables) => {
       // Invalidate post to update accepted status
       queryClient.invalidateQueries({ queryKey: ['post', variables.postId] })
+      queryClient.invalidateQueries({ queryKey: ['posts'] })
+    },
+  })
+}
+
+/**
+ * Hook to update a comment with optimistic updates
+ */
+export const useUpdateComment = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: ({
+      commentId,
+      postId,
+      input,
+    }: {
+      commentId: string
+      postId: string
+      input: UpdateCommentInput
+    }) => communityApi.updateComment(commentId, input),
+    onMutate: async ({ commentId, postId, input }) => {
+      // Cancel outgoing refetches
+      await queryClient.cancelQueries({ queryKey: ['post', postId] })
+
+      // Snapshot previous value
+      const previousPost = queryClient.getQueryData(['post', postId])
+
+      // Optimistically update comment content
+      queryClient.setQueryData(['post', postId], (old: any) => {
+        if (!old?.comments) return old
+
+        const updateComment = (comments: any[]): any[] => {
+          return comments.map((comment) => {
+            if (comment.id === commentId) {
+              return {
+                ...comment,
+                content: input.content,
+                updatedAt: new Date().toISOString(),
+              }
+            }
+            if (comment.replies?.length) {
+              return {
+                ...comment,
+                replies: updateComment(comment.replies),
+              }
+            }
+            return comment
+          })
+        }
+
+        return {
+          ...old,
+          comments: updateComment(old.comments),
+        }
+      })
+
+      return { previousPost }
+    },
+    onError: (err, { postId }, context) => {
+      // Rollback on error
+      if (context?.previousPost) {
+        queryClient.setQueryData(['post', postId], context.previousPost)
+      }
+    },
+    onSettled: (data, error, { postId }) => {
+      // Refetch to ensure consistency
+      queryClient.invalidateQueries({ queryKey: ['post', postId] })
+    },
+  })
+}
+
+/**
+ * Hook to delete a comment with optimistic updates
+ */
+export const useDeleteComment = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: ({
+      commentId,
+      postId,
+    }: {
+      commentId: string
+      postId: string
+    }) => communityApi.deleteComment(commentId),
+    onMutate: async ({ commentId, postId }) => {
+      // Cancel outgoing refetches
+      await queryClient.cancelQueries({ queryKey: ['post', postId] })
+
+      // Snapshot previous value
+      const previousPost = queryClient.getQueryData(['post', postId])
+
+      // Optimistically remove comment
+      queryClient.setQueryData(['post', postId], (old: any) => {
+        if (!old?.comments) return old
+
+        const removeComment = (comments: any[]): any[] => {
+          return comments
+            .filter((comment) => comment.id !== commentId)
+            .map((comment) => {
+              if (comment.replies?.length) {
+                return {
+                  ...comment,
+                  replies: removeComment(comment.replies),
+                }
+              }
+              return comment
+            })
+        }
+
+        return {
+          ...old,
+          comments: removeComment(old.comments),
+          commentsCount: old.commentsCount - 1,
+        }
+      })
+
+      return { previousPost }
+    },
+    onError: (err, { postId }, context) => {
+      // Rollback on error
+      if (context?.previousPost) {
+        queryClient.setQueryData(['post', postId], context.previousPost)
+      }
+    },
+    onSettled: (data, error, { postId }) => {
+      // Refetch to ensure consistency
+      queryClient.invalidateQueries({ queryKey: ['post', postId] })
       queryClient.invalidateQueries({ queryKey: ['posts'] })
     },
   })

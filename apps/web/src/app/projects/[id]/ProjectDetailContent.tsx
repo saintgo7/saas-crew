@@ -1,6 +1,8 @@
 'use client'
 
-import { Github, ExternalLink, Users, Calendar, Eye, Lock } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import Link from 'next/link'
+import { Github, ExternalLink, Users, Calendar, Eye, Lock, Edit } from 'lucide-react'
 import { formatDistanceToNow } from 'date-fns'
 import { ko, enUS } from 'date-fns/locale'
 import { useTranslations, useLanguage } from '@/i18n/LanguageContext'
@@ -17,6 +19,7 @@ interface Project {
   coverImage?: string
   createdAt: string
   updatedAt?: string
+  ownerId?: string
   _count?: {
     members: number
   }
@@ -31,22 +34,54 @@ export function ProjectDetailContent({ project }: ProjectDetailContentProps) {
   const { locale } = useLanguage()
   const dateLocale = locale === 'ko' ? ko : enUS
 
+  const [canEdit, setCanEdit] = useState(false)
+
+  // Check if current user can edit the project
+  useEffect(() => {
+    const userDataString = localStorage.getItem('user_data')
+    const userRole = localStorage.getItem('user_role')
+
+    if (userDataString) {
+      try {
+        const userData = JSON.parse(userDataString)
+        const isOwner = project.ownerId === userData.id
+        const isAdmin = userRole === 'admin'
+        setCanEdit(isOwner || isAdmin)
+      } catch {
+        setCanEdit(false)
+      }
+    }
+  }, [project.ownerId])
+
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mx-auto max-w-4xl">
         {/* Header */}
         <div className="mb-8">
-          <div className="mb-4 flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-            {project.visibility === 'PUBLIC' ? (
-              <>
-                <Eye className="h-4 w-4" />
-                <span>{t('projects.visibility.public')}</span>
-              </>
-            ) : (
-              <>
-                <Lock className="h-4 w-4" />
-                <span>{t('projects.visibility.private')}</span>
-              </>
+          <div className="mb-4 flex items-center justify-between">
+            <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+              {project.visibility === 'PUBLIC' ? (
+                <>
+                  <Eye className="h-4 w-4" />
+                  <span>{t('projects.visibility.public')}</span>
+                </>
+              ) : (
+                <>
+                  <Lock className="h-4 w-4" />
+                  <span>{t('projects.visibility.private')}</span>
+                </>
+              )}
+            </div>
+
+            {/* Edit Button for owners */}
+            {canEdit && (
+              <Link
+                href={`/projects/${project.id}/edit`}
+                className="inline-flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
+              >
+                <Edit className="h-4 w-4" />
+                {t('common.edit')}
+              </Link>
             )}
           </div>
 

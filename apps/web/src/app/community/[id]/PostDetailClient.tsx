@@ -1,6 +1,14 @@
 'use client'
 
-import { usePost, useVotePost, useVoteComment, useCreateComment, useAcceptComment } from '@/lib/hooks/use-community'
+import {
+  usePost,
+  useVotePost,
+  useVoteComment,
+  useCreateComment,
+  useAcceptComment,
+  useUpdateComment,
+  useDeleteComment,
+} from '@/lib/hooks/use-community'
 import { PostDetail } from '@/components/community'
 import { Loader2, AlertCircle, ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
@@ -13,11 +21,13 @@ interface PostDetailClientProps {
 
 export function PostDetailClient({ postId }: PostDetailClientProps) {
   const t = useTranslations()
-  const { data: post, isLoading, error } = usePost(postId)
+  const { data: post, isLoading, error, isFetching } = usePost(postId)
   const votePost = useVotePost()
   const voteComment = useVoteComment()
   const createComment = useCreateComment()
   const acceptComment = useAcceptComment()
+  const updateComment = useUpdateComment()
+  const deleteComment = useDeleteComment()
   const currentUser = useUserStore((state) => state.user)
 
   const handleVote = async (type: 'upvote' | 'downvote') => {
@@ -52,6 +62,18 @@ export function PostDetailClient({ postId }: PostDetailClientProps) {
 
   const handleAcceptComment = async (commentId: string) => {
     await acceptComment.mutateAsync({ commentId, postId })
+  }
+
+  const handleEditComment = async (commentId: string, content: string) => {
+    await updateComment.mutateAsync({
+      commentId,
+      postId,
+      input: { content },
+    })
+  }
+
+  const handleDeleteComment = async (commentId: string) => {
+    await deleteComment.mutateAsync({ commentId, postId })
   }
 
   if (error) {
@@ -102,11 +124,14 @@ export function PostDetailClient({ postId }: PostDetailClientProps) {
       <PostDetail
         post={post}
         currentUserId={currentUser?.id}
+        isCommentsLoading={isFetching && !isLoading}
         onVote={handleVote}
         onCommentVote={handleCommentVote}
         onReply={handleReply}
         onCreateComment={handleCreateComment}
         onAcceptComment={handleAcceptComment}
+        onEditComment={handleEditComment}
+        onDeleteComment={handleDeleteComment}
       />
     </div>
   )

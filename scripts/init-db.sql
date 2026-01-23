@@ -7,6 +7,21 @@
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE EXTENSION IF NOT EXISTS "pg_trgm";  -- For text search
 
+-- Create application user
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'wku_user') THEN
+        CREATE ROLE wku_user WITH LOGIN PASSWORD 'wku_pass123';
+    END IF;
+END
+$$;
+
+-- Grant privileges to application user
+GRANT ALL PRIVILEGES ON DATABASE wku_crew TO wku_user;
+GRANT ALL PRIVILEGES ON SCHEMA public TO wku_user;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO wku_user;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO wku_user;
+
 -- Create additional indexes for performance (if not created by Prisma)
 -- These are optional and can be customized based on query patterns
 
