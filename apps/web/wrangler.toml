@@ -1,38 +1,15 @@
-# Cloudflare Pages Configuration
-# WKU Software Crew - Frontend Deployment
+# WKU Software Crew Frontend - Cloudflare Workers Configuration
+# Using OpenNext for Next.js 16 support
 
-name = "wku-crew-web"
-compatibility_date = "2024-01-01"
+name = "saas-crew-web"
+main = ".open-next/worker.js"
+compatibility_date = "2026-01-23"
 compatibility_flags = ["nodejs_compat"]
 
-# Build Settings
-[build]
-command = "pnpm build"
-cwd = "apps/web"
+[assets]
+directory = ".open-next/assets"
+binding = "ASSETS"
 
-[build.environment]
-NODE_VERSION = "20"
-
-# Development Settings
-[env.development]
-name = "wku-crew-web-dev"
-
-[env.development.vars]
-NEXT_PUBLIC_API_URL = "https://api-dev.wku-crew.com"
-NEXT_PUBLIC_ENVIRONMENT = "development"
-
-# Staging Settings
-[env.staging]
-name = "wku-crew-web-staging"
-
-[env.staging.vars]
-NEXT_PUBLIC_API_URL = "https://api-staging.wku-crew.com"
-NEXT_PUBLIC_ENVIRONMENT = "staging"
-
-# Production Settings
-[env.production]
-name = "wku-crew-web"
-
-[env.production.vars]
-NEXT_PUBLIC_API_URL = "https://api.wku-crew.com"
-NEXT_PUBLIC_ENVIRONMENT = "production"
+# Environment variables
+[vars]
+NEXT_PUBLIC_API_URL = "https://crew-api.abada.kr"

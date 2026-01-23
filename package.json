@@ -12,7 +12,8 @@
     "dev:all": "npm run dev --workspaces --if-present",
     "build": "npm run build --workspaces --if-present",
     "build:web": "pnpm --filter @wku-crew/web build",
-    "build:cf": "cd apps/web && CF_PAGES=1 npx @cloudflare/next-on-pages",
+    "build:cf": "pnpm --filter @wku-crew/web build:cf",
+    "deploy:cf": "pnpm --filter @wku-crew/web deploy",
     "lint": "npm run lint --workspaces --if-present",
     "clean": "rm -rf apps/*/node_modules apps/*/.next apps/*/dist packages/*/node_modules node_modules"
   },
