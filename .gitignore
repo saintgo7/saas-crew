@@ -63,3 +63,4 @@ backups/*.sql.gz
 
 # Docker
 docker-compose.override.yml
+.playwright-mcp/
