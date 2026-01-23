@@ -3,21 +3,26 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 })
 
+// Detect Cloudflare Pages build environment
+const isCloudflarePages = process.env.CF_PAGES === '1'
+
 const nextConfig = {
-  // Enable standalone output for Docker deployment
-  output: 'standalone',
-  
+  // Enable standalone output only for Docker deployment (not Cloudflare Pages)
+  ...(isCloudflarePages ? {} : { output: 'standalone' }),
+
   // Production optimizations
   compress: true,  // Enable gzip compression
-  
+
   // Remove console logs in production
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production' ? {
       exclude: ['error', 'warn'],
     } : false,
   },
-  
+
   images: {
+    // Use unoptimized images for Cloudflare Pages (no native image optimization)
+    ...(isCloudflarePages ? { unoptimized: true } : {}),
     remotePatterns: [
       {
         protocol: 'https',
@@ -34,9 +39,6 @@ const nextConfig = {
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
   },
-  
-  // Use webpack instead of turbopack due to custom config
-  turbopack: {},
 
   experimental: {
     serverActions: {
@@ -117,7 +119,7 @@ const nextConfig = {
               "style-src 'self' 'unsafe-inline'",
               "img-src 'self' data: https: blob:",
               "font-src 'self' data:",
-              "connect-src 'self' http://localhost:4000 https://api.github.com",
+              "connect-src 'self' http://localhost:4000 https://crew-api.abada.kr https://api.github.com",
               "frame-ancestors 'none'",
               "base-uri 'self'",
               "form-action 'self'",
