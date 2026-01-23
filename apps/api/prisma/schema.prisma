@@ -50,8 +50,15 @@ model User {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
+  // Performance Indexes:
+  // - email: unique constraint already indexed
+  // - githubId, googleId: unique constraints already indexed
+  // - [rank, xp]: optimized for leaderboard queries
+  // - createdAt: useful for recent user lists
   @@index([email])
   @@index([githubId])
+  @@index([rank, xp])
+  @@index([createdAt(sort: Desc)])
   @@map("users")
 }
 
@@ -78,6 +85,7 @@ model Account {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
+  @@index([userId])
   @@map("accounts")
 }
 
@@ -88,6 +96,7 @@ model Session {
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
+  @@index([userId])
   @@map("sessions")
 }
 
@@ -187,8 +196,15 @@ model Enrollment {
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 
+  // Performance Indexes:
+  // - [userId, courseId]: unique constraint already indexed
+  // - userId: fast lookup of user's enrollments
+  // - courseId: fast lookup of course enrollments (student list)
+  // - [userId, progress]: optimized for filtering incomplete courses
   @@unique([userId, courseId])
   @@index([userId])
+  @@index([courseId])
+  @@index([userId, progress])
   @@map("enrollments")
 }
 
@@ -208,6 +224,7 @@ model Progress {
 
   @@unique([userId, chapterId])
   @@index([userId])
+  @@index([chapterId])
   @@map("progresses")
 }
 
@@ -247,6 +264,7 @@ model Submission {
 
   @@unique([userId, assignmentId])
   @@index([assignmentId])
+  @@index([userId])
   @@map("submissions")
 }
 
@@ -273,7 +291,17 @@ model Project {
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
 
+  // Performance Indexes:
+  // - slug: unique constraint already indexed
+  // - visibility: filter public projects
+  // - createdAt: default sorting
+  // - tags: GIN index for array contains queries
+  // - [visibility, createdAt]: compound index for filtered listing
   @@index([slug])
+  @@index([visibility])
+  @@index([createdAt(sort: Desc)])
+  @@index([tags], type: Gin)
+  @@index([visibility, createdAt(sort: Desc)])
   @@map("projects")
 }
 
@@ -298,6 +326,7 @@ model ProjectMember {
 
   @@unique([projectId, userId])
   @@index([userId])
+  @@index([projectId])
   @@map("project_members")
 }
 
@@ -363,6 +392,7 @@ model Comment {
 
   @@index([postId])
   @@index([authorId])
+  @@index([parentId])
   @@map("comments")
 }
 

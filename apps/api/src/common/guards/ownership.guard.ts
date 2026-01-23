@@ -5,6 +5,7 @@ import {
   ForbiddenException,
 } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
+import { UserRank } from '@prisma/client';
 
 /**
  * Ownership Verification Guard
@@ -24,8 +25,8 @@ export class OwnershipGuard implements CanActivate {
       throw new ForbiddenException('User not authenticated');
     }
 
-    // Admin and Owner can access all resources
-    if (user.role === 'OWNER' || user.role === 'ADMIN') {
+    // Master rank users can access all resources
+    if (user.rank === UserRank.MASTER) {
       return true;
     }
 
@@ -84,10 +85,15 @@ export class OwnershipGuard implements CanActivate {
           return post?.authorId === userId;
 
         case 'project':
-          const project = await this.prisma.project.findUnique({
-            where: { id: resourceId },
+          // Check if user is OWNER of the project through ProjectMember
+          const projectMember = await this.prisma.projectMember.findFirst({
+            where: {
+              projectId: resourceId,
+              userId: userId,
+              role: 'OWNER',
+            },
           });
-          return project?.leaderId === userId;
+          return !!projectMember;
 
         case 'comment':
           const comment = await this.prisma.comment.findUnique({
@@ -96,17 +102,18 @@ export class OwnershipGuard implements CanActivate {
           return comment?.authorId === userId;
 
         case 'course':
-          const course = await this.prisma.course.findUnique({
-            where: { id: resourceId },
+          // Courses are admin-managed; allow MASTER rank users only
+          const user = await this.prisma.user.findUnique({
+            where: { id: userId },
           });
-          return course?.createdById === userId;
+          return user?.rank === UserRank.MASTER;
 
         case 'chapter':
-          const chapter = await this.prisma.chapter.findUnique({
-            where: { id: resourceId },
-            include: { course: true },
+          // Chapters follow the same rule as courses
+          const chapterUser = await this.prisma.user.findUnique({
+            where: { id: userId },
           });
-          return chapter?.course?.createdById === userId;
+          return chapterUser?.rank === UserRank.MASTER;
 
         default:
           return false;

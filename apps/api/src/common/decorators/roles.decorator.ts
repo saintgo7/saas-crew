@@ -1,11 +1,11 @@
 import { SetMetadata } from '@nestjs/common';
-import { Role } from '@prisma/client';
+import { UserRank } from '@prisma/client';
 
 /**
  * Roles decorator
- * Restricts access to specific roles
+ * Restricts access to specific user ranks
  * Use with RolesGuard
- * @example @Roles(Role.OWNER, Role.ADMIN)
+ * @example @Roles(UserRank.MASTER)
  */
 export const ROLES_KEY = 'roles';
-export const Roles = (...roles: Role[]) => SetMetadata(ROLES_KEY, roles);
+export const Roles = (...ranks: UserRank[]) => SetMetadata(ROLES_KEY, ranks);
