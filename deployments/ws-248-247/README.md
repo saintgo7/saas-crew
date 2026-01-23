@@ -7,6 +7,13 @@
 | Frontend | `crew.abada.kr` | Cloudflare Pages |
 | API | `crew-api.abada.kr` | Cloudflare Tunnel -> ws-248-247 |
 
+## Cloudflare Tunnel Info
+
+- **Tunnel Name**: `crew-api-tunnel`
+- **Tunnel ID**: `e511a3df-e67f-45c3-bc15-428e4b8043b2`
+- **Status**: Created (2026-01-24)
+- **Token Location**: Cloudflare Zero Trust > Networks > Tunnels > crew-api-tunnel > Edit > Docker
+
 ---
 
 ## Architecture
@@ -50,19 +57,18 @@
 
 ## Quick Start
 
-### 1. Create Cloudflare Tunnel
+### 1. Get Cloudflare Tunnel Token (Already Created)
+
+The tunnel `crew-api-tunnel` is already configured. To get the token:
 
 1. Go to [Cloudflare Zero Trust Dashboard](https://one.dash.cloudflare.com/)
 2. Navigate to **Networks > Tunnels**
-3. Click **Create a tunnel**
-4. Name: `crew-api-tunnel`
-5. Choose **Cloudflared** connector
-6. Copy the **Tunnel Token** (starts with `eyJ...`)
-7. Add Public Hostname:
-   - Subdomain: `crew-api`
-   - Domain: `abada.kr`
-   - Service Type: `HTTP`
-   - URL: `crew-api:4000`
+3. Click on `crew-api-tunnel`
+4. Click **Edit** (or Configure)
+5. Select **Docker** tab
+6. Copy the token from the Docker command (the part after `--token`)
+
+The token starts with `eyJ...` and is about 200+ characters long.
 
 ### 2. Upload files to server
 
@@ -203,8 +209,8 @@ cd ~/saas-crew && docker compose restart api
 # Check tunnel status
 docker logs crew-tunnel --tail 50
 
-# Verify credentials
-ls -la ~/saas-crew/cloudflared/
+# Verify token is set
+grep TUNNEL_TOKEN ~/saas-crew/.env
 
 # Restart tunnel
 docker compose restart tunnel
