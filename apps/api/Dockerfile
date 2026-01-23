@@ -58,12 +58,10 @@ ENV PORT=4000
 # Copy necessary files from builder
 COPY --from=builder --chown=nestjs:nodejs /app/apps/api/dist ./dist
 COPY --from=builder --chown=nestjs:nodejs /app/apps/api/package.json ./
-COPY --from=builder --chown=nestjs:nodejs /app/apps/api/node_modules ./node_modules
 COPY --from=builder --chown=nestjs:nodejs /app/apps/api/prisma ./prisma
 
-# Copy Prisma client from pnpm store (handles pnpm's symlink structure)
-COPY --from=builder --chown=nestjs:nodejs /app/node_modules/.pnpm/@prisma+client*/node_modules/@prisma/client ./node_modules/@prisma/client
-COPY --from=builder --chown=nestjs:nodejs /app/node_modules/.pnpm/prisma*/node_modules/prisma ./node_modules/prisma
+# Copy full node_modules structure (pnpm uses symlinks, need the entire structure)
+COPY --from=builder --chown=nestjs:nodejs /app/node_modules ./node_modules
 
 # Switch to non-root user
 USER nestjs
