@@ -54,7 +54,7 @@ const nextConfig = {
     optimizeFonts: true,
   },
   
-  // Performance: Configure headers for caching
+  // Performance & Security: Configure headers for caching and security
   async headers() {
     return [
       {
@@ -88,7 +88,7 @@ const nextConfig = {
         ],
       },
       {
-        // Security headers
+        // Security headers for all routes
         source: '/:path*',
         headers: [
           {
@@ -97,12 +97,40 @@ const nextConfig = {
           },
           {
             key: 'X-Frame-Options',
-            value: 'SAMEORIGIN',
+            value: 'DENY', // Upgraded from SAMEORIGIN for better security
           },
           {
             key: 'X-Content-Type-Options',
             value: 'nosniff',
           },
+          {
+            key: 'Referrer-Policy',
+            value: 'strict-origin-when-cross-origin',
+          },
+          {
+            key: 'Permissions-Policy',
+            value: 'camera=(), microphone=(), geolocation=(), interest-cohort=()',
+          },
+          // Content Security Policy (CSP)
+          {
+            key: 'Content-Security-Policy',
+            value: [
+              "default-src 'self'",
+              "script-src 'self' 'unsafe-eval' 'unsafe-inline'", // Next.js requires unsafe-eval for dev
+              "style-src 'self' 'unsafe-inline'",
+              "img-src 'self' data: https: blob:",
+              "font-src 'self' data:",
+              "connect-src 'self' http://localhost:4000 https://api.github.com",
+              "frame-ancestors 'none'",
+              "base-uri 'self'",
+              "form-action 'self'",
+            ].join('; '),
+          },
+          // Strict-Transport-Security (HSTS) - only in production
+          ...(process.env.NODE_ENV === 'production' ? [{
+            key: 'Strict-Transport-Security',
+            value: 'max-age=31536000; includeSubDomains; preload',
+          }] : []),
         ],
       },
     ]
