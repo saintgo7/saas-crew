@@ -3,6 +3,7 @@ import {
   Patch,
   Post,
   Get,
+  Delete,
   Param,
   Body,
   UseGuards,
@@ -19,7 +20,7 @@ import {
   ApiParam,
 } from '@nestjs/swagger'
 import { ChaptersService } from './chapters.service'
-import { UpdateProgressDto } from './dto'
+import { UpdateProgressDto, CreateChapterDto, UpdateChapterDto } from './dto'
 
 /**
  * Chapters Controller
@@ -130,5 +131,76 @@ export class ChaptersController {
   })
   async completeChapter(@Param('id') id: string, @Req() req: any) {
     return this.chaptersService.completeChapter(id, req.user.id)
+  }
+
+  /**
+   * PATCH /api/chapters/:id
+   * Update chapter details (admin only)
+   * Protected endpoint - requires JWT authentication
+   */
+  @Patch(':id')
+  @UseGuards(AuthGuard('jwt'))
+  @HttpCode(HttpStatus.OK)
+  @ApiBearerAuth('JWT-auth')
+  @ApiOperation({
+    summary: 'Update chapter',
+    description: 'Update chapter details (admin only)',
+  })
+  @ApiParam({
+    name: 'id',
+    description: 'Chapter ID',
+    example: '012e3456-e78b-90d1-a234-426614174333',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Chapter updated successfully',
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Chapter not found',
+  })
+  async updateChapter(
+    @Param('id') id: string,
+    @Body() dto: UpdateChapterDto,
+  ) {
+    return this.chaptersService.updateChapter(id, dto)
+  }
+
+  /**
+   * DELETE /api/chapters/:id
+   * Delete a chapter (admin only)
+   * Protected endpoint - requires JWT authentication
+   */
+  @Delete(':id')
+  @UseGuards(AuthGuard('jwt'))
+  @HttpCode(HttpStatus.OK)
+  @ApiBearerAuth('JWT-auth')
+  @ApiOperation({
+    summary: 'Delete chapter',
+    description: 'Delete a chapter (admin only)',
+  })
+  @ApiParam({
+    name: 'id',
+    description: 'Chapter ID',
+    example: '012e3456-e78b-90d1-a234-426614174333',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Chapter deleted successfully',
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Chapter not found',
+  })
+  async deleteChapter(@Param('id') id: string) {
+    return this.chaptersService.deleteChapter(id)
   }
 }

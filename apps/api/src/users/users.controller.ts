@@ -32,6 +32,31 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   /**
+   * GET /api/users
+   * Get all users (admin only)
+   * Protected endpoint - requires JWT authentication
+   */
+  @Get()
+  @UseGuards(AuthGuard('jwt'))
+  @HttpCode(HttpStatus.OK)
+  @ApiBearerAuth('JWT-auth')
+  @ApiOperation({
+    summary: 'Get all users',
+    description: 'Retrieve all users. Requires admin authentication.',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Users retrieved successfully',
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized',
+  })
+  async getUsers() {
+    return this.usersService.findAll()
+  }
+
+  /**
    * GET /api/users/:id
    * Get user profile by ID
    * Public endpoint - anyone can view user profiles

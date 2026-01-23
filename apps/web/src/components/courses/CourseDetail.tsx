@@ -34,7 +34,10 @@ export function CourseDetail({ courseId }: CourseDetailProps) {
   const unenrollMutation = useUnenrollCourse()
 
   const getLevelLabel = (level: string) => t(`courses.level.${level.toLowerCase()}`)
-  const getDifficultyLabel = (difficulty: string) => t(`courses.difficulty.${difficulty}`)
+  const getDifficultyLabel = (difficulty?: string) => {
+    if (!difficulty) return t('courses.difficulty.beginner')
+    return t(`courses.difficulty.${difficulty}`)
+  }
 
   if (isLoading) {
     return (
@@ -168,11 +171,11 @@ export function CourseDetail({ courseId }: CourseDetailProps) {
               </div>
               <div className="flex items-center gap-2">
                 <BookOpen className="h-5 w-5" />
-                <span>{t('courses.chaptersCount', { count: course.chaptersCount })}</span>
+                <span>{t('courses.chaptersCount', { count: course.chaptersCount ?? course._count?.chapters ?? 0 })}</span>
               </div>
               <div className="flex items-center gap-2">
                 <Users className="h-5 w-5" />
-                <span>{t('courses.enrolledCount', { count: course.enrolledCount })}</span>
+                <span>{t('courses.enrolledCount', { count: course.enrolledCount ?? course._count?.enrollments ?? 0 })}</span>
               </div>
               <div className="flex items-center gap-2">
                 <Calendar className="h-5 w-5" />
@@ -187,7 +190,7 @@ export function CourseDetail({ courseId }: CourseDetailProps) {
               {course.instructorImage ? (
                 <Image
                   src={course.instructorImage}
-                  alt={course.instructorName}
+                  alt={course.instructorName || 'Instructor'}
                   width={48}
                   height={48}
                   className="rounded-full"
@@ -254,13 +257,13 @@ export function CourseDetail({ courseId }: CourseDetailProps) {
       </div>
 
       {/* Learning Objectives */}
-      {course.learningObjectives && course.learningObjectives.length > 0 && (
+      {course.topics && course.topics.length > 0 && (
         <div className="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
           <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">
             {t('courses.detail.objectives')}
           </h2>
           <ul className="space-y-2">
-            {course.learningObjectives.map((objective, index) => (
+            {course.topics.map((objective, index) => (
               <li
                 key={index}
                 className="flex items-start gap-2 text-gray-700 dark:text-gray-300"

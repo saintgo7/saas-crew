@@ -2,13 +2,14 @@ import { Module } from '@nestjs/common'
 import { CoursesController } from './courses.controller'
 import { CoursesService } from './courses.service'
 import { PrismaModule } from '../prisma/prisma.module'
+import { ChaptersModule } from '../chapters/chapters.module'
 
 /**
  * Courses Module
  * Encapsulates course management functionality
  */
 @Module({
-  imports: [PrismaModule],
+  imports: [PrismaModule, ChaptersModule],
   controllers: [CoursesController],
   providers: [CoursesService],
   exports: [CoursesService],

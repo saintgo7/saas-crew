@@ -111,7 +111,7 @@ export function CourseCard({ course, className }: CourseCardProps) {
               {course.instructorImage ? (
                 <Image
                   src={course.instructorImage}
-                  alt={course.instructorName}
+                  alt={course.instructorName || 'Instructor'}
                   width={24}
                   height={24}
                   className="rounded-full"
@@ -120,7 +120,7 @@ export function CourseCard({ course, className }: CourseCardProps) {
                 <div className="h-6 w-6 rounded-full bg-gray-300 dark:bg-gray-600" />
               )}
               <span className="text-sm text-gray-600 dark:text-gray-400">
-                {course.instructorName}
+                {course.instructorName || 'Unknown Instructor'}
               </span>
             </div>
             <span className="text-xs text-gray-500 dark:text-gray-400">

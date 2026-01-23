@@ -4,7 +4,7 @@ import {
   ForbiddenException,
 } from '@nestjs/common'
 import { PrismaService } from '../prisma/prisma.service'
-import { UpdateProgressDto } from './dto'
+import { UpdateProgressDto, CreateChapterDto, UpdateChapterDto } from './dto'
 
 /**
  * Chapters Service
@@ -224,5 +224,132 @@ export class ChaptersService {
           }
         : null,
     }
+  }
+
+  /**
+   * Create a new chapter
+   * Admin only: Create chapter for a course
+   */
+  async createChapter(courseId: string, dto: CreateChapterDto) {
+    // Verify course exists
+    const course = await this.prisma.course.findUnique({
+      where: { id: courseId },
+    })
+
+    if (!course) {
+      throw new NotFoundException(`Course with ID ${courseId} not found`)
+    }
+
+    // Create the chapter
+    const chapter = await this.prisma.chapter.create({
+      data: {
+        courseId,
+        title: dto.title,
+        slug: dto.slug,
+        order: dto.order,
+        duration: dto.duration,
+        videoUrl: dto.videoUrl,
+        content: dto.content || '',
+      },
+    })
+
+    return chapter
+  }
+
+  /**
+   * Update an existing chapter
+   * Admin only: Update chapter details
+   */
+  async updateChapter(chapterId: string, dto: UpdateChapterDto) {
+    // Verify chapter exists
+    const chapter = await this.prisma.chapter.findUnique({
+      where: { id: chapterId },
+    })
+
+    if (!chapter) {
+      throw new NotFoundException(`Chapter with ID ${chapterId} not found`)
+    }
+
+    // Update the chapter
+    const updatedChapter = await this.prisma.chapter.update({
+      where: { id: chapterId },
+      data: {
+        ...(dto.title && { title: dto.title }),
+        ...(dto.slug && { slug: dto.slug }),
+        ...(dto.order && { order: dto.order }),
+        ...(dto.duration !== undefined && { duration: dto.duration }),
+        ...(dto.videoUrl !== undefined && { videoUrl: dto.videoUrl }),
+        ...(dto.content !== undefined && { content: dto.content }),
+      },
+    })
+
+    return updatedChapter
+  }
+
+  /**
+   * Delete a chapter
+   * Admin only: Delete chapter and related data
+   */
+  async deleteChapter(chapterId: string) {
+    // Verify chapter exists
+    const chapter = await this.prisma.chapter.findUnique({
+      where: { id: chapterId },
+    })
+
+    if (!chapter) {
+      throw new NotFoundException(`Chapter with ID ${chapterId} not found`)
+    }
+
+    // Delete related progress records first
+    await this.prisma.progress.deleteMany({
+      where: { chapterId },
+    })
+
+    // Delete related assignments
+    await this.prisma.assignment.deleteMany({
+      where: { chapterId },
+    })
+
+    // Delete the chapter
+    await this.prisma.chapter.delete({
+      where: { id: chapterId },
+    })
+
+    return { message: 'Chapter deleted successfully' }
+  }
+
+  /**
+   * Get all chapters for a course
+   * Public: List chapters with optional user progress
+   */
+  async getChaptersByCourse(courseId: string, userId?: string) {
+    const chapters = await this.prisma.chapter.findMany({
+      where: { courseId },
+      orderBy: { order: 'asc' },
+      include: {
+        _count: {
+          select: { assignments: true },
+        },
+      },
+    })
+
+    // Get progress for all chapters if user is authenticated
+    if (userId) {
+      const progressRecords = await this.prisma.progress.findMany({
+        where: {
+          userId,
+          chapterId: { in: chapters.map(c => c.id) },
+        },
+      })
+
+      const progressMap = new Map(progressRecords.map(p => [p.chapterId, p]))
+
+      return chapters.map(chapter => ({
+        ...chapter,
+        userProgress: progressMap.get(chapter.id) || null,
+      }))
+    }
+
+    return chapters
   }
 }

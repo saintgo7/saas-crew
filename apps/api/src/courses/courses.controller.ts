@@ -20,7 +20,9 @@ import {
   ApiParam,
 } from '@nestjs/swagger'
 import { CoursesService } from './courses.service'
+import { ChaptersService } from '../chapters/chapters.service'
 import { CreateCourseDto, UpdateCourseDto, CourseQueryDto } from './dto'
+import { CreateChapterDto } from '../chapters/dto'
 
 /**
  * Courses Controller
@@ -30,7 +32,10 @@ import { CreateCourseDto, UpdateCourseDto, CourseQueryDto } from './dto'
 @ApiTags('Courses')
 @Controller('courses')
 export class CoursesController {
-  constructor(private readonly coursesService: CoursesService) {}
+  constructor(
+    private readonly coursesService: CoursesService,
+    private readonly chaptersService: ChaptersService,
+  ) {}
 
   /**
    * GET /api/courses
@@ -174,5 +179,70 @@ export class CoursesController {
   })
   async deleteCourse(@Param('id') id: string) {
     return this.coursesService.delete(id)
+  }
+
+  /**
+   * GET /api/courses/:id/chapters
+   * Get all chapters for a course
+   * Public endpoint - returns chapter list with progress if authenticated
+   */
+  @Get(':id/chapters')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({
+    summary: 'Get course chapters',
+    description: 'Retrieve all chapters for a course',
+  })
+  @ApiParam({
+    name: 'id',
+    description: 'Course ID',
+    example: '789e0123-e45b-67d8-a901-426614174222',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Chapters retrieved successfully',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Course not found',
+  })
+  async getCourseChapters(@Param('id') courseId: string) {
+    return this.chaptersService.getChaptersByCourse(courseId)
+  }
+
+  /**
+   * POST /api/courses/:id/chapters
+   * Create a new chapter for a course
+   * Protected endpoint - requires JWT authentication (Admin only)
+   */
+  @Post(':id/chapters')
+  @UseGuards(AuthGuard('jwt'))
+  @HttpCode(HttpStatus.CREATED)
+  @ApiBearerAuth('JWT-auth')
+  @ApiOperation({
+    summary: 'Create chapter',
+    description: 'Create a new chapter for a course. Requires admin authentication.',
+  })
+  @ApiParam({
+    name: 'id',
+    description: 'Course ID',
+    example: '789e0123-e45b-67d8-a901-426614174222',
+  })
+  @ApiResponse({
+    status: 201,
+    description: 'Chapter created successfully',
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Course not found',
+  })
+  async createChapter(
+    @Param('id') courseId: string,
+    @Body() dto: CreateChapterDto,
+  ) {
+    return this.chaptersService.createChapter(courseId, dto)
   }
 }

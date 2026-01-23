@@ -113,6 +113,30 @@
         ]
       }
     },
+    "/api/users": {
+      "get": {
+        "operationId": "UsersController_getUsers",
+        "summary": "Get all users",
+        "description": "Retrieve all users. Requires admin authentication.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Users retrieved successfully"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "tags": [
+          "Users"
+        ],
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ]
+      }
+    },
     "/api/users/{id}": {
       "get": {
         "operationId": "UsersController_getUser",
@@ -842,6 +866,82 @@
         ]
       }
     },
+    "/api/courses/{id}/chapters": {
+      "get": {
+        "operationId": "CoursesController_getCourseChapters",
+        "summary": "Get course chapters",
+        "description": "Retrieve all chapters for a course",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Course ID",
+            "schema": {
+              "example": "789e0123-e45b-67d8-a901-426614174222",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Chapters retrieved successfully"
+          },
+          "404": {
+            "description": "Course not found"
+          }
+        },
+        "tags": [
+          "Courses"
+        ]
+      },
+      "post": {
+        "operationId": "CoursesController_createChapter",
+        "summary": "Create chapter",
+        "description": "Create a new chapter for a course. Requires admin authentication.",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Course ID",
+            "schema": {
+              "example": "789e0123-e45b-67d8-a901-426614174222",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateChapterDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Chapter created successfully"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Course not found"
+          }
+        },
+        "tags": [
+          "Courses"
+        ],
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ]
+      }
+    },
     "/api/chapters/{id}": {
       "get": {
         "operationId": "ChaptersController_getChapter",
@@ -869,6 +969,88 @@
         },
         "tags": [
           "Chapters"
+        ]
+      },
+      "patch": {
+        "operationId": "ChaptersController_updateChapter",
+        "summary": "Update chapter",
+        "description": "Update chapter details (admin only)",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Chapter ID",
+            "schema": {
+              "example": "012e3456-e78b-90d1-a234-426614174333",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateChapterDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Chapter updated successfully"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Chapter not found"
+          }
+        },
+        "tags": [
+          "Chapters"
+        ],
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "ChaptersController_deleteChapter",
+        "summary": "Delete chapter",
+        "description": "Delete a chapter (admin only)",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Chapter ID",
+            "schema": {
+              "example": "012e3456-e78b-90d1-a234-426614174333",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Chapter deleted successfully"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Chapter not found"
+          }
+        },
+        "tags": [
+          "Chapters"
+        ],
+        "security": [
+          {
+            "JWT-auth": []
+          }
         ]
       }
     },
@@ -1643,6 +1825,46 @@
           "Votes"
         ]
       }
+    },
+    "/api/admin/stats": {
+      "get": {
+        "operationId": "AdminController_getStats",
+        "summary": "Get admin dashboard statistics",
+        "description": "Retrieve counts and recent activity for admin dashboard",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Statistics retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "stats": {
+                      "users": 100,
+                      "courses": 30,
+                      "projects": 50,
+                      "enrollments": 200
+                    },
+                    "recentUsers": [],
+                    "recentCourses": []
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "tags": [
+          "Admin"
+        ],
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ]
+      }
     }
   },
   "info": {
@@ -2058,6 +2280,44 @@
           }
         }
       },
+      "CreateChapterDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Chapter title",
+            "example": "1. Introduction to React"
+          },
+          "slug": {
+            "type": "string",
+            "description": "URL-friendly slug",
+            "example": "introduction-to-react"
+          },
+          "order": {
+            "type": "number",
+            "description": "Order in the course",
+            "example": 1
+          },
+          "duration": {
+            "type": "number",
+            "description": "Duration in minutes",
+            "example": 15
+          },
+          "videoUrl": {
+            "type": "string",
+            "description": "Video URL (YouTube, Vimeo, etc.)"
+          },
+          "content": {
+            "type": "string",
+            "description": "Chapter content in Markdown"
+          }
+        },
+        "required": [
+          "title",
+          "slug",
+          "order"
+        ]
+      },
       "UpdateProgressDto": {
         "type": "object",
         "properties": {
@@ -2066,6 +2326,39 @@
             "description": "Last video position in seconds",
             "example": 120,
             "minimum": 0
+          }
+        }
+      },
+      "UpdateChapterDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Chapter title",
+            "example": "1. Introduction to React"
+          },
+          "slug": {
+            "type": "string",
+            "description": "URL-friendly slug",
+            "example": "introduction-to-react"
+          },
+          "order": {
+            "type": "number",
+            "description": "Order in the course",
+            "example": 1
+          },
+          "duration": {
+            "type": "number",
+            "description": "Duration in minutes",
+            "example": 15
+          },
+          "videoUrl": {
+            "type": "string",
+            "description": "Video URL (YouTube, Vimeo, etc.)"
+          },
+          "content": {
+            "type": "string",
+            "description": "Chapter content in Markdown"
           }
         }
       },

@@ -1,1 +1,3 @@
 export * from './update-progress.dto'
+export * from './create-chapter.dto'
+export * from './update-chapter.dto'

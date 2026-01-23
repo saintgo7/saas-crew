@@ -11,6 +11,7 @@ import { PostsModule } from './posts/posts.module'
 import { CommentsModule } from './comments/comments.module'
 import { VotesModule } from './votes/votes.module'
 import { HealthModule } from './health/health.module'
+import { AdminModule } from './admin/admin.module'
 
 /**
  * App Module
@@ -33,6 +34,7 @@ import { HealthModule } from './health/health.module'
     PostsModule,
     CommentsModule,
     VotesModule,
+    AdminModule,
   ],
 })
 export class AppModule {}

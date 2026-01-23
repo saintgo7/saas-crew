@@ -7,6 +7,28 @@ export class UsersService {
   constructor(private prisma: PrismaService) {}
 
   /**
+   * Find all users (admin only)
+   * Repository Layer: List all users with pagination
+   */
+  async findAll() {
+    const users = await this.prisma.user.findMany({
+      orderBy: { createdAt: 'desc' },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        avatar: true,
+        rank: true,
+        level: true,
+        department: true,
+        createdAt: true,
+      },
+    })
+
+    return { users }
+  }
+
+  /**
    * Find user by ID with profile information
    * Repository Layer: Data access through Prisma
    */

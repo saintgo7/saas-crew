@@ -3,6 +3,7 @@ import { AppModule } from './app.module'
 import { ValidationPipe } from '@nestjs/common'
 import { setupSwagger } from './swagger'
 import * as compression from 'compression'
+import { LoggingInterceptor } from './common/interceptors/logging.interceptor'
 
 /**
  * Bootstrap the NestJS application with performance optimizations
@@ -12,6 +13,7 @@ import * as compression from 'compression'
  * 2. Global Validation Pipe - efficient DTO validation
  * 3. CORS with credentials - secure cross-origin requests
  * 4. API Documentation - Swagger/OpenAPI specification
+ * 5. Performance Logging - tracks response times and identifies bottlenecks
  */
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
@@ -51,6 +53,10 @@ async function bootstrap() {
       },
     }),
   )
+
+  // Performance: Global logging interceptor
+  // Tracks response times and logs p50, p95, p99 metrics
+  app.useGlobalInterceptors(new LoggingInterceptor())
 
   // API Prefix
   app.setGlobalPrefix('api')
