@@ -9,7 +9,10 @@
           "200": {
             "description": ""
           }
-        }
+        },
+        "tags": [
+          "Health"
+        ]
       }
     },
     "/api/health/ready": {
@@ -20,7 +23,10 @@
           "200": {
             "description": ""
           }
-        }
+        },
+        "tags": [
+          "Health"
+        ]
       }
     },
     "/api/health/live": {
@@ -31,20 +37,23 @@
           "200": {
             "description": ""
           }
-        }
+        },
+        "tags": [
+          "Health"
+        ]
       }
     },
     "/api/auth/github": {
       "get": {
-        "operationId": "AuthController_githubLogin",
-        "summary": "Initiate GitHub OAuth",
         "description": "Redirects to GitHub authorization page to start OAuth flow",
+        "operationId": "AuthController_githubLogin",
         "parameters": [],
         "responses": {
           "302": {
             "description": "Redirects to GitHub OAuth authorization page"
           }
         },
+        "summary": "Initiate GitHub OAuth",
         "tags": [
           "Authentication"
         ]
@@ -52,9 +61,8 @@
     },
     "/api/auth/github/callback": {
       "get": {
-        "operationId": "AuthController_githubCallback",
-        "summary": "GitHub OAuth callback",
         "description": "Handles GitHub OAuth callback, creates/updates user, and redirects to frontend with JWT token",
+        "operationId": "AuthController_githubCallback",
         "parameters": [],
         "responses": {
           "302": {
@@ -64,6 +72,7 @@
             "description": "Authentication failed"
           }
         },
+        "summary": "GitHub OAuth callback",
         "tags": [
           "Authentication"
         ]
@@ -71,9 +80,8 @@
     },
     "/api/auth/me": {
       "get": {
-        "operationId": "AuthController_getMe",
-        "summary": "Get current user",
         "description": "Returns the currently authenticated user profile",
+        "operationId": "AuthController_getMe",
         "parameters": [],
         "responses": {
           "200": {
@@ -103,21 +111,21 @@
             "description": "Unauthorized - Invalid or missing JWT token"
           }
         },
-        "tags": [
-          "Authentication"
-        ],
         "security": [
           {
             "JWT-auth": []
           }
+        ],
+        "summary": "Get current user",
+        "tags": [
+          "Authentication"
         ]
       }
     },
     "/api/users": {
       "get": {
-        "operationId": "UsersController_getUsers",
-        "summary": "Get all users",
         "description": "Retrieve all users. Requires admin authentication.",
+        "operationId": "UsersController_getUsers",
         "parameters": [],
         "responses": {
           "200": {
@@ -127,21 +135,21 @@
             "description": "Unauthorized"
           }
         },
-        "tags": [
-          "Users"
-        ],
         "security": [
           {
             "JWT-auth": []
           }
+        ],
+        "summary": "Get all users",
+        "tags": [
+          "Users"
         ]
       }
     },
     "/api/users/{id}": {
       "get": {
-        "operationId": "UsersController_getUser",
-        "summary": "Get user profile",
         "description": "Retrieve user profile information by user ID",
+        "operationId": "UsersController_getUser",
         "parameters": [
           {
             "name": "id",
@@ -181,14 +189,14 @@
             "description": "User not found"
           }
         },
+        "summary": "Get user profile",
         "tags": [
           "Users"
         ]
       },
       "patch": {
-        "operationId": "UsersController_updateUser",
-        "summary": "Update user profile",
         "description": "Update user profile information. Users can only update their own profile.",
+        "operationId": "UsersController_updateUser",
         "parameters": [
           {
             "name": "id",
@@ -225,21 +233,21 @@
             "description": "User not found"
           }
         },
-        "tags": [
-          "Users"
-        ],
         "security": [
           {
             "JWT-auth": []
           }
+        ],
+        "summary": "Update user profile",
+        "tags": [
+          "Users"
         ]
       }
     },
     "/api/users/{id}/projects": {
       "get": {
-        "operationId": "UsersController_getUserProjects",
-        "summary": "Get user projects",
         "description": "Retrieve all projects where the user is a member",
+        "operationId": "UsersController_getUserProjects",
         "parameters": [
           {
             "name": "id",
@@ -277,6 +285,7 @@
             "description": "User not found"
           }
         },
+        "summary": "Get user projects",
         "tags": [
           "Users"
         ]
@@ -284,9 +293,8 @@
     },
     "/api/projects": {
       "get": {
-        "operationId": "ProjectsController_getProjects",
-        "summary": "Get all projects",
         "description": "Retrieve projects with optional filtering and pagination",
+        "operationId": "ProjectsController_getProjects",
         "parameters": [
           {
             "name": "visibility",
@@ -295,12 +303,12 @@
             "description": "Filter by visibility",
             "schema": {
               "example": "PUBLIC",
+              "type": "string",
               "enum": [
                 "PUBLIC",
                 "PRIVATE",
                 "TEAM"
-              ],
-              "type": "string"
+              ]
             }
           },
           {
@@ -353,14 +361,14 @@
             "description": "Projects retrieved successfully"
           }
         },
+        "summary": "Get all projects",
         "tags": [
           "Projects"
         ]
       },
       "post": {
-        "operationId": "ProjectsController_createProject",
-        "summary": "Create project",
         "description": "Create a new project. The creator automatically becomes the project owner.",
+        "operationId": "ProjectsController_createProject",
         "parameters": [],
         "requestBody": {
           "required": true,
@@ -383,21 +391,21 @@
             "description": "Unauthorized"
           }
         },
-        "tags": [
-          "Projects"
-        ],
         "security": [
           {
             "JWT-auth": []
           }
+        ],
+        "summary": "Create project",
+        "tags": [
+          "Projects"
         ]
       }
     },
     "/api/projects/{id}": {
       "get": {
-        "operationId": "ProjectsController_getProject",
-        "summary": "Get project by ID",
         "description": "Retrieve detailed project information including members",
+        "operationId": "ProjectsController_getProject",
         "parameters": [
           {
             "name": "id",
@@ -418,14 +426,14 @@
             "description": "Project not found"
           }
         },
+        "summary": "Get project by ID",
         "tags": [
           "Projects"
         ]
       },
       "patch": {
-        "operationId": "ProjectsController_updateProject",
-        "summary": "Update project",
         "description": "Update project information. Requires OWNER or ADMIN role.",
+        "operationId": "ProjectsController_updateProject",
         "parameters": [
           {
             "name": "id",
@@ -462,19 +470,19 @@
             "description": "Project not found"
           }
         },
-        "tags": [
-          "Projects"
-        ],
         "security": [
           {
             "JWT-auth": []
           }
+        ],
+        "summary": "Update project",
+        "tags": [
+          "Projects"
         ]
       },
       "delete": {
-        "operationId": "ProjectsController_deleteProject",
-        "summary": "Delete project",
         "description": "Delete a project. Only the project owner can delete the project.",
+        "operationId": "ProjectsController_deleteProject",
         "parameters": [
           {
             "name": "id",
@@ -501,21 +509,21 @@
             "description": "Project not found"
           }
         },
-        "tags": [
-          "Projects"
-        ],
         "security": [
           {
             "JWT-auth": []
           }
+        ],
+        "summary": "Delete project",
+        "tags": [
+          "Projects"
         ]
       }
     },
     "/api/projects/{id}/members": {
       "post": {
-        "operationId": "ProjectsController_addMember",
-        "summary": "Add project member",
         "description": "Add a member to the project. Requires OWNER or ADMIN role.",
+        "operationId": "ProjectsController_addMember",
         "parameters": [
           {
             "name": "id",
@@ -552,21 +560,21 @@
             "description": "Project or user not found"
           }
         },
-        "tags": [
-          "Projects"
-        ],
         "security": [
           {
             "JWT-auth": []
           }
+        ],
+        "summary": "Add project member",
+        "tags": [
+          "Projects"
         ]
       }
     },
     "/api/projects/{id}/members/{userId}": {
       "delete": {
-        "operationId": "ProjectsController_removeMember",
-        "summary": "Remove project member",
         "description": "Remove a member from the project. Cannot remove the owner. Requires OWNER or ADMIN role.",
+        "operationId": "ProjectsController_removeMember",
         "parameters": [
           {
             "name": "id",
@@ -603,21 +611,21 @@
             "description": "Project or member not found"
           }
         },
-        "tags": [
-          "Projects"
-        ],
         "security": [
           {
             "JWT-auth": []
           }
+        ],
+        "summary": "Remove project member",
+        "tags": [
+          "Projects"
         ]
       }
     },
     "/api/courses": {
       "get": {
-        "operationId": "CoursesController_getCourses",
-        "summary": "Get all courses",
         "description": "Retrieve courses with optional filtering and pagination",
+        "operationId": "CoursesController_getCourses",
         "parameters": [
           {
             "name": "level",
@@ -626,12 +634,12 @@
             "description": "Filter by course level",
             "schema": {
               "example": "BEGINNER",
+              "type": "string",
               "enum": [
                 "JUNIOR",
                 "SENIOR",
                 "MASTER"
-              ],
-              "type": "string"
+              ]
             }
           },
           {
@@ -714,14 +722,14 @@
             "description": "Courses retrieved successfully"
           }
         },
+        "summary": "Get all courses",
         "tags": [
           "Courses"
         ]
       },
       "post": {
-        "operationId": "CoursesController_createCourse",
-        "summary": "Create course",
         "description": "Create a new course. Requires admin authentication.",
+        "operationId": "CoursesController_createCourse",
         "parameters": [],
         "requestBody": {
           "required": true,
@@ -744,21 +752,21 @@
             "description": "Unauthorized"
           }
         },
-        "tags": [
-          "Courses"
-        ],
         "security": [
           {
             "JWT-auth": []
           }
+        ],
+        "summary": "Create course",
+        "tags": [
+          "Courses"
         ]
       }
     },
     "/api/courses/{id}": {
       "get": {
-        "operationId": "CoursesController_getCourse",
-        "summary": "Get course by ID",
         "description": "Retrieve detailed course information including chapters",
+        "operationId": "CoursesController_getCourse",
         "parameters": [
           {
             "name": "id",
@@ -779,14 +787,14 @@
             "description": "Course not found"
           }
         },
+        "summary": "Get course by ID",
         "tags": [
           "Courses"
         ]
       },
       "patch": {
-        "operationId": "CoursesController_updateCourse",
-        "summary": "Update course",
         "description": "Update course information. Requires admin authentication.",
+        "operationId": "CoursesController_updateCourse",
         "parameters": [
           {
             "name": "id",
@@ -820,19 +828,19 @@
             "description": "Course not found"
           }
         },
-        "tags": [
-          "Courses"
-        ],
         "security": [
           {
             "JWT-auth": []
           }
+        ],
+        "summary": "Update course",
+        "tags": [
+          "Courses"
         ]
       },
       "delete": {
-        "operationId": "CoursesController_deleteCourse",
-        "summary": "Delete course",
         "description": "Delete a course. Requires admin authentication.",
+        "operationId": "CoursesController_deleteCourse",
         "parameters": [
           {
             "name": "id",
@@ -856,21 +864,21 @@
             "description": "Course not found"
           }
         },
-        "tags": [
-          "Courses"
-        ],
         "security": [
           {
             "JWT-auth": []
           }
+        ],
+        "summary": "Delete course",
+        "tags": [
+          "Courses"
         ]
       }
     },
     "/api/courses/{id}/chapters": {
       "get": {
-        "operationId": "CoursesController_getCourseChapters",
-        "summary": "Get course chapters",
         "description": "Retrieve all chapters for a course",
+        "operationId": "CoursesController_getCourseChapters",
         "parameters": [
           {
             "name": "id",
@@ -891,14 +899,14 @@
             "description": "Course not found"
           }
         },
+        "summary": "Get course chapters",
         "tags": [
           "Courses"
         ]
       },
       "post": {
-        "operationId": "CoursesController_createChapter",
-        "summary": "Create chapter",
         "description": "Create a new chapter for a course. Requires admin authentication.",
+        "operationId": "CoursesController_createChapter",
         "parameters": [
           {
             "name": "id",
@@ -932,21 +940,21 @@
             "description": "Course not found"
           }
         },
-        "tags": [
-          "Courses"
-        ],
         "security": [
           {
             "JWT-auth": []
           }
+        ],
+        "summary": "Create chapter",
+        "tags": [
+          "Courses"
         ]
       }
     },
     "/api/chapters/{id}": {
       "get": {
-        "operationId": "ChaptersController_getChapter",
-        "summary": "Get chapter details",
         "description": "Retrieve chapter information. Includes user progress if authenticated.",
+        "operationId": "ChaptersController_getChapter",
         "parameters": [
           {
             "name": "id",
@@ -967,14 +975,14 @@
             "description": "Chapter not found"
           }
         },
+        "summary": "Get chapter details",
         "tags": [
           "Chapters"
         ]
       },
       "patch": {
-        "operationId": "ChaptersController_updateChapter",
-        "summary": "Update chapter",
         "description": "Update chapter details (admin only)",
+        "operationId": "ChaptersController_updateChapter",
         "parameters": [
           {
             "name": "id",
@@ -1008,19 +1016,19 @@
             "description": "Chapter not found"
           }
         },
-        "tags": [
-          "Chapters"
-        ],
         "security": [
           {
             "JWT-auth": []
           }
+        ],
+        "summary": "Update chapter",
+        "tags": [
+          "Chapters"
         ]
       },
       "delete": {
-        "operationId": "ChaptersController_deleteChapter",
-        "summary": "Delete chapter",
         "description": "Delete a chapter (admin only)",
+        "operationId": "ChaptersController_deleteChapter",
         "parameters": [
           {
             "name": "id",
@@ -1044,21 +1052,21 @@
             "description": "Chapter not found"
           }
         },
-        "tags": [
-          "Chapters"
-        ],
         "security": [
           {
             "JWT-auth": []
           }
+        ],
+        "summary": "Delete chapter",
+        "tags": [
+          "Chapters"
         ]
       }
     },
     "/api/chapters/{id}/progress": {
       "patch": {
-        "operationId": "ChaptersController_updateProgress",
-        "summary": "Update chapter progress",
         "description": "Update video position for resume functionality",
+        "operationId": "ChaptersController_updateProgress",
         "parameters": [
           {
             "name": "id",
@@ -1092,21 +1100,21 @@
             "description": "Chapter not found"
           }
         },
-        "tags": [
-          "Chapters"
-        ],
         "security": [
           {
             "JWT-auth": []
           }
+        ],
+        "summary": "Update chapter progress",
+        "tags": [
+          "Chapters"
         ]
       }
     },
     "/api/chapters/{id}/complete": {
       "post": {
-        "operationId": "ChaptersController_completeChapter",
-        "summary": "Complete chapter",
         "description": "Mark a chapter as completed",
+        "operationId": "ChaptersController_completeChapter",
         "parameters": [
           {
             "name": "id",
@@ -1130,21 +1138,21 @@
             "description": "Chapter not found"
           }
         },
-        "tags": [
-          "Chapters"
-        ],
         "security": [
           {
             "JWT-auth": []
           }
+        ],
+        "summary": "Complete chapter",
+        "tags": [
+          "Chapters"
         ]
       }
     },
     "/api/courses/{id}/enroll": {
       "post": {
-        "operationId": "EnrollmentsController_enrollInCourse",
-        "summary": "Enroll in course",
         "description": "Enroll the authenticated user in a course",
+        "operationId": "EnrollmentsController_enrollInCourse",
         "parameters": [
           {
             "name": "id",
@@ -1171,19 +1179,19 @@
             "description": "Already enrolled"
           }
         },
-        "tags": [
-          "Enrollments"
-        ],
         "security": [
           {
             "JWT-auth": []
           }
+        ],
+        "summary": "Enroll in course",
+        "tags": [
+          "Enrollments"
         ]
       },
       "delete": {
-        "operationId": "EnrollmentsController_cancelEnrollment",
-        "summary": "Cancel enrollment",
         "description": "Cancel enrollment in a course",
+        "operationId": "EnrollmentsController_cancelEnrollment",
         "parameters": [
           {
             "name": "id",
@@ -1207,21 +1215,21 @@
             "description": "Enrollment not found"
           }
         },
-        "tags": [
-          "Enrollments"
-        ],
         "security": [
           {
             "JWT-auth": []
           }
+        ],
+        "summary": "Cancel enrollment",
+        "tags": [
+          "Enrollments"
         ]
       }
     },
     "/api/courses/{id}/progress": {
       "get": {
-        "operationId": "EnrollmentsController_getCourseProgress",
-        "summary": "Get course progress",
         "description": "Retrieve the authenticated users progress in a specific course",
+        "operationId": "EnrollmentsController_getCourseProgress",
         "parameters": [
           {
             "name": "id",
@@ -1245,21 +1253,21 @@
             "description": "Enrollment not found"
           }
         },
-        "tags": [
-          "Enrollments"
-        ],
         "security": [
           {
             "JWT-auth": []
           }
+        ],
+        "summary": "Get course progress",
+        "tags": [
+          "Enrollments"
         ]
       }
     },
     "/api/courses/enrollments/me": {
       "get": {
-        "operationId": "EnrollmentsController_getMyEnrollments",
-        "summary": "Get my enrollments",
         "description": "Retrieve all course enrollments for the authenticated user",
+        "operationId": "EnrollmentsController_getMyEnrollments",
         "parameters": [],
         "responses": {
           "200": {
@@ -1269,21 +1277,21 @@
             "description": "Unauthorized"
           }
         },
-        "tags": [
-          "Enrollments"
-        ],
         "security": [
           {
             "JWT-auth": []
           }
+        ],
+        "summary": "Get my enrollments",
+        "tags": [
+          "Enrollments"
         ]
       }
     },
     "/api/posts": {
       "get": {
-        "operationId": "PostsController_getPosts",
-        "summary": "Get all posts",
         "description": "Retrieve posts with optional filtering, search, and pagination",
+        "operationId": "PostsController_getPosts",
         "parameters": [
           {
             "name": "tags",
@@ -1335,14 +1343,14 @@
             "description": "Posts retrieved successfully"
           }
         },
+        "summary": "Get all posts",
         "tags": [
           "Posts"
         ]
       },
       "post": {
-        "operationId": "PostsController_createPost",
-        "summary": "Create post",
         "description": "Create a new community post",
+        "operationId": "PostsController_createPost",
         "parameters": [],
         "requestBody": {
           "required": true,
@@ -1365,21 +1373,21 @@
             "description": "Unauthorized"
           }
         },
-        "tags": [
-          "Posts"
-        ],
         "security": [
           {
             "JWT-auth": []
           }
+        ],
+        "summary": "Create post",
+        "tags": [
+          "Posts"
         ]
       }
     },
     "/api/posts/{id}": {
       "get": {
-        "operationId": "PostsController_getPost",
-        "summary": "Get post by ID",
         "description": "Retrieve detailed post information including comments and votes. Increments view count.",
+        "operationId": "PostsController_getPost",
         "parameters": [
           {
             "name": "id",
@@ -1400,14 +1408,14 @@
             "description": "Post not found"
           }
         },
+        "summary": "Get post by ID",
         "tags": [
           "Posts"
         ]
       },
       "patch": {
-        "operationId": "PostsController_updatePost",
-        "summary": "Update post",
         "description": "Update post information. Only the author can update the post.",
+        "operationId": "PostsController_updatePost",
         "parameters": [
           {
             "name": "id",
@@ -1444,19 +1452,19 @@
             "description": "Post not found"
           }
         },
-        "tags": [
-          "Posts"
-        ],
         "security": [
           {
             "JWT-auth": []
           }
+        ],
+        "summary": "Update post",
+        "tags": [
+          "Posts"
         ]
       },
       "delete": {
-        "operationId": "PostsController_deletePost",
-        "summary": "Delete post",
         "description": "Delete a post. Only the author can delete the post.",
+        "operationId": "PostsController_deletePost",
         "parameters": [
           {
             "name": "id",
@@ -1483,21 +1491,21 @@
             "description": "Post not found"
           }
         },
-        "tags": [
-          "Posts"
-        ],
         "security": [
           {
             "JWT-auth": []
           }
+        ],
+        "summary": "Delete post",
+        "tags": [
+          "Posts"
         ]
       }
     },
     "/api/posts/{id}/comments": {
       "get": {
-        "operationId": "CommentsController_getComments",
-        "summary": "Get post comments",
         "description": "Retrieve all comments for a post in hierarchical structure",
+        "operationId": "CommentsController_getComments",
         "parameters": [
           {
             "name": "id",
@@ -1518,14 +1526,14 @@
             "description": "Post not found"
           }
         },
+        "summary": "Get post comments",
         "tags": [
           "Comments"
         ]
       },
       "post": {
-        "operationId": "CommentsController_createComment",
-        "summary": "Create comment",
         "description": "Create a new comment on a post or reply to an existing comment",
+        "operationId": "CommentsController_createComment",
         "parameters": [
           {
             "name": "id",
@@ -1559,21 +1567,21 @@
             "description": "Post not found"
           }
         },
-        "tags": [
-          "Comments"
-        ],
         "security": [
           {
             "JWT-auth": []
           }
+        ],
+        "summary": "Create comment",
+        "tags": [
+          "Comments"
         ]
       }
     },
     "/api/comments/{id}": {
       "patch": {
-        "operationId": "CommentsController_updateComment",
-        "summary": "Update comment",
         "description": "Update comment content. Only the author can update.",
+        "operationId": "CommentsController_updateComment",
         "parameters": [
           {
             "name": "id",
@@ -1610,19 +1618,19 @@
             "description": "Comment not found"
           }
         },
-        "tags": [
-          "Comments"
-        ],
         "security": [
           {
             "JWT-auth": []
           }
+        ],
+        "summary": "Update comment",
+        "tags": [
+          "Comments"
         ]
       },
       "delete": {
-        "operationId": "CommentsController_deleteComment",
-        "summary": "Delete comment",
         "description": "Delete a comment. Only the author can delete.",
+        "operationId": "CommentsController_deleteComment",
         "parameters": [
           {
             "name": "id",
@@ -1649,21 +1657,21 @@
             "description": "Comment not found"
           }
         },
-        "tags": [
-          "Comments"
-        ],
         "security": [
           {
             "JWT-auth": []
           }
+        ],
+        "summary": "Delete comment",
+        "tags": [
+          "Comments"
         ]
       }
     },
     "/api/comments/{id}/accept": {
       "post": {
-        "operationId": "CommentsController_acceptAnswer",
-        "summary": "Accept answer",
         "description": "Mark a comment as the accepted answer. Only the post author can accept.",
+        "operationId": "CommentsController_acceptAnswer",
         "parameters": [
           {
             "name": "id",
@@ -1690,21 +1698,21 @@
             "description": "Comment not found"
           }
         },
-        "tags": [
-          "Comments"
-        ],
         "security": [
           {
             "JWT-auth": []
           }
+        ],
+        "summary": "Accept answer",
+        "tags": [
+          "Comments"
         ]
       }
     },
     "/api/posts/{id}/vote": {
       "post": {
-        "operationId": "VotesController_vote",
-        "summary": "Vote on post",
         "description": "Upvote (1) or downvote (-1) a post. Updates existing vote if already voted.",
+        "operationId": "VotesController_vote",
         "parameters": [
           {
             "name": "id",
@@ -1738,19 +1746,19 @@
             "description": "Post not found"
           }
         },
-        "tags": [
-          "Votes"
-        ],
         "security": [
           {
             "JWT-auth": []
           }
+        ],
+        "summary": "Vote on post",
+        "tags": [
+          "Votes"
         ]
       },
       "delete": {
-        "operationId": "VotesController_removeVote",
-        "summary": "Remove vote",
         "description": "Remove your vote from a post",
+        "operationId": "VotesController_removeVote",
         "parameters": [
           {
             "name": "id",
@@ -1774,21 +1782,21 @@
             "description": "Post or vote not found"
           }
         },
-        "tags": [
-          "Votes"
-        ],
         "security": [
           {
             "JWT-auth": []
           }
+        ],
+        "summary": "Remove vote",
+        "tags": [
+          "Votes"
         ]
       }
     },
     "/api/posts/{id}/votes": {
       "get": {
-        "operationId": "VotesController_getVotes",
-        "summary": "Get vote statistics",
         "description": "Retrieve vote statistics for a post. Includes user vote status if authenticated.",
+        "operationId": "VotesController_getVotes",
         "parameters": [
           {
             "name": "id",
@@ -1821,6 +1829,7 @@
             "description": "Post not found"
           }
         },
+        "summary": "Get vote statistics",
         "tags": [
           "Votes"
         ]
@@ -1828,9 +1837,8 @@
     },
     "/api/admin/stats": {
       "get": {
-        "operationId": "AdminController_getStats",
-        "summary": "Get admin dashboard statistics",
         "description": "Retrieve counts and recent activity for admin dashboard",
+        "operationId": "AdminController_getStats",
         "parameters": [],
         "responses": {
           "200": {
@@ -1856,13 +1864,14 @@
             "description": "Unauthorized"
           }
         },
-        "tags": [
-          "Admin"
-        ],
         "security": [
           {
             "JWT-auth": []
           }
+        ],
+        "summary": "Get admin dashboard statistics",
+        "tags": [
+          "Admin"
         ]
       }
     }

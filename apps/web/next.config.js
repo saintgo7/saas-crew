@@ -1,7 +1,23 @@
 /** @type {import('next').NextConfig} */
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+})
+
 const nextConfig = {
   // Enable standalone output for Docker deployment
   output: 'standalone',
+  
+  // Production optimizations
+  swcMinify: true, // Use SWC minifier (faster than Terser)
+  compress: true,  // Enable gzip compression
+  
+  // Remove console logs in production
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production' ? {
+      exclude: ['error', 'warn'],
+    } : false,
+  },
+  
   images: {
     remotePatterns: [
       {
@@ -16,16 +32,25 @@ const nextConfig = {
     // Performance: Optimize image formats and caching
     formats: ['image/avif', 'image/webp'],
     minimumCacheTTL: 60 * 60 * 24 * 30, // 30 days cache for images
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
   },
+  
   experimental: {
     serverActions: {
       bodySizeLimit: '2mb',
     },
     // Performance: Optimize package imports (tree-shaking)
-    optimizePackageImports: ['lucide-react', 'date-fns'],
+    optimizePackageImports: [
+      'lucide-react',
+      'date-fns',
+      '@radix-ui/react-icons',
+      'react-hook-form',
+    ],
+    // Enable optimized font loading
+    optimizeFonts: true,
   },
-  // Performance: Enable response compression
-  compress: true,
+  
   // Performance: Configure headers for caching
   async headers() {
     return [
@@ -59,17 +84,65 @@ const nextConfig = {
           },
         ],
       },
+      {
+        // Security headers
+        source: '/:path*',
+        headers: [
+          {
+            key: 'X-DNS-Prefetch-Control',
+            value: 'on',
+          },
+          {
+            key: 'X-Frame-Options',
+            value: 'SAMEORIGIN',
+          },
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff',
+          },
+        ],
+      },
     ]
   },
+  
   // Performance: Optimize webpack bundle
   webpack: (config, { dev, isServer }) => {
     // Production optimizations only
     if (!dev && !isServer) {
       // Enable module concatenation for smaller bundles
       config.optimization.concatenateModules = true
+      
+      // Enable tree-shaking
+      config.optimization.usedExports = true
+      
+      // Split chunks for better caching
+      config.optimization.splitChunks = {
+        chunks: 'all',
+        cacheGroups: {
+          default: false,
+          vendors: false,
+          // Vendor chunk for node_modules
+          vendor: {
+            name: 'vendor',
+            chunks: 'all',
+            test: /node_modules/,
+            priority: 20,
+          },
+          // Common chunk for shared code
+          common: {
+            name: 'common',
+            minChunks: 2,
+            chunks: 'all',
+            priority: 10,
+            reuseExistingChunk: true,
+            enforce: true,
+          },
+        },
+      }
     }
+    
     return config
   },
 }
 
-module.exports = nextConfig
+module.exports = withBundleAnalyzer(nextConfig)
