@@ -64,15 +64,12 @@ services:
         reservations:
           memory: 256M
 
-  # Cloudflare Tunnel
+  # Cloudflare Tunnel (Token-based - simpler than config file)
   tunnel:
     image: cloudflare/cloudflared:latest
     container_name: crew-tunnel
     restart: unless-stopped
-    command: tunnel --config /etc/cloudflared/config.yml run
-    volumes:
-      - ./cloudflared/config.yml:/etc/cloudflared/config.yml:ro
-      - ./cloudflared/credentials.json:/etc/cloudflared/credentials.json:ro
+    command: tunnel --no-autoupdate run --token ${TUNNEL_TOKEN}
     networks:
       - workstation_manager_network
     depends_on:

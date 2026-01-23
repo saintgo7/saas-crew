@@ -61,22 +61,16 @@ else
     echo "Database created successfully"
 fi
 
-# 4. Verify cloudflared config
-echo -e "${YELLOW}[4/6] Verifying Cloudflare Tunnel config...${NC}"
+# 4. Verify Cloudflare Tunnel token
+echo -e "${YELLOW}[4/6] Verifying Cloudflare Tunnel token...${NC}"
 
-if [ ! -f cloudflared/config.yml ]; then
-    echo -e "${RED}ERROR: cloudflared/config.yml not found!${NC}"
-    echo "Please create the Cloudflare Tunnel configuration."
+if [ -z "$TUNNEL_TOKEN" ]; then
+    echo -e "${RED}ERROR: TUNNEL_TOKEN not set in .env${NC}"
+    echo "Get token from: Cloudflare Zero Trust > Networks > Tunnels > crew-api-tunnel"
     exit 1
 fi
 
-if [ ! -f cloudflared/credentials.json ]; then
-    echo -e "${RED}ERROR: cloudflared/credentials.json not found!${NC}"
-    echo "Please add the Cloudflare Tunnel credentials."
-    exit 1
-fi
-
-echo "Cloudflare Tunnel config verified"
+echo "Cloudflare Tunnel token verified"
 
 # 5. Build and start containers
 echo -e "${YELLOW}[5/6] Building and starting containers...${NC}"
