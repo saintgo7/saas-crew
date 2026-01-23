@@ -52,16 +52,20 @@ Plans:
 
 **Goal**: API 문서 완성, 배포 환경 구축, 베타 테스트 시작
 **Depends on**: Phase 7
-**Research**: Likely (deployment configuration)
-**Research topics**: Docker multi-stage builds, Cloudflare Pages deployment, 학교 서버 설정
-**Plans**: TBD (run /gsd:plan-phase 8 to break down)
+**Research**: Minimal (Level 1 - existing infrastructure 70% complete)
+**Plans**: 4 plans created (08-01 to 08-04)
 
 Plans:
-- [ ] 08-01: TBD
+- [ ] 08-01: API 문서화 및 OpenAPI 완성 (DTO decorators, Swagger UI)
+- [ ] 08-02: 배포 환경 구축 (Docker, 학교 서버 스크립트)
+- [ ] 08-03: CI/CD 파이프라인 완성 (deploy.yml, rollback)
+- [ ] 08-04: 베타 테스트 준비 (README, 가이드, Issue 템플릿)
 
 **Current Status:**
-- README 70% complete
-- Need: Swagger/OpenAPI docs, deployment scripts, CI/CD pipeline
+- 4 PLAN.md 파일 작성 완료
+- Swagger setup 이미 존재
+- Docker infrastructure 70% 완성
+- CI/CD workflows 기본 구조 존재
 
 ## Progress
 
@@ -70,4 +74,4 @@ Plans:
 | Phase | Milestone | Plans | Status | Completed |
 |-------|-----------|-------|--------|-----------|
 | 7. Testing & Quality | v1.0 | 3/3 | ✅ Completed | 2026-01-23 |
-| 8. Documentation & Deployment | v1.0 | 0/? | Ready to plan | - |
+| 8. Documentation & Deployment | v1.0 | 0/4 | Ready to execute | - |
