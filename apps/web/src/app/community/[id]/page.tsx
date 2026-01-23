@@ -1,3 +1,5 @@
+export const runtime = 'edge';
+
 import { Suspense } from 'react'
 import { PostDetailClient } from './PostDetailClient'
 import { PostDetailLoading } from './PostDetailLoading'

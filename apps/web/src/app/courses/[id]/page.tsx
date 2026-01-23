@@ -1,3 +1,5 @@
+export const runtime = 'edge';
+
 import { CoursePageContent } from './CoursePageContent'
 import type { Metadata } from 'next'
 

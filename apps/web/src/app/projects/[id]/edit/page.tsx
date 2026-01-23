@@ -1,5 +1,7 @@
 'use client'
 
+export const runtime = 'edge';
+
 import { useRouter, useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { ArrowLeft, Edit, Loader2 } from 'lucide-react'
