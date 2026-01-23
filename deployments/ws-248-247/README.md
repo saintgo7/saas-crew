@@ -35,7 +35,7 @@
 |   |                                                  |   |
 |   |   +-----------+  +-----------+  +-----------+   |   |
 |   |   |crew-tunnel|  | crew-api  |  |wm_postgres|   |   |
-|   |   |cloudflared|->|   :3000   |  |  :5432    |   |   |
+|   |   |cloudflared|->|   :4000   |  |  :5432    |   |   |
 |   |   +-----------+  +-----------+  +-----------+   |   |
 |   |                                                  |   |
 |   |                  +-----------+                   |   |
@@ -62,7 +62,7 @@
    - Subdomain: `crew-api`
    - Domain: `abada.kr`
    - Service Type: `HTTP`
-   - URL: `crew-api:3000`
+   - URL: `crew-api:4000`
 
 ### 2. Upload files to server
 
