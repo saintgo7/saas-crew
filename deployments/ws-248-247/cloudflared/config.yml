@@ -1,0 +1,17 @@
+# Cloudflare Tunnel Configuration for WKU Software Crew API
+# Tunnel: crew-api-tunnel
+# Domain: crew-api.abada.kr
+
+# TODO: Replace with your actual tunnel ID after creating tunnel
+tunnel: YOUR_TUNNEL_ID_HERE
+credentials-file: /etc/cloudflared/credentials.json
+
+ingress:
+  - hostname: crew-api.abada.kr
+    service: http://crew-api:4000
+    originRequest:
+      noTLSVerify: false
+      connectTimeout: 30s
+
+  # Catch-all rule (required)
+  - service: http_status:404
