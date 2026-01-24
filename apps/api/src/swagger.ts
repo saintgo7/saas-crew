@@ -67,11 +67,16 @@ This API uses JWT Bearer token authentication. To authenticate:
 
   const document = SwaggerModule.createDocument(app, config)
 
-  // Export OpenAPI spec to JSON file
+  // Export OpenAPI spec to JSON file (only in local development)
   if (exportSpec) {
-    const outputPath = path.resolve(process.cwd(), 'openapi.json')
-    fs.writeFileSync(outputPath, JSON.stringify(document, null, 2), { encoding: 'utf8' })
-    console.log(`OpenAPI specification exported to ${outputPath}`)
+    try {
+      const outputPath = path.resolve(process.cwd(), 'openapi.json')
+      fs.writeFileSync(outputPath, JSON.stringify(document, null, 2), { encoding: 'utf8' })
+      console.log(`OpenAPI specification exported to ${outputPath}`)
+    } catch (error) {
+      // Silently ignore write errors in containerized environments
+      console.log('OpenAPI spec export skipped (read-only filesystem)')
+    }
   }
 
   SwaggerModule.setup('api/docs', app, document, {
