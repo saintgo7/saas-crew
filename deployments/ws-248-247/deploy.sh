@@ -65,27 +65,19 @@ echo -e "${YELLOW}[5/6] Restarting containers...${NC}"
 docker compose up -d api web
 docker compose restart tunnel
 
-# 6. Health checks
+# 6. Health checks (using Docker's built-in health status)
 echo -e "${YELLOW}[6/6] Running health checks...${NC}"
-sleep 10
 
-MAX_RETRIES=6
+MAX_RETRIES=12
 RETRY_COUNT=0
-API_OK=false
-WEB_OK=false
 
 while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
-    # Check API
-    if docker compose exec -T api wget -qO- http://localhost:4000/api/health > /dev/null 2>&1; then
-        API_OK=true
-    fi
+    API_STATUS=$(docker inspect --format='{{.State.Health.Status}}' crew-api 2>/dev/null || echo "unknown")
+    WEB_STATUS=$(docker inspect --format='{{.State.Health.Status}}' crew-web 2>/dev/null || echo "unknown")
 
-    # Check Web
-    if docker compose exec -T web wget -qO- http://localhost:3000 > /dev/null 2>&1; then
-        WEB_OK=true
-    fi
+    echo "Health check attempt $((RETRY_COUNT + 1))/$MAX_RETRIES (API: $API_STATUS, Web: $WEB_STATUS)"
 
-    if [ "$API_OK" = true ] && [ "$WEB_OK" = true ]; then
+    if [ "$API_STATUS" = "healthy" ] && [ "$WEB_STATUS" = "healthy" ]; then
         echo -e "${GREEN}========================================"
         echo "Deployment Successful!"
         echo "Commit: $COMMIT"
@@ -102,8 +94,7 @@ while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
     fi
 
     RETRY_COUNT=$((RETRY_COUNT + 1))
-    echo "Health check attempt $RETRY_COUNT/$MAX_RETRIES (API: $API_OK, Web: $WEB_OK), retrying in 5s..."
-    sleep 5
+    sleep 10
 done
 
 # Rollback on failure
