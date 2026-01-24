@@ -3,15 +3,12 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 })
 
-// Detect Cloudflare Pages build environment
-const isCloudflarePages = process.env.CF_PAGES === '1'
-
 const nextConfig = {
-  // Enable standalone output only for Docker deployment (not Cloudflare Pages)
-  ...(isCloudflarePages ? {} : { output: 'standalone' }),
+  // Standalone output for Docker deployment
+  output: 'standalone',
 
   // Production optimizations
-  compress: true,  // Enable gzip compression
+  compress: true,
 
   // Remove console logs in production
   compiler: {
@@ -21,8 +18,6 @@ const nextConfig = {
   },
 
   images: {
-    // Use unoptimized images for Cloudflare Pages (no native image optimization)
-    ...(isCloudflarePages ? { unoptimized: true } : {}),
     remotePatterns: [
       {
         protocol: 'https',
