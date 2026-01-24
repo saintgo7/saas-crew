@@ -340,3 +340,209 @@ export interface ExtendedDashboardData extends DashboardData {
   activities: ActivityItem[]
   stats: DashboardStats
 }
+
+// Mentoring System Types
+export type UserRank = 'JUNIOR' | 'SENIOR' | 'MASTER'
+export type MentorshipStatus = 'PENDING' | 'ACTIVE' | 'COMPLETED' | 'REJECTED' | 'CANCELLED'
+
+export interface MentorInfo {
+  id: string
+  name: string
+  profileImage?: string
+  rank: UserRank
+  level: number
+  bio?: string
+  expertise?: string[]
+  sessionsCount: number
+  averageRating: number
+  totalRatings: number
+}
+
+export interface MenteeInfo {
+  id: string
+  name: string
+  profileImage?: string
+  rank: UserRank
+  level: number
+  sessionsCount: number
+}
+
+export interface Mentorship {
+  id: string
+  mentorId: string
+  menteeId: string
+  mentor: MentorInfo
+  mentee: MenteeInfo
+  status: MentorshipStatus
+  sessionsCount: number
+  rating?: number
+  feedback?: string
+  startedAt?: string
+  completedAt?: string
+  createdAt: string
+  updatedAt: string
+}
+
+export interface MentorshipRequest {
+  id: string
+  mentorId: string
+  menteeId: string
+  mentor: MentorInfo
+  mentee: MenteeInfo
+  status: MentorshipStatus
+  message?: string
+  createdAt: string
+}
+
+export interface MentoringDashboard {
+  myMentors: Mentorship[]
+  myMentees: Mentorship[]
+  pendingRequests: MentorshipRequest[]
+  availableMentors: MentorInfo[]
+}
+
+export interface AvailableMentorsParams {
+  expertise?: string
+  page?: number
+  pageSize?: number
+}
+
+export interface AvailableMentorsResponse {
+  mentors: MentorInfo[]
+  total: number
+  page: number
+  pageSize: number
+}
+
+export interface RequestMentorshipInput {
+  mentorId: string
+  message?: string
+}
+
+export interface RateMentorshipInput {
+  mentorshipId: string
+  rating: number
+  feedback?: string
+}
+
+// XP System Types
+export type XpActivityType =
+  | 'POST_CREATED'
+  | 'ANSWER_CREATED'
+  | 'ANSWER_ACCEPTED'
+  | 'VOTE_RECEIVED'
+  | 'RESOURCE_SHARED'
+  | 'COURSE_COMPLETED'
+  | 'CHAPTER_COMPLETED'
+  | 'DAILY_LOGIN'
+  | 'STREAK_BONUS'
+  | 'MENTOR_BONUS'
+
+export interface XpActivity {
+  id: string
+  userId: string
+  type: XpActivityType
+  amount: number
+  description: string
+  metadata?: {
+    postId?: string
+    courseId?: string
+    chapterId?: string
+    mentorshipId?: string
+    streakDays?: number
+  }
+  createdAt: string
+}
+
+export interface XpHistoryResponse {
+  activities: XpActivity[]
+  total: number
+  page: number
+  pageSize: number
+}
+
+export interface LeaderboardUser {
+  id: string
+  name: string
+  profileImage?: string
+  avatar?: string
+  rank: UserRank
+  level: number
+  experiencePoints: number
+  position: number
+}
+
+export interface LeaderboardResponse {
+  users: LeaderboardUser[]
+  total: number
+  currentUserPosition?: number
+  period: 'all_time' | 'this_month' | 'this_week'
+}
+
+export interface XpStats {
+  totalXp: number
+  level: number
+  rank: UserRank
+  currentLevelXp: number
+  nextLevelXp: number
+  progress: number
+  todayXp: number
+  weekXp: number
+  monthXp: number
+  position: number
+}
+
+// Notification System Types
+export type NotificationType =
+  | 'NEW_QUESTION'
+  | 'NEW_ANSWER'
+  | 'ANSWER_ACCEPTED'
+  | 'NEW_FOLLOWER'
+  | 'MENTION'
+  | 'VOTE_RECEIVED'
+  | 'LEVEL_UP'
+  | 'RANK_UP'
+  | 'XP_GAINED'
+  | 'MENTOR_ASSIGNED'
+  | 'MENTEE_ASSIGNED'
+  | 'MENTOR_MESSAGE'
+
+export type NotificationCategory = 'all' | 'qa' | 'social' | 'system'
+
+export interface Notification {
+  id: string
+  userId: string
+  type: NotificationType
+  title: string
+  content: string
+  link?: string
+  isRead: boolean
+  createdAt: string
+  metadata?: {
+    postId?: string
+    commentId?: string
+    userId?: string
+    xpAmount?: number
+    level?: number
+    rank?: string
+  }
+}
+
+export interface NotificationsListResponse {
+  notifications: Notification[]
+  total: number
+  page: number
+  pageSize: number
+  unreadCount: number
+}
+
+export interface NotificationFilters {
+  unreadOnly?: boolean
+  category?: NotificationCategory
+  page?: number
+  pageSize?: number
+}
+
+export interface UnreadCountResponse {
+  count: number
+}

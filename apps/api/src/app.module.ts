@@ -15,6 +15,10 @@ import { VotesModule } from './votes/votes.module'
 import { HealthModule } from './health/health.module'
 import { AdminModule } from './admin/admin.module'
 import { ChatModule } from './chat/chat.module'
+import { NotificationsModule } from './notifications/notifications.module'
+import { MentoringModule } from './mentoring/mentoring.module'
+import { XpModule } from './xp/xp.module'
+import { QnaModule } from './qna/qna.module'
 
 /**
  * App Module
@@ -61,6 +65,10 @@ import { ChatModule } from './chat/chat.module'
     VotesModule,
     AdminModule,
     ChatModule,
+    NotificationsModule,
+    MentoringModule,
+    XpModule,
+    QnaModule,
   ],
   providers: [
     // Apply rate limiting globally

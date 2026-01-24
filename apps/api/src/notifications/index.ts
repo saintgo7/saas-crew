@@ -1,0 +1,5 @@
+export { NotificationsModule } from './notifications.module'
+export { NotificationsService } from './notifications.service'
+export { NotificationsController } from './notifications.controller'
+export { NotificationsGateway } from './notifications.gateway'
+export * from './dto'

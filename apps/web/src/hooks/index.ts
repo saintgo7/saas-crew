@@ -28,3 +28,14 @@ export type {
   UseChannelsOptions,
   UseChannelsReturn,
 } from './useChat'
+
+// XP hooks
+export { useLeaderboard, useXpHistory, useXpStats } from './useXp'
+
+export type {
+  UseLeaderboardOptions,
+  UseLeaderboardReturn,
+  UseXpHistoryOptions,
+  UseXpHistoryReturn,
+  UseXpStatsReturn,
+} from './useXp'

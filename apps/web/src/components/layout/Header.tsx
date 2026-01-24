@@ -6,6 +6,7 @@ import { useState, useRef, useEffect } from 'react'
 import { Home, FolderGit2, BookOpen, MessageSquare, LayoutDashboard, User, LogOut, ChevronDown, MessagesSquare } from 'lucide-react'
 import { ThemeToggle } from './ThemeToggle'
 import { LanguageSwitcher } from './LanguageSwitcher'
+import { NotificationDropdown } from '@/components/notifications'
 import { useTranslations } from '@/i18n/LanguageContext'
 import { useUserStore } from '@/store/user-store'
 
@@ -82,10 +83,11 @@ export function Header() {
           })}
         </nav>
 
-        {/* Right Section: Theme, Language, Auth */}
+        {/* Right Section: Theme, Language, Notifications, Auth */}
         <div className="flex items-center gap-2">
           <ThemeToggle />
           <LanguageSwitcher />
+          <NotificationDropdown />
 
           {user ? (
             // User Menu Dropdown
