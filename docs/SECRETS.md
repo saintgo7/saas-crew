@@ -85,8 +85,8 @@ postgresql://crew_user:${DATABASE_PASSWORD}@wm_postgres:5432/crew_production
 Option A: Add routes to existing tunnel (recommended)
 1. Networks > Tunnels > `crew-api-tunnel` > Configure
 2. Add Public Hostname:
-   - `staging.crew.abada.kr` -> `http://crew-web-staging:3001`
-   - `staging-api.crew.abada.kr` -> `http://crew-api-staging:4001`
+   - `staging-crew.abada.kr` -> `http://crew-web-staging:3001`
+   - `staging-api-crew.abada.kr` -> `http://crew-api-staging:4001`
 3. No new token needed - uses same `TUNNEL_TOKEN`
 
 Option B: Create separate staging tunnel
@@ -217,7 +217,7 @@ Also add these as Repository Variables (Settings > Secrets and variables > Actio
 | Variable Name | Value |
 |---------------|-------|
 | `API_URL` | `https://crew-api.abada.kr` |
-| `STAGING_API_URL` | `https://staging-api.crew.abada.kr` |
+| `STAGING_API_URL` | `https://staging-api-crew.abada.kr` |
 
 ---
 

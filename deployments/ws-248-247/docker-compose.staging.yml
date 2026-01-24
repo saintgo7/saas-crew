@@ -1,5 +1,5 @@
 # WKU Software Crew - Staging Environment
-# Domains: staging.crew.abada.kr, staging-api.crew.abada.kr
+# Domains: staging-crew.abada.kr, staging-api-crew.abada.kr
 # Uses separate containers on different ports
 
 services:
@@ -9,7 +9,7 @@ services:
       context: ./app
       dockerfile: apps/web/Dockerfile
       args:
-        NEXT_PUBLIC_API_URL: https://staging-api.crew.abada.kr
+        NEXT_PUBLIC_API_URL: https://staging-api-crew.abada.kr
     image: crew-web:staging
     container_name: crew-web-staging
     restart: unless-stopped
@@ -17,7 +17,7 @@ services:
       - "3001"
     environment:
       NODE_ENV: production
-      NEXT_PUBLIC_API_URL: https://staging-api.crew.abada.kr
+      NEXT_PUBLIC_API_URL: https://staging-api-crew.abada.kr
       PORT: 3001
     networks:
       - workstation_manager_network
@@ -68,13 +68,13 @@ services:
       # GitHub OAuth (use staging OAuth app if available)
       GITHUB_CLIENT_ID: ${GITHUB_CLIENT_ID_STAGING:-${GITHUB_CLIENT_ID}}
       GITHUB_CLIENT_SECRET: ${GITHUB_CLIENT_SECRET_STAGING:-${GITHUB_CLIENT_SECRET}}
-      GITHUB_CALLBACK_URL: https://staging-api.crew.abada.kr/api/auth/github/callback
+      GITHUB_CALLBACK_URL: https://staging-api-crew.abada.kr/api/auth/github/callback
 
       # CORS
-      ALLOWED_ORIGINS: https://staging.crew.abada.kr
+      ALLOWED_ORIGINS: https://staging-crew.abada.kr
 
       # Frontend URL
-      FRONTEND_URL: https://staging.crew.abada.kr
+      FRONTEND_URL: https://staging-crew.abada.kr
 
     networks:
       - workstation_manager_network

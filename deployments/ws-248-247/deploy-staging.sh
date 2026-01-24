@@ -1,7 +1,7 @@
 #!/bin/bash
 # WKU Software Crew - Staging Deployment Script
 # Deploys develop branch to staging environment
-# Domains: staging.crew.abada.kr, staging-api.crew.abada.kr
+# Domains: staging-crew.abada.kr, staging-api-crew.abada.kr
 
 set -e
 
@@ -27,8 +27,8 @@ exec > >(tee -a "$LOG_FILE") 2>&1
 echo -e "${CYAN}========================================"
 echo "WKU Software Crew - STAGING Deployment"
 echo "Server: ws-248-247"
-echo "Frontend: staging.crew.abada.kr"
-echo "API: staging-api.crew.abada.kr"
+echo "Frontend: staging-crew.abada.kr"
+echo "API: staging-api-crew.abada.kr"
 echo "Time: $(date)"
 echo -e "========================================${NC}"
 
@@ -89,8 +89,8 @@ while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
         echo -e "${GREEN}========================================"
         echo "Staging Deployment Successful!"
         echo "Commit: $COMMIT (develop)"
-        echo "API: https://staging-api.crew.abada.kr"
-        echo "Web: https://staging.crew.abada.kr"
+        echo "API: https://staging-api-crew.abada.kr"
+        echo "Web: https://staging-crew.abada.kr"
         echo "Time: $(date)"
         echo -e "========================================${NC}"
 

@@ -7,7 +7,7 @@
 ### Current State: Git Flow Setup In Progress
 
 **Production (main)**: https://crew.abada.kr - LIVE
-**Staging (develop)**: https://staging.crew.abada.kr - PENDING SETUP
+**Staging (develop)**: https://staging-crew.abada.kr - PENDING SETUP
 
 ### Pending Manual Tasks
 
@@ -226,7 +226,7 @@ main (production) ← develop (staging) ← feature/*
 | Branch | Purpose | Deploys To |
 |--------|---------|------------|
 | `main` | Production code | crew.abada.kr |
-| `develop` | Integration & testing | staging.crew.abada.kr |
+| `develop` | Integration & testing | staging-crew.abada.kr |
 | `feature/*` | New features | Local only |
 | `hotfix/*` | Emergency fixes | Direct to main |
 
@@ -244,7 +244,7 @@ pnpm test && pnpm build
 git push -u origin feature/my-feature
 
 # 4. After PR merge, staging auto-deploys
-# Test at staging.crew.abada.kr
+# Test at staging-crew.abada.kr
 
 # 5. Create PR from develop to main
 # After approval, production auto-deploys

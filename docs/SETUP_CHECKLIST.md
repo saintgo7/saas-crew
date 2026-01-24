@@ -158,8 +158,8 @@ Save 클릭
 
 ### Step 4.3: 검증
 
-- [ ] staging.crew.abada.kr 라우트 추가됨
-- [ ] staging-api.crew.abada.kr 라우트 추가됨
+- [ ] staging-crew.abada.kr 라우트 추가됨
+- [ ] staging-api-crew.abada.kr 라우트 추가됨
 
 ---
 
@@ -221,9 +221,9 @@ cd ~/saas-crew
 
 ### Step 6.2: 사이트 접속 확인
 
-- [ ] https://staging.crew.abada.kr 접속 가능
-- [ ] https://staging-api.crew.abada.kr/api/health 응답 확인
-- [ ] https://staging-api.crew.abada.kr/api/docs Swagger 확인
+- [ ] https://staging-crew.abada.kr 접속 가능
+- [ ] https://staging-api-crew.abada.kr/api/health 응답 확인
+- [ ] https://staging-api-crew.abada.kr/api/docs Swagger 확인
 
 ### Step 6.3: CI/CD 파이프라인 테스트
 
@@ -283,7 +283,7 @@ GitHub Actions 탭에서 워크플로우 실행 확인
    # GitHub에서 PR 생성
 
 4. CI 체크 통과 → develop 머지
-   # staging.crew.abada.kr 에서 자동 배포 및 테스트
+   # staging-crew.abada.kr 에서 자동 배포 및 테스트
 
 5. PR 생성 (develop → main)
    # 충분한 테스트 후

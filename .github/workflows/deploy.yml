@@ -28,7 +28,7 @@ jobs:
     if: github.ref == 'refs/heads/develop' || (github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'staging')
     environment:
       name: staging
-      url: https://staging.crew.abada.kr
+      url: https://staging-crew.abada.kr
 
     steps:
       - name: Checkout code
@@ -55,7 +55,7 @@ jobs:
           sleep 30
 
           for i in {1..10}; do
-            if curl -sf https://staging-api.crew.abada.kr/api/health > /dev/null 2>&1; then
+            if curl -sf https://staging-api-crew.abada.kr/api/health > /dev/null 2>&1; then
               echo "Staging API health check passed"
               break
             fi
@@ -72,7 +72,7 @@ jobs:
               repo: context.repo.repo,
               sha: context.sha,
               state: 'success',
-              target_url: 'https://staging.crew.abada.kr',
+              target_url: 'https://staging-crew.abada.kr',
               description: 'Deployed to staging',
               context: 'deployment/staging'
             });

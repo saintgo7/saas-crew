@@ -41,8 +41,8 @@
 
 ### 5. Cloudflare Staging Routes
 
-- [ ] staging.crew.abada.kr 라우트 추가
-- [ ] staging-api.crew.abada.kr 라우트 추가
+- [ ] staging-crew.abada.kr 라우트 추가
+- [ ] staging-api-crew.abada.kr 라우트 추가
 
 **설정 가이드**: `docs/CLOUDFLARE_STAGING_SETUP.md`
 

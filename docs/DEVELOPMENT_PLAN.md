@@ -47,7 +47,7 @@ main (production)
 | 브랜치 | 용도 | 배포 대상 | 보호 |
 |--------|------|----------|------|
 | `main` | 프로덕션 코드 | crew.abada.kr | Protected |
-| `develop` | 통합 및 테스트 | staging.crew.abada.kr | Protected |
+| `develop` | 통합 및 테스트 | staging-crew.abada.kr | Protected |
 | `feature/*` | 새 기능 개발 | 로컬 | - |
 | `hotfix/*` | 긴급 수정 | 프로덕션 직접 | - |
 
@@ -127,7 +127,7 @@ ws-248-247 Server
 | 환경 | Frontend | API |
 |------|----------|-----|
 | Production | crew.abada.kr | crew-api.abada.kr |
-| Staging | staging.crew.abada.kr | staging-api.crew.abada.kr |
+| Staging | staging-crew.abada.kr | staging-api-crew.abada.kr |
 
 ### 비용: $0 추가
 - 기존 서버 활용
