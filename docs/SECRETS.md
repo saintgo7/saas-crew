@@ -70,7 +70,8 @@ postgresql://crew_user:${DATABASE_PASSWORD}@wm_postgres:5432/crew_production
 
 | Variable | Description | Where to Get |
 |----------|-------------|--------------|
-| `TUNNEL_TOKEN` | Cloudflare Tunnel authentication token | Cloudflare Zero Trust Dashboard |
+| `TUNNEL_TOKEN` | Production Cloudflare Tunnel token | Cloudflare Zero Trust Dashboard |
+| `TUNNEL_TOKEN_STAGING` | Staging Cloudflare Tunnel token (optional) | Cloudflare Zero Trust Dashboard |
 
 **How to Get Token**:
 1. Go to https://one.dash.cloudflare.com/
@@ -78,6 +79,21 @@ postgresql://crew_user:${DATABASE_PASSWORD}@wm_postgres:5432/crew_production
 3. Click on `crew-api-tunnel`
 4. Click Configure > Docker tab
 5. Copy token from the command (starts with `eyJ...`)
+
+**Staging Tunnel Setup Options**:
+
+Option A: Add routes to existing tunnel (recommended)
+1. Networks > Tunnels > `crew-api-tunnel` > Configure
+2. Add Public Hostname:
+   - `staging.crew.abada.kr` -> `http://crew-web-staging:3001`
+   - `staging-api.crew.abada.kr` -> `http://crew-api-staging:4001`
+3. No new token needed - uses same `TUNNEL_TOKEN`
+
+Option B: Create separate staging tunnel
+1. Networks > Tunnels > Create a tunnel
+2. Name: `crew-staging-tunnel`
+3. Configure routes as above
+4. Copy token to `TUNNEL_TOKEN_STAGING` in `.env`
 
 ---
 
@@ -162,6 +178,49 @@ TUNNEL_TOKEN=your_tunnel_token_here
 
 ---
 
+## GitHub Actions Secrets
+
+### Required for CI/CD Deployment
+
+Go to: GitHub Repository > Settings > Secrets and variables > Actions
+
+| Secret Name | Description | How to Get |
+|-------------|-------------|------------|
+| `SERVER_HOST` | Deployment server IP/hostname | Server admin (e.g., `192.168.248.247`) |
+| `SERVER_USER` | SSH username | Server admin (e.g., `saint`) |
+| `SERVER_SSH_KEY` | Private SSH key for deployment | Generate with `ssh-keygen -t ed25519` |
+
+### Setting Up SSH Key for Deployment
+
+```bash
+# 1. Generate deployment key (on local machine)
+ssh-keygen -t ed25519 -C "github-actions-deploy" -f ~/.ssh/deploy_key
+
+# 2. Add public key to server
+ssh-copy-id -i ~/.ssh/deploy_key.pub saint@ws-248-247
+# Or manually append to ~/.ssh/authorized_keys on server
+
+# 3. Copy private key content for GitHub
+cat ~/.ssh/deploy_key
+# Copy entire output including -----BEGIN/END-----
+
+# 4. Add to GitHub Secrets
+# Go to: Settings > Secrets and variables > Actions > New repository secret
+# Name: SERVER_SSH_KEY
+# Value: Paste the private key content
+```
+
+### Environment Variables
+
+Also add these as Repository Variables (Settings > Secrets and variables > Actions > Variables):
+
+| Variable Name | Value |
+|---------------|-------|
+| `API_URL` | `https://crew-api.abada.kr` |
+| `STAGING_API_URL` | `https://staging-api.crew.abada.kr` |
+
+---
+
 ## Quick Reference
 
 | Secret | Rotation Period | Impact of Rotation |
@@ -170,3 +229,4 @@ TUNNEL_TOKEN=your_tunnel_token_here
 | JWT_SECRET | 6 months | All sessions invalidated |
 | GITHUB_CLIENT_SECRET | As needed | Re-authentication required |
 | TUNNEL_TOKEN | As needed | Brief connectivity loss |
+| SERVER_SSH_KEY | As needed | CI/CD deployment fails until updated |
