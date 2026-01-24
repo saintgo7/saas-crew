@@ -19,6 +19,9 @@ import { NotificationsModule } from './notifications/notifications.module'
 import { MentoringModule } from './mentoring/mentoring.module'
 import { XpModule } from './xp/xp.module'
 import { QnaModule } from './qna/qna.module'
+import { QuizzesModule } from './quizzes/quizzes.module'
+import { CertificatesModule } from './certificates/certificates.module'
+import { CategoriesModule } from './categories/categories.module'
 
 /**
  * App Module
@@ -69,6 +72,9 @@ import { QnaModule } from './qna/qna.module'
     MentoringModule,
     XpModule,
     QnaModule,
+    QuizzesModule,
+    CertificatesModule,
+    CategoriesModule,
   ],
   providers: [
     // Apply rate limiting globally

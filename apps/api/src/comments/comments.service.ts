@@ -238,4 +238,108 @@ export class CommentsService {
 
     return acceptedComment
   }
+
+  /**
+   * Like a comment
+   * Business Logic: One like per user per comment
+   */
+  async likeComment(commentId: string, userId: string) {
+    // Check if comment exists
+    const comment = await this.prisma.comment.findUnique({
+      where: { id: commentId },
+    })
+
+    if (!comment) {
+      throw new NotFoundException(`Comment with ID ${commentId} not found`)
+    }
+
+    // Check if already liked
+    const existingLike = await this.prisma.commentLike.findUnique({
+      where: {
+        userId_commentId: {
+          userId,
+          commentId,
+        },
+      },
+    })
+
+    if (existingLike) {
+      return { message: 'Already liked', liked: true }
+    }
+
+    // Create like
+    await this.prisma.commentLike.create({
+      data: {
+        userId,
+        commentId,
+      },
+    })
+
+    // Get like count
+    const likeCount = await this.prisma.commentLike.count({
+      where: { commentId },
+    })
+
+    return { message: 'Comment liked', liked: true, likeCount }
+  }
+
+  /**
+   * Unlike a comment
+   */
+  async unlikeComment(commentId: string, userId: string) {
+    // Check if like exists
+    const existingLike = await this.prisma.commentLike.findUnique({
+      where: {
+        userId_commentId: {
+          userId,
+          commentId,
+        },
+      },
+    })
+
+    if (!existingLike) {
+      return { message: 'Not liked', liked: false }
+    }
+
+    // Delete like
+    await this.prisma.commentLike.delete({
+      where: {
+        userId_commentId: {
+          userId,
+          commentId,
+        },
+      },
+    })
+
+    // Get like count
+    const likeCount = await this.prisma.commentLike.count({
+      where: { commentId },
+    })
+
+    return { message: 'Like removed', liked: false, likeCount }
+  }
+
+  /**
+   * Get like status and count for a comment
+   */
+  async getLikeStatus(commentId: string, userId?: string) {
+    const likeCount = await this.prisma.commentLike.count({
+      where: { commentId },
+    })
+
+    let isLiked = false
+    if (userId) {
+      const like = await this.prisma.commentLike.findUnique({
+        where: {
+          userId_commentId: {
+            userId,
+            commentId,
+          },
+        },
+      })
+      isLiked = !!like
+    }
+
+    return { likeCount, isLiked }
+  }
 }

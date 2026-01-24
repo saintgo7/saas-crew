@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { useState, useRef, useEffect } from 'react'
-import { Home, FolderGit2, BookOpen, MessageSquare, LayoutDashboard, User, LogOut, ChevronDown, MessagesSquare } from 'lucide-react'
+import { Home, FolderGit2, BookOpen, MessageSquare, LayoutDashboard, User, LogOut, ChevronDown, MessagesSquare, HelpCircle, Users, Trophy, BookText } from 'lucide-react'
 import { ThemeToggle } from './ThemeToggle'
 import { LanguageSwitcher } from './LanguageSwitcher'
 import { NotificationDropdown } from '@/components/notifications'
@@ -14,7 +14,11 @@ const navigationKeys = [
   { key: 'home', href: '/', icon: Home },
   { key: 'projects', href: '/projects', icon: FolderGit2 },
   { key: 'courses', href: '/courses', icon: BookOpen },
+  { key: 'glossary', href: '/glossary', icon: BookText },
+  { key: 'qna', href: '/qna', icon: HelpCircle },
   { key: 'community', href: '/community', icon: MessageSquare },
+  { key: 'mentoring', href: '/mentoring', icon: Users },
+  { key: 'leaderboard', href: '/leaderboard', icon: Trophy },
   { key: 'chat', href: '/chat', icon: MessagesSquare },
   { key: 'dashboard', href: '/dashboard', icon: LayoutDashboard },
 ]
@@ -60,7 +64,7 @@ export function Header() {
         </Link>
 
         {/* Navigation */}
-        <nav className="flex items-center gap-1">
+        <nav className="flex items-center gap-1 overflow-x-auto">
           {navigationKeys.map((item) => {
             const isActive = pathname === item.href ||
               (item.href !== '/' && pathname.startsWith(item.href))
@@ -70,14 +74,15 @@ export function Header() {
               <Link
                 key={item.key}
                 href={item.href}
-                className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+                className={`flex items-center gap-2 rounded-lg px-2 py-2 text-sm font-medium transition-colors ${
                   isActive
                     ? 'bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400'
                     : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-white'
                 }`}
+                title={t(`nav.${item.key}`)}
               >
                 <Icon className="h-4 w-4" />
-                <span className="hidden sm:inline-block">{t(`nav.${item.key}`)}</span>
+                <span className="hidden lg:inline-block">{t(`nav.${item.key}`)}</span>
               </Link>
             )
           })}

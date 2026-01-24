@@ -46,6 +46,12 @@ model User {
   posts         Post[]
   comments      Comment[]
   votes         Vote[]
+  commentLikes  CommentLike[]
+
+  // Course & Quiz relations
+  chapterProgress Progress[]
+  quizAttempts    QuizAttempt[]
+  certificates    Certificate[]
 
   // Chat relations
   channelMembers ChannelMember[]
@@ -135,6 +141,7 @@ model Course {
   // Content
   chapters      Chapter[]
   enrollments   Enrollment[]
+  certificates  Certificate[]
 
   // Metadata
   tags          String[]
@@ -180,6 +187,7 @@ model Chapter {
 
   assignments Assignment[]
   progresses  Progress[]
+  quizzes     Quiz[]
 
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -220,6 +228,7 @@ model Progress {
   id           String    @id @default(cuid())
 
   userId       String
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   chapterId    String
   chapter      Chapter   @relation(fields: [chapterId], references: [id], onDelete: Cascade)
 
@@ -277,6 +286,119 @@ model Submission {
 }
 
 // ============================================
+// Quiz System
+// ============================================
+
+model Quiz {
+  id          String       @id @default(cuid())
+  title       String
+  description String?      @db.Text
+
+  chapterId   String
+  chapter     Chapter      @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+
+  // Quiz settings
+  passingScore Int         @default(70) // Percentage required to pass
+  timeLimit    Int?        // Minutes allowed (null = no limit)
+  maxAttempts  Int         @default(3) // Maximum attempts allowed
+  shuffleQuestions Boolean @default(false)
+
+  questions   QuizQuestion[]
+  attempts    QuizAttempt[]
+
+  isPublished Boolean      @default(false)
+
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  @@index([chapterId])
+  @@map("quizzes")
+}
+
+model QuizQuestion {
+  id          String       @id @default(cuid())
+
+  quizId      String
+  quiz        Quiz         @relation(fields: [quizId], references: [id], onDelete: Cascade)
+
+  type        QuestionType @default(MULTIPLE_CHOICE)
+  question    String       @db.Text
+  options     Json         // Array of answer options
+  correctAnswer String     // Index or text of correct answer
+  explanation String?      @db.Text // Explanation shown after answering
+
+  order       Int          @default(0)
+  points      Int          @default(1)
+
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  @@index([quizId, order])
+  @@map("quiz_questions")
+}
+
+enum QuestionType {
+  MULTIPLE_CHOICE   // Single correct answer
+  MULTIPLE_SELECT   // Multiple correct answers
+  TRUE_FALSE        // Boolean answer
+  SHORT_ANSWER      // Text input
+}
+
+model QuizAttempt {
+  id          String      @id @default(cuid())
+
+  userId      String
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  quizId      String
+  quiz        Quiz        @relation(fields: [quizId], references: [id], onDelete: Cascade)
+
+  // Attempt data
+  answers     Json        // User's answers to each question
+  score       Int         // Percentage score
+  passed      Boolean     // Whether the attempt passed
+  timeSpent   Int?        // Seconds spent on the quiz
+
+  startedAt   DateTime    @default(now())
+  completedAt DateTime?
+
+  @@index([userId, quizId])
+  @@index([quizId])
+  @@map("quiz_attempts")
+}
+
+// ============================================
+// Certificate System
+// ============================================
+
+model Certificate {
+  id          String   @id @default(cuid())
+
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  courseId    String
+  course      Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  // Certificate data
+  certificateNumber String @unique // Unique verification number
+  issuedAt    DateTime @default(now())
+
+  // Course snapshot at time of completion
+  courseName  String
+  courseLevel String
+
+  // Verification URL
+  verificationUrl String?
+
+  createdAt   DateTime @default(now())
+
+  @@unique([userId, courseId])
+  @@index([userId])
+  @@index([courseId])
+  @@index([certificateNumber])
+  @@map("certificates")
+}
+
+// ============================================
 // Project Management
 // ============================================
 
@@ -287,10 +409,19 @@ model Project {
   description String?      @db.Text
   visibility  Visibility   @default(PRIVATE)
 
-  githubRepo  String?
+  // GitHub Integration
+  githubRepo        String?
+  githubOwner       String?   // GitHub owner/organization
+  githubDefaultBranch String? // Default branch (main/master)
+  githubStars       Int       @default(0)
+  githubForks       Int       @default(0)
+  lastSyncAt        DateTime? // Last GitHub sync time
+
   deployUrl   String?
 
   members     ProjectMember[]
+  invitations ProjectInvitation[]
+  activities  ProjectActivity[]
 
   // Metadata
   tags        String[]
@@ -345,63 +476,196 @@ enum ProjectRole {
   VIEWER
 }
 
+model ProjectInvitation {
+  id          String           @id @default(cuid())
+
+  projectId   String
+  project     Project          @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  // Invitee (either email or userId)
+  email       String?          // Email for external invites
+  userId      String?          // User ID for existing users
+
+  inviterId   String           // Who sent the invite
+
+  role        ProjectRole      @default(MEMBER)
+  status      InvitationStatus @default(PENDING)
+
+  // Token for email invitations
+  token       String           @unique @default(cuid())
+
+  expiresAt   DateTime
+  acceptedAt  DateTime?
+  rejectedAt  DateTime?
+
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+
+  @@index([projectId])
+  @@index([email])
+  @@index([userId])
+  @@index([token])
+  @@index([status])
+  @@map("project_invitations")
+}
+
+enum InvitationStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+  EXPIRED
+}
+
+model ProjectActivity {
+  id          String              @id @default(cuid())
+
+  projectId   String
+  project     Project             @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  actorId     String              // Who performed the action
+
+  type        ProjectActivityType
+  description String
+
+  // Optional metadata (JSON)
+  metadata    Json?
+
+  // Reference to related entity
+  referenceType String?          // 'member', 'invitation', 'project'
+  referenceId   String?
+
+  createdAt   DateTime            @default(now())
+
+  @@index([projectId, createdAt(sort: Desc)])
+  @@index([actorId])
+  @@map("project_activities")
+}
+
+enum ProjectActivityType {
+  // Project events
+  PROJECT_CREATED
+  PROJECT_UPDATED
+  PROJECT_DELETED
+
+  // Member events
+  MEMBER_JOINED
+  MEMBER_LEFT
+  MEMBER_REMOVED
+  MEMBER_ROLE_CHANGED
+
+  // Invitation events
+  INVITATION_SENT
+  INVITATION_ACCEPTED
+  INVITATION_REJECTED
+  INVITATION_CANCELLED
+
+  // GitHub events
+  GITHUB_SYNCED
+  GITHUB_CONNECTED
+  GITHUB_DISCONNECTED
+}
+
 // ============================================
 // Community
 // ============================================
 
+model PostCategory {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  slug        String   @unique
+  description String?
+  icon        String?  // Icon name (e.g., "code", "help-circle")
+  color       String?  // Hex color (e.g., "#3B82F6")
+  order       Int      @default(0)
+  isActive    Boolean  @default(true)
+
+  posts       Post[]
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([slug])
+  @@index([order])
+  @@map("post_categories")
+}
+
 model Post {
-  id        String    @id @default(cuid())
-  title     String
-  slug      String    @unique
-  content   String    @db.Text
-  tags      String[]
+  id         String        @id @default(cuid())
+  title      String
+  slug       String        @unique
+  content    String        @db.Text
+  tags       String[]
 
-  authorId  String
-  author    User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  categoryId String?
+  category   PostCategory? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
 
-  comments  Comment[]
-  votes     Vote[]
+  authorId   String
+  author     User          @relation(fields: [authorId], references: [id], onDelete: Cascade)
 
-  viewCount Int       @default(0)
+  comments   Comment[]
+  votes      Vote[]
 
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  viewCount  Int           @default(0)
+  isPinned   Boolean       @default(false)
+
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
 
   // Performance Indexes:
   // - authorId: fast author post lookups
   // - slug: unique constraint already indexed
   // - createdAt desc: optimized for default sorting (latest posts)
   // - tags: GIN index for array contains queries (hasSome)
+  // - categoryId: fast category filtering
   @@index([authorId])
   @@index([slug])
+  @@index([categoryId])
   @@index([createdAt(sort: Desc)])
   @@index([tags], type: Gin)
   @@map("posts")
 }
 
 model Comment {
-  id        String    @id @default(cuid())
-  content   String    @db.Text
+  id        String        @id @default(cuid())
+  content   String        @db.Text
 
   postId    String
-  post      Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
+  post      Post          @relation(fields: [postId], references: [id], onDelete: Cascade)
 
   authorId  String
-  author    User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  author    User          @relation(fields: [authorId], references: [id], onDelete: Cascade)
 
   parentId  String?
-  parent    Comment?  @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
-  replies   Comment[] @relation("CommentReplies")
+  parent    Comment?      @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
+  replies   Comment[]     @relation("CommentReplies")
 
-  accepted  Boolean   @default(false) // Best answer
+  likes     CommentLike[]
 
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  accepted  Boolean       @default(false) // Best answer
+
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
 
   @@index([postId])
   @@index([authorId])
   @@index([parentId])
   @@map("comments")
+}
+
+model CommentLike {
+  id        String   @id @default(cuid())
+
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  commentId String
+  comment   Comment  @relation(fields: [commentId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@unique([userId, commentId])
+  @@index([commentId])
+  @@map("comment_likes")
 }
 
 model Vote {

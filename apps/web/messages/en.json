@@ -21,12 +21,15 @@
     "joinCrew": "Join the Crew",
     "wkuStudentOnly": "WKU students only",
     "contactAdmin": "Contact administrator",
-    "tryAgain": "Try Again"
+    "tryAgain": "Try Again",
+    "you": "You"
   },
   "nav": {
+    "home": "Home",
     "dashboard": "Dashboard",
     "projects": "Projects",
     "courses": "Courses",
+    "glossary": "Glossary",
     "community": "Community",
     "chat": "Chat",
     "qna": "Q&A",
@@ -305,6 +308,70 @@
       "all": "All",
       "public": "Public",
       "private": "Private"
+    },
+    "visibility": {
+      "public": "Public",
+      "private": "Private"
+    },
+    "detail": {
+      "participants": "Participants",
+      "participantsCount": "{count} members",
+      "createdAt": "Created",
+      "updatedAt": "Updated",
+      "links": "Links",
+      "deployedSite": "Deployed Site",
+      "projectInfo": "Project Info",
+      "projectId": "Project ID"
+    },
+    "team": {
+      "title": "Team Members",
+      "roles": {
+        "owner": "Owner",
+        "admin": "Admin",
+        "member": "Member",
+        "viewer": "Viewer"
+      },
+      "confirmRoleChange": "Change role?",
+      "confirmRemove": "Remove {name} from project?",
+      "promoteToAdmin": "Promote to Admin",
+      "demoteToMember": "Demote to Member",
+      "remove": "Remove",
+      "inviteMember": "Invite Member"
+    },
+    "invite": {
+      "title": "Invite Member",
+      "email": "Email",
+      "emailPlaceholder": "Email address to invite",
+      "role": "Select Role",
+      "roleDesc": {
+        "admin": "Can manage members and settings",
+        "member": "Can contribute to project",
+        "viewer": "Can only view project"
+      },
+      "send": "Send Invitation",
+      "sending": "Sending...",
+      "sent": "Invitation sent",
+      "sentDescription": "They will join the team once they accept",
+      "error": "Failed to send invitation",
+      "emailRequired": "Email is required",
+      "invalidEmail": "Invalid email format",
+      "pending": "Pending Invitations",
+      "expiresIn": "Expires in {time}",
+      "cancel": "Cancel Invitation",
+      "confirmCancel": "Cancel this invitation?"
+    },
+    "activity": {
+      "title": "Activity Log",
+      "empty": "No activity yet",
+      "error": "Failed to load activity"
+    },
+    "github": {
+      "sync": "Sync with GitHub",
+      "syncing": "Syncing...",
+      "synced": "Synced",
+      "stars": "Stars",
+      "forks": "Forks",
+      "lastSync": "Last synced"
     }
   },
   "courses": {
@@ -317,7 +384,48 @@
     "title": "Community",
     "subtitle": "Connect freely with members",
     "loading": "Loading posts...",
-    "createPost": "Write Post"
+    "createPost": "Write Post",
+    "categories": "Categories",
+    "allCategories": "All",
+    "selectCategory": "Select Category",
+    "pinned": "Pinned",
+    "pin": "Pin to Top",
+    "unpin": "Unpin",
+    "like": "Like",
+    "liked": "Unlike",
+    "likeCount": "{count} likes",
+    "reply": "Reply",
+    "replies": "{count} replies",
+    "showReplies": "Show Replies",
+    "hideReplies": "Hide Replies",
+    "writeReply": "Write Reply",
+    "noPostsInCategory": "No posts in this category",
+    "categoryFilter": {
+      "general": "General",
+      "tech": "Tech",
+      "project": "Project",
+      "career": "Career",
+      "study": "Study",
+      "notice": "Notice"
+    },
+    "newPage": {
+      "title": "Create New Post",
+      "subtitle": "Share your thoughts with the community"
+    },
+    "form": {
+      "title": "Title",
+      "titlePlaceholder": "Enter post title",
+      "content": "Content",
+      "contentPlaceholder": "Write your post content (Markdown supported)",
+      "markdownHint": "Markdown syntax is supported",
+      "tags": "Tags",
+      "newTagPlaceholder": "Add new tag",
+      "addTag": "Add Tag",
+      "category": "Category",
+      "submit": "Publish",
+      "submitting": "Publishing...",
+      "cancel": "Cancel"
+    }
   },
   "chat": {
     "title": "Chat",
@@ -353,5 +461,160 @@
   "about": {
     "title": "About",
     "subtitle": "Learn about WKU Software Crew"
+  },
+  "quiz": {
+    "title": "Quiz",
+    "start": "Start Quiz",
+    "retake": "Retake",
+    "tryAgain": "Try Again",
+    "notAvailable": "Not Available",
+    "completed": "Completed",
+    "noAttemptsLeft": "No Attempts Left",
+    "questions": "Questions",
+    "timeLimit": "Time Limit",
+    "minutes": "minutes",
+    "attempts": "Attempts",
+    "passingScore": "Passing Score",
+    "bestScore": "Best Score",
+    "passed": "Passed",
+    "failed": "Failed",
+    "submit": "Submit",
+    "submitting": "Submitting...",
+    "exit": "Exit",
+    "previous": "Previous",
+    "next": "Next",
+    "question": "Question",
+    "of": "of",
+    "answered": "Answered",
+    "points": "points",
+    "correct": "Correct",
+    "incorrect": "Incorrect",
+    "congratulations": "Congratulations!",
+    "keepTrying": "Keep Trying!",
+    "youPassed": "You passed the quiz!",
+    "needToPass": "You need {score}% to pass",
+    "yourScore": "Your Score",
+    "correctAnswers": "Correct Answers",
+    "continue": "Continue",
+    "backToCourse": "Back to Course",
+    "confirmSubmit": "Submit Quiz?",
+    "unansweredWarning": "You have {count} unanswered questions",
+    "cannotChange": "You cannot change your answers after submission",
+    "reviewAnswers": "Review Answers",
+    "confirmExit": "Exit Quiz?",
+    "progressNotSaved": "Your progress will not be saved",
+    "continueQuiz": "Continue Quiz"
+  },
+  "certificate": {
+    "title": "Certificates",
+    "subtitle": "Complete courses and earn certificates",
+    "myCertificates": "My Certificates",
+    "verify": "Verify Certificate",
+    "verifyDescription": "Enter certificate number to verify authenticity",
+    "verifyPlaceholder": "Enter certificate number (e.g., CERT-2026-ABCD1234)",
+    "verifying": "Verifying...",
+    "valid": "Valid Certificate",
+    "invalid": "Invalid Certificate",
+    "notFound": "Certificate not found",
+    "holder": "Holder",
+    "course": "Course",
+    "level": "Level",
+    "issuedAt": "Issued At",
+    "certificateNumber": "Certificate Number",
+    "ofCompletion": "Certificate of Completion",
+    "certifies": "This certifies that",
+    "hasCompleted": "has successfully completed the course",
+    "directorOfEducation": "Director of Education",
+    "dateOfIssue": "Date of Issue",
+    "verified": "Verified Certificate",
+    "share": "Share",
+    "download": "Download PDF",
+    "downloadComingSoon": "PDF download coming soon",
+    "linkCopied": "Link copied to clipboard",
+    "cannotGetCertificate": "Cannot get certificate",
+    "completeAllChapters": "Please complete all chapters",
+    "passAllQuizzes": "Please pass all quizzes",
+    "progress": "Progress",
+    "chaptersCompleted": "Chapters {completed}/{total} completed",
+    "quizzesPassed": "Quizzes {passed}/{total} passed",
+    "getCertificate": "Get Certificate",
+    "getting": "Issuing...",
+    "alreadyIssued": "Certificate already issued",
+    "viewMyCertificate": "View My Certificate"
+  },
+  "admin": {
+    "title": "Admin",
+    "dashboard": "Admin Dashboard",
+    "overview": "Overview",
+    "users": "User Management",
+    "analytics": "Analytics",
+    "settings": "Settings",
+    "stats": {
+      "totalUsers": "Total Users",
+      "totalCourses": "Total Courses",
+      "totalProjects": "Total Projects",
+      "totalEnrollments": "Total Enrollments",
+      "totalPosts": "Total Posts",
+      "totalQuestions": "Total Questions",
+      "totalChannels": "Total Channels",
+      "totalCertificates": "Total Certificates"
+    },
+    "growth": {
+      "title": "Growth (30 Days)",
+      "newUsers": "New Users",
+      "newEnrollments": "New Enrollments",
+      "newPosts": "New Posts",
+      "newCertificates": "New Certificates"
+    },
+    "rankDistribution": {
+      "title": "Rank Distribution",
+      "junior": "Junior",
+      "senior": "Senior",
+      "master": "Master"
+    },
+    "recentActivity": {
+      "title": "Recent Activity",
+      "users": "Recent Users",
+      "courses": "Recent Courses",
+      "projects": "Recent Projects"
+    },
+    "topCourses": {
+      "title": "Top Courses",
+      "enrollments": "Enrollments"
+    },
+    "userManagement": {
+      "title": "User Management",
+      "search": "Search by name or email",
+      "filterByRank": "Filter by Rank",
+      "allRanks": "All Ranks",
+      "updateRank": "Update Rank",
+      "updateLevel": "Update Level",
+      "viewDetails": "View Details",
+      "totalPosts": "Posts",
+      "totalComments": "Comments",
+      "totalProjects": "Projects",
+      "totalEnrollments": "Enrollments"
+    },
+    "activityAnalytics": {
+      "title": "Activity Analytics",
+      "period": "Period",
+      "userSignups": "User Signups",
+      "posts": "Posts",
+      "enrollments": "Enrollments"
+    },
+    "courseAnalytics": {
+      "title": "Course Analytics",
+      "completionRate": "Completion Rate",
+      "chapters": "Chapters",
+      "certificates": "Certificates"
+    },
+    "leaderboard": {
+      "title": "Leaderboard",
+      "position": "Position",
+      "name": "Name",
+      "rank": "Rank",
+      "level": "Level",
+      "xp": "XP"
+    }
   }
 }
