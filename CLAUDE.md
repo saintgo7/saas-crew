@@ -1,5 +1,40 @@
 # WKU Software Crew - Project Context
 
+---
+
+## DEVELOPMENT STATUS (Updated: 2026-01-24)
+
+### Current State: Git Flow Setup In Progress
+
+**Production (main)**: https://crew.abada.kr - LIVE
+**Staging (develop)**: https://staging.crew.abada.kr - PENDING SETUP
+
+### Pending Manual Tasks
+
+| Task | Status | Guide |
+|------|--------|-------|
+| GitHub Secrets 설정 | PENDING | docs/SETUP_CHECKLIST.md Phase 2 |
+| Branch Protection 설정 | PENDING | docs/SETUP_CHECKLIST.md Phase 3 |
+| Cloudflare Staging Routes | PENDING | docs/SETUP_CHECKLIST.md Phase 4 |
+| Server Config Upload | PENDING | docs/SETUP_CHECKLIST.md Phase 5 |
+
+### Next Steps
+
+1. `docs/SETUP_CHECKLIST.md` 열고 Phase 2부터 진행
+2. GitHub Secrets 설정 (SERVER_HOST, SERVER_USER, SERVER_SSH_KEY)
+3. Cloudflare에서 staging 라우트 추가
+4. 테스트 배포 실행
+
+### Recent Changes
+
+- develop 브랜치 생성
+- docker-compose.staging.yml 생성
+- deploy-staging.sh 생성
+- deploy.yml SSH 배포로 업데이트
+- 설정 체크리스트 문서 작성
+
+---
+
 ## Project Overview
 
 WKU Software Crew is a web platform for Wonkwang University's software development club. It provides project management, course learning, and community features for club members.
@@ -179,6 +214,55 @@ Never commit secrets to git. Use `.env.example` for reference.
 | Deploy | `ssh ws-248-247 "cd ~/saas-crew && ./deploy.sh"` |
 | DB migrate | `pnpm --filter api prisma migrate dev` |
 | Generate types | `pnpm --filter api prisma generate` |
+
+---
+
+## Git Flow (Branching Strategy)
+
+```
+main (production) ← develop (staging) ← feature/*
+```
+
+| Branch | Purpose | Deploys To |
+|--------|---------|------------|
+| `main` | Production code | crew.abada.kr |
+| `develop` | Integration & testing | staging.crew.abada.kr |
+| `feature/*` | New features | Local only |
+| `hotfix/*` | Emergency fixes | Direct to main |
+
+### Development Workflow
+
+```bash
+# 1. Start new feature
+git checkout develop && git pull
+git checkout -b feature/my-feature
+
+# 2. Develop & test locally
+pnpm test && pnpm build
+
+# 3. Push & create PR to develop
+git push -u origin feature/my-feature
+
+# 4. After PR merge, staging auto-deploys
+# Test at staging.crew.abada.kr
+
+# 5. Create PR from develop to main
+# After approval, production auto-deploys
+```
+
+---
+
+## Documentation Index
+
+| Document | Description |
+|----------|-------------|
+| `docs/SETUP_CHECKLIST.md` | Git Flow 설정 체크리스트 |
+| `docs/DEVELOPMENT_PLAN.md` | 개발 계획 및 브랜치 전략 |
+| `docs/BRANCH_PROTECTION.md` | GitHub 브랜치 보호 규칙 |
+| `docs/SECRETS.md` | 시크릿 관리 가이드 |
+| `docs/DEPLOYMENT_KO.md` | 배포 가이드 (한국어) |
+| `docs/PROMPT_HISTORY.md` | 사용된 프롬프트 기록 |
+| `docs/DEV_LOG_20260124.md` | 개발 로그 |
 
 ---
 
