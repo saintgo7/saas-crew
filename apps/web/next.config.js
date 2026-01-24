@@ -117,7 +117,7 @@ const nextConfig = {
               "style-src 'self' 'unsafe-inline'",
               "img-src 'self' data: https: blob:",
               "font-src 'self' data:",
-              "connect-src 'self' http://localhost:4000 https://crew-api.abada.kr https://api.github.com",
+              "connect-src 'self' http://localhost:4000 http://localhost:4001 https://crew-api.abada.kr https://staging-api-crew.abada.kr https://api.github.com",
               "frame-ancestors 'none'",
               "base-uri 'self'",
               "form-action 'self'",
