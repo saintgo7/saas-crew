@@ -1,11 +1,46 @@
 version: '3.8'
 
-# WKU Software Crew API for ws-248-247 Server
-# Domain: crew.abada.kr
+# WKU Software Crew for ws-248-247 Server
+# Domains: crew.abada.kr (Frontend), crew-api.abada.kr (API)
 # Uses Cloudflare Tunnel (no ports 80/443 required)
 # Location: ~/saas-crew/docker-compose.yml
 
 services:
+  # Next.js Frontend
+  web:
+    build:
+      context: ./app
+      dockerfile: apps/web/Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: https://crew-api.abada.kr
+    image: crew-web:latest
+    container_name: crew-web
+    restart: unless-stopped
+    expose:
+      - "3000"
+    environment:
+      NODE_ENV: production
+      NEXT_PUBLIC_API_URL: https://crew-api.abada.kr
+    networks:
+      - workstation_manager_network
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:3000 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+        reservations:
+          memory: 256M
+
   # NestJS API Server
   api:
     build:
@@ -74,6 +109,8 @@ services:
       - workstation_manager_network
     depends_on:
       api:
+        condition: service_healthy
+      web:
         condition: service_healthy
     logging:
       driver: "json-file"
