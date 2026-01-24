@@ -9,40 +9,46 @@
 ## 2026-01-24 Session 1: Frontend Deployment
 
 ### Cloudflare Tunnel 설정
-```
+
+```text
 Step 1: Cloudflare Tunnel 라우트 추가 (수동) 자세하게 알려줘
 ```
 
-```
+```text
 Published application routes 탭 클릭
 ```
 
-```
+```text
 저장 완료
 ```
 
 ### 서버 배포
-```
+
+```text
 네가해
 ```
+
 > SCP 명령어 실행 요청
 
-```
+```text
 응 진행해
 ```
+
 > SSH 배포 진행 요청
 
 ### 검증 및 디버깅
-```
+
+```text
 사이트 확인해봐
 ```
 
-```
+```text
 프로젝트 샘플있었는데 어디갔어?
 ```
 
 ### 문서화 요청
-```
+
+```text
 여태까지 작업한 모든 내용을 개발 로그로 작성하고 배포위한 key, api key, token 등을 관리해주고
 다음에 개발 시작할때 이 작업한 내용을 알게 되게 해줘
 ```
@@ -52,7 +58,8 @@ Published application routes 탭 클릭
 ## 2026-01-24 Session 2: Git Flow Setup
 
 ### 개발 계획 수립
-```
+
+```text
 이제 계획을 세워야해 현재 사이트까지 mvp 로 알고 계속 개발하고 싶어
 개발 관련 계획을 세워줘 브렌티 전략으로 하는게 나은지
 지금까지 개발한거는 건들지 않고 향후 개발하는 곳은 테스트를 해가며
@@ -60,18 +67,28 @@ Published application routes 탭 클릭
 ```
 
 ### Git Flow 설정 시작
-```
+
+```text
 응 설정 시작해
 ```
 
-### 문서화 요청
-```
+### 문서화 요청 1
+
+```text
 계획서로 만들어줘
 ```
 
-```
+### 문서화 요청 2
+
+```text
 여태까지 프로젝트 에 내가 쓴 프롬프트 문서로 만들어주고
 개발로그를 다음에 개발 시작하면 알림을 주게 해줘
+```
+
+### 수동 설정 요청
+
+```text
+수동 설정 진행해줘
 ```
 
 ---
@@ -88,9 +105,11 @@ Published application routes 탭 클릭
 | 검증 | "사이트 확인해봐" | 상태 확인 및 리포트 |
 
 ### 프로젝트 컨텍스트 유지
-```
+
+```text
 다음에 개발 시작할때 이 작업한 내용을 알게 되게 해줘
 ```
+
 > CLAUDE.md 및 개발로그 업데이트
 
 ---
@@ -98,11 +117,13 @@ Published application routes 탭 클릭
 ## Tips for Future Prompts
 
 ### Do's
+
 - 구체적인 목표 명시: "staging 환경 구축해줘"
 - 제약 조건 명시: "현재 코드 건들지 않고"
 - 문서화 요청: "계획서로 만들어줘"
 
 ### Don'ts
+
 - 모호한 요청: "좀 고쳐줘"
 - 컨텍스트 없는 요청: "에러 수정해"
 
@@ -113,4 +134,4 @@ Published application routes 탭 클릭
 | 날짜 | 세션 | 주요 작업 | 프롬프트 수 |
 |------|------|----------|------------|
 | 2026-01-24 | Session 1 | Frontend 배포, CORS 수정, 문서화 | ~10 |
-| 2026-01-24 | Session 2 | Git Flow 설정, CI/CD 구성 | ~5 |
+| 2026-01-24 | Session 2 | Git Flow 설정, CI/CD 구성 | ~6 |
