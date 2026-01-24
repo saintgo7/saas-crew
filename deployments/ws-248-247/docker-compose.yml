@@ -74,7 +74,7 @@ services:
       GITHUB_CALLBACK_URL: https://crew-api.abada.kr/api/auth/github/callback
 
       # CORS
-      CORS_ORIGIN: https://crew.abada.kr
+      ALLOWED_ORIGINS: https://crew.abada.kr
 
       # Frontend URL (for OAuth redirect)
       FRONTEND_URL: https://crew.abada.kr
