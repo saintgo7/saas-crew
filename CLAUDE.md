@@ -4,34 +4,35 @@
 
 ## DEVELOPMENT STATUS (Updated: 2026-01-24)
 
-### Current State: Git Flow Setup In Progress
+### Current State: Git Flow Setup Complete
 
 **Production (main)**: https://crew.abada.kr - LIVE
-**Staging (develop)**: https://staging-crew.abada.kr - PENDING SETUP
+**Staging (develop)**: https://staging-crew.abada.kr - LIVE
 
-### Pending Manual Tasks
+### Environment URLs
 
-| Task | Status | Guide |
-|------|--------|-------|
-| GitHub Secrets 설정 | PENDING | docs/SETUP_CHECKLIST.md Phase 2 |
-| Branch Protection 설정 | PENDING | docs/SETUP_CHECKLIST.md Phase 3 |
-| Cloudflare Staging Routes | PENDING | docs/SETUP_CHECKLIST.md Phase 4 |
-| Server Config Upload | PENDING | docs/SETUP_CHECKLIST.md Phase 5 |
+| Environment | Frontend | API |
+|-------------|----------|-----|
+| Production | https://crew.abada.kr | https://crew-api.abada.kr |
+| Staging | https://staging-crew.abada.kr | https://staging-api-crew.abada.kr |
 
-### Next Steps
+### Completed Setup
 
-1. `docs/SETUP_CHECKLIST.md` 열고 Phase 2부터 진행
-2. GitHub Secrets 설정 (SERVER_HOST, SERVER_USER, SERVER_SSH_KEY)
-3. Cloudflare에서 staging 라우트 추가
-4. 테스트 배포 실행
+- [x] develop 브랜치 생성
+- [x] GitHub Secrets 설정
+- [x] Branch Protection 설정
+- [x] Cloudflare Staging Routes 설정
+- [x] Staging 배포 테스트 완료
 
-### Recent Changes
+### Development Workflow
 
-- develop 브랜치 생성
-- docker-compose.staging.yml 생성
-- deploy-staging.sh 생성
-- deploy.yml SSH 배포로 업데이트
-- 설정 체크리스트 문서 작성
+```bash
+# 새 기능 개발
+git checkout develop && git pull
+git checkout -b feature/my-feature
+# 개발 후 PR to develop → staging 자동 배포
+# 테스트 후 PR to main → production 자동 배포
+```
 
 ---
 
