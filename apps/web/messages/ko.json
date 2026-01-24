@@ -91,6 +91,7 @@
     "projects": "프로젝트",
     "courses": "코스",
     "community": "커뮤니티",
+    "chat": "채팅",
     "dashboard": "대시보드",
     "about": "소개"
   },
@@ -602,5 +603,59 @@
   "accessibility": {
     "upvote": "추천",
     "downvote": "비추천"
+  },
+  "chat": {
+    "title": "채팅",
+    "channels": "채널",
+    "members": "멤버",
+    "online": "온라인",
+    "noChannels": "채널이 없습니다",
+    "noMembers": "멤버가 없습니다",
+    "noMessages": "메시지가 없습니다",
+    "startConversation": "대화를 시작해보세요!",
+    "loginRequired": "로그인이 필요합니다",
+    "loginToChat": "채팅에 참여하려면 로그인해주세요",
+    "levelRestricted": "레벨 제한 채널",
+    "levelRequired": "Lv.{level} 이상만 접근할 수 있습니다",
+    "channelCount": "{count}개 채널",
+    "toggleChannels": "채널 목록 토글",
+    "searchMessages": "메시지 검색",
+    "pinnedMessages": "고정된 메시지",
+    "notifications": "알림",
+    "showMembers": "멤버 보기",
+    "createChannel": "채널 생성",
+    "loadChannelsFailed": "채널을 불러오는데 실패했습니다",
+    "loadMessagesFailed": "메시지를 불러오는데 실패했습니다",
+    "loadingMore": "이전 메시지 불러오는 중...",
+    "loadOlderMessages": "이전 메시지 더 불러오기",
+    "scrollToBottom": "최신 메시지로",
+    "edited": "수정됨",
+    "addReaction": "반응 추가",
+    "reply": "답글",
+    "moreOptions": "더 보기",
+    "copyMessage": "메시지 복사",
+    "confirmDelete": "이 메시지를 삭제하시겠습니까?",
+    "editMessage": "메시지 수정",
+    "replyingTo": "답글:",
+    "sendFailed": "메시지 전송에 실패했습니다",
+    "attachFile": "파일 첨부",
+    "addEmoji": "이모지 추가",
+    "messagePlaceholder": "#{channel}에 메시지 보내기",
+    "cannotSend": "메시지를 보낼 수 없습니다",
+    "send": "보내기",
+    "keyboardHint": "Enter로 전송, Shift+Enter로 줄바꿈",
+    "typingOne": "{name}님이 입력 중...",
+    "typingTwo": "{name1}님과 {name2}님이 입력 중...",
+    "typingMany": "{count}명이 입력 중...",
+    "channelGroups": {
+      "general": "일반",
+      "levelRestricted": "레벨 제한",
+      "project": "프로젝트"
+    },
+    "userGroups": {
+      "admins": "관리자",
+      "mentors": "멘토",
+      "members": "멤버"
+    }
   }
 }

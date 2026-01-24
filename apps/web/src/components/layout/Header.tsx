@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { useState, useRef, useEffect } from 'react'
-import { Home, FolderGit2, BookOpen, MessageSquare, LayoutDashboard, User, LogOut, ChevronDown } from 'lucide-react'
+import { Home, FolderGit2, BookOpen, MessageSquare, LayoutDashboard, User, LogOut, ChevronDown, MessagesSquare } from 'lucide-react'
 import { ThemeToggle } from './ThemeToggle'
 import { LanguageSwitcher } from './LanguageSwitcher'
 import { useTranslations } from '@/i18n/LanguageContext'
@@ -14,6 +14,7 @@ const navigationKeys = [
   { key: 'projects', href: '/projects', icon: FolderGit2 },
   { key: 'courses', href: '/courses', icon: BookOpen },
   { key: 'community', href: '/community', icon: MessageSquare },
+  { key: 'chat', href: '/chat', icon: MessagesSquare },
   { key: 'dashboard', href: '/dashboard', icon: LayoutDashboard },
 ]
 

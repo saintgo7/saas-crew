@@ -47,6 +47,10 @@ model User {
   comments      Comment[]
   votes         Vote[]
 
+  // Chat relations
+  channelMembers ChannelMember[]
+  messages       Message[]
+
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
@@ -415,4 +419,149 @@ model Vote {
   @@unique([userId, postId])
   @@index([postId])
   @@map("votes")
+}
+
+// ============================================
+// Real-time Chat System
+// ============================================
+
+model Channel {
+  id          String        @id @default(cuid())
+  name        String
+  slug        String        @unique
+  description String?
+  type        ChannelType   @default(PUBLIC)
+  minRank     UserRank?     // Minimum rank required to join (for LEVEL_RESTRICTED)
+
+  // Channel settings
+  isDefault   Boolean       @default(false) // Auto-join for new users
+  icon        String?
+
+  // Relations
+  members     ChannelMember[]
+  messages    Message[]
+
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@index([slug])
+  @@index([type])
+  @@index([minRank])
+  @@map("channels")
+}
+
+enum ChannelType {
+  PUBLIC           // Anyone can join
+  PRIVATE          // Invite only
+  LEVEL_RESTRICTED // Requires minimum rank
+  DIRECT           // 1:1 DM
+}
+
+model ChannelMember {
+  id          String        @id @default(cuid())
+
+  channelId   String
+  channel     Channel       @relation(fields: [channelId], references: [id], onDelete: Cascade)
+
+  userId      String
+  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  role        ChannelRole   @default(MEMBER)
+
+  // Notification settings
+  muted       Boolean       @default(false)
+  lastReadAt  DateTime      @default(now())
+
+  joinedAt    DateTime      @default(now())
+
+  @@unique([channelId, userId])
+  @@index([userId])
+  @@index([channelId])
+  @@map("channel_members")
+}
+
+enum ChannelRole {
+  OWNER
+  ADMIN
+  MEMBER
+}
+
+model Message {
+  id          String        @id @default(cuid())
+  content     String        @db.Text
+  type        MessageType   @default(TEXT)
+
+  channelId   String
+  channel     Channel       @relation(fields: [channelId], references: [id], onDelete: Cascade)
+
+  authorId    String
+  author      User          @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  // Thread support (Twitter-style replies)
+  parentId    String?
+  parent      Message?      @relation("MessageThread", fields: [parentId], references: [id], onDelete: SetNull)
+  replies     Message[]     @relation("MessageThread")
+
+  // Q&A features
+  isQuestion  Boolean       @default(false)
+  isAnswered  Boolean       @default(false)
+  isPinned    Boolean       @default(false)
+
+  // Attachments
+  attachments Attachment[]
+
+  // Reactions count (denormalized for performance)
+  reactionCount Int         @default(0)
+
+  // Edit history
+  editedAt    DateTime?
+  isDeleted   Boolean       @default(false)
+
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@index([channelId, createdAt(sort: Desc)])
+  @@index([authorId])
+  @@index([parentId])
+  @@index([isQuestion, isAnswered])
+  @@map("messages")
+}
+
+enum MessageType {
+  TEXT        // Plain text message
+  CODE        // Code snippet with syntax highlighting
+  FILE        // File attachment
+  QUESTION    // Q&A question
+  SYSTEM      // System message (join, leave, etc.)
+}
+
+model Attachment {
+  id          String   @id @default(cuid())
+  filename    String
+  originalName String
+  url         String
+  mimeType    String
+  size        Int      // bytes
+
+  messageId   String
+  message     Message  @relation(fields: [messageId], references: [id], onDelete: Cascade)
+
+  createdAt   DateTime @default(now())
+
+  @@index([messageId])
+  @@map("attachments")
+}
+
+model MessageReaction {
+  id          String   @id @default(cuid())
+  emoji       String   // e.g., "thumbsup", "heart", "check"
+
+  messageId   String
+  userId      String
+
+  createdAt   DateTime @default(now())
+
+  @@unique([messageId, userId, emoji])
+  @@index([messageId])
+  @@map("message_reactions")
 }

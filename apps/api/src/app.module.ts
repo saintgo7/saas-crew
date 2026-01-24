@@ -14,6 +14,7 @@ import { CommentsModule } from './comments/comments.module'
 import { VotesModule } from './votes/votes.module'
 import { HealthModule } from './health/health.module'
 import { AdminModule } from './admin/admin.module'
+import { ChatModule } from './chat/chat.module'
 
 /**
  * App Module
@@ -59,6 +60,7 @@ import { AdminModule } from './admin/admin.module'
     CommentsModule,
     VotesModule,
     AdminModule,
+    ChatModule,
   ],
   providers: [
     // Apply rate limiting globally

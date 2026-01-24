@@ -91,6 +91,7 @@
     "projects": "Projects",
     "courses": "Courses",
     "community": "Community",
+    "chat": "Chat",
     "dashboard": "Dashboard",
     "about": "About"
   },
@@ -602,5 +603,59 @@
   "accessibility": {
     "upvote": "Upvote",
     "downvote": "Downvote"
+  },
+  "chat": {
+    "title": "Chat",
+    "channels": "Channels",
+    "members": "Members",
+    "online": "online",
+    "noChannels": "No channels available",
+    "noMembers": "No members",
+    "noMessages": "No messages yet",
+    "startConversation": "Start the conversation!",
+    "loginRequired": "Login Required",
+    "loginToChat": "Please login to join the chat",
+    "levelRestricted": "Level Restricted Channel",
+    "levelRequired": "Requires Lv.{level} or higher",
+    "channelCount": "{count} channels",
+    "toggleChannels": "Toggle channel list",
+    "searchMessages": "Search messages",
+    "pinnedMessages": "Pinned messages",
+    "notifications": "Notifications",
+    "showMembers": "Show members",
+    "createChannel": "Create Channel",
+    "loadChannelsFailed": "Failed to load channels",
+    "loadMessagesFailed": "Failed to load messages",
+    "loadingMore": "Loading older messages...",
+    "loadOlderMessages": "Load older messages",
+    "scrollToBottom": "Jump to latest",
+    "edited": "edited",
+    "addReaction": "Add reaction",
+    "reply": "Reply",
+    "moreOptions": "More options",
+    "copyMessage": "Copy message",
+    "confirmDelete": "Delete this message?",
+    "editMessage": "Edit message",
+    "replyingTo": "Replying to",
+    "sendFailed": "Failed to send message",
+    "attachFile": "Attach file",
+    "addEmoji": "Add emoji",
+    "messagePlaceholder": "Message #{channel}",
+    "cannotSend": "Cannot send message",
+    "send": "Send",
+    "keyboardHint": "Enter to send, Shift+Enter for new line",
+    "typingOne": "{name} is typing...",
+    "typingTwo": "{name1} and {name2} are typing...",
+    "typingMany": "{count} people are typing...",
+    "channelGroups": {
+      "general": "General",
+      "levelRestricted": "Level Restricted",
+      "project": "Project"
+    },
+    "userGroups": {
+      "admins": "Admins",
+      "mentors": "Mentors",
+      "members": "Members"
+    }
   }
 }
