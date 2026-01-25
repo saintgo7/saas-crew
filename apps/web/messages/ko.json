@@ -378,7 +378,14 @@
     "title": "코스",
     "subtitle": "다양한 기술을 배워보세요",
     "loading": "코스 로딩 중...",
-    "error": "코스를 불러오는데 실패했습니다"
+    "error": "코스를 불러오는데 실패했습니다",
+    "noCoursesToShow": "표시할 코스가 없습니다",
+    "level": {
+      "all": "전체",
+      "junior": "주니어",
+      "senior": "시니어",
+      "master": "마스터"
+    }
   },
   "quiz": {
     "title": "퀴즈",
@@ -505,7 +512,15 @@
       "submit": "게시하기",
       "submitting": "게시 중...",
       "cancel": "취소"
-    }
+    },
+    "noPostsToShow": "표시할 게시글이 없습니다",
+    "filter": {
+      "all": "전체",
+      "latest": "최신",
+      "popular": "인기",
+      "views": "조회수"
+    },
+    "searchPlaceholder": "게시글 검색..."
   },
   "chat": {
     "title": "채팅",
@@ -518,6 +533,15 @@
       "general": "일반",
       "levelRestricted": "레벨 제한",
       "project": "프로젝트"
+    },
+    "loginRequired": "채팅 사용 필요",
+    "loginToChat": "채팅을 사용하려면 로그인하세요",
+    "members": "멤버",
+    "online": "온라인",
+    "usergroups": {
+      "admins": "관리자",
+      "mentors": "멘토",
+      "members": "멤버"
     }
   },
   "auth": {

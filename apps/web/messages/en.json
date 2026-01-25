@@ -378,7 +378,14 @@
     "title": "Courses",
     "subtitle": "Learn various technologies",
     "loading": "Loading courses...",
-    "error": "Failed to load courses"
+    "error": "Failed to load courses",
+    "noCoursesToShow": "No courses to show",
+    "level": {
+      "all": "All",
+      "junior": "Junior",
+      "senior": "Senior",
+      "master": "Master"
+    }
   },
   "community": {
     "title": "Community",
@@ -425,7 +432,15 @@
       "submit": "Publish",
       "submitting": "Publishing...",
       "cancel": "Cancel"
-    }
+    },
+    "noPostsToShow": "No posts to show",
+    "filter": {
+      "all": "All",
+      "latest": "Latest",
+      "popular": "Popular",
+      "views": "Views"
+    },
+    "searchPlaceholder": "Search posts..."
   },
   "chat": {
     "title": "Chat",
@@ -438,6 +453,15 @@
       "general": "General",
       "levelRestricted": "Level Restricted",
       "project": "Project"
+    },
+    "loginRequired": "Login Required",
+    "loginToChat": "Please login to use chat",
+    "members": "Members",
+    "online": "online",
+    "usergroups": {
+      "admins": "Admins",
+      "mentors": "Mentors",
+      "members": "Members"
     }
   },
   "auth": {
