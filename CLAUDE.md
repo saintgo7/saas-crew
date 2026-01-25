@@ -263,7 +263,31 @@ git push -u origin feature/my-feature
 | `docs/SECRETS.md` | 시크릿 관리 가이드 |
 | `docs/DEPLOYMENT_KO.md` | 배포 가이드 (한국어) |
 | `docs/PROMPT_HISTORY.md` | 사용된 프롬프트 기록 |
-| `docs/DEV_LOG_20260124.md` | 개발 로그 |
+| `docs/dev-log/` | **개발 로그 디렉토리 (매 세션마다 작성)** |
+
+---
+
+## Development Log (개발 로그)
+
+**경로**: `docs/dev-log/`
+
+모든 개발 세션은 자동으로 개발 로그에 기록됩니다.
+
+### 최근 로그
+```bash
+# 최신 로그 확인
+ls -t docs/dev-log/ | head -5
+
+# 특정 로그 읽기
+cat docs/dev-log/010_ci_cd_fixes_20260125_0945.md
+```
+
+### 로그 네이밍 규칙
+```
+{순번}_{영문_내용}_{날짜_시간}.md
+```
+
+**세션 시작 시 항상 이전 로그를 먼저 읽습니다.**
 
 ---
 
