@@ -8,7 +8,7 @@
     "build:cf": "npx @cloudflare/next-on-pages",
     "pages:preview": "npx wrangler pages dev .vercel/output/static",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "type-check": "tsc --noEmit",
     "analyze": "ANALYZE=true next build",
     "analyze:browser": "ANALYZE=true BUNDLE_ANALYZE=browser next build",

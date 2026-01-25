@@ -137,7 +137,7 @@ export default function GlossaryPage() {
         </div>
         {searchTerm && (
           <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
-            검색 결과: "{searchTerm}"
+            검색 결과: &ldquo;{searchTerm}&rdquo;
           </p>
         )}
       </div>
