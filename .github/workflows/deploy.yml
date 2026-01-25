@@ -158,45 +158,48 @@ jobs:
             }
 
   # ===========================================================================
-  # Notify on Failure
+  # Notify on Failure (Temporarily Disabled)
   # ===========================================================================
-  notify-failure:
-    name: Notify on Failure
-    runs-on: ubuntu-latest
-    needs: [deploy-staging, deploy-production]
-    if: always() && (needs.deploy-staging.result == 'failure' || needs.deploy-production.result == 'failure')
-
-    steps:
-      - name: Create failure issue
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const stagingFailed = '${{ needs.deploy-staging.result }}' === 'failure';
-            const productionFailed = '${{ needs.deploy-production.result }}' === 'failure';
-
-            let title = 'Deployment Failed: ';
-            if (stagingFailed && productionFailed) {
-              title += 'Staging & Production';
-            } else if (stagingFailed) {
-              title += 'Staging';
-            } else {
-              title += 'Production';
-            }
-
-            await github.rest.issues.create({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              title: title,
-              body: `## Deployment Failure Report
-
-**Commit**: ${context.sha}
-**Branch**: ${context.ref}
-**Workflow Run**: [View Details](https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId})
-
-### Status
-- Staging: ${{ needs.deploy-staging.result }}
-- Production: ${{ needs.deploy-production.result }}
-
-Please investigate and fix the deployment issue.`,
-              labels: ['deployment', 'bug']
-            });
+  # notify-failure:
+  #   name: Notify on Failure
+  #   runs-on: ubuntu-latest
+  #   needs: [deploy-staging, deploy-production]
+  #   if: |
+  #     always() &&
+  #     (needs.deploy-staging.result == 'failure' ||
+  #      needs.deploy-production.result == 'failure')
+  #
+  #   steps:
+  #     - name: Create failure issue
+  #       uses: actions/github-script@v7
+  #       with:
+  #         script: |
+  #           const stagingFailed = '${{ needs.deploy-staging.result }}' === 'failure';
+  #           const productionFailed = '${{ needs.deploy-production.result }}' === 'failure';
+  #
+  #           let title = 'Deployment Failed: ';
+  #           if (stagingFailed && productionFailed) {
+  #             title += 'Staging & Production';
+  #           } else if (stagingFailed) {
+  #             title += 'Staging';
+  #           } else {
+  #             title += 'Production';
+  #           }
+  #
+  #           await github.rest.issues.create({
+  #             owner: context.repo.owner,
+  #             repo: context.repo.repo,
+  #             title: title,
+  #             body: `## Deployment Failure Report
+  #
+  # **Commit**: ${context.sha}
+  # **Branch**: ${context.ref}
+  # **Workflow Run**: [View Details](https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId})
+  #
+  # ### Status
+  # - Staging: ${{ needs.deploy-staging.result }}
+  # - Production: ${{ needs.deploy-production.result }}
+  #
+  # Please investigate and fix the deployment issue.`,
+  #             labels: ['deployment', 'bug']
+  #           });
