@@ -65,3 +65,6 @@ backups/*.sql.gz
 # Docker
 docker-compose.override.yml
 .playwright-mcp/
+
+# Generated reports
+docs/html/
