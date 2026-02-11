@@ -686,6 +686,35 @@
       "rank": "Rank",
       "level": "Level",
       "xp": "XP"
+    },
+    "reports": {
+      "title": "Report Management",
+      "description": "Create and manage learning operation reports",
+      "new": "New Report",
+      "edit": "Edit Report",
+      "view": "Report Detail",
+      "reportTitle": "Report Title",
+      "period": "Report Period",
+      "periodStart": "Start Date",
+      "periodEnd": "End Date",
+      "status": {
+        "all": "All",
+        "draft": "Draft",
+        "published": "Published"
+      },
+      "sections": {
+        "learningSummary": "Learning Summary",
+        "achievements": "Key Achievements",
+        "courseDetails": "Course Details",
+        "issues": "Issues & Improvements",
+        "nextPlans": "Next Plans"
+      },
+      "saveDraft": "Save Draft",
+      "publish": "Publish",
+      "confirmDelete": "Are you sure you want to delete this report?",
+      "noReports": "No reports yet",
+      "learningStats": "Learning Statistics",
+      "print": "Print"
     }
   }
 }

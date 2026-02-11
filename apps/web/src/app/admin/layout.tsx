@@ -9,6 +9,7 @@ import {
   BookOpen,
   Users,
   FolderKanban,
+  FileText,
   Settings,
   LogOut,
   Menu,
@@ -23,6 +24,7 @@ const adminNavItems = [
   { href: '/admin/courses', label: '코스 관리', icon: BookOpen },
   { href: '/admin/users', label: '사용자 관리', icon: Users },
   { href: '/admin/projects', label: '프로젝트 관리', icon: FolderKanban },
+  { href: '/admin/reports', label: '보고서 관리', icon: FileText },
   { href: '/admin/settings', label: '설정', icon: Settings },
 ]
 

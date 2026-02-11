@@ -686,6 +686,35 @@
       "rank": "등급",
       "level": "레벨",
       "xp": "경험치"
+    },
+    "reports": {
+      "title": "보고서 관리",
+      "description": "학습 운영 관리 보고서를 작성하고 관리합니다",
+      "new": "새 보고서 작성",
+      "edit": "보고서 수정",
+      "view": "보고서 상세",
+      "reportTitle": "보고서 제목",
+      "period": "보고 기간",
+      "periodStart": "시작일",
+      "periodEnd": "종료일",
+      "status": {
+        "all": "전체",
+        "draft": "임시저장",
+        "published": "발행"
+      },
+      "sections": {
+        "learningSummary": "학습 현황 요약",
+        "achievements": "주요 성과",
+        "courseDetails": "코스별 상세 현황",
+        "issues": "이슈 및 개선사항",
+        "nextPlans": "차기 계획"
+      },
+      "saveDraft": "임시 저장",
+      "publish": "발행",
+      "confirmDelete": "정말로 이 보고서를 삭제하시겠습니까?",
+      "noReports": "작성된 보고서가 없습니다",
+      "learningStats": "학습 통계 참고",
+      "print": "인쇄"
     }
   }
 }

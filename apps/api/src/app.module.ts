@@ -24,6 +24,7 @@ import { CertificatesModule } from './certificates/certificates.module'
 import { CategoriesModule } from './categories/categories.module'
 import { RedisModule } from './redis/redis.module'
 import { CanvasModule } from './canvas/canvas.module'
+import { ReportsModule } from './reports/reports.module'
 
 /**
  * App Module
@@ -79,6 +80,7 @@ import { CanvasModule } from './canvas/canvas.module'
     CertificatesModule,
     CategoriesModule,
     CanvasModule,
+    ReportsModule,
   ],
   providers: [
     // Apply rate limiting globally
