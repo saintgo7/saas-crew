@@ -117,7 +117,7 @@ const nextConfig = {
               "script-src 'self' 'unsafe-eval' 'unsafe-inline'", // Next.js requires unsafe-eval for dev
               "style-src 'self' 'unsafe-inline'",
               "img-src 'self' data: https: blob:",
-              "font-src 'self' data:",
+              "font-src 'self' data: https://esm.sh",
               "connect-src 'self' http://localhost:4000 http://localhost:4001 ws://localhost:4000 wss://crew-api.abada.kr https://crew-api.abada.kr https://staging-api-crew.abada.kr wss://staging-api-crew.abada.kr https://api.github.com",
               "frame-ancestors 'none'",
               "base-uri 'self'",
