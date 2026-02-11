@@ -2,6 +2,7 @@
 
 import { useCallback, useRef, useState } from 'react'
 import dynamic from 'next/dynamic'
+import '@excalidraw/excalidraw/index.css'
 import { useCanvasCollaboration } from '@/hooks/useCanvasCollaboration'
 import { useUserStore } from '@/store/user-store'
 import { CanvasToolbar } from './CanvasToolbar'
