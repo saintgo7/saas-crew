@@ -15,6 +15,7 @@ export const useQuestions = (filters?: QuestionFilters) => {
     queryKey: ['qna-questions', filters],
     queryFn: () => qnaApi.getQuestions(filters),
     staleTime: 2 * 60 * 1000, // 2 minutes
+    retry: 1,
   })
 }
 

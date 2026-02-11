@@ -6,7 +6,6 @@ import { useQuestions, useQnaTags } from '@/lib/hooks/use-qna'
 import { QuestionCard } from './QuestionCard'
 import { TagBadge } from './TagBadge'
 import {
-  AlertCircle,
   Loader2,
   HelpCircle,
   Search,
@@ -14,8 +13,103 @@ import {
   ChevronLeft,
   ChevronRight,
 } from 'lucide-react'
-import type { QuestionSortBy, QuestionStatus } from '@/lib/api/qna-types'
+import type { QuestionSortBy, QuestionStatus, Question } from '@/lib/api/qna-types'
 import { useTranslations } from '@/i18n/LanguageContext'
+
+const DEMO_QNA_TAGS = ['JavaScript', 'React', 'TypeScript', 'Git', 'CSS', 'Python', 'Docker', 'Database']
+
+const DEMO_QUESTIONS: Question[] = [
+  {
+    id: 'demo-q1',
+    title: 'useEffect 클린업 함수는 언제 실행되나요?',
+    content: 'useEffect 안에서 return으로 함수를 반환하면 언제 실행되는지 정확히 모르겠습니다...',
+    authorId: 'u1',
+    author: { id: 'u1', name: 'Choi Yerin', level: 3 },
+    tags: ['React', 'JavaScript'],
+    votes: 8,
+    views: 124,
+    answersCount: 3,
+    hasAcceptedAnswer: true,
+    status: 'answered',
+    createdAt: '2026-02-10T15:30:00Z',
+    updatedAt: '2026-02-10T15:30:00Z',
+  },
+  {
+    id: 'demo-q2',
+    title: 'Git rebase와 merge의 차이점이 뭔가요?',
+    content: '프로젝트에서 rebase를 쓰라고 하는데 merge와 어떤 차이가 있는지...',
+    authorId: 'u2',
+    author: { id: 'u2', name: 'Jang Hyunwoo', level: 2 },
+    tags: ['Git'],
+    votes: 15,
+    views: 267,
+    answersCount: 4,
+    hasAcceptedAnswer: true,
+    status: 'answered',
+    createdAt: '2026-02-09T09:00:00Z',
+    updatedAt: '2026-02-09T09:00:00Z',
+  },
+  {
+    id: 'demo-q3',
+    title: 'TypeScript에서 interface vs type 어떤 걸 써야 하나요?',
+    content: 'interface와 type alias 둘 다 비슷한 기능을 하는 것 같은데...',
+    authorId: 'u3',
+    author: { id: 'u3', name: 'Shin Minji', level: 5 },
+    tags: ['TypeScript'],
+    votes: 21,
+    views: 389,
+    answersCount: 6,
+    hasAcceptedAnswer: true,
+    status: 'answered',
+    createdAt: '2026-02-08T11:20:00Z',
+    updatedAt: '2026-02-08T11:20:00Z',
+  },
+  {
+    id: 'demo-q4',
+    title: 'Docker 컨테이너에서 hot reload가 안 됩니다',
+    content: 'Docker Compose로 Next.js 개발 환경을 구성했는데 파일 변경 시 hot reload가 동작하지 않습니다...',
+    authorId: 'u4',
+    author: { id: 'u4', name: 'Lee Dongwoo', level: 10 },
+    tags: ['Docker', 'Next.js'],
+    votes: 5,
+    views: 87,
+    answersCount: 2,
+    hasAcceptedAnswer: false,
+    status: 'open',
+    createdAt: '2026-02-07T14:00:00Z',
+    updatedAt: '2026-02-07T14:00:00Z',
+  },
+  {
+    id: 'demo-q5',
+    title: 'CSS Grid vs Flexbox 언제 어떤 걸 써야 하나요?',
+    content: '레이아웃을 잡을 때 Grid와 Flexbox 중 어떤 걸 써야 하는지 기준이 있나요?',
+    authorId: 'u5',
+    author: { id: 'u5', name: 'Kim Soyeon', level: 4 },
+    tags: ['CSS'],
+    votes: 11,
+    views: 198,
+    answersCount: 5,
+    hasAcceptedAnswer: true,
+    status: 'answered',
+    createdAt: '2026-02-06T08:30:00Z',
+    updatedAt: '2026-02-06T08:30:00Z',
+  },
+  {
+    id: 'demo-q6',
+    title: 'Python 가상환경 venv vs conda 차이점',
+    content: 'Python 프로젝트를 시작할 때 venv와 conda 중 어떤 걸 사용하는 게 좋을까요?',
+    authorId: 'u6',
+    author: { id: 'u6', name: 'Han Seungho', level: 6 },
+    tags: ['Python'],
+    votes: 7,
+    views: 145,
+    answersCount: 3,
+    hasAcceptedAnswer: false,
+    status: 'open',
+    createdAt: '2026-02-05T16:10:00Z',
+    updatedAt: '2026-02-05T16:10:00Z',
+  },
+]
 
 interface QuestionListProps {
   pageSize?: number
@@ -66,28 +160,34 @@ export function QuestionList({ pageSize = 20 }: QuestionListProps) {
     setCurrentPage(1)
   }
 
-  const totalPages = data ? Math.ceil(data.total / pageSize) : 0
-
-  if (error) {
-    return (
-      <div className="rounded-lg border border-red-200 bg-red-50 p-6 dark:border-red-800 dark:bg-red-900/20">
-        <div className="flex items-center gap-3">
-          <AlertCircle className="h-6 w-6 text-red-600 dark:text-red-400" />
-          <div>
-            <h3 className="font-semibold text-red-900 dark:text-red-100">
-              {t('qna.error')}
-            </h3>
-            <p className="mt-1 text-sm text-red-700 dark:text-red-300">
-              {error instanceof Error ? error.message : t('qna.unknownError')}
-            </p>
-          </div>
-        </div>
-      </div>
-    )
-  }
+  const isDemo = !!error || (!isLoading && !data)
+  const displayTags = isDemo ? DEMO_QNA_TAGS : tags
+  const questions = isDemo
+    ? DEMO_QUESTIONS.filter((q) => {
+        if (selectedTag && !q.tags.includes(selectedTag)) return false
+        if (status === 'open' && q.status !== 'open') return false
+        if (status === 'answered' && q.status !== 'answered') return false
+        if (searchQuery) {
+          const s = searchQuery.toLowerCase()
+          return q.title.toLowerCase().includes(s)
+        }
+        return true
+      })
+    : data?.questions ?? []
+  const totalCount = isDemo ? questions.length : data?.total ?? 0
+  const totalPages = isDemo ? 1 : data ? Math.ceil(data.total / pageSize) : 0
 
   return (
     <div className="space-y-6">
+      {/* Demo Banner */}
+      {isDemo && (
+        <div className="rounded-lg border border-blue-200 bg-blue-50 px-4 py-3 dark:border-blue-800 dark:bg-blue-900/20">
+          <p className="text-sm text-blue-700 dark:text-blue-300">
+            {t('qna.demoBanner')}
+          </p>
+        </div>
+      )}
+
       {/* Search Bar */}
       <div className="flex flex-col gap-4 sm:flex-row">
         <form onSubmit={handleSearch} className="relative flex-1">
@@ -112,17 +212,12 @@ export function QuestionList({ pageSize = 20 }: QuestionListProps) {
 
       {/* Filters Row */}
       <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-        {/* Status and Sort Filters */}
         <div className="flex flex-wrap items-center gap-4">
-          {/* Status Filter */}
           <div className="flex items-center gap-2">
             {statusOptions.map((option) => (
               <button
                 key={option.value}
-                onClick={() => {
-                  setStatus(option.value)
-                  setCurrentPage(1)
-                }}
+                onClick={() => { setStatus(option.value); setCurrentPage(1) }}
                 className={`whitespace-nowrap rounded-lg px-3 py-1.5 text-sm font-medium transition-colors ${
                   status === option.value
                     ? 'bg-gray-900 text-white dark:bg-white dark:text-gray-900'
@@ -134,13 +229,9 @@ export function QuestionList({ pageSize = 20 }: QuestionListProps) {
             ))}
           </div>
 
-          {/* Sort Options */}
           <select
             value={sortBy}
-            onChange={(e) => {
-              setSortBy(e.target.value as QuestionSortBy)
-              setCurrentPage(1)
-            }}
+            onChange={(e) => { setSortBy(e.target.value as QuestionSortBy); setCurrentPage(1) }}
             className="rounded-lg border border-gray-300 bg-white px-3 py-1.5 text-sm text-gray-700 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300"
           >
             {sortOptions.map((option) => (
@@ -151,13 +242,9 @@ export function QuestionList({ pageSize = 20 }: QuestionListProps) {
           </select>
         </div>
 
-        {/* Tag Filters */}
         <div className="flex items-center gap-2 overflow-x-auto pb-2">
           <button
-            onClick={() => {
-              setSelectedTag(undefined)
-              setCurrentPage(1)
-            }}
+            onClick={() => { setSelectedTag(undefined); setCurrentPage(1) }}
             className={`whitespace-nowrap rounded-full px-4 py-2 text-sm font-medium transition-colors ${
               selectedTag === undefined
                 ? 'bg-blue-600 text-white'
@@ -166,7 +253,7 @@ export function QuestionList({ pageSize = 20 }: QuestionListProps) {
           >
             {t('qna.filter.all')}
           </button>
-          {tags?.slice(0, 8).map((tag) => (
+          {displayTags?.slice(0, 8).map((tag) => (
             <TagBadge
               key={tag}
               tag={tag}
@@ -190,9 +277,9 @@ export function QuestionList({ pageSize = 20 }: QuestionListProps) {
       )}
 
       {/* Questions List */}
-      {!isLoading && data && (
+      {!isLoading && (
         <>
-          {data.questions.length === 0 ? (
+          {questions.length === 0 ? (
             <div className="flex min-h-[400px] items-center justify-center rounded-lg border border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-800">
               <div className="text-center">
                 <HelpCircle className="mx-auto h-12 w-12 text-gray-400" />
@@ -211,7 +298,7 @@ export function QuestionList({ pageSize = 20 }: QuestionListProps) {
           ) : (
             <>
               <div className="space-y-4">
-                {data.questions.map((question) => (
+                {questions.map((question) => (
                   <QuestionCard
                     key={question.id}
                     question={question}
@@ -272,9 +359,8 @@ export function QuestionList({ pageSize = 20 }: QuestionListProps) {
                 </div>
               )}
 
-              {/* Total Count */}
               <div className="text-center text-sm text-gray-600 dark:text-gray-400">
-                {t('qna.totalQuestions', { count: data.total })}
+                {t('qna.totalQuestions', { count: totalCount })}
               </div>
             </>
           )}

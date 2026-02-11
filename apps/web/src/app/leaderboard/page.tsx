@@ -20,6 +20,19 @@ import { useUserStore } from '@/store/user-store'
 import type { LeaderboardUser } from '@/lib/api/types'
 import type { LeaderboardPeriod } from '@/lib/api/xp'
 
+const DEMO_LEADERBOARD: LeaderboardUser[] = [
+  { id: 'demo-1', name: 'Go Seongmin', rank: 'MASTER', level: 22, experiencePoints: 12450, position: 1 },
+  { id: 'demo-2', name: 'Kim Jihye', rank: 'SENIOR', level: 18, experiencePoints: 8920, position: 2 },
+  { id: 'demo-3', name: 'Park Junhyuk', rank: 'SENIOR', level: 15, experiencePoints: 6780, position: 3 },
+  { id: 'demo-4', name: 'Lee Dongwoo', rank: 'SENIOR', level: 12, experiencePoints: 5340, position: 4 },
+  { id: 'demo-5', name: 'Choi Yerin', rank: 'JUNIOR', level: 8, experiencePoints: 3210, position: 5 },
+  { id: 'demo-6', name: 'Han Seungho', rank: 'JUNIOR', level: 7, experiencePoints: 2890, position: 6 },
+  { id: 'demo-7', name: 'Shin Minji', rank: 'JUNIOR', level: 6, experiencePoints: 2450, position: 7 },
+  { id: 'demo-8', name: 'Jang Hyunwoo', rank: 'JUNIOR', level: 5, experiencePoints: 1980, position: 8 },
+  { id: 'demo-9', name: 'Kim Soyeon', rank: 'JUNIOR', level: 4, experiencePoints: 1520, position: 9 },
+  { id: 'demo-10', name: 'Yoon Taewon', rank: 'JUNIOR', level: 3, experiencePoints: 890, position: 10 },
+]
+
 const periodOptions: { value: LeaderboardPeriod; label: string; labelKo: string }[] = [
   { value: 'all_time', label: 'All Time', labelKo: '전체' },
   { value: 'this_month', label: 'This Month', labelKo: '이번 달' },
@@ -195,8 +208,10 @@ export default function LeaderboardPage() {
     setPeriod(newPeriod)
   }
 
+  const isDemo = !!error || (!isLoading && !data)
+  const users = isDemo ? DEMO_LEADERBOARD : data?.users ?? []
   const currentPage = 1 // Simplified for now
-  const totalPages = data ? Math.ceil(data.total / 50) : 1
+  const totalPages = isDemo ? 1 : data ? Math.ceil(data.total / 50) : 1
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
@@ -265,63 +280,62 @@ export default function LeaderboardPage() {
 
       {/* Leaderboard Table */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {isDemo && (
+          <div className="mb-4 rounded-lg border border-blue-200 bg-blue-50 px-4 py-3 dark:border-blue-800 dark:bg-blue-900/20">
+            <p className="text-sm text-blue-700 dark:text-blue-300">
+              {t('xp.demoBanner')}
+            </p>
+          </div>
+        )}
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
-          {error ? (
-            <div className="text-center py-12 text-gray-500 dark:text-gray-400">
-              <Trophy className="w-12 h-12 mx-auto mb-3 opacity-50" />
-              <p>{t('common.error')}</p>
-              <p className="text-sm mt-1">{error.message}</p>
-            </div>
-          ) : (
-            <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                <thead className="bg-gray-50 dark:bg-gray-700/50">
-                  <tr>
-                    <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                      {t('xp.rank')}
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                      {t('xp.member')}
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                      {t('xp.tier')}
-                    </th>
-                    <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                      {t('xp.level')}
-                    </th>
-                    <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                      XP
-                    </th>
-                  </tr>
-                </thead>
+          <div className="overflow-x-auto">
+            <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+              <thead className="bg-gray-50 dark:bg-gray-700/50">
+                <tr>
+                  <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                    {t('xp.rank')}
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                    {t('xp.member')}
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                    {t('xp.tier')}
+                  </th>
+                  <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                    {t('xp.level')}
+                  </th>
+                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                    XP
+                  </th>
+                </tr>
+              </thead>
 
-                {isLoading ? (
-                  <LeaderboardSkeleton />
-                ) : data?.users.length === 0 ? (
-                  <tbody>
-                    <tr>
-                      <td colSpan={5} className="px-6 py-12 text-center">
-                        <Trophy className="w-12 h-12 mx-auto mb-3 text-gray-300 dark:text-gray-600" />
-                        <p className="text-gray-500 dark:text-gray-400">
-                          {t('xp.noLeaderboard')}
-                        </p>
-                      </td>
-                    </tr>
-                  </tbody>
-                ) : (
-                  <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                    {data?.users.map((user) => (
-                      <LeaderboardRow
-                        key={user.id}
-                        user={user}
-                        isCurrentUser={currentUser?.id === user.id}
-                      />
-                    ))}
-                  </tbody>
-                )}
-              </table>
-            </div>
-          )}
+              {isLoading ? (
+                <LeaderboardSkeleton />
+              ) : users.length === 0 ? (
+                <tbody>
+                  <tr>
+                    <td colSpan={5} className="px-6 py-12 text-center">
+                      <Trophy className="w-12 h-12 mx-auto mb-3 text-gray-300 dark:text-gray-600" />
+                      <p className="text-gray-500 dark:text-gray-400">
+                        {t('xp.noLeaderboard')}
+                      </p>
+                    </td>
+                  </tr>
+                </tbody>
+              ) : (
+                <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+                  {users.map((user) => (
+                    <LeaderboardRow
+                      key={user.id}
+                      user={user}
+                      isCurrentUser={currentUser?.id === user.id}
+                    />
+                  ))}
+                </tbody>
+              )}
+            </table>
+          </div>
 
           {/* Pagination */}
           {totalPages > 1 && (
