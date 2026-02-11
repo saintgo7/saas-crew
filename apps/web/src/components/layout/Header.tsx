@@ -3,25 +3,162 @@
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { useState, useRef, useEffect } from 'react'
-import { Home, FolderGit2, BookOpen, MessageSquare, LayoutDashboard, User, LogOut, ChevronDown, MessagesSquare, HelpCircle, Users, Trophy, BookText } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { FolderGit2, BookOpen, BookText, HelpCircle, MessageSquare, MessagesSquare, Users, Trophy, LayoutDashboard, User, LogOut, ChevronDown } from 'lucide-react'
 import { ThemeToggle } from './ThemeToggle'
 import { LanguageSwitcher } from './LanguageSwitcher'
+import { MobileNav } from './MobileNav'
 import { NotificationDropdown } from '@/components/notifications'
 import { useTranslations } from '@/i18n/LanguageContext'
 import { useUserStore } from '@/store/user-store'
+import type { LucideIcon } from 'lucide-react'
 
-const navigationKeys = [
-  { key: 'home', href: '/', icon: Home },
-  { key: 'projects', href: '/projects', icon: FolderGit2 },
-  { key: 'courses', href: '/courses', icon: BookOpen },
-  { key: 'glossary', href: '/glossary', icon: BookText },
-  { key: 'qna', href: '/qna', icon: HelpCircle },
-  { key: 'community', href: '/community', icon: MessageSquare },
-  { key: 'mentoring', href: '/mentoring', icon: Users },
-  { key: 'leaderboard', href: '/leaderboard', icon: Trophy },
-  { key: 'chat', href: '/chat', icon: MessagesSquare },
-  { key: 'dashboard', href: '/dashboard', icon: LayoutDashboard },
+interface NavChild {
+  key: string
+  href: string
+  icon: LucideIcon
+}
+
+interface NavGroupDirect {
+  key: string
+  href: string
+  icon: LucideIcon
+  authRequired?: boolean
+}
+
+interface NavGroupDropdown {
+  key: string
+  icon: LucideIcon
+  children: NavChild[]
+}
+
+type NavGroup = NavGroupDirect | NavGroupDropdown
+
+const navGroups: NavGroup[] = [
+  {
+    key: 'projects',
+    href: '/projects',
+    icon: FolderGit2,
+  },
+  {
+    key: 'learn',
+    icon: BookOpen,
+    children: [
+      { key: 'courses', href: '/courses', icon: BookOpen },
+      { key: 'glossary', href: '/glossary', icon: BookText },
+      { key: 'qna', href: '/qna', icon: HelpCircle },
+    ],
+  },
+  {
+    key: 'community',
+    icon: MessageSquare,
+    children: [
+      { key: 'community', href: '/community', icon: MessageSquare },
+      { key: 'chat', href: '/chat', icon: MessagesSquare },
+      { key: 'mentoring', href: '/mentoring', icon: Users },
+    ],
+  },
+  {
+    key: 'leaderboard',
+    href: '/leaderboard',
+    icon: Trophy,
+  },
+  {
+    key: 'dashboard',
+    href: '/dashboard',
+    icon: LayoutDashboard,
+    authRequired: true,
+  },
 ]
+
+function isDropdown(group: NavGroup): group is NavGroupDropdown {
+  return 'children' in group
+}
+
+function NavDropdown({ group }: { group: NavGroupDropdown }) {
+  const [isOpen, setIsOpen] = useState(false)
+  const pathname = usePathname()
+  const t = useTranslations()
+  const ref = useRef<HTMLDivElement>(null)
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const Icon = group.icon
+
+  const hasActiveChild = group.children.some(
+    (child) => pathname === child.href || pathname.startsWith(child.href)
+  )
+
+  const handleMouseEnter = () => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current)
+    setIsOpen(true)
+  }
+
+  const handleMouseLeave = () => {
+    timeoutRef.current = setTimeout(() => setIsOpen(false), 150)
+  }
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current)
+    }
+  }, [])
+
+  return (
+    <div
+      ref={ref}
+      className="relative"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className={`flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+          hasActiveChild
+            ? 'bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400'
+            : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-white'
+        }`}
+      >
+        <Icon className="h-4 w-4" />
+        <span>{t(`nav.${group.key}`)}</span>
+        <ChevronDown className={`h-3 w-3 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+      </button>
+
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: 8, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 8, scale: 0.96 }}
+            transition={{ duration: 0.15 }}
+            className="absolute left-0 top-full z-50 mt-1 min-w-[220px] rounded-xl border bg-popover p-2 shadow-lg"
+          >
+            {group.children.map((child) => {
+              const ChildIcon = child.icon
+              const isActive = pathname === child.href || pathname.startsWith(child.href)
+              return (
+                <Link
+                  key={child.key}
+                  href={child.href}
+                  onClick={() => setIsOpen(false)}
+                  className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-colors ${
+                    isActive
+                      ? 'bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400'
+                      : 'text-popover-foreground hover:bg-accent'
+                  }`}
+                >
+                  <ChildIcon className="h-4 w-4" />
+                  <div>
+                    <div className="font-medium">{t(`nav.${child.key}`)}</div>
+                    <div className="text-xs text-muted-foreground">{t(`nav.${child.key}Description`)}</div>
+                  </div>
+                </Link>
+              )
+            })}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  )
+}
 
 export function Header() {
   const pathname = usePathname()
@@ -31,7 +168,6 @@ export function Header() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -63,39 +199,43 @@ export function Header() {
           </span>
         </Link>
 
-        {/* Navigation */}
-        <nav className="flex items-center gap-1 overflow-x-auto">
-          {navigationKeys.map((item) => {
-            const isActive = pathname === item.href ||
-              (item.href !== '/' && pathname.startsWith(item.href))
-            const Icon = item.icon
+        {/* Desktop Navigation */}
+        <nav className="hidden md:flex items-center gap-1">
+          {navGroups.map((group) => {
+            if ('authRequired' in group && group.authRequired && !user) return null
+
+            if (isDropdown(group)) {
+              return <NavDropdown key={group.key} group={group} />
+            }
+
+            const isActive = pathname === group.href ||
+              (group.href !== '/' && pathname.startsWith(group.href))
+            const Icon = group.icon
 
             return (
               <Link
-                key={item.key}
-                href={item.href}
-                className={`flex items-center gap-2 rounded-lg px-2 py-2 text-sm font-medium transition-colors ${
+                key={group.key}
+                href={group.href}
+                className={`flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
                   isActive
                     ? 'bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400'
                     : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-white'
                 }`}
-                title={t(`nav.${item.key}`)}
               >
                 <Icon className="h-4 w-4" />
-                <span className="hidden lg:inline-block">{t(`nav.${item.key}`)}</span>
+                <span>{t(`nav.${group.key}`)}</span>
               </Link>
             )
           })}
         </nav>
 
-        {/* Right Section: Theme, Language, Notifications, Auth */}
+        {/* Right Section */}
         <div className="flex items-center gap-2">
           <ThemeToggle />
           <LanguageSwitcher />
           <NotificationDropdown />
 
           {user ? (
-            // User Menu Dropdown
             <div className="relative" ref={dropdownRef}>
               <button
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
@@ -118,54 +258,61 @@ export function Header() {
                 <ChevronDown className="h-4 w-4 text-gray-500" />
               </button>
 
-              {isDropdownOpen && (
-                <div className="absolute right-0 top-full z-50 mt-2 min-w-[200px] rounded-lg border border-gray-200 bg-white py-1 shadow-lg dark:border-gray-700 dark:bg-gray-800">
-                  {/* User Info */}
-                  <div className="border-b border-gray-200 px-4 py-3 dark:border-gray-700">
-                    <p className="text-sm font-medium text-gray-900 dark:text-white">{user.name}</p>
-                    <p className="truncate text-xs text-gray-500">{user.email}</p>
-                  </div>
-
-                  {/* Menu Items */}
-                  <Link
-                    href="/profile"
-                    onClick={() => setIsDropdownOpen(false)}
-                    className="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
+              <AnimatePresence>
+                {isDropdownOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 8, scale: 0.96 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 8, scale: 0.96 }}
+                    transition={{ duration: 0.15 }}
+                    className="absolute right-0 top-full z-50 mt-2 min-w-[200px] rounded-xl border border-gray-200 bg-white py-1 shadow-lg dark:border-gray-700 dark:bg-gray-800"
                   >
-                    <User className="h-4 w-4" />
-                    {t('profile.title')}
-                  </Link>
-                  <Link
-                    href="/dashboard"
-                    onClick={() => setIsDropdownOpen(false)}
-                    className="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
-                  >
-                    <LayoutDashboard className="h-4 w-4" />
-                    {t('nav.dashboard')}
-                  </Link>
+                    <div className="border-b border-gray-200 px-4 py-3 dark:border-gray-700">
+                      <p className="text-sm font-medium text-gray-900 dark:text-white">{user.name}</p>
+                      <p className="truncate text-xs text-gray-500">{user.email}</p>
+                    </div>
 
-                  {/* Logout */}
-                  <div className="border-t border-gray-200 dark:border-gray-700">
-                    <button
-                      onClick={handleLogout}
-                      className="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-900/20"
+                    <Link
+                      href="/profile"
+                      onClick={() => setIsDropdownOpen(false)}
+                      className="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
                     >
-                      <LogOut className="h-4 w-4" />
-                      {t('common.logout')}
-                    </button>
-                  </div>
-                </div>
-              )}
+                      <User className="h-4 w-4" />
+                      {t('profile.title')}
+                    </Link>
+                    <Link
+                      href="/dashboard"
+                      onClick={() => setIsDropdownOpen(false)}
+                      className="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
+                    >
+                      <LayoutDashboard className="h-4 w-4" />
+                      {t('nav.dashboard')}
+                    </Link>
+
+                    <div className="border-t border-gray-200 dark:border-gray-700">
+                      <button
+                        onClick={handleLogout}
+                        className="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-900/20"
+                      >
+                        <LogOut className="h-4 w-4" />
+                        {t('common.logout')}
+                      </button>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           ) : (
-            // Login Button
             <Link
               href="/auth/login"
-              className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
+              className="hidden sm:inline-flex rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
             >
               {t('common.login')}
             </Link>
           )}
+
+          {/* Mobile hamburger */}
+          <MobileNav />
         </div>
       </div>
     </header>

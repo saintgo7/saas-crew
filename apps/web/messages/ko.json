@@ -29,12 +29,20 @@
     "dashboard": "대시보드",
     "projects": "프로젝트",
     "courses": "코스",
+    "coursesDescription": "체계적인 코스로 학습하세요",
     "glossary": "용어집",
+    "glossaryDescription": "개발 용어를 검색하세요",
     "community": "커뮤니티",
+    "communityDescription": "멤버들과 소통하세요",
     "chat": "채팅",
+    "chatDescription": "실시간 채팅에 참여하세요",
     "qna": "Q&A",
+    "qnaDescription": "질문하고 답변하세요",
     "mentoring": "멘토링",
-    "leaderboard": "리더보드"
+    "mentoringDescription": "선배에게 배우세요",
+    "leaderboard": "리더보드",
+    "learn": "학습",
+    "learnDescription": "코스, 용어집, Q&A"
   },
   "home": {
     "badge": "원광대학교 소프트웨어 개발 동아리",
@@ -72,6 +80,46 @@
         "feature3": "멘토 활동"
       }
     },
+    "techStack": "우리가 함께 배우는 기술들",
+    "features": {
+      "projects": {
+        "badge": "프로젝트 협업",
+        "title": "팀과 함께 실전 프로젝트를 진행하세요",
+        "description": "Git 기반의 프로젝트 관리, 팀원 초대, GitHub 동기화까지. 실무와 동일한 환경에서 협업 경험을 쌓으세요."
+      },
+      "learning": {
+        "badge": "체계적 학습",
+        "title": "단계별 코스로 실력을 키우세요",
+        "description": "주니어부터 마스터까지, 레벨에 맞는 코스를 수강하고 퀴즈로 실력을 검증하세요. 수료증도 발급됩니다."
+      },
+      "community": {
+        "badge": "활발한 커뮤니티",
+        "title": "함께 성장하는 개발자 네트워크",
+        "description": "Q&A, 실시간 채팅, 멘토링을 통해 선배 개발자에게 배우고, 후배를 도와주세요."
+      }
+    },
+    "stats": {
+      "members": "활동 멤버",
+      "projects": "진행 프로젝트",
+      "courses": "학습 코스",
+      "commits": "총 커밋"
+    },
+    "memberShowcase": {
+      "title": "이런 기능을 제공합니다",
+      "subtitle": "프로젝트 관리부터 학습까지 개발에 필요한 모든 것",
+      "item1": {
+        "title": "칸반보드 & 프로젝트 관리",
+        "description": "팀원 초대, GitHub 연동, 진행 상황 추적으로 프로젝트를 체계적으로 관리하세요"
+      },
+      "item2": {
+        "title": "실시간 채팅 & Q&A",
+        "description": "WebSocket 기반 실시간 채팅과 Q&A 게시판으로 빠르게 소통하세요"
+      },
+      "item3": {
+        "title": "XP & 리더보드",
+        "description": "활동에 따른 경험치 시스템으로 팀원들의 기여도를 확인하세요"
+      }
+    },
     "howItWorks": {
       "title": "어떻게 진행되나요?",
       "step1": {
@@ -95,8 +143,13 @@
   "footer": {
     "copyright": "2026 WKU Software Crew. All rights reserved.",
     "about": "소개",
+    "aboutDescription": "원광대학교 소프트웨어 개발 동아리. 함께 성장하는 개발자 커뮤니티입니다.",
     "projects": "프로젝트",
-    "github": "GitHub"
+    "github": "GitHub",
+    "navigation": "탐색",
+    "resources": "리소스",
+    "connect": "연결",
+    "university": "원광대학교 소프트웨어학부"
   },
   "profile": {
     "title": "프로필",

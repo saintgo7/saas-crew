@@ -29,12 +29,20 @@
     "dashboard": "Dashboard",
     "projects": "Projects",
     "courses": "Courses",
+    "coursesDescription": "Learn with structured courses",
     "glossary": "Glossary",
+    "glossaryDescription": "Search development terms",
     "community": "Community",
+    "communityDescription": "Connect with members",
     "chat": "Chat",
+    "chatDescription": "Join real-time chat",
     "qna": "Q&A",
+    "qnaDescription": "Ask and answer questions",
     "mentoring": "Mentoring",
-    "leaderboard": "Leaderboard"
+    "mentoringDescription": "Learn from seniors",
+    "leaderboard": "Leaderboard",
+    "learn": "Learn",
+    "learnDescription": "Courses, Glossary, Q&A"
   },
   "home": {
     "badge": "WKU Software Development Club",
@@ -72,6 +80,46 @@
         "feature3": "Mentor activities"
       }
     },
+    "techStack": "Technologies We Learn Together",
+    "features": {
+      "projects": {
+        "badge": "Project Collaboration",
+        "title": "Build real projects with your team",
+        "description": "Git-based project management, team invitations, and GitHub sync. Gain collaboration experience in a production-like environment."
+      },
+      "learning": {
+        "badge": "Structured Learning",
+        "title": "Level up with step-by-step courses",
+        "description": "From Junior to Master, take courses matched to your level and verify your skills with quizzes. Certificates available."
+      },
+      "community": {
+        "badge": "Active Community",
+        "title": "A developer network that grows together",
+        "description": "Learn from senior developers and help juniors through Q&A, real-time chat, and mentoring programs."
+      }
+    },
+    "stats": {
+      "members": "Active Members",
+      "projects": "Projects",
+      "courses": "Courses",
+      "commits": "Total Commits"
+    },
+    "memberShowcase": {
+      "title": "Features We Provide",
+      "subtitle": "Everything you need for development, from project management to learning",
+      "item1": {
+        "title": "Kanban & Project Management",
+        "description": "Manage projects systematically with team invitations, GitHub sync, and progress tracking"
+      },
+      "item2": {
+        "title": "Real-time Chat & Q&A",
+        "description": "Communicate quickly with WebSocket-based real-time chat and Q&A boards"
+      },
+      "item3": {
+        "title": "XP & Leaderboard",
+        "description": "Track team contributions with an activity-based experience point system"
+      }
+    },
     "howItWorks": {
       "title": "How It Works",
       "step1": {
@@ -95,8 +143,13 @@
   "footer": {
     "copyright": "2026 WKU Software Crew. All rights reserved.",
     "about": "About",
+    "aboutDescription": "Wonkwang University Software Development Club. A developer community that grows together.",
     "projects": "Projects",
-    "github": "GitHub"
+    "github": "GitHub",
+    "navigation": "Navigate",
+    "resources": "Resources",
+    "connect": "Connect",
+    "university": "Wonkwang University, Dept. of Software"
   },
   "profile": {
     "title": "Profile",

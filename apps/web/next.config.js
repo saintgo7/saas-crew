@@ -48,6 +48,7 @@ const nextConfig = {
       'date-fns',
       '@radix-ui/react-icons',
       'react-hook-form',
+      'framer-motion',
     ],
   },
   
