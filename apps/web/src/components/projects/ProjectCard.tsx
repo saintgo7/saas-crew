@@ -16,9 +16,13 @@ export function ProjectCard({ project }: ProjectCardProps) {
   const { locale } = useLanguage()
   const dateLocale = locale === 'ko' ? ko : enUS
 
+  const isDemo = project.id.startsWith('demo-')
+  const href = isDemo ? '/projects' : `/projects/${project.id}`
+
   return (
     <Link
-      href={`/projects/${project.id}`}
+      href={href}
+      onClick={isDemo ? (e) => e.preventDefault() : undefined}
       className="group block rounded-lg border border-gray-200 bg-white p-6 shadow-sm transition-all hover:border-blue-300 hover:shadow-md dark:border-gray-700 dark:bg-gray-800 dark:hover:border-blue-600"
     >
       {/* Header */}

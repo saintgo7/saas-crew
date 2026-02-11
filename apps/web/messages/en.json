@@ -319,7 +319,10 @@
     "loading": "Loading projects...",
     "error": "Failed to load projects",
     "unknownError": "An unknown error occurred",
+    "demoBanner": "Showing demo data. Sign in to see real projects.",
     "searchPlaceholder": "Search projects...",
+    "createProject": "New Project",
+    "membersCount": "{count} members",
     "noProjectsToShow": "No projects to show",
     "totalProjects": "{count} projects total",
     "filter": {

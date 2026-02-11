@@ -319,7 +319,10 @@
     "loading": "프로젝트 로딩 중...",
     "error": "프로젝트를 불러오는데 실패했습니다",
     "unknownError": "알 수 없는 오류가 발생했습니다",
+    "demoBanner": "현재 데모 데이터를 표시하고 있습니다. 실제 프로젝트는 로그인 후 확인할 수 있습니다.",
     "searchPlaceholder": "프로젝트 검색...",
+    "createProject": "새 프로젝트",
+    "membersCount": "{count}명",
     "noProjectsToShow": "표시할 프로젝트가 없습니다",
     "totalProjects": "총 {count}개의 프로젝트",
     "filter": {
