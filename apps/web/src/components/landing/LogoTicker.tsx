@@ -40,15 +40,15 @@ export function LogoTicker() {
       whileInView="visible"
       viewport={viewportOnce}
       variants={fadeInUp}
-      className="py-12 px-6 overflow-hidden bg-white border-y border-gray-100"
+      className="py-12 px-6 overflow-hidden bg-white dark:bg-gray-950 border-y border-gray-100 dark:border-gray-800"
     >
       <div className="max-w-6xl mx-auto">
         <p className="text-center text-sm font-medium text-gray-400 mb-6 uppercase tracking-wider">
           {t('home.techStack')}
         </p>
         <div className="relative">
-          <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-white to-transparent z-10" />
-          <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-white to-transparent z-10" />
+          <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-white dark:from-gray-950 to-transparent z-10" />
+          <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-white dark:from-gray-950 to-transparent z-10" />
 
           <div className="flex animate-ticker">
             <div className="flex gap-2 pr-2">

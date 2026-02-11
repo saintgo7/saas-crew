@@ -10,7 +10,7 @@ import {
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen landing-light">
+    <main className="min-h-screen">
       <HeroSection />
       <LogoTicker />
       <FeatureShowcase />
