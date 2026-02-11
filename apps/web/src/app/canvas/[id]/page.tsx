@@ -9,6 +9,11 @@ import { ArrowLeft } from 'lucide-react'
 import { useCanvas } from '@/lib/hooks/use-canvas'
 import { CollaborativeCanvas } from '@/components/canvas/CollaborativeCanvas'
 
+// Self-host fonts to avoid esm.sh CDN being blocked by CSP/Cloudflare
+if (typeof window !== 'undefined') {
+  window.EXCALIDRAW_ASSET_PATH = '/excalidraw-assets/'
+}
+
 const Excalidraw = dynamic(
   () => import('@excalidraw/excalidraw').then((mod) => ({ default: mod.Excalidraw })),
   { ssr: false },

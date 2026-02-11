@@ -8,7 +8,11 @@ import { useUserStore } from '@/store/user-store'
 import { CanvasToolbar } from './CanvasToolbar'
 import { useUpdateCanvas } from '@/lib/hooks/use-canvas'
 
-// Dynamic import of Excalidraw (no SSR)
+// Self-host fonts to avoid esm.sh CDN being blocked by CSP/Cloudflare
+if (typeof window !== 'undefined') {
+  window.EXCALIDRAW_ASSET_PATH = '/excalidraw-assets/'
+}
+
 const Excalidraw = dynamic(
   () => import('@excalidraw/excalidraw').then((mod) => ({ default: mod.Excalidraw })),
   { ssr: false },
