@@ -100,47 +100,6 @@
         "description": "Q&A, 실시간 채팅, 멘토링을 통해 선배 개발자에게 배우고, 후배를 도와주세요."
       }
     },
-    "stats": {
-      "members": "활동 멤버",
-      "projects": "진행 프로젝트",
-      "courses": "학습 코스",
-      "commits": "총 커밋"
-    },
-    "memberShowcase": {
-      "title": "이런 기능을 제공합니다",
-      "subtitle": "프로젝트 관리부터 학습까지 개발에 필요한 모든 것",
-      "item1": {
-        "title": "칸반보드 & 프로젝트 관리",
-        "description": "팀원 초대, GitHub 연동, 진행 상황 추적으로 프로젝트를 체계적으로 관리하세요"
-      },
-      "item2": {
-        "title": "실시간 채팅 & Q&A",
-        "description": "WebSocket 기반 실시간 채팅과 Q&A 게시판으로 빠르게 소통하세요"
-      },
-      "item3": {
-        "title": "XP & 리더보드",
-        "description": "활동에 따른 경험치 시스템으로 팀원들의 기여도를 확인하세요"
-      }
-    },
-    "howItWorks": {
-      "title": "어떻게 진행되나요?",
-      "step1": {
-        "title": "1. 가입하기",
-        "description": "GitHub 계정으로 간편하게 가입하세요"
-      },
-      "step2": {
-        "title": "2. 활동하기",
-        "description": "프로젝트, 코스, 커뮤니티에서 활동하세요"
-      },
-      "step3": {
-        "title": "3. 경험치 획득",
-        "description": "활동을 통해 경험치를 쌓으세요"
-      },
-      "step4": {
-        "title": "4. 레벨업",
-        "description": "레벨업하여 더 많은 혜택을 누리세요"
-      }
-    },
     "cta": {
       "title": "WKU Software Crew에 합류하고 함께 성장하세요",
       "description": "프로젝트 협업, 코스 학습, 커뮤니티 활동을 통해 실력있는 개발자로 성장할 수 있습니다."

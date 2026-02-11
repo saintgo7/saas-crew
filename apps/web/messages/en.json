@@ -100,47 +100,6 @@
         "description": "Learn from senior developers and help juniors through Q&A, real-time chat, and mentoring programs."
       }
     },
-    "stats": {
-      "members": "Active Members",
-      "projects": "Projects",
-      "courses": "Courses",
-      "commits": "Total Commits"
-    },
-    "memberShowcase": {
-      "title": "Features We Provide",
-      "subtitle": "Everything you need for development, from project management to learning",
-      "item1": {
-        "title": "Kanban & Project Management",
-        "description": "Manage projects systematically with team invitations, GitHub sync, and progress tracking"
-      },
-      "item2": {
-        "title": "Real-time Chat & Q&A",
-        "description": "Communicate quickly with WebSocket-based real-time chat and Q&A boards"
-      },
-      "item3": {
-        "title": "XP & Leaderboard",
-        "description": "Track team contributions with an activity-based experience point system"
-      }
-    },
-    "howItWorks": {
-      "title": "How It Works",
-      "step1": {
-        "title": "1. Sign Up",
-        "description": "Easy sign up with GitHub"
-      },
-      "step2": {
-        "title": "2. Participate",
-        "description": "Join projects, courses, and community"
-      },
-      "step3": {
-        "title": "3. Earn XP",
-        "description": "Earn experience through activities"
-      },
-      "step4": {
-        "title": "4. Level Up",
-        "description": "Level up to unlock more benefits"
-      }
-    },
     "cta": {
       "title": "Join WKU Software Crew and grow together",
       "description": "Develop your skills through project collaboration, course learning, and community activities."
