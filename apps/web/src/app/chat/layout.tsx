@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Chat - WKU Software Crew',
+  title: 'Chat - CrewSpace',
   description: 'Crew members chat and communicate with each other',
 }
 

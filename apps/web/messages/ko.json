@@ -18,9 +18,9 @@
     "all": "전체",
     "optional": "선택사항",
     "startNow": "지금 시작하기",
-    "joinCrew": "크루에 가입하기",
-    "wkuStudentOnly": "원광대학교 학생만 가입 가능",
-    "contactAdmin": "관리자에게 문의하세요",
+    "joinCrew": "무료로 시작하기",
+    "wkuStudentOnly": "",
+    "contactAdmin": "도입 문의하기",
     "tryAgain": "다시 시도",
     "you": "나"
   },
@@ -47,13 +47,13 @@
     "learnDescription": "코스, 용어집, Q&A"
   },
   "home": {
-    "badge": "원광대학교 소프트웨어 개발 동아리",
-    "title": "함께 성장하는",
-    "titleHighlight": "개발자 커뮤니티",
-    "description": "프로젝트 협업, 코스 학습, 멘토링을 통해",
-    "descriptionSub": "실력있는 개발자로 성장하세요.",
-    "startWithGithub": "GitHub로 시작하기",
-    "browseProjects": "프로젝트 둘러보기",
+    "badge": "업무와 교육을 위한 올인원 플랫폼",
+    "title": "팀 협업과 학습을",
+    "titleHighlight": "하나의 공간에서",
+    "description": "프로젝트 관리, 실시간 캔버스, 코스 학습, 커뮤니티까지.",
+    "descriptionSub": "CrewSpace에서 팀의 모든 활동을 한 곳에서 관리하세요.",
+    "startWithGithub": "무료로 시작하기",
+    "browseProjects": "기능 둘러보기",
     "levelSystem": {
       "title": "레벨 시스템",
       "subtitle": "활동을 통해 경험치를 쌓고 레벨업하세요",
@@ -82,41 +82,41 @@
         "feature3": "멘토 활동"
       }
     },
-    "techStack": "우리가 함께 배우는 기술들",
+    "techStack": "검증된 기술 스택으로 구축",
     "features": {
       "sectionTitle": "프로젝트 관리부터 학습까지 한 곳에서",
-      "sectionDescription": "WKU Software Crew는 프로젝트 관리, 코스 학습, 커뮤니티 기능을 하나의 플랫폼에서 제공합니다. 팀원들과 함께 실전 경험을 쌓으세요.",
+      "sectionDescription": "CrewSpace는 프로젝트 관리, 실시간 화이트보드, 코스 학습, 커뮤니티 기능을 하나의 플랫폼에서 제공합니다.",
       "projects": {
         "badge": "프로젝트 협업",
-        "title": "팀과 함께 실전 프로젝트를 진행하세요",
-        "description": "Git 기반의 프로젝트 관리, 팀원 초대, GitHub 동기화까지. 실무와 동일한 환경에서 협업 경험을 쌓으세요."
+        "title": "시각적 프로젝트 관리",
+        "description": "칸반 보드, 팀 협업, GitHub 연동까지. 프로젝트의 모든 진행 상황을 한눈에 파악하세요."
       },
       "learning": {
         "badge": "체계적 학습",
-        "title": "단계별 코스로 실력을 키우세요",
-        "description": "주니어부터 마스터까지, 레벨에 맞는 코스를 수강하고 퀴즈로 실력을 검증하세요. 수료증도 발급됩니다."
+        "title": "체계적인 코스 학습",
+        "description": "단계별 코스, 퀴즈, 수료증 발급까지. 팀원들의 역량을 체계적으로 성장시키세요."
       },
       "community": {
         "badge": "활발한 커뮤니티",
-        "title": "함께 성장하는 개발자 네트워크",
-        "description": "Q&A, 실시간 채팅, 멘토링을 통해 선배 개발자에게 배우고, 후배를 도와주세요."
+        "title": "실시간 소통과 멘토링",
+        "description": "Q&A, 실시간 채팅, 멘토링 프로그램으로 팀 내 지식 공유와 성장을 촉진하세요."
       }
     },
     "cta": {
-      "title": "WKU Software Crew에 합류하고 함께 성장하세요",
-      "description": "프로젝트 협업, 코스 학습, 커뮤니티 활동을 통해 실력있는 개발자로 성장할 수 있습니다."
+      "title": "지금 CrewSpace를 시작하세요",
+      "description": "프로젝트 관리, 학습, 커뮤니티를 하나의 플랫폼에서. 팀의 생산성과 역량을 함께 높이세요."
     }
   },
   "footer": {
-    "copyright": "2026 WKU Software Crew. All rights reserved.",
+    "copyright": "2026 CrewSpace. All rights reserved.",
     "about": "소개",
-    "aboutDescription": "원광대학교 소프트웨어 개발 동아리. 함께 성장하는 개발자 커뮤니티입니다.",
+    "aboutDescription": "팀 협업과 학습을 위한 올인원 플랫폼. 프로젝트 관리, 코스 학습, 커뮤니티를 하나로.",
     "projects": "프로젝트",
     "github": "GitHub",
     "navigation": "탐색",
     "resources": "리소스",
     "connect": "연결",
-    "university": "원광대학교 소프트웨어학부"
+    "university": ""
   },
   "profile": {
     "title": "프로필",
@@ -594,7 +594,7 @@
   },
   "about": {
     "title": "소개",
-    "subtitle": "WKU Software Crew에 대해 알아보세요"
+    "subtitle": "CrewSpace에 대해 알아보세요"
   },
   "canvas": {
     "title": "캔버스",

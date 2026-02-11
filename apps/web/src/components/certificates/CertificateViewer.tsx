@@ -55,7 +55,7 @@ export function CertificateViewer({ certificate }: CertificateViewerProps) {
             Certificate of Completion
           </h1>
           <p className="text-muted-foreground mt-2">
-            WKU Software Crew
+            CrewSpace
           </p>
         </div>
 

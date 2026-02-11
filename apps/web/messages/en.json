@@ -18,9 +18,9 @@
     "all": "All",
     "optional": "Optional",
     "startNow": "Get Started",
-    "joinCrew": "Join the Crew",
-    "wkuStudentOnly": "WKU students only",
-    "contactAdmin": "Contact administrator",
+    "joinCrew": "Get Started Free",
+    "wkuStudentOnly": "",
+    "contactAdmin": "Contact Sales",
     "tryAgain": "Try Again",
     "you": "You"
   },
@@ -47,13 +47,13 @@
     "learnDescription": "Courses, Glossary, Q&A"
   },
   "home": {
-    "badge": "WKU Software Development Club",
-    "title": "Growing Together",
-    "titleHighlight": "Developer Community",
-    "description": "Through project collaboration, course learning, and mentoring",
-    "descriptionSub": "become a skilled developer.",
-    "startWithGithub": "Start with GitHub",
-    "browseProjects": "Browse Projects",
+    "badge": "All-in-one platform for work and education",
+    "title": "Collaboration and Learning,",
+    "titleHighlight": "All in One Place",
+    "description": "Project management, real-time canvas, course learning, and community.",
+    "descriptionSub": "Manage all your team activities in one place with CrewSpace.",
+    "startWithGithub": "Get Started Free",
+    "browseProjects": "Explore Features",
     "levelSystem": {
       "title": "Level System",
       "subtitle": "Earn XP through activities and level up",
@@ -82,41 +82,41 @@
         "feature3": "Mentor activities"
       }
     },
-    "techStack": "Technologies We Learn Together",
+    "techStack": "Built with proven technologies",
     "features": {
-      "sectionTitle": "Project management to learning, all in one place",
-      "sectionDescription": "WKU Software Crew provides project management, course learning, and community features in a single platform. Build real-world experience with your teammates.",
+      "sectionTitle": "From project management to learning, all in one",
+      "sectionDescription": "CrewSpace provides project management, real-time whiteboard, course learning, and community features in a single platform.",
       "projects": {
         "badge": "Project Collaboration",
-        "title": "Build real projects with your team",
-        "description": "Git-based project management, team invitations, and GitHub sync. Gain collaboration experience in a production-like environment."
+        "title": "Visual Project Management",
+        "description": "Kanban boards, team collaboration, and GitHub integration. Track all project progress at a glance."
       },
       "learning": {
         "badge": "Structured Learning",
-        "title": "Level up with step-by-step courses",
-        "description": "From Junior to Master, take courses matched to your level and verify your skills with quizzes. Certificates available."
+        "title": "Structured Course Learning",
+        "description": "Step-by-step courses, quizzes, and certificates. Systematically grow your team's capabilities."
       },
       "community": {
         "badge": "Active Community",
-        "title": "A developer network that grows together",
-        "description": "Learn from senior developers and help juniors through Q&A, real-time chat, and mentoring programs."
+        "title": "Real-time Communication & Mentoring",
+        "description": "Foster knowledge sharing and growth through Q&A, real-time chat, and mentoring programs."
       }
     },
     "cta": {
-      "title": "Join WKU Software Crew and grow together",
-      "description": "Develop your skills through project collaboration, course learning, and community activities."
+      "title": "Start CrewSpace today",
+      "description": "Project management, learning, and community in one platform. Boost your team's productivity and capabilities."
     }
   },
   "footer": {
-    "copyright": "2026 WKU Software Crew. All rights reserved.",
+    "copyright": "2026 CrewSpace. All rights reserved.",
     "about": "About",
-    "aboutDescription": "Wonkwang University Software Development Club. A developer community that grows together.",
+    "aboutDescription": "All-in-one platform for team collaboration and learning. Project management, courses, and community in one place.",
     "projects": "Projects",
     "github": "GitHub",
     "navigation": "Navigate",
     "resources": "Resources",
     "connect": "Connect",
-    "university": "Wonkwang University, Dept. of Software"
+    "university": ""
   },
   "profile": {
     "title": "Profile",
@@ -514,7 +514,7 @@
   },
   "about": {
     "title": "About",
-    "subtitle": "Learn about WKU Software Crew"
+    "subtitle": "Learn about CrewSpace"
   },
   "quiz": {
     "title": "Quiz",

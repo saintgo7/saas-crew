@@ -197,10 +197,10 @@ export function Header() {
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600">
-            <span className="text-lg font-bold text-white">W</span>
+            <span className="text-lg font-bold text-white">C</span>
           </div>
           <span className="hidden text-lg font-semibold text-gray-900 dark:text-white sm:inline-block">
-            WKU Software Crew
+            CrewSpace
           </span>
         </Link>
 

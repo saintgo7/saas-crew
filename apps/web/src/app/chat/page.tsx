@@ -103,7 +103,7 @@ const MOCK_MESSAGES: ChatMessage[] = [
       level: 50,
       role: 'admin',
     },
-    content: 'Welcome to WKU Software Crew! This is the general discussion channel.',
+    content: 'Welcome to CrewSpace! This is the general discussion channel.',
     reactions: [
       { emoji: 'heart', count: 5, userIds: [], hasReacted: false },
       { emoji: 'thumbsup', count: 3, userIds: [], hasReacted: true },

@@ -41,9 +41,9 @@ export function Footer() {
           <div className="space-y-4">
             <div className="flex items-center gap-2">
               <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600">
-                <span className="text-lg font-bold text-white">W</span>
+                <span className="text-lg font-bold text-white">C</span>
               </div>
-              <span className="text-lg font-semibold text-white">WKU Software Crew</span>
+              <span className="text-lg font-semibold text-white">CrewSpace</span>
             </div>
             <p className="text-sm text-gray-400">
               {t('footer.aboutDescription')}
@@ -89,9 +89,6 @@ export function Footer() {
         <div className="mt-12 pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-sm text-gray-500">
             {t('footer.copyright')}
-          </p>
-          <p className="text-sm text-gray-500">
-            {t('footer.university')}
           </p>
         </div>
       </div>
