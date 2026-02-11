@@ -103,7 +103,7 @@ services:
   tunnel:
     image: cloudflare/cloudflared:latest
     container_name: crew-tunnel
-    restart: unless-stopped
+    restart: always
     command: tunnel --no-autoupdate run --token ${TUNNEL_TOKEN}
     networks:
       - workstation_manager_network
