@@ -34,7 +34,7 @@ export function Footer() {
   const t = useTranslations()
 
   return (
-    <footer className="border-t py-16 px-6">
+    <footer className="bg-gray-900 dark:bg-black text-gray-300 py-16 px-6">
       <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
           {/* About */}
@@ -43,9 +43,9 @@ export function Footer() {
               <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600">
                 <span className="text-lg font-bold text-white">W</span>
               </div>
-              <span className="text-lg font-semibold">WKU Software Crew</span>
+              <span className="text-lg font-semibold text-white">WKU Software Crew</span>
             </div>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-gray-400">
               {t('footer.aboutDescription')}
             </p>
           </div>
@@ -53,7 +53,7 @@ export function Footer() {
           {/* Navigation sections */}
           {footerSections.map((section) => (
             <div key={section.titleKey} className="space-y-4">
-              <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
+              <h3 className="text-sm font-semibold uppercase tracking-wider text-gray-500">
                 {t(section.titleKey)}
               </h3>
               <ul className="space-y-2">
@@ -66,14 +66,14 @@ export function Footer() {
                           href={link.href}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                          className="text-sm text-gray-400 hover:text-white transition-colors"
                         >
                           {t(link.key)}
                         </a>
                       ) : (
                         <Link
                           href={link.href}
-                          className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                          className="text-sm text-gray-400 hover:text-white transition-colors"
                         >
                           {t(link.key)}
                         </Link>
@@ -86,11 +86,11 @@ export function Footer() {
           ))}
         </div>
 
-        <div className="mt-12 pt-8 border-t flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-sm text-muted-foreground">
+        <div className="mt-12 pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-sm text-gray-500">
             {t('footer.copyright')}
           </p>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-sm text-gray-500">
             {t('footer.university')}
           </p>
         </div>

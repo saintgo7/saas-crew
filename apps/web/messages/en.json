@@ -82,6 +82,8 @@
     },
     "techStack": "Technologies We Learn Together",
     "features": {
+      "sectionTitle": "Project management to learning, all in one place",
+      "sectionDescription": "WKU Software Crew provides project management, course learning, and community features in a single platform. Build real-world experience with your teammates.",
       "projects": {
         "badge": "Project Collaboration",
         "title": "Build real projects with your team",
@@ -138,6 +140,10 @@
         "title": "4. Level Up",
         "description": "Level up to unlock more benefits"
       }
+    },
+    "cta": {
+      "title": "Join WKU Software Crew and grow together",
+      "description": "Develop your skills through project collaboration, course learning, and community activities."
     }
   },
   "footer": {

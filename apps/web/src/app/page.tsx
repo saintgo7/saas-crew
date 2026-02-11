@@ -4,24 +4,16 @@ import {
   HeroSection,
   LogoTicker,
   FeatureShowcase,
-  LevelSystemSection,
-  StatsSection,
-  HowItWorksSection,
-  MemberShowcase,
   CTASection,
   Footer,
 } from '@/components/landing'
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen">
+    <main className="min-h-screen landing-light">
       <HeroSection />
       <LogoTicker />
       <FeatureShowcase />
-      <LevelSystemSection />
-      <StatsSection />
-      <HowItWorksSection />
-      <MemberShowcase />
       <CTASection />
       <Footer />
     </main>

@@ -2,94 +2,112 @@
 
 import Link from 'next/link'
 import { motion } from 'framer-motion'
+import { ArrowRight } from 'lucide-react'
 import { useTranslations } from '@/i18n/LanguageContext'
-import { fadeInUp, staggerContainer, viewportOnce } from '@/lib/motion'
+import { fadeInUp, staggerContainer } from '@/lib/motion'
 
 export function HeroSection() {
   const t = useTranslations()
 
   return (
-    <section className="relative flex flex-col items-center justify-center min-h-screen px-6 overflow-hidden">
-      {/* Background grid pattern */}
-      <div
-        className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05]"
-        style={{ backgroundImage: 'url(/grid.svg)', backgroundSize: '40px 40px' }}
-      />
-
-      {/* Gradient orbs */}
-      <div className="absolute top-1/4 -left-32 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl" />
-      <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl" />
-
+    <section className="bg-white pt-32 pb-16 px-6">
       <motion.div
-        className="relative max-w-5xl text-center space-y-8"
+        className="max-w-5xl mx-auto text-center space-y-8"
         variants={staggerContainer}
         initial="hidden"
         animate="visible"
-        viewport={viewportOnce}
       >
-        <motion.div variants={fadeInUp}>
-          <span className="inline-block px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium border border-primary/20">
-            {t('home.badge')}
-          </span>
-        </motion.div>
-
         <motion.h1
           variants={fadeInUp}
-          className="text-display md:text-display-lg lg:text-display-xl"
+          className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900 leading-tight"
         >
-          {t('home.title')}
-          <br />
-          <span className="text-gradient">{t('home.titleHighlight')}</span>
+          {t('home.title')}{' '}
+          {t('home.titleHighlight')}
         </motion.h1>
 
         <motion.p
           variants={fadeInUp}
-          className="text-body-lg text-muted-foreground max-w-2xl mx-auto"
+          className="text-lg text-gray-500 max-w-3xl mx-auto leading-relaxed"
         >
-          {t('home.description')}
-          <br className="hidden md:block" />
-          {t('home.descriptionSub')}
+          {t('home.description')} {t('home.descriptionSub')}
         </motion.p>
 
         <motion.div
           variants={fadeInUp}
-          className="flex flex-col sm:flex-row gap-4 justify-center pt-4"
+          className="flex flex-col sm:flex-row gap-4 justify-center pt-2"
         >
           <Link
             href="/auth/login"
-            className="inline-flex items-center justify-center px-8 py-4 text-lg font-medium rounded-xl bg-primary text-primary-foreground hover:bg-primary/90 transition-all shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5"
+            className="inline-flex items-center justify-center gap-2 px-8 py-4 text-lg font-medium rounded-full bg-gray-900 text-white hover:bg-gray-800 transition-all"
           >
             {t('home.startWithGithub')}
+            <ArrowRight className="h-5 w-5" />
           </Link>
           <Link
             href="/projects"
-            className="inline-flex items-center justify-center px-8 py-4 text-lg font-medium rounded-xl border-2 border-input bg-background hover:bg-accent transition-all hover:-translate-y-0.5"
+            className="inline-flex items-center justify-center px-8 py-4 text-lg font-medium text-blue-600 hover:underline transition-all"
           >
             {t('home.browseProjects')}
           </Link>
         </motion.div>
 
-        {/* Platform preview placeholder */}
+        {/* Product screenshot mockup */}
         <motion.div
           variants={fadeInUp}
-          className="relative mt-12 mx-auto max-w-4xl"
+          className="relative mt-12 mx-auto max-w-5xl"
         >
-          <div className="rounded-2xl border bg-card/50 backdrop-blur shadow-2xl overflow-hidden aspect-video">
-            <div className="w-full h-full bg-gradient-to-br from-primary/5 to-indigo-500/5 flex items-center justify-center">
-              <div className="text-center space-y-3 px-6">
-                <div className="flex justify-center gap-3">
-                  {['bg-green-400', 'bg-yellow-400', 'bg-blue-400'].map((color, i) => (
-                    <div key={i} className={`w-3 h-3 rounded-full ${color} opacity-60`} />
-                  ))}
+          <div className="rounded-xl border border-gray-200 bg-white shadow-2xl overflow-hidden">
+            {/* Browser chrome */}
+            <div className="flex items-center gap-2 px-4 py-3 border-b border-gray-200 bg-gray-50">
+              <div className="flex gap-1.5">
+                <div className="w-3 h-3 rounded-full bg-red-400" />
+                <div className="w-3 h-3 rounded-full bg-yellow-400" />
+                <div className="w-3 h-3 rounded-full bg-green-400" />
+              </div>
+              <div className="flex-1 mx-4">
+                <div className="h-6 rounded-md bg-gray-200 max-w-md mx-auto" />
+              </div>
+            </div>
+            {/* Kanban board mockup */}
+            <div className="p-6 bg-gray-50 min-h-[320px] md:min-h-[400px]">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="h-5 w-24 rounded bg-gray-200" />
+                <div className="text-xs text-gray-400">{'>'}</div>
+                <div className="h-5 w-32 rounded bg-blue-50 text-blue-600 text-xs flex items-center px-2 font-medium">
+                  {t('nav.projects')}
                 </div>
-                <p className="text-muted-foreground text-sm">
-                  {t('home.badge')}
-                </p>
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {['To Do', 'In Progress', 'Review', 'Done'].map((col, ci) => (
+                  <div key={col} className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-medium text-gray-700">{col}</span>
+                      <span className="text-xs text-gray-400">{3 - ci}</span>
+                    </div>
+                    {Array.from({ length: Math.max(1, 3 - ci) }).map((_, i) => (
+                      <div
+                        key={i}
+                        className="p-3 rounded-lg bg-white border border-gray-200 space-y-2"
+                      >
+                        <div className="h-3 w-full rounded bg-gray-200" />
+                        <div className="h-3 w-2/3 rounded bg-gray-100" />
+                        <div className="flex gap-1.5 pt-1">
+                          <div className={`h-4 w-12 rounded-full text-[10px] flex items-center justify-center font-medium ${
+                            ci === 0 ? 'bg-gray-100 text-gray-500' :
+                            ci === 1 ? 'bg-blue-50 text-blue-600' :
+                            ci === 2 ? 'bg-yellow-50 text-yellow-600' :
+                            'bg-green-50 text-green-600'
+                          }`}>
+                            {ci === 0 ? 'task' : ci === 1 ? 'dev' : ci === 2 ? 'review' : 'done'}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ))}
               </div>
             </div>
           </div>
-          {/* Glow */}
-          <div className="absolute -inset-4 bg-gradient-to-r from-blue-500/10 to-indigo-500/10 rounded-3xl blur-2xl -z-10" />
         </motion.div>
       </motion.div>
     </section>

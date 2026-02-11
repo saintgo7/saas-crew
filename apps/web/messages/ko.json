@@ -82,6 +82,8 @@
     },
     "techStack": "우리가 함께 배우는 기술들",
     "features": {
+      "sectionTitle": "프로젝트 관리부터 학습까지 한 곳에서",
+      "sectionDescription": "WKU Software Crew는 프로젝트 관리, 코스 학습, 커뮤니티 기능을 하나의 플랫폼에서 제공합니다. 팀원들과 함께 실전 경험을 쌓으세요.",
       "projects": {
         "badge": "프로젝트 협업",
         "title": "팀과 함께 실전 프로젝트를 진행하세요",
@@ -138,6 +140,10 @@
         "title": "4. 레벨업",
         "description": "레벨업하여 더 많은 혜택을 누리세요"
       }
+    },
+    "cta": {
+      "title": "WKU Software Crew에 합류하고 함께 성장하세요",
+      "description": "프로젝트 협업, 코스 학습, 커뮤니티 활동을 통해 실력있는 개발자로 성장할 수 있습니다."
     }
   },
   "footer": {
