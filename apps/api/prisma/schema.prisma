@@ -57,6 +57,10 @@ model User {
   channelMembers ChannelMember[]
   messages       Message[]
 
+  // Canvas relations
+  canvases       Canvas[]
+  canvasMembers  CanvasMember[]
+
   // Mentoring relations
   mentorships    Mentorship[] @relation("Mentor")
   menteeships    Mentorship[] @relation("Mentee")
@@ -422,6 +426,7 @@ model Project {
   members     ProjectMember[]
   invitations ProjectInvitation[]
   activities  ProjectActivity[]
+  canvases    Canvas[]
 
   // Metadata
   tags        String[]
@@ -1057,4 +1062,47 @@ model QuestionVote {
   @@index([questionId])
   @@index([answerId])
   @@map("question_votes")
+}
+
+// ============================================
+// Collaborative Canvas System
+// ============================================
+
+model Canvas {
+  id          String         @id @default(cuid())
+  name        String
+  description String?
+  projectId   String?
+  project     Project?       @relation(fields: [projectId], references: [id], onDelete: SetNull)
+  ownerId     String
+  owner       User           @relation(fields: [ownerId], references: [id])
+  data        Json?          // Excalidraw elements JSON
+  thumbnail   String?        // Preview image URL
+  isPublic    Boolean        @default(false)
+  members     CanvasMember[]
+
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  @@index([ownerId])
+  @@index([projectId])
+  @@index([isPublic])
+  @@index([createdAt(sort: Desc)])
+  @@map("canvases")
+}
+
+model CanvasMember {
+  id        String   @id @default(cuid())
+  canvasId  String
+  canvas    Canvas   @relation(fields: [canvasId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  role      String   @default("EDITOR") // OWNER, EDITOR, VIEWER
+
+  createdAt DateTime @default(now())
+
+  @@unique([canvasId, userId])
+  @@index([userId])
+  @@index([canvasId])
+  @@map("canvas_members")
 }

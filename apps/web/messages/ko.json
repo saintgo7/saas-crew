@@ -41,6 +41,8 @@
     "mentoring": "멘토링",
     "mentoringDescription": "선배에게 배우세요",
     "leaderboard": "리더보드",
+    "canvas": "캔버스",
+    "canvasDescription": "실시간 협업 화이트보드",
     "learn": "학습",
     "learnDescription": "코스, 용어집, Q&A"
   },
@@ -147,6 +149,7 @@
     "loading": "질문을 불러오는 중...",
     "noQuestions": "아직 질문이 없습니다",
     "askFirst": "첫 번째 질문을 작성해보세요!",
+    "demoBanner": "현재 데모 데이터를 표시하고 있습니다. 실제 질문은 로그인 후 확인할 수 있습니다.",
     "totalQuestions": "총 {count}개의 질문",
     "searchPlaceholder": "질문 검색...",
     "views": "조회",
@@ -237,6 +240,7 @@
     "tier": "티어",
     "level": "레벨",
     "progress": "진행률",
+    "demoBanner": "현재 데모 데이터를 표시하고 있습니다. 실제 리더보드는 로그인 후 확인할 수 있습니다.",
     "noLeaderboard": "리더보드 데이터가 없습니다",
     "topMembers": "TOP 멤버",
     "recentActivity": "최근 활동",
@@ -342,7 +346,8 @@
       "links": "링크",
       "deployedSite": "배포 사이트",
       "projectInfo": "프로젝트 정보",
-      "projectId": "프로젝트 ID"
+      "projectId": "프로젝트 ID",
+      "overview": "개요"
     },
     "team": {
       "title": "팀 멤버",
@@ -400,7 +405,9 @@
     "subtitle": "다양한 기술을 배워보세요",
     "loading": "코스 로딩 중...",
     "error": "코스를 불러오는데 실패했습니다",
+    "demoBanner": "현재 데모 데이터를 표시하고 있습니다. 실제 코스는 로그인 후 확인할 수 있습니다.",
     "noCoursesToShow": "표시할 코스가 없습니다",
+    "totalCourses": "총 {count}개의 코스",
     "level": {
       "all": "전체",
       "junior": "주니어",
@@ -534,6 +541,8 @@
       "submitting": "게시 중...",
       "cancel": "취소"
     },
+    "demoBanner": "현재 데모 데이터를 표시하고 있습니다. 실제 게시글은 로그인 후 확인할 수 있습니다.",
+    "totalPosts": "총 {count}개의 게시글",
     "noPostsToShow": "표시할 게시글이 없습니다",
     "filter": {
       "all": "전체",
@@ -586,6 +595,23 @@
   "about": {
     "title": "소개",
     "subtitle": "WKU Software Crew에 대해 알아보세요"
+  },
+  "canvas": {
+    "title": "캔버스",
+    "subtitle": "실시간 협업 화이트보드",
+    "create": "새 캔버스",
+    "delete": "캔버스 삭제",
+    "confirmDelete": "이 캔버스를 삭제하시겠습니까?",
+    "noCanvases": "캔버스가 없습니다",
+    "createFirst": "첫 번째 캔버스를 만들어보세요!",
+    "members": "{count}명 참여 중",
+    "saving": "저장 중...",
+    "saved": "저장됨",
+    "connecting": "연결 중...",
+    "connected": "연결됨",
+    "disconnected": "연결 끊김",
+    "share": "공유",
+    "demoBanner": "현재 데모 캔버스를 표시하고 있습니다."
   },
   "admin": {
     "title": "관리자",

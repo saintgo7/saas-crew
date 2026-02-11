@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { FolderGit2, BookOpen, BookText, HelpCircle, MessageSquare, MessagesSquare, Users, Trophy, LayoutDashboard, User, LogOut, ChevronDown } from 'lucide-react'
+import { FolderGit2, BookOpen, BookText, HelpCircle, MessageSquare, MessagesSquare, Users, Trophy, LayoutDashboard, User, LogOut, ChevronDown, Paintbrush } from 'lucide-react'
 import { ThemeToggle } from './ThemeToggle'
 import { LanguageSwitcher } from './LanguageSwitcher'
 import { MobileNav } from './MobileNav'
@@ -48,6 +48,11 @@ const navGroups: NavGroup[] = [
       { key: 'glossary', href: '/glossary', icon: BookText },
       { key: 'qna', href: '/qna', icon: HelpCircle },
     ],
+  },
+  {
+    key: 'canvas',
+    href: '/canvas',
+    icon: Paintbrush,
   },
   {
     key: 'community',

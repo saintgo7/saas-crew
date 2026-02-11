@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, FolderGit2, BookOpen, BookText, HelpCircle, MessageSquare, MessagesSquare, Users, Trophy, LayoutDashboard, ChevronDown } from 'lucide-react'
+import { Menu, X, FolderGit2, BookOpen, BookText, HelpCircle, MessageSquare, MessagesSquare, Users, Trophy, LayoutDashboard, ChevronDown, Paintbrush } from 'lucide-react'
 import { useTranslations } from '@/i18n/LanguageContext'
 import { useUserStore } from '@/store/user-store'
 
@@ -43,6 +43,11 @@ const navGroups: NavGroup[] = [
       { key: 'glossary', href: '/glossary', icon: BookText },
       { key: 'qna', href: '/qna', icon: HelpCircle },
     ],
+  },
+  {
+    key: 'canvas',
+    href: '/canvas',
+    icon: Paintbrush,
   },
   {
     key: 'community',
