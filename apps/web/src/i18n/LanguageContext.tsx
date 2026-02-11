@@ -26,6 +26,37 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 
 const LOCALE_STORAGE_KEY = 'wku-crew-locale'
 
+function translate(
+  messages: Messages,
+  key: string,
+  params?: Record<string, string | number>
+): string {
+  const keys = key.split('.')
+  let value: any = messages
+
+  for (const k of keys) {
+    if (value && typeof value === 'object' && k in value) {
+      value = value[k]
+    } else {
+      return key
+    }
+  }
+
+  if (typeof value !== 'string') {
+    return key
+  }
+
+  if (params) {
+    return Object.entries(params).reduce(
+      (str, [paramKey, paramValue]) =>
+        str.replace(new RegExp(`\\{${paramKey}\\}`, 'g'), String(paramValue)),
+      value
+    )
+  }
+
+  return value
+}
+
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const [locale, setLocaleState] = useState<Locale>(defaultLocale)
   const [mounted, setMounted] = useState(false)
@@ -49,39 +80,13 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   // Translation function with nested key support
   const t = useCallback(
     (key: string, params?: Record<string, string | number>): string => {
-      const messages = messagesMap[locale]
-      const keys = key.split('.')
-      let value: any = messages
-
-      for (const k of keys) {
-        if (value && typeof value === 'object' && k in value) {
-          value = value[k]
-        } else {
-          console.warn(`Translation key not found: ${key}`)
-          return key
-        }
-      }
-
-      if (typeof value !== 'string') {
-        console.warn(`Translation value is not a string: ${key}`)
-        return key
-      }
-
-      // Replace parameters
-      if (params) {
-        return Object.entries(params).reduce(
-          (str, [paramKey, paramValue]) =>
-            str.replace(new RegExp(`\\{${paramKey}\\}`, 'g'), String(paramValue)),
-          value
-        )
-      }
-
-      return value
+      return translate(messagesMap[locale], key, params)
     },
     [locale]
   )
 
-  // Prevent hydration mismatch
+  // Use default locale translations before mount to prevent hydration mismatch
+  // while still showing translated text instead of raw keys
   if (!mounted) {
     return (
       <LanguageContext.Provider
@@ -89,7 +94,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
           locale: defaultLocale,
           messages: messagesMap[defaultLocale],
           setLocale: () => {},
-          t: (key) => key,
+          t: (key, params) => translate(messagesMap[defaultLocale], key, params),
         }}
       >
         {children}
