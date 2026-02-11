@@ -29,6 +29,10 @@ export type {
   UseChannelsReturn,
 } from './useChat'
 
+// Canvas collaboration hooks
+export { useCanvasCollaboration } from './useCanvasCollaboration'
+export type { CollaboratorInfo, ConnectionStatus, UseCanvasCollaborationOptions } from './useCanvasCollaboration'
+
 // XP hooks
 export { useLeaderboard, useXpHistory, useXpStats } from './useXp'
 

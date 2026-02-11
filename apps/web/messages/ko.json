@@ -29,12 +29,22 @@
     "dashboard": "대시보드",
     "projects": "프로젝트",
     "courses": "코스",
+    "coursesDescription": "체계적인 코스로 학습하세요",
     "glossary": "용어집",
+    "glossaryDescription": "개발 용어를 검색하세요",
     "community": "커뮤니티",
+    "communityDescription": "멤버들과 소통하세요",
     "chat": "채팅",
+    "chatDescription": "실시간 채팅에 참여하세요",
     "qna": "Q&A",
+    "qnaDescription": "질문하고 답변하세요",
     "mentoring": "멘토링",
-    "leaderboard": "리더보드"
+    "mentoringDescription": "선배에게 배우세요",
+    "leaderboard": "리더보드",
+    "canvas": "캔버스",
+    "canvasDescription": "실시간 협업 화이트보드",
+    "learn": "학습",
+    "learnDescription": "코스, 용어집, Q&A"
   },
   "home": {
     "badge": "원광대학교 소프트웨어 개발 동아리",
@@ -72,31 +82,41 @@
         "feature3": "멘토 활동"
       }
     },
-    "howItWorks": {
-      "title": "어떻게 진행되나요?",
-      "step1": {
-        "title": "1. 가입하기",
-        "description": "GitHub 계정으로 간편하게 가입하세요"
+    "techStack": "우리가 함께 배우는 기술들",
+    "features": {
+      "sectionTitle": "프로젝트 관리부터 학습까지 한 곳에서",
+      "sectionDescription": "WKU Software Crew는 프로젝트 관리, 코스 학습, 커뮤니티 기능을 하나의 플랫폼에서 제공합니다. 팀원들과 함께 실전 경험을 쌓으세요.",
+      "projects": {
+        "badge": "프로젝트 협업",
+        "title": "팀과 함께 실전 프로젝트를 진행하세요",
+        "description": "Git 기반의 프로젝트 관리, 팀원 초대, GitHub 동기화까지. 실무와 동일한 환경에서 협업 경험을 쌓으세요."
       },
-      "step2": {
-        "title": "2. 활동하기",
-        "description": "프로젝트, 코스, 커뮤니티에서 활동하세요"
+      "learning": {
+        "badge": "체계적 학습",
+        "title": "단계별 코스로 실력을 키우세요",
+        "description": "주니어부터 마스터까지, 레벨에 맞는 코스를 수강하고 퀴즈로 실력을 검증하세요. 수료증도 발급됩니다."
       },
-      "step3": {
-        "title": "3. 경험치 획득",
-        "description": "활동을 통해 경험치를 쌓으세요"
-      },
-      "step4": {
-        "title": "4. 레벨업",
-        "description": "레벨업하여 더 많은 혜택을 누리세요"
+      "community": {
+        "badge": "활발한 커뮤니티",
+        "title": "함께 성장하는 개발자 네트워크",
+        "description": "Q&A, 실시간 채팅, 멘토링을 통해 선배 개발자에게 배우고, 후배를 도와주세요."
       }
+    },
+    "cta": {
+      "title": "WKU Software Crew에 합류하고 함께 성장하세요",
+      "description": "프로젝트 협업, 코스 학습, 커뮤니티 활동을 통해 실력있는 개발자로 성장할 수 있습니다."
     }
   },
   "footer": {
     "copyright": "2026 WKU Software Crew. All rights reserved.",
     "about": "소개",
+    "aboutDescription": "원광대학교 소프트웨어 개발 동아리. 함께 성장하는 개발자 커뮤니티입니다.",
     "projects": "프로젝트",
-    "github": "GitHub"
+    "github": "GitHub",
+    "navigation": "탐색",
+    "resources": "리소스",
+    "connect": "연결",
+    "university": "원광대학교 소프트웨어학부"
   },
   "profile": {
     "title": "프로필",
@@ -129,6 +149,7 @@
     "loading": "질문을 불러오는 중...",
     "noQuestions": "아직 질문이 없습니다",
     "askFirst": "첫 번째 질문을 작성해보세요!",
+    "demoBanner": "현재 데모 데이터를 표시하고 있습니다. 실제 질문은 로그인 후 확인할 수 있습니다.",
     "totalQuestions": "총 {count}개의 질문",
     "searchPlaceholder": "질문 검색...",
     "views": "조회",
@@ -219,6 +240,7 @@
     "tier": "티어",
     "level": "레벨",
     "progress": "진행률",
+    "demoBanner": "현재 데모 데이터를 표시하고 있습니다. 실제 리더보드는 로그인 후 확인할 수 있습니다.",
     "noLeaderboard": "리더보드 데이터가 없습니다",
     "topMembers": "TOP 멤버",
     "recentActivity": "최근 활동",
@@ -301,7 +323,10 @@
     "loading": "프로젝트 로딩 중...",
     "error": "프로젝트를 불러오는데 실패했습니다",
     "unknownError": "알 수 없는 오류가 발생했습니다",
+    "demoBanner": "현재 데모 데이터를 표시하고 있습니다. 실제 프로젝트는 로그인 후 확인할 수 있습니다.",
     "searchPlaceholder": "프로젝트 검색...",
+    "createProject": "새 프로젝트",
+    "membersCount": "{count}명",
     "noProjectsToShow": "표시할 프로젝트가 없습니다",
     "totalProjects": "총 {count}개의 프로젝트",
     "filter": {
@@ -321,7 +346,8 @@
       "links": "링크",
       "deployedSite": "배포 사이트",
       "projectInfo": "프로젝트 정보",
-      "projectId": "프로젝트 ID"
+      "projectId": "프로젝트 ID",
+      "overview": "개요"
     },
     "team": {
       "title": "팀 멤버",
@@ -379,7 +405,9 @@
     "subtitle": "다양한 기술을 배워보세요",
     "loading": "코스 로딩 중...",
     "error": "코스를 불러오는데 실패했습니다",
+    "demoBanner": "현재 데모 데이터를 표시하고 있습니다. 실제 코스는 로그인 후 확인할 수 있습니다.",
     "noCoursesToShow": "표시할 코스가 없습니다",
+    "totalCourses": "총 {count}개의 코스",
     "level": {
       "all": "전체",
       "junior": "주니어",
@@ -513,6 +541,8 @@
       "submitting": "게시 중...",
       "cancel": "취소"
     },
+    "demoBanner": "현재 데모 데이터를 표시하고 있습니다. 실제 게시글은 로그인 후 확인할 수 있습니다.",
+    "totalPosts": "총 {count}개의 게시글",
     "noPostsToShow": "표시할 게시글이 없습니다",
     "filter": {
       "all": "전체",
@@ -565,6 +595,23 @@
   "about": {
     "title": "소개",
     "subtitle": "WKU Software Crew에 대해 알아보세요"
+  },
+  "canvas": {
+    "title": "캔버스",
+    "subtitle": "실시간 협업 화이트보드",
+    "create": "새 캔버스",
+    "delete": "캔버스 삭제",
+    "confirmDelete": "이 캔버스를 삭제하시겠습니까?",
+    "noCanvases": "캔버스가 없습니다",
+    "createFirst": "첫 번째 캔버스를 만들어보세요!",
+    "members": "{count}명 참여 중",
+    "saving": "저장 중...",
+    "saved": "저장됨",
+    "connecting": "연결 중...",
+    "connected": "연결됨",
+    "disconnected": "연결 끊김",
+    "share": "공유",
+    "demoBanner": "현재 데모 캔버스를 표시하고 있습니다."
   },
   "admin": {
     "title": "관리자",

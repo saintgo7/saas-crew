@@ -22,6 +22,8 @@ import { QnaModule } from './qna/qna.module'
 import { QuizzesModule } from './quizzes/quizzes.module'
 import { CertificatesModule } from './certificates/certificates.module'
 import { CategoriesModule } from './categories/categories.module'
+import { RedisModule } from './redis/redis.module'
+import { CanvasModule } from './canvas/canvas.module'
 
 /**
  * App Module
@@ -55,6 +57,7 @@ import { CategoriesModule } from './categories/categories.module'
         limit: process.env.NODE_ENV === 'test' ? 10000 : 100,
       },
     ]),
+    RedisModule,
     PrismaModule,
     HealthModule,
     AuthModule,
@@ -75,6 +78,7 @@ import { CategoriesModule } from './categories/categories.module'
     QuizzesModule,
     CertificatesModule,
     CategoriesModule,
+    CanvasModule,
   ],
   providers: [
     // Apply rate limiting globally

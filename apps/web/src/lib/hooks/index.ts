@@ -52,6 +52,14 @@ export {
   useQnaTags,
 } from './use-qna'
 export {
+  useCanvases,
+  useCanvas,
+  useProjectCanvases,
+  useCreateCanvas,
+  useUpdateCanvas,
+  useDeleteCanvas,
+} from './use-canvas'
+export {
   useNotifications,
   useUnreadCount,
   useMarkAsRead,

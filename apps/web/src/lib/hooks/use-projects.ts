@@ -6,6 +6,7 @@ export function useProjects(params?: ProjectsQueryParams) {
   return useQuery({
     queryKey: ['projects', params],
     queryFn: () => projectsApi.getProjects(params),
+    retry: 1,
   })
 }
 
