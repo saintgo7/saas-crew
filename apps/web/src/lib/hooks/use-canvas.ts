@@ -9,11 +9,11 @@ export function useCanvases() {
   })
 }
 
-export function useCanvas(id: string) {
+export function useCanvas(id: string, options?: { enabled?: boolean }) {
   return useQuery({
     queryKey: ['canvases', id],
     queryFn: () => canvasApi.getCanvas(id),
-    enabled: !!id,
+    enabled: (options?.enabled ?? true) && !!id,
   })
 }
 
