@@ -19,7 +19,7 @@
     "optional": "선택사항",
     "startNow": "지금 시작하기",
     "joinCrew": "무료로 시작하기",
-    "wkuStudentOnly": "",
+    "wkuStudentOnly": "누구나 무료로 시작할 수 있습니다",
     "contactAdmin": "도입 문의하기",
     "tryAgain": "다시 시도",
     "you": "나"
@@ -404,15 +404,52 @@
     "title": "코스",
     "subtitle": "다양한 기술을 배워보세요",
     "loading": "코스 로딩 중...",
+    "loadingDetail": "코스 정보 로딩 중...",
     "error": "코스를 불러오는데 실패했습니다",
+    "errorDetail": "코스 정보를 불러오는데 실패했습니다",
+    "unknownError": "알 수 없는 오류가 발생했습니다",
+    "notFound": "코스를 찾을 수 없습니다",
     "demoBanner": "현재 데모 데이터를 표시하고 있습니다. 실제 코스는 로그인 후 확인할 수 있습니다.",
     "noCoursesToShow": "표시할 코스가 없습니다",
+    "searchPlaceholder": "코스 검색...",
     "totalCourses": "총 {count}개의 코스",
+    "hours": "{hours}시간",
+    "chaptersCount": "{count}개 챕터",
+    "enrolledCount": "{count}명 수강",
+    "instructor": "강사",
+    "processing": "처리 중...",
+    "confirmUnenroll": "수강을 취소하시겠습니까?",
+    "lastAccess": "마지막 학습",
+    "none": "없음",
+    "backToList": "코스 목록으로",
     "level": {
       "all": "전체",
       "junior": "주니어",
       "senior": "시니어",
       "master": "마스터"
+    },
+    "difficulty": {
+      "beginner": "입문",
+      "intermediate": "중급",
+      "advanced": "고급"
+    },
+    "detail": {
+      "enroll": "수강 신청",
+      "enrolled": "수강 중",
+      "unenroll": "수강 취소",
+      "progress": "학습 진도",
+      "objectives": "학습 목표",
+      "prerequisites": "선수 과목",
+      "curriculum": "커리큘럼",
+      "tags": "태그"
+    },
+    "chapter": {
+      "noChapters": "아직 챕터가 없습니다",
+      "title": "챕터 {number}",
+      "completed": "완료",
+      "duration": "{minutes}분",
+      "watchVideo": "영상 보기",
+      "resources": "학습 자료"
     }
   },
   "quiz": {
@@ -559,6 +596,7 @@
     "noChannels": "채널이 없습니다",
     "channelCount": "{count}개의 채널",
     "loadingMore": "메시지 불러오는 중...",
+    "loadOlderMessages": "이전 메시지 불러오기",
     "channelGroups": {
       "general": "일반",
       "levelRestricted": "레벨 제한",
@@ -568,11 +606,48 @@
     "loginToChat": "채팅을 사용하려면 로그인하세요",
     "members": "멤버",
     "online": "온라인",
+    "noMembers": "멤버가 없습니다",
     "usergroups": {
       "admins": "관리자",
       "mentors": "멘토",
       "members": "멤버"
-    }
+    },
+    "userGroups": {
+      "admins": "관리자",
+      "mentors": "멘토",
+      "members": "멤버"
+    },
+    "loadChannelsFailed": "채널을 불러오지 못했습니다",
+    "loadMessagesFailed": "메시지를 불러오지 못했습니다",
+    "editMessage": "메시지 수정",
+    "levelRestricted": "레벨 제한 채널",
+    "levelRequired": "이 채널은 레벨 {level} 이상이어야 접근할 수 있습니다",
+    "demoBanner": "현재 데모 모드로 채팅을 체험하고 있습니다. 메시지는 저장되지 않습니다.",
+    "noMessages": "아직 메시지가 없습니다",
+    "startConversation": "첫 메시지를 보내보세요!",
+    "scrollToBottom": "최신 메시지로",
+    "sendFailed": "메시지 전송에 실패했습니다",
+    "replyingTo": "답장 대상:",
+    "attachFile": "파일 첨부",
+    "messagePlaceholder": "#{channel}에 메시지 보내기...",
+    "cannotSend": "메시지를 보낼 수 없습니다",
+    "addEmoji": "이모지 추가",
+    "send": "보내기",
+    "keyboardHint": "Enter로 전송, Shift+Enter로 줄바꿈",
+    "typingOne": "{name}님이 입력 중...",
+    "typingTwo": "{name1}님과 {name2}님이 입력 중...",
+    "typingMany": "{count}명이 입력 중...",
+    "toggleChannels": "채널 목록 토글",
+    "searchMessages": "메시지 검색",
+    "pinnedMessages": "고정된 메시지",
+    "notifications": "알림",
+    "showMembers": "멤버 보기",
+    "edited": "수정됨",
+    "addReaction": "반응 추가",
+    "reply": "답장",
+    "moreOptions": "더보기",
+    "copyMessage": "메시지 복사",
+    "confirmDelete": "이 메시지를 삭제하시겠습니까?"
   },
   "auth": {
     "login": {

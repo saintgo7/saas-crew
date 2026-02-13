@@ -5,6 +5,7 @@ import { Plus, Loader2, Paintbrush, AlertTriangle } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { useCanvases, useCreateCanvas, useDeleteCanvas } from '@/lib/hooks/use-canvas'
 import { CanvasCard } from '@/components/canvas/CanvasCard'
+import type { Canvas } from '@/lib/api/canvas'
 import { useTranslations } from '@/i18n/LanguageContext'
 import { useUserStore } from '@/store/user-store'
 import { useRouter } from 'next/navigation'
@@ -115,7 +116,7 @@ export default function CanvasListPage() {
           animate={{ opacity: 1, y: 0 }}
           className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
         >
-          {displayCanvases.map((canvas: any) => (
+          {displayCanvases.map((canvas: Canvas) => (
             <CanvasCard
               key={canvas.id}
               canvas={canvas}

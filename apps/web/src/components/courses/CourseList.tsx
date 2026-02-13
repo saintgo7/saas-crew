@@ -1,18 +1,22 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { useCourses } from '@/lib/hooks/use-courses'
 import { CourseCard } from './CourseCard'
-import { Loader2, BookOpen } from 'lucide-react'
+import { Loader2, BookOpen, Search, ChevronLeft, ChevronRight } from 'lucide-react'
 import type { CourseLevel } from '@/lib/api/types'
 import { useTranslations } from '@/i18n/LanguageContext'
 import { DEMO_COURSES } from '@/lib/data/demo-courses'
+
+const COURSES_PER_PAGE = 12
 
 export function CourseList() {
   const t = useTranslations()
   const [selectedLevel, setSelectedLevel] = useState<CourseLevel | undefined>(
     undefined
   )
+  const [searchQuery, setSearchQuery] = useState('')
+  const [currentPage, setCurrentPage] = useState(1)
 
   const levelFilters = [
     { value: undefined, label: t('courses.level.all') },
@@ -27,10 +31,46 @@ export function CourseList() {
   })
 
   const isDemo = !!error || (!isLoading && !data)
-  const courses = isDemo
-    ? DEMO_COURSES.filter((c) => !selectedLevel || c.level === selectedLevel)
-    : data?.courses ?? []
-  const totalCount = isDemo ? courses.length : data?.total ?? 0
+
+  const filteredCourses = useMemo(() => {
+    if (!isDemo) return data?.courses ?? []
+
+    let filtered = DEMO_COURSES.filter(
+      (c) => !selectedLevel || c.level === selectedLevel
+    )
+
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase()
+      filtered = filtered.filter(
+        (c) =>
+          c.title.toLowerCase().includes(query) ||
+          c.description.toLowerCase().includes(query) ||
+          c.tags.some((tag) => tag.toLowerCase().includes(query)) ||
+          (c.instructorName && c.instructorName.toLowerCase().includes(query))
+      )
+    }
+
+    return filtered
+  }, [isDemo, data, selectedLevel, searchQuery])
+
+  const totalCount = filteredCourses.length
+  const totalPages = Math.ceil(totalCount / COURSES_PER_PAGE)
+  const paginatedCourses = isDemo
+    ? filteredCourses.slice(
+        (currentPage - 1) * COURSES_PER_PAGE,
+        currentPage * COURSES_PER_PAGE
+      )
+    : filteredCourses
+
+  const handleLevelChange = (level: CourseLevel | undefined) => {
+    setSelectedLevel(level)
+    setCurrentPage(1)
+  }
+
+  const handleSearchChange = (value: string) => {
+    setSearchQuery(value)
+    setCurrentPage(1)
+  }
 
   return (
     <div className="space-y-6">
@@ -43,12 +83,24 @@ export function CourseList() {
         </div>
       )}
 
+      {/* Search Bar */}
+      <div className="relative">
+        <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
+        <input
+          type="text"
+          value={searchQuery}
+          onChange={(e) => handleSearchChange(e.target.value)}
+          placeholder={t('courses.searchPlaceholder')}
+          className="w-full rounded-lg border border-gray-200 bg-white py-3 pl-10 pr-4 text-sm text-gray-900 placeholder-gray-500 transition-colors focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:placeholder-gray-400"
+        />
+      </div>
+
       {/* Filter Tabs */}
       <div className="flex items-center gap-2 overflow-x-auto pb-2">
         {levelFilters.map((filter) => (
           <button
             key={filter.label}
-            onClick={() => setSelectedLevel(filter.value)}
+            onClick={() => handleLevelChange(filter.value)}
             className={`whitespace-nowrap rounded-full px-4 py-2 text-sm font-medium transition-colors ${
               selectedLevel === filter.value
                 ? 'bg-blue-600 text-white'
@@ -75,7 +127,7 @@ export function CourseList() {
       {/* Courses Grid */}
       {!isLoading && (
         <>
-          {courses.length === 0 ? (
+          {paginatedCourses.length === 0 ? (
             <div className="flex min-h-[400px] items-center justify-center rounded-lg border border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-800">
               <div className="text-center">
                 <BookOpen className="mx-auto h-12 w-12 text-gray-400" />
@@ -87,10 +139,35 @@ export function CourseList() {
           ) : (
             <>
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {courses.map((course) => (
+                {paginatedCourses.map((course) => (
                   <CourseCard key={course.id} course={course} />
                 ))}
               </div>
+
+              {/* Pagination */}
+              {isDemo && totalPages > 1 && (
+                <div className="flex items-center justify-center gap-4 pt-4">
+                  <button
+                    onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                    disabled={currentPage === 1}
+                    className="flex items-center gap-1 rounded-lg px-4 py-2 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50 dark:text-gray-400 dark:hover:bg-gray-800"
+                  >
+                    <ChevronLeft className="h-4 w-4" />
+                    {t('common.previous')}
+                  </button>
+                  <span className="text-sm text-gray-600 dark:text-gray-400">
+                    {t('common.page')} {currentPage} / {totalPages}
+                  </span>
+                  <button
+                    onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                    disabled={currentPage === totalPages}
+                    className="flex items-center gap-1 rounded-lg px-4 py-2 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50 dark:text-gray-400 dark:hover:bg-gray-800"
+                  >
+                    {t('common.next')}
+                    <ChevronRight className="h-4 w-4" />
+                  </button>
+                </div>
+              )}
 
               {/* Course Count */}
               <div className="text-center text-sm text-gray-600 dark:text-gray-400">

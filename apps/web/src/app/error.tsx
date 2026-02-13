@@ -91,7 +91,7 @@ export default function ErrorPage({ error, reset }: ErrorPageProps) {
         <p className="mt-8 text-sm text-gray-500 dark:text-gray-400">
           If this problem persists, please{' '}
           <a
-            href="mailto:support@wku-crew.com"
+            href="mailto:support@crewspace.dev"
             className="text-blue-600 hover:underline dark:text-blue-400"
           >
             contact support

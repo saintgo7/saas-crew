@@ -100,9 +100,8 @@ export function MessageInput({
       if (textareaRef.current) {
         textareaRef.current.style.height = 'auto'
       }
-    } catch (err) {
+    } catch {
       setError(t('chat.sendFailed'))
-      console.error('Failed to send message:', err)
     } finally {
       setIsSending(false)
     }

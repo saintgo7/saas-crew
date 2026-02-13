@@ -31,6 +31,31 @@ const DEMO_LEADERBOARD: LeaderboardUser[] = [
   { id: 'demo-8', name: 'Jang Hyunwoo', rank: 'JUNIOR', level: 5, experiencePoints: 1980, position: 8 },
   { id: 'demo-9', name: 'Kim Soyeon', rank: 'JUNIOR', level: 4, experiencePoints: 1520, position: 9 },
   { id: 'demo-10', name: 'Yoon Taewon', rank: 'JUNIOR', level: 3, experiencePoints: 890, position: 10 },
+  { id: 'demo-11', name: 'Baek Jiwon', rank: 'SENIOR', level: 14, experiencePoints: 6210, position: 11 },
+  { id: 'demo-12', name: 'Seo Yeji', rank: 'SENIOR', level: 13, experiencePoints: 5870, position: 12 },
+  { id: 'demo-13', name: 'Kwon Doyun', rank: 'SENIOR', level: 11, experiencePoints: 4950, position: 13 },
+  { id: 'demo-14', name: 'Im Chaeyoung', rank: 'JUNIOR', level: 9, experiencePoints: 3780, position: 14 },
+  { id: 'demo-15', name: 'Oh Junseok', rank: 'JUNIOR', level: 8, experiencePoints: 3450, position: 15 },
+  { id: 'demo-16', name: 'Ryu Hana', rank: 'JUNIOR', level: 7, experiencePoints: 3120, position: 16 },
+  { id: 'demo-17', name: 'Moon Sihyun', rank: 'JUNIOR', level: 6, experiencePoints: 2670, position: 17 },
+  { id: 'demo-18', name: 'Song Eunji', rank: 'JUNIOR', level: 5, experiencePoints: 2210, position: 18 },
+  { id: 'demo-19', name: 'Hwang Minho', rank: 'JUNIOR', level: 5, experiencePoints: 2050, position: 19 },
+  { id: 'demo-20', name: 'Ahn Soojin', rank: 'JUNIOR', level: 4, experiencePoints: 1830, position: 20 },
+  { id: 'demo-21', name: 'Noh Jaehyun', rank: 'JUNIOR', level: 4, experiencePoints: 1690, position: 21 },
+  { id: 'demo-22', name: 'Yang Nayeon', rank: 'JUNIOR', level: 3, experiencePoints: 1450, position: 22 },
+  { id: 'demo-23', name: 'Kang Woojin', rank: 'JUNIOR', level: 3, experiencePoints: 1280, position: 23 },
+  { id: 'demo-24', name: 'Bae Sumin', rank: 'JUNIOR', level: 3, experiencePoints: 1120, position: 24 },
+  { id: 'demo-25', name: 'Cho Hyunjin', rank: 'JUNIOR', level: 2, experiencePoints: 980, position: 25 },
+  { id: 'demo-26', name: 'Woo Seonghyun', rank: 'JUNIOR', level: 2, experiencePoints: 870, position: 26 },
+  { id: 'demo-27', name: 'Yeo Dayeon', rank: 'JUNIOR', level: 2, experiencePoints: 750, position: 27 },
+  { id: 'demo-28', name: 'Jung Taeyoung', rank: 'JUNIOR', level: 2, experiencePoints: 640, position: 28 },
+  { id: 'demo-29', name: 'Ha Jisoo', rank: 'JUNIOR', level: 1, experiencePoints: 520, position: 29 },
+  { id: 'demo-30', name: 'Nam Seonwoo', rank: 'JUNIOR', level: 1, experiencePoints: 430, position: 30 },
+  { id: 'demo-31', name: 'Byun Yujin', rank: 'JUNIOR', level: 1, experiencePoints: 350, position: 31 },
+  { id: 'demo-32', name: 'Tak Jihoon', rank: 'JUNIOR', level: 1, experiencePoints: 280, position: 32 },
+  { id: 'demo-33', name: 'Gil Eunbi', rank: 'JUNIOR', level: 1, experiencePoints: 210, position: 33 },
+  { id: 'demo-34', name: 'Pyo Chanwoo', rank: 'JUNIOR', level: 1, experiencePoints: 150, position: 34 },
+  { id: 'demo-35', name: 'Min Hayoung', rank: 'JUNIOR', level: 1, experiencePoints: 90, position: 35 },
 ]
 
 const periodOptions: { value: LeaderboardPeriod; label: string; labelKo: string }[] = [
@@ -193,10 +218,13 @@ function LeaderboardSkeleton() {
   )
 }
 
+const DEMO_PAGE_SIZE = 10
+
 export default function LeaderboardPage() {
   const t = useTranslations()
   const { user: currentUser } = useUserStore()
   const [period, setPeriodState] = useState<LeaderboardPeriod>('all_time')
+  const [demoPage, setDemoPage] = useState(1)
 
   const { data, isLoading, error, setPeriod, setPage } = useLeaderboard({
     limit: 50,
@@ -206,12 +234,28 @@ export default function LeaderboardPage() {
   const handlePeriodChange = (newPeriod: LeaderboardPeriod) => {
     setPeriodState(newPeriod)
     setPeriod(newPeriod)
+    setDemoPage(1)
   }
 
   const isDemo = !!error || (!isLoading && !data)
-  const users = isDemo ? DEMO_LEADERBOARD : data?.users ?? []
-  const currentPage = 1 // Simplified for now
-  const totalPages = isDemo ? 1 : data ? Math.ceil(data.total / 50) : 1
+  const demoTotalPages = Math.ceil(DEMO_LEADERBOARD.length / DEMO_PAGE_SIZE)
+  const paginatedDemoUsers = isDemo
+    ? DEMO_LEADERBOARD.slice(
+        (demoPage - 1) * DEMO_PAGE_SIZE,
+        demoPage * DEMO_PAGE_SIZE
+      )
+    : []
+  const users = isDemo ? paginatedDemoUsers : data?.users ?? []
+  const currentPage = isDemo ? demoPage : 1
+  const totalPages = isDemo ? demoTotalPages : data ? Math.ceil(data.total / 50) : 1
+
+  const handlePageChange = (page: number) => {
+    if (isDemo) {
+      setDemoPage(page)
+    } else {
+      setPage(page)
+    }
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
@@ -341,7 +385,7 @@ export default function LeaderboardPage() {
           {totalPages > 1 && (
             <div className="flex items-center justify-between px-6 py-4 border-t border-gray-200 dark:border-gray-700">
               <button
-                onClick={() => setPage(Math.max(1, currentPage - 1))}
+                onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
                 disabled={currentPage === 1}
                 className="flex items-center gap-1 px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white disabled:opacity-50 disabled:cursor-not-allowed"
               >
@@ -352,7 +396,7 @@ export default function LeaderboardPage() {
                 {t('common.page')} {currentPage} / {totalPages}
               </span>
               <button
-                onClick={() => setPage(Math.min(totalPages, currentPage + 1))}
+                onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
                 disabled={currentPage === totalPages}
                 className="flex items-center gap-1 px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white disabled:opacity-50 disabled:cursor-not-allowed"
               >

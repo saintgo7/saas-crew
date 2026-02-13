@@ -24,7 +24,7 @@ interface LanguageContextType {
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined)
 
-const LOCALE_STORAGE_KEY = 'wku-crew-locale'
+const LOCALE_STORAGE_KEY = 'crewspace-locale'
 
 function translate(
   messages: Messages,
