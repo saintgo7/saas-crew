@@ -1,7 +1,7 @@
 'use client'
 
 import { Suspense } from 'react'
-import { CourseList } from '@/components/courses'
+import { CourseList, CourseStats } from '@/components/courses'
 import { Loader2 } from 'lucide-react'
 import { useTranslations } from '@/i18n/LanguageContext'
 
@@ -33,6 +33,9 @@ export default function CoursesPage() {
           {t('courses.subtitle')}
         </p>
       </div>
+
+      {/* Course Stats */}
+      <CourseStats />
 
       {/* Course List */}
       <Suspense fallback={<CoursesLoading />}>

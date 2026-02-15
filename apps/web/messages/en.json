@@ -450,6 +450,62 @@
       "duration": "{minutes} min",
       "watchVideo": "Watch Video",
       "resources": "Resources"
+    },
+    "categories": {
+      "all": "All",
+      "frontend": "Frontend",
+      "backend": "Backend",
+      "devops": "DevOps",
+      "design": "Design",
+      "aiml": "AI/ML",
+      "database": "Database",
+      "mobile": "Mobile",
+      "security": "Security"
+    },
+    "enrolled": {
+      "title": "My Courses",
+      "subtitle": "View your enrolled courses",
+      "empty": "No enrolled courses yet",
+      "emptyHint": "Explore and enroll in courses you're interested in",
+      "filter": {
+        "all": "All",
+        "inProgress": "In Progress",
+        "completed": "Completed"
+      },
+      "progressLabel": "{percent}% complete",
+      "demoBanner": "Showing demo data. Sign in to see your actual enrolled courses."
+    },
+    "reviews": {
+      "title": "Course Reviews",
+      "averageRating": "Average Rating",
+      "writeReview": "Write a Review",
+      "submitReview": "Submit Review",
+      "placeholder": "Share your experience with this course...",
+      "noReviews": "No reviews yet"
+    },
+    "bookmark": {
+      "added": "Added to bookmarks",
+      "removed": "Removed from bookmarks"
+    },
+    "related": {
+      "title": "Related Courses"
+    },
+    "stats": {
+      "totalCourses": "Total Courses",
+      "byLevel": "By Level",
+      "topCategories": "Top Categories"
+    },
+    "learn": {
+      "title": "Learning",
+      "nextChapter": "Next Chapter",
+      "prevChapter": "Previous Chapter",
+      "backToCourse": "Back to Course",
+      "completeChapter": "Complete Chapter",
+      "completed": "Completed",
+      "sidebar": {
+        "chapters": "Chapters",
+        "progress": "Progress"
+      }
     }
   },
   "community": {
@@ -590,6 +646,17 @@
   "about": {
     "title": "About",
     "subtitle": "Learn about CrewSpace"
+  },
+  "glossary": {
+    "title": "Development Glossary",
+    "subtitle": "CrewSpace Development Glossary - Essential terms for beginner developers (386 terms)",
+    "searchPlaceholder": "Search terms... (e.g., API, React, Database)",
+    "searchResults": "Search results",
+    "loading": "Loading glossary...",
+    "demoBanner": "Currently showing demo glossary. Full 386 terms available after connecting to the server.",
+    "totalTerms": "Total Terms",
+    "categories": "Categories",
+    "fileSize": "File Size"
   },
   "quiz": {
     "title": "Quiz",

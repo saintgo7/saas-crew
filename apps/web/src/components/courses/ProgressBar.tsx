@@ -1,10 +1,9 @@
 'use client'
 
 import { cn } from '@/lib/utils'
-import { useTranslations } from '@/i18n/LanguageContext'
 
 interface ProgressBarProps {
-  progress: number
+  progress?: number | null
   className?: string
   showLabel?: boolean
   size?: 'sm' | 'md' | 'lg'
@@ -16,8 +15,7 @@ export function ProgressBar({
   showLabel = true,
   size = 'md',
 }: ProgressBarProps) {
-  const t = useTranslations()
-  const clampedProgress = Math.min(Math.max(progress, 0), 100)
+  const clampedProgress = Math.min(Math.max(progress ?? 0, 0), 100)
 
   const heights = {
     sm: 'h-1',
@@ -40,7 +38,7 @@ export function ProgressBar({
       </div>
       {showLabel && (
         <div className="mt-1 flex justify-between text-xs text-gray-600 dark:text-gray-400">
-          <span>{t('projects.percentComplete', { percent: clampedProgress.toFixed(0) })}</span>
+          <span>{clampedProgress.toFixed(0)}%</span>
         </div>
       )}
     </div>

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { BookOpen, Search } from 'lucide-react'
+import { useTranslations } from '@/i18n/LanguageContext'
 
 const DEMO_GLOSSARY = `# CrewSpace - 개발 용어집 (Demo)
 
@@ -123,6 +124,7 @@ const DEMO_GLOSSARY = `# CrewSpace - 개발 용어집 (Demo)
 `
 
 export default function GlossaryPage() {
+  const t = useTranslations()
   const [content, setContent] = useState<string>('')
   const [searchTerm, setSearchTerm] = useState('')
   const [isLoading, setIsLoading] = useState(true)
@@ -227,7 +229,7 @@ export default function GlossaryPage() {
         <div className="flex items-center justify-center h-64">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-            <p className="text-gray-600 dark:text-gray-400">Loading glossary...</p>
+            <p className="text-gray-600 dark:text-gray-400">{t('glossary.loading')}</p>
           </div>
         </div>
       </div>
@@ -241,11 +243,11 @@ export default function GlossaryPage() {
         <div className="flex items-center gap-3 mb-4">
           <BookOpen className="h-8 w-8 text-blue-600" />
           <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
-            개발 용어집
+            {t('glossary.title')}
           </h1>
         </div>
         <p className="text-gray-600 dark:text-gray-400 text-lg">
-          CrewSpace Development Glossary - 초급 개발자를 위한 필수 개발 용어 386개
+          {t('glossary.subtitle')}
         </p>
       </div>
 
@@ -253,7 +255,7 @@ export default function GlossaryPage() {
       {isDemo && (
         <div className="mb-6 rounded-lg border border-blue-200 bg-blue-50 px-4 py-3 dark:border-blue-800 dark:bg-blue-900/20">
           <p className="text-sm text-blue-700 dark:text-blue-300">
-            현재 데모 용어집을 표시하고 있습니다. 전체 386개 용어는 서버 연결 후 확인할 수 있습니다.
+            {t('glossary.demoBanner')}
           </p>
         </div>
       )}
@@ -264,7 +266,7 @@ export default function GlossaryPage() {
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
           <input
             type="text"
-            placeholder="용어 검색... (예: API, React, Database)"
+            placeholder={t('glossary.searchPlaceholder')}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-800 dark:border-gray-600 dark:text-white"
@@ -272,7 +274,7 @@ export default function GlossaryPage() {
         </div>
         {searchTerm && (
           <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
-            검색 결과: &ldquo;{searchTerm}&rdquo;
+            {t('glossary.searchResults')}: &ldquo;{searchTerm}&rdquo;
           </p>
         )}
       </div>

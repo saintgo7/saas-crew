@@ -16,6 +16,9 @@ import {
 import { cn } from '@/lib/utils'
 import { useTranslations, useLanguage } from '@/i18n/LanguageContext'
 import { getDemoCourseDetail } from '@/lib/data/demo-courses'
+import { BookmarkButton } from './BookmarkButton'
+import { CourseReviews } from './CourseReviews'
+import { RelatedCourses } from './RelatedCourses'
 
 interface CourseDetailProps {
   courseId: string
@@ -225,6 +228,7 @@ export function CourseDetail({ courseId }: CourseDetailProps) {
 
             {/* Enrollment Button */}
             <div className="flex items-center gap-4">
+              <BookmarkButton courseId={courseId} />
               {isEnrolled ? (
                 <>
                   <button
@@ -334,6 +338,18 @@ export function CourseDetail({ courseId }: CourseDetailProps) {
             ))}
           </div>
         </div>
+      )}
+
+      {/* Reviews */}
+      <CourseReviews courseId={courseId} />
+
+      {/* Related Courses */}
+      {course.tags && (
+        <RelatedCourses
+          currentCourseId={courseId}
+          tags={course.tags}
+          level={course.level}
+        />
       )}
     </div>
   )

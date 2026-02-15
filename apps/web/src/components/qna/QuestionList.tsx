@@ -202,7 +202,7 @@ export function QuestionList({ pageSize = 20 }: QuestionListProps) {
         </form>
 
         <Link
-          href="/qna/ask"
+          href="/qna/new"
           className="flex items-center justify-center gap-2 rounded-lg bg-blue-600 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-blue-700"
         >
           <Plus className="h-5 w-5" />
@@ -287,7 +287,7 @@ export function QuestionList({ pageSize = 20 }: QuestionListProps) {
                   {t('qna.noQuestions')}
                 </p>
                 <Link
-                  href="/qna/ask"
+                  href="/qna/new"
                   className="mt-4 inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 dark:text-blue-400"
                 >
                   <Plus className="h-4 w-4" />

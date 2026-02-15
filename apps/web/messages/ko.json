@@ -450,6 +450,62 @@
       "duration": "{minutes}분",
       "watchVideo": "영상 보기",
       "resources": "학습 자료"
+    },
+    "categories": {
+      "all": "전체",
+      "frontend": "Frontend",
+      "backend": "Backend",
+      "devops": "DevOps",
+      "design": "Design",
+      "aiml": "AI/ML",
+      "database": "Database",
+      "mobile": "Mobile",
+      "security": "Security"
+    },
+    "enrolled": {
+      "title": "내 코스",
+      "subtitle": "수강 중인 코스를 확인하세요",
+      "empty": "아직 수강 중인 코스가 없습니다",
+      "emptyHint": "관심 있는 코스를 수강 신청해보세요",
+      "filter": {
+        "all": "전체",
+        "inProgress": "학습 중",
+        "completed": "완료"
+      },
+      "progressLabel": "진도율 {percent}%",
+      "demoBanner": "현재 데모 데이터를 표시하고 있습니다. 로그인 후 실제 수강 목록을 확인할 수 있습니다."
+    },
+    "reviews": {
+      "title": "수강 후기",
+      "averageRating": "평균 평점",
+      "writeReview": "후기 작성",
+      "submitReview": "후기 등록",
+      "placeholder": "코스에 대한 후기를 작성해주세요...",
+      "noReviews": "아직 후기가 없습니다"
+    },
+    "bookmark": {
+      "added": "북마크에 추가되었습니다",
+      "removed": "북마크에서 제거되었습니다"
+    },
+    "related": {
+      "title": "관련 코스"
+    },
+    "stats": {
+      "totalCourses": "전체 코스",
+      "byLevel": "레벨별",
+      "topCategories": "인기 카테고리"
+    },
+    "learn": {
+      "title": "학습",
+      "nextChapter": "다음 챕터",
+      "prevChapter": "이전 챕터",
+      "backToCourse": "코스로 돌아가기",
+      "completeChapter": "챕터 완료",
+      "completed": "학습 완료",
+      "sidebar": {
+        "chapters": "챕터 목록",
+        "progress": "학습 진도"
+      }
     }
   },
   "quiz": {
@@ -670,6 +726,17 @@
   "about": {
     "title": "소개",
     "subtitle": "CrewSpace에 대해 알아보세요"
+  },
+  "glossary": {
+    "title": "개발 용어집",
+    "subtitle": "CrewSpace Development Glossary - 초급 개발자를 위한 필수 개발 용어 386개",
+    "searchPlaceholder": "용어 검색... (예: API, React, Database)",
+    "searchResults": "검색 결과",
+    "loading": "용어집 로딩 중...",
+    "demoBanner": "현재 데모 용어집을 표시하고 있습니다. 전체 386개 용어는 서버 연결 후 확인할 수 있습니다.",
+    "totalTerms": "Total Terms",
+    "categories": "Categories",
+    "fileSize": "File Size"
   },
   "canvas": {
     "title": "캔버스",

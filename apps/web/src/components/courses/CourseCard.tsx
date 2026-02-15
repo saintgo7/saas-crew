@@ -6,6 +6,7 @@ import { Clock, Users, BookOpen } from 'lucide-react'
 import type { Course } from '@/lib/api/types'
 import { cn } from '@/lib/utils'
 import { useTranslations } from '@/i18n/LanguageContext'
+import { BookmarkButton } from './BookmarkButton'
 
 interface CourseCardProps {
   course: Course
@@ -60,6 +61,11 @@ export function CourseCard({ course, className }: CourseCardProps) {
             >
               {getLevelLabel(course.level)}
             </span>
+          </div>
+
+          {/* Bookmark Button */}
+          <div className="absolute right-3 top-3">
+            <BookmarkButton courseId={course.id} size="sm" />
           </div>
         </div>
 

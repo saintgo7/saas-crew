@@ -10,9 +10,23 @@ import { DEMO_COURSES } from '@/lib/data/demo-courses'
 
 const COURSES_PER_PAGE = 12
 
+const CATEGORY_TAGS: Record<string, string[]> = {
+  Frontend: ['React', 'Vue.js', 'Svelte', 'Angular', 'Next.js', 'TypeScript', 'JavaScript', 'HTML', 'CSS', 'Tailwind CSS', 'Three.js', 'Web', 'Frontend', 'Hooks', 'Redux', 'Composition API', 'Pinia', 'SvelteKit', 'Animation', 'Flexbox', 'Grid', 'UI', 'Responsive', 'Figma', 'Design System', 'Storybook', 'Accessibility', 'A11y', 'WCAG', 'Performance', 'Core Web Vitals', 'Optimization', 'Zustand', 'Jotai', 'State Management'],
+  Backend: ['Node.js', 'Express', 'NestJS', 'Django', 'Spring Boot', 'Go', 'Gin', 'REST API', 'Python', 'Java', 'Prisma', 'Full-Stack', 'DRF', 'gRPC', 'Microservices', 'GraphQL', 'Apollo', 'API', 'API Design', 'HTTP', 'OpenAPI', 'Protobuf', 'RPC', 'Actix-web', 'Rust', 'Backend'],
+  DevOps: ['Docker', 'Kubernetes', 'Helm', 'DevOps', 'CI/CD', 'GitHub Actions', 'Automation', 'AWS', 'Cloud', 'EC2', 'Lambda', 'Linux', 'Bash', 'Shell', 'CLI', 'Terraform', 'IaC', 'GCP', 'BigQuery', 'Cloud Run', 'Serverless', 'DynamoDB', 'API Gateway', 'Nginx', 'Reverse Proxy', 'Load Balancing', 'SSL', 'Prometheus', 'Grafana', 'ELK', 'Observability', 'DevSecOps'],
+  Design: ['Figma', 'Design System', 'Storybook', 'UI', 'Blender', '3D Modeling', 'Rendering', 'Animation'],
+  'AI/ML': ['Machine Learning', 'Python', 'scikit-learn', 'Data Science', 'LLM', 'LangChain', 'RAG', 'Prompt Engineering', 'Deep Learning', 'PyTorch', 'CNN', 'Transformer', 'Pandas', 'Data Analysis', 'Visualization', 'Kafka', 'Streaming', 'Power BI', 'Dashboard', 'DAX', 'Spark', 'PySpark', 'Big Data', 'ETL', 'Airflow', 'dbt', 'Snowflake', 'Data Engineering'],
+  Database: ['SQL', 'PostgreSQL', 'Database', 'MongoDB', 'NoSQL', 'Mongoose', 'Redis', 'Caching', 'Pub/Sub', 'Database Design', 'ERD', 'Normalization', 'Architecture'],
+  Mobile: ['React Native', 'Expo', 'Mobile', 'Cross-Platform', 'Flutter', 'Dart', 'Firebase', 'iOS', 'Swift', 'SwiftUI', 'Kotlin', 'Android', 'Jetpack Compose', 'KMP', 'Compose', 'Coroutines', 'Flow'],
+  Security: ['Security', 'OWASP', 'XSS', 'SQL Injection', 'Ethical Hacking', 'Penetration Testing', 'Kali Linux', 'OAuth', 'JWT', 'Authentication', 'SSO', 'SAST', 'Snyk', 'SonarQube'],
+}
+
 export function CourseList() {
   const t = useTranslations()
   const [selectedLevel, setSelectedLevel] = useState<CourseLevel | undefined>(
+    undefined
+  )
+  const [selectedCategory, setSelectedCategory] = useState<string | undefined>(
     undefined
   )
   const [searchQuery, setSearchQuery] = useState('')
@@ -23,6 +37,18 @@ export function CourseList() {
     { value: 'JUNIOR' as CourseLevel, label: t('courses.level.junior') },
     { value: 'SENIOR' as CourseLevel, label: t('courses.level.senior') },
     { value: 'MASTER' as CourseLevel, label: t('courses.level.master') },
+  ]
+
+  const categoryFilters = [
+    { value: undefined, label: t('courses.categories.all') },
+    { value: 'Frontend', label: t('courses.categories.frontend') },
+    { value: 'Backend', label: t('courses.categories.backend') },
+    { value: 'DevOps', label: t('courses.categories.devops') },
+    { value: 'Design', label: t('courses.categories.design') },
+    { value: 'AI/ML', label: t('courses.categories.aiml') },
+    { value: 'Database', label: t('courses.categories.database') },
+    { value: 'Mobile', label: t('courses.categories.mobile') },
+    { value: 'Security', label: t('courses.categories.security') },
   ]
 
   const { data, isLoading, error } = useCourses({
@@ -39,6 +65,13 @@ export function CourseList() {
       (c) => !selectedLevel || c.level === selectedLevel
     )
 
+    if (selectedCategory && CATEGORY_TAGS[selectedCategory]) {
+      const categoryTags = CATEGORY_TAGS[selectedCategory]
+      filtered = filtered.filter((c) =>
+        c.tags.some((tag) => categoryTags.includes(tag))
+      )
+    }
+
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase()
       filtered = filtered.filter(
@@ -51,7 +84,7 @@ export function CourseList() {
     }
 
     return filtered
-  }, [isDemo, data, selectedLevel, searchQuery])
+  }, [isDemo, data, selectedLevel, selectedCategory, searchQuery])
 
   const totalCount = filteredCourses.length
   const totalPages = Math.ceil(totalCount / COURSES_PER_PAGE)
@@ -64,6 +97,11 @@ export function CourseList() {
 
   const handleLevelChange = (level: CourseLevel | undefined) => {
     setSelectedLevel(level)
+    setCurrentPage(1)
+  }
+
+  const handleCategoryChange = (category: string | undefined) => {
+    setSelectedCategory(category)
     setCurrentPage(1)
   }
 
@@ -95,7 +133,7 @@ export function CourseList() {
         />
       </div>
 
-      {/* Filter Tabs */}
+      {/* Level Filter Tabs */}
       <div className="flex items-center gap-2 overflow-x-auto pb-2">
         {levelFilters.map((filter) => (
           <button
@@ -104,6 +142,23 @@ export function CourseList() {
             className={`whitespace-nowrap rounded-full px-4 py-2 text-sm font-medium transition-colors ${
               selectedLevel === filter.value
                 ? 'bg-blue-600 text-white'
+                : 'bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600'
+            }`}
+          >
+            {filter.label}
+          </button>
+        ))}
+      </div>
+
+      {/* Category Filter Tabs */}
+      <div className="flex items-center gap-2 overflow-x-auto pb-2">
+        {categoryFilters.map((filter) => (
+          <button
+            key={filter.label}
+            onClick={() => handleCategoryChange(filter.value)}
+            className={`whitespace-nowrap rounded-full px-4 py-2 text-sm font-medium transition-colors ${
+              selectedCategory === filter.value
+                ? 'bg-indigo-600 text-white'
                 : 'bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600'
             }`}
           >
