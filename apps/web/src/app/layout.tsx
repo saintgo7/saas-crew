@@ -13,11 +13,11 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  title: 'WKU Software Crew',
-  description: 'WKU Software Crew - Student-driven software education and startup platform',
+  title: 'CrewSpace',
+  description: 'CrewSpace - 팀 협업과 학습을 위한 올인원 플랫폼',
   openGraph: {
-    title: 'WKU Software Crew',
-    description: 'Student-driven software education and startup platform',
+    title: 'CrewSpace',
+    description: 'Collaboration and learning, all in one platform',
     type: 'website',
     locale: 'ko_KR',
   },

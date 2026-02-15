@@ -19,10 +19,10 @@ export default function LoginPage() {
           {/* Logo */}
           <div className="mb-8 text-center">
             <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-blue-600">
-              <span className="text-3xl font-bold text-white">W</span>
+              <span className="text-3xl font-bold text-white">C</span>
             </div>
             <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-              WKU Software Crew
+              CrewSpace
             </h1>
             <p className="mt-2 text-gray-600 dark:text-gray-400">
               {t('auth.login.subtitle')}

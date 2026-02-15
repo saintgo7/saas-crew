@@ -6,6 +6,8 @@ import { Github, ExternalLink, Users, Calendar, Eye, Lock, Edit } from 'lucide-r
 import { formatDistanceToNow } from 'date-fns'
 import { ko, enUS } from 'date-fns/locale'
 import { useTranslations, useLanguage } from '@/i18n/LanguageContext'
+import { ProjectTabs } from '@/components/projects/ProjectTabs'
+import { ProjectCanvas } from '@/components/projects/ProjectCanvas'
 
 interface Project {
   id: string
@@ -35,6 +37,12 @@ export function ProjectDetailContent({ project }: ProjectDetailContentProps) {
   const dateLocale = locale === 'ko' ? ko : enUS
 
   const [canEdit, setCanEdit] = useState(false)
+  const [activeTab, setActiveTab] = useState('overview')
+
+  const tabs = [
+    { key: 'overview', label: t('projects.detail.overview') || 'Overview' },
+    { key: 'canvas', label: t('canvas.title') || 'Canvas' },
+  ]
 
   // Check if current user can edit the project
   useEffect(() => {
@@ -108,6 +116,17 @@ export function ProjectDetailContent({ project }: ProjectDetailContentProps) {
           )}
         </div>
 
+        {/* Tabs */}
+        <ProjectTabs activeTab={activeTab} onTabChange={setActiveTab} tabs={tabs} />
+
+        {/* Canvas Tab */}
+        {activeTab === 'canvas' && (
+          <ProjectCanvas projectId={project.id} />
+        )}
+
+        {/* Overview Tab */}
+        {activeTab === 'overview' && (
+        <>
         {/* Info Cards */}
         <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {/* Members */}
@@ -255,6 +274,8 @@ export function ProjectDetailContent({ project }: ProjectDetailContentProps) {
             )}
           </dl>
         </div>
+        </>
+        )}
       </div>
     </div>
   )

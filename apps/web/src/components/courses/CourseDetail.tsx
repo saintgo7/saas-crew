@@ -15,6 +15,10 @@ import {
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useTranslations, useLanguage } from '@/i18n/LanguageContext'
+import { getDemoCourseDetail } from '@/lib/data/demo-courses'
+import { BookmarkButton } from './BookmarkButton'
+import { CourseReviews } from './CourseReviews'
+import { RelatedCourses } from './RelatedCourses'
 
 interface CourseDetailProps {
   courseId: string
@@ -52,7 +56,12 @@ export function CourseDetail({ courseId }: CourseDetailProps) {
     )
   }
 
-  if (error) {
+  // Fallback to demo data when API fails or returns nothing
+  const demoData = (!data && !isLoading) || error ? getDemoCourseDetail(courseId) : null
+  const resolvedData = data || demoData
+  const isDemo = !!demoData
+
+  if (error && !demoData) {
     return (
       <div className="rounded-lg border border-red-200 bg-red-50 p-6 dark:border-red-800 dark:bg-red-900/20">
         <div className="flex items-center gap-3">
@@ -72,7 +81,7 @@ export function CourseDetail({ courseId }: CourseDetailProps) {
     )
   }
 
-  if (!data) {
+  if (!resolvedData) {
     return (
       <div className="rounded-lg border border-gray-200 bg-gray-50 p-8 text-center dark:border-gray-700 dark:bg-gray-800">
         <p className="text-gray-600 dark:text-gray-400">
@@ -83,9 +92,9 @@ export function CourseDetail({ courseId }: CourseDetailProps) {
   }
 
   // Support both response formats
-  const course = 'course' in data ? data.course : data
-  const enrollment = 'enrollment' in data ? data.enrollment : undefined
-  const isEnrolled = 'isEnrolled' in data ? data.isEnrolled : false
+  const course = 'course' in resolvedData ? resolvedData.course : resolvedData
+  const enrollment = 'enrollment' in resolvedData ? resolvedData.enrollment : undefined
+  const isEnrolled = 'isEnrolled' in resolvedData ? resolvedData.isEnrolled : false
 
   if (!course) {
     return (
@@ -117,6 +126,15 @@ export function CourseDetail({ courseId }: CourseDetailProps) {
 
   return (
     <div className="space-y-8">
+      {/* Demo Banner */}
+      {isDemo && (
+        <div className="rounded-lg border border-blue-200 bg-blue-50 px-4 py-3 dark:border-blue-800 dark:bg-blue-900/20">
+          <p className="text-sm text-blue-700 dark:text-blue-300">
+            {t('courses.demoBanner')}
+          </p>
+        </div>
+      )}
+
       {/* Hero Section */}
       <div className="overflow-hidden rounded-lg border border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800">
         <div className="grid gap-6 lg:grid-cols-3">
@@ -210,6 +228,7 @@ export function CourseDetail({ courseId }: CourseDetailProps) {
 
             {/* Enrollment Button */}
             <div className="flex items-center gap-4">
+              <BookmarkButton courseId={courseId} />
               {isEnrolled ? (
                 <>
                   <button
@@ -319,6 +338,18 @@ export function CourseDetail({ courseId }: CourseDetailProps) {
             ))}
           </div>
         </div>
+      )}
+
+      {/* Reviews */}
+      <CourseReviews courseId={courseId} />
+
+      {/* Related Courses */}
+      {course.tags && (
+        <RelatedCourses
+          currentCourseId={courseId}
+          tags={course.tags}
+          level={course.level}
+        />
       )}
     </div>
   )

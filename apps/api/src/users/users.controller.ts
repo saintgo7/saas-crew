@@ -1,6 +1,7 @@
 import {
   Controller,
   Get,
+  Post,
   Patch,
   Param,
   Body,
@@ -20,6 +21,7 @@ import {
 } from '@nestjs/swagger'
 import { UsersService } from './users.service'
 import { UpdateUserDto } from './dto/update-user.dto'
+import { ProjectsService } from '../projects/projects.service'
 
 /**
  * Users Controller
@@ -29,7 +31,10 @@ import { UpdateUserDto } from './dto/update-user.dto'
 @ApiTags('Users')
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly projectsService: ProjectsService,
+  ) {}
 
   /**
    * GET /api/users
@@ -186,5 +191,59 @@ export class UsersController {
   })
   async getUserProjects(@Param('id') id: string) {
     return this.usersService.findUserProjects(id)
+  }
+
+  // ============================================
+  // Invitation Endpoints (for current user)
+  // ============================================
+
+  /**
+   * GET /api/users/me/invitations
+   * Get current user's pending project invitations
+   * Protected endpoint - requires JWT authentication
+   */
+  @Get('me/invitations')
+  @UseGuards(AuthGuard('jwt'))
+  @HttpCode(HttpStatus.OK)
+  @ApiBearerAuth('JWT-auth')
+  @ApiOperation({
+    summary: 'Get my invitations',
+    description: 'Get all pending project invitations for the current user',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Invitations retrieved successfully',
+  })
+  async getMyInvitations(@Req() req: any) {
+    return this.projectsService.getUserInvitations(req.user.id)
+  }
+
+  /**
+   * POST /api/users/me/invitations/:id/respond
+   * Respond to a project invitation (accept or reject)
+   * Protected endpoint - requires JWT authentication
+   */
+  @Post('me/invitations/:id/respond')
+  @UseGuards(AuthGuard('jwt'))
+  @HttpCode(HttpStatus.OK)
+  @ApiBearerAuth('JWT-auth')
+  @ApiOperation({
+    summary: 'Respond to invitation',
+    description: 'Accept or reject a project invitation',
+  })
+  @ApiParam({
+    name: 'id',
+    description: 'Invitation ID',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Response recorded successfully',
+  })
+  async respondToInvitation(
+    @Param('id') id: string,
+    @Body() body: { accept: boolean },
+    @Req() req: any,
+  ) {
+    return this.projectsService.respondToInvitation(id, req.user.id, body.accept)
   }
 }

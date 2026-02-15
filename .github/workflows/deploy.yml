@@ -2,7 +2,7 @@ name: Deploy
 
 on:
   push:
-    branches: [main]
+    branches: [main, develop]
   workflow_dispatch:
     inputs:
       environment:
@@ -14,205 +14,57 @@ on:
           - staging
           - production
 
-env:
-  REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}/api
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
   # ===========================================================================
-  # Test Stage
-  # ===========================================================================
-  test:
-    name: Run Tests
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-
-    services:
-      postgres:
-        image: postgres:16-alpine
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: wku_crew_test
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 8
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'pnpm'
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Generate Prisma Client
-        run: pnpm --filter @wku-crew/api db:generate
-
-      - name: Apply database schema
-        run: pnpm --filter @wku-crew/api db:push
-        env:
-          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/wku_crew_test
-
-      - name: Run API tests
-        run: pnpm --filter @wku-crew/api test
-        env:
-          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/wku_crew_test
-          JWT_SECRET: test-jwt-secret
-
-      - name: Run E2E tests
-        run: pnpm --filter @wku-crew/api test:e2e
-        env:
-          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/wku_crew_test
-          JWT_SECRET: test-jwt-secret
-          GITHUB_CLIENT_ID: test-client-id
-          GITHUB_CLIENT_SECRET: test-client-secret
-          GITHUB_CALLBACK_URL: http://localhost:4000/api/auth/github/callback
-          FRONTEND_URL: http://localhost:3000
-
-      - name: Lint code
-        run: pnpm --filter @wku-crew/api lint
-
-  # ===========================================================================
-  # Build API Docker Image
-  # ===========================================================================
-  build-api:
-    name: Build API Image
-    runs-on: ubuntu-latest
-    needs: test
-    permissions:
-      contents: read
-      packages: write
-
-    outputs:
-      image-tag: ${{ steps.meta.outputs.tags }}
-      image-digest: ${{ steps.build.outputs.digest }}
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Log in to Container Registry
-        uses: docker/login-action@v3
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Extract metadata
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-          tags: |
-            type=sha,prefix=
-            type=ref,event=branch
-            type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' }}
-
-      - name: Build and push Docker image
-        id: build
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          file: apps/api/Dockerfile
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-          platforms: linux/amd64,linux/arm64
-
-  # ===========================================================================
-  # Build Frontend
-  # ===========================================================================
-  build-web:
-    name: Build Frontend
-    runs-on: ubuntu-latest
-    needs: test
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 8
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'pnpm'
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Build frontend
-        run: pnpm --filter @wku-crew/web build
-        env:
-          NEXT_PUBLIC_API_URL: ${{ vars.API_URL || 'https://api.wku-crew.com' }}
-          NEXTAUTH_URL: ${{ vars.NEXTAUTH_URL || 'https://wku-crew.com' }}
-          NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
-
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: web-build
-          path: apps/web/.next
-          retention-days: 1
-
-  # ===========================================================================
-  # Deploy to Staging
+  # Deploy to Staging (develop branch)
   # ===========================================================================
   deploy-staging:
     name: Deploy to Staging
     runs-on: ubuntu-latest
-    needs: [build-api, build-web]
-    if: github.event_name == 'push' || github.event.inputs.environment == 'staging'
+    if: github.ref == 'refs/heads/develop' || (github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'staging')
     environment:
       name: staging
-      url: https://staging.wku-crew.com
+      url: https://staging-crew.abada.kr
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Deploy API to staging
-        run: |
-          echo "Deploying API image: ${{ needs.build-api.outputs.image-tag }}"
-          # Add your deployment commands here
-          # Examples:
-          # - SSH to server and docker pull/restart
-          # - kubectl apply for Kubernetes
-          # - aws ecs update-service for ECS
-          # - flyctl deploy for Fly.io
-
-      - name: Deploy Frontend to Cloudflare Pages (Staging)
-        uses: cloudflare/wrangler-action@v3
+      - name: Deploy to Staging Server
+        uses: appleboy/ssh-action@v1.0.3
         with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy apps/web/.next --project-name=wku-crew-web-staging
+          host: ${{ secrets.SERVER_HOST }}
+          port: ${{ secrets.SERVER_PORT }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            cd ~/saas-crew
 
-      - name: Notify deployment
+            # Run staging deployment script
+            ./deployments/ws-248-247/deploy-staging.sh
+
+            echo "Staging deployment completed"
+
+      - name: Verify staging health
+        run: |
+          echo "Waiting for staging to be ready..."
+          sleep 30
+
+          for i in {1..10}; do
+            if curl -sf https://staging-api-crew.abada.kr/api/health > /dev/null 2>&1; then
+              echo "Staging API health check passed"
+              break
+            fi
+            echo "Attempt $i failed, retrying in 10s..."
+            sleep 10
+          done
+
+      - name: Create deployment status
+        continue-on-error: true
         uses: actions/github-script@v7
         with:
           script: |
@@ -221,93 +73,135 @@ jobs:
               repo: context.repo.repo,
               sha: context.sha,
               state: 'success',
-              target_url: 'https://staging.wku-crew.com',
+              target_url: 'https://staging-crew.abada.kr',
               description: 'Deployed to staging',
               context: 'deployment/staging'
             });
 
   # ===========================================================================
-  # Deploy to Production
+  # Deploy to Production (main branch)
   # ===========================================================================
   deploy-production:
     name: Deploy to Production
     runs-on: ubuntu-latest
-    needs: [build-api, build-web, deploy-staging]
-    if: github.event.inputs.environment == 'production'
+    if: github.ref == 'refs/heads/main' || (github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'production')
     environment:
       name: production
-      url: https://wku-crew.com
+      url: https://crew.abada.kr
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Download web build
-        uses: actions/download-artifact@v4
+      - name: Deploy to Production Server
+        uses: appleboy/ssh-action@v1.0.3
         with:
-          name: web-build
-          path: apps/web/.next
+          host: ${{ secrets.SERVER_HOST }}
+          port: ${{ secrets.SERVER_PORT }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            cd ~/saas-crew
 
-      - name: Run database migrations
+            # Run production deployment script
+            ./deployments/ws-248-247/deploy.sh
+
+            echo "Production deployment completed"
+
+      - name: Verify production health
         run: |
-          echo "Running database migrations..."
-          # Add migration command here
-          # pnpm --filter @wku-crew/api db:migrate:deploy
+          echo "Waiting for production to be ready..."
+          sleep 30
 
-      - name: Deploy API to production
-        run: |
-          echo "Deploying API image: ${{ needs.build-api.outputs.image-tag }}"
-          # Add your production deployment commands here
-
-      - name: Deploy Frontend to Cloudflare Pages (Production)
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy apps/web/.next --project-name=wku-crew-web
-
-      - name: Verify deployment health
-        run: |
-          echo "Verifying deployment health..."
-          for i in {1..5}; do
-            if curl -sf https://api.wku-crew.com/api/health > /dev/null; then
-              echo "Health check passed"
-              exit 0
+          for i in {1..10}; do
+            if curl -sf https://crew-api.abada.kr/api/health > /dev/null 2>&1; then
+              echo "Production API health check passed"
+              break
             fi
-            echo "Attempt $i failed, retrying..."
+            echo "Attempt $i failed, retrying in 10s..."
             sleep 10
           done
-          echo "Health check failed"
-          exit 1
 
-      - name: Create deployment notification
+      - name: Create deployment status
+        continue-on-error: true
         uses: actions/github-script@v7
         with:
           script: |
-            const { data: release } = await github.rest.repos.createRelease({
+            github.rest.repos.createCommitStatus({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              tag_name: `deploy-${new Date().toISOString().split('T')[0]}-${context.sha.substring(0, 7)}`,
-              name: `Production Deployment ${new Date().toISOString().split('T')[0]}`,
-              body: `Deployed to production from commit ${context.sha}`,
-              draft: false,
-              prerelease: false
+              sha: context.sha,
+              state: 'success',
+              target_url: 'https://crew.abada.kr',
+              description: 'Deployed to production',
+              context: 'deployment/production'
             });
-            console.log(`Created release: ${release.html_url}`);
+
+      - name: Create release tag
+        if: success()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const date = new Date().toISOString().split('T')[0];
+            const shortSha = context.sha.substring(0, 7);
+
+            try {
+              await github.rest.repos.createRelease({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                tag_name: `v${date}-${shortSha}`,
+                name: `Production Release ${date}`,
+                body: `Deployed to production from commit ${context.sha}\n\n- Frontend: https://crew.abada.kr\n- API: https://crew-api.abada.kr`,
+                draft: false,
+                prerelease: false
+              });
+            } catch (e) {
+              console.log('Release creation skipped:', e.message);
+            }
 
   # ===========================================================================
-  # Rollback (Manual Trigger)
+  # Notify on Failure (Temporarily Disabled)
   # ===========================================================================
-  rollback:
-    name: Rollback Deployment
-    runs-on: ubuntu-latest
-    if: github.event_name == 'workflow_dispatch' && failure()
-    needs: [deploy-production]
-
-    steps:
-      - name: Rollback to previous version
-        run: |
-          echo "Rolling back to previous version..."
-          # Add rollback commands here
-          # - kubectl rollout undo deployment/api
-          # - docker-compose -f docker-compose.prod.yml up -d --no-build
+  # notify-failure:
+  #   name: Notify on Failure
+  #   runs-on: ubuntu-latest
+  #   needs: [deploy-staging, deploy-production]
+  #   if: |
+  #     always() &&
+  #     (needs.deploy-staging.result == 'failure' ||
+  #      needs.deploy-production.result == 'failure')
+  #
+  #   steps:
+  #     - name: Create failure issue
+  #       uses: actions/github-script@v7
+  #       with:
+  #         script: |
+  #           const stagingFailed = '${{ needs.deploy-staging.result }}' === 'failure';
+  #           const productionFailed = '${{ needs.deploy-production.result }}' === 'failure';
+  #
+  #           let title = 'Deployment Failed: ';
+  #           if (stagingFailed && productionFailed) {
+  #             title += 'Staging & Production';
+  #           } else if (stagingFailed) {
+  #             title += 'Staging';
+  #           } else {
+  #             title += 'Production';
+  #           }
+  #
+  #           await github.rest.issues.create({
+  #             owner: context.repo.owner,
+  #             repo: context.repo.repo,
+  #             title: title,
+  #             body: `## Deployment Failure Report
+  #
+  # **Commit**: ${context.sha}
+  # **Branch**: ${context.ref}
+  # **Workflow Run**: [View Details](https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId})
+  #
+  # ### Status
+  # - Staging: ${{ needs.deploy-staging.result }}
+  # - Production: ${{ needs.deploy-production.result }}
+  #
+  # Please investigate and fix the deployment issue.`,
+  #             labels: ['deployment', 'bug']
+  #           });

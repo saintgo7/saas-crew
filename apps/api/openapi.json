@@ -3,13 +3,27 @@
   "paths": {
     "/api/health": {
       "get": {
+        "description": "Returns 200 if the service is running. Use for quick availability checks.",
         "operationId": "HealthController_health",
         "parameters": [],
         "responses": {
           "200": {
-            "description": ""
+            "description": "Service is healthy",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "status": "ok",
+                    "timestamp": "2024-01-01T00:00:00.000Z",
+                    "service": "wku-crew-api",
+                    "version": "0.1.0"
+                  }
+                }
+              }
+            }
           }
         },
+        "summary": "Basic health check",
         "tags": [
           "Health"
         ]
@@ -17,13 +31,45 @@
     },
     "/api/health/ready": {
       "get": {
+        "description": "Checks if the service is ready to accept traffic by verifying database connectivity. Use for Kubernetes readiness probes.",
         "operationId": "HealthController_readiness",
         "parameters": [],
         "responses": {
           "200": {
-            "description": ""
+            "description": "Service is ready to accept traffic",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "status": "ready",
+                    "timestamp": "2024-01-01T00:00:00.000Z",
+                    "checks": {
+                      "database": "connected"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service is not ready",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "status": "not_ready",
+                    "timestamp": "2024-01-01T00:00:00.000Z",
+                    "checks": {
+                      "database": "disconnected"
+                    },
+                    "error": "Connection refused"
+                  }
+                }
+              }
+            }
           }
         },
+        "summary": "Readiness probe",
         "tags": [
           "Health"
         ]
@@ -31,13 +77,31 @@
     },
     "/api/health/live": {
       "get": {
+        "description": "Checks if the service is alive by returning process metrics. Use for Kubernetes liveness probes.",
         "operationId": "HealthController_liveness",
         "parameters": [],
         "responses": {
           "200": {
-            "description": ""
+            "description": "Service is alive",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "status": "alive",
+                    "timestamp": "2024-01-01T00:00:00.000Z",
+                    "uptime": 3600,
+                    "memory": {
+                      "used": 128,
+                      "total": 256,
+                      "unit": "MB"
+                    }
+                  }
+                }
+              }
+            }
           }
         },
+        "summary": "Liveness probe",
         "tags": [
           "Health"
         ]
@@ -295,6 +359,58 @@
           }
         },
         "summary": "Get user projects",
+        "tags": [
+          "Users"
+        ]
+      }
+    },
+    "/api/users/me/invitations": {
+      "get": {
+        "description": "Get all pending project invitations for the current user",
+        "operationId": "UsersController_getMyInvitations",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Invitations retrieved successfully"
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Get my invitations",
+        "tags": [
+          "Users"
+        ]
+      }
+    },
+    "/api/users/me/invitations/{id}/respond": {
+      "post": {
+        "description": "Accept or reject a project invitation",
+        "operationId": "UsersController_respondToInvitation",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Invitation ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Response recorded successfully"
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Respond to invitation",
         "tags": [
           "Users"
         ]
@@ -626,6 +742,242 @@
           }
         ],
         "summary": "Remove project member",
+        "tags": [
+          "Projects"
+        ]
+      }
+    },
+    "/api/projects/{id}/members/{userId}/role": {
+      "patch": {
+        "description": "Update a member role. Only the project owner can change roles.",
+        "operationId": "ProjectsController_updateMemberRole",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Project ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "userId",
+            "required": true,
+            "in": "path",
+            "description": "User ID to update",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateMemberRoleDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Role updated successfully"
+          },
+          "403": {
+            "description": "Forbidden - Only owner can change roles"
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Update member role",
+        "tags": [
+          "Projects"
+        ]
+      }
+    },
+    "/api/projects/{id}/invitations": {
+      "post": {
+        "description": "Create an invitation to join the project. Requires OWNER or ADMIN role.",
+        "operationId": "ProjectsController_createInvitation",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Project ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateInvitationDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Invitation created successfully"
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions"
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Create invitation",
+        "tags": [
+          "Projects"
+        ]
+      },
+      "get": {
+        "description": "Get all invitations for the project. Requires OWNER or ADMIN role.",
+        "operationId": "ProjectsController_getInvitations",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Project ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Get project invitations",
+        "tags": [
+          "Projects"
+        ]
+      }
+    },
+    "/api/projects/{id}/invitations/{invitationId}": {
+      "delete": {
+        "description": "Cancel a pending invitation. Requires OWNER or ADMIN role.",
+        "operationId": "ProjectsController_cancelInvitation",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Project ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "invitationId",
+            "required": true,
+            "in": "path",
+            "description": "Invitation ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Cancel invitation",
+        "tags": [
+          "Projects"
+        ]
+      }
+    },
+    "/api/projects/{id}/activities": {
+      "get": {
+        "description": "Get project activity history. Requires project membership.",
+        "operationId": "ProjectsController_getActivities",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Project ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Get activity log",
+        "tags": [
+          "Projects"
+        ]
+      }
+    },
+    "/api/projects/{id}/sync-github": {
+      "post": {
+        "description": "Sync project with linked GitHub repository. Updates stars, forks, and branch info.",
+        "operationId": "ProjectsController_syncGitHub",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Project ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Sync GitHub repository",
         "tags": [
           "Projects"
         ]
@@ -1718,6 +2070,90 @@
         ]
       }
     },
+    "/api/comments/{id}/like": {
+      "post": {
+        "description": "Like a comment",
+        "operationId": "CommentsController_likeComment",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Comment ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Like comment",
+        "tags": [
+          "Comments"
+        ]
+      },
+      "delete": {
+        "description": "Remove like from a comment",
+        "operationId": "CommentsController_unlikeComment",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Comment ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Unlike comment",
+        "tags": [
+          "Comments"
+        ]
+      },
+      "get": {
+        "description": "Get like count and status for a comment",
+        "operationId": "CommentsController_getLikeStatus",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Comment ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Get like status",
+        "tags": [
+          "Comments"
+        ]
+      }
+    },
     "/api/posts/{id}/vote": {
       "post": {
         "description": "Upvote (1) or downvote (-1) a post. Updates existing vote if already voted.",
@@ -1846,24 +2282,1145 @@
     },
     "/api/admin/stats": {
       "get": {
-        "description": "Retrieve counts and recent activity for admin dashboard",
+        "description": "Retrieve comprehensive statistics and recent activity",
         "operationId": "AdminController_getStats",
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Statistics retrieved successfully",
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Get admin dashboard statistics",
+        "tags": [
+          "Admin"
+        ]
+      }
+    },
+    "/api/admin/users": {
+      "get": {
+        "description": "Get paginated list of users with filters",
+        "operationId": "AdminController_getUsers",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "search",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "rank",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "enum": [
+                "JUNIOR",
+                "SENIOR",
+                "MASTER"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortBy",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Get users list",
+        "tags": [
+          "Admin"
+        ]
+      }
+    },
+    "/api/admin/users/{id}": {
+      "get": {
+        "description": "Get detailed information about a user",
+        "operationId": "AdminController_getUserById",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "User ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Get user details",
+        "tags": [
+          "Admin"
+        ]
+      }
+    },
+    "/api/admin/users/{id}/rank": {
+      "patch": {
+        "description": "Update a user's rank (JUNIOR, SENIOR, MASTER)",
+        "operationId": "AdminController_updateUserRank",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "User ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Update user rank",
+        "tags": [
+          "Admin"
+        ]
+      }
+    },
+    "/api/admin/users/{id}/level": {
+      "patch": {
+        "description": "Update a user's level and/or XP",
+        "operationId": "AdminController_updateUserLevel",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "User ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Update user level",
+        "tags": [
+          "Admin"
+        ]
+      }
+    },
+    "/api/admin/analytics/activity": {
+      "get": {
+        "description": "Get daily activity analytics for signups, posts, and enrollments",
+        "operationId": "AdminController_getActivityAnalytics",
+        "parameters": [
+          {
+            "name": "days",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Get activity analytics",
+        "tags": [
+          "Admin"
+        ]
+      }
+    },
+    "/api/admin/analytics/courses": {
+      "get": {
+        "description": "Get analytics for all courses including completion rates",
+        "operationId": "AdminController_getCourseAnalytics",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Get course analytics",
+        "tags": [
+          "Admin"
+        ]
+      }
+    },
+    "/api/admin/leaderboard": {
+      "get": {
+        "description": "Get top users by XP and level",
+        "operationId": "AdminController_getLeaderboard",
+        "parameters": [
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "rank",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "enum": [
+                "JUNIOR",
+                "SENIOR",
+                "MASTER"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Get leaderboard",
+        "tags": [
+          "Admin"
+        ]
+      }
+    },
+    "/api/channels": {
+      "get": {
+        "description": "Retrieve channels with optional filtering by type and membership",
+        "operationId": "ChatController_getChannels",
+        "parameters": [
+          {
+            "name": "type",
+            "required": false,
+            "in": "query",
+            "description": "Filter by channel type",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "PUBLIC",
+                "PRIVATE",
+                "LEVEL_RESTRICTED",
+                "DIRECT"
+              ]
+            }
+          },
+          {
+            "name": "memberOnly",
+            "required": false,
+            "in": "query",
+            "description": "Filter to only show channels user is a member of",
+            "schema": {
+              "example": true,
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "search",
+            "required": false,
+            "in": "query",
+            "description": "Search in channel name and description",
+            "schema": {
+              "example": "general",
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Page number",
+            "schema": {
+              "minimum": 1,
+              "default": 1,
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Items per page",
+            "schema": {
+              "minimum": 1,
+              "default": 20,
+              "example": 20,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Channels retrieved successfully"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "List channels",
+        "tags": [
+          "Chat"
+        ]
+      },
+      "post": {
+        "description": "Create a new chat channel. The creator automatically becomes the channel owner.",
+        "operationId": "ChatController_createChannel",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateChannelDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Channel created successfully"
+          },
+          "400": {
+            "description": "Invalid input data or slug already exists"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Create channel",
+        "tags": [
+          "Chat"
+        ]
+      }
+    },
+    "/api/channels/{id}": {
+      "get": {
+        "description": "Retrieve channel details including member count and recent messages",
+        "operationId": "ChatController_getChannel",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Channel ID",
+            "schema": {
+              "example": "clx1234567890abcdef",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Channel retrieved successfully"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - Not a member of this channel"
+          },
+          "404": {
+            "description": "Channel not found"
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Get channel by ID",
+        "tags": [
+          "Chat"
+        ]
+      },
+      "patch": {
+        "description": "Update channel information. Requires OWNER or ADMIN role.",
+        "operationId": "ChatController_updateChannel",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Channel ID",
+            "schema": {
+              "example": "clx1234567890abcdef",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateChannelDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Channel updated successfully"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions"
+          },
+          "404": {
+            "description": "Channel not found"
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Update channel",
+        "tags": [
+          "Chat"
+        ]
+      },
+      "delete": {
+        "description": "Delete a channel. Only the channel owner can delete the channel.",
+        "operationId": "ChatController_deleteChannel",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Channel ID",
+            "schema": {
+              "example": "clx1234567890abcdef",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Channel deleted successfully"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - Only owner can delete"
+          },
+          "404": {
+            "description": "Channel not found"
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Delete channel",
+        "tags": [
+          "Chat"
+        ]
+      }
+    },
+    "/api/channels/{id}/join": {
+      "post": {
+        "description": "Join a public or level-restricted channel. For private channels, requires invitation.",
+        "operationId": "ChatController_joinChannel",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Channel ID",
+            "schema": {
+              "example": "clx1234567890abcdef",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully joined channel"
+          },
+          "400": {
+            "description": "Already a member of this channel"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - Insufficient rank or private channel"
+          },
+          "404": {
+            "description": "Channel not found"
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Join channel",
+        "tags": [
+          "Chat"
+        ]
+      }
+    },
+    "/api/channels/{id}/leave": {
+      "post": {
+        "description": "Leave a channel. Channel owners cannot leave without transferring ownership.",
+        "operationId": "ChatController_leaveChannel",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Channel ID",
+            "schema": {
+              "example": "clx1234567890abcdef",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully left channel"
+          },
+          "400": {
+            "description": "Not a member of this channel or owner cannot leave"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Channel not found"
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Leave channel",
+        "tags": [
+          "Chat"
+        ]
+      }
+    },
+    "/api/channels/{id}/members": {
+      "get": {
+        "description": "Retrieve all members of a channel with their roles",
+        "operationId": "ChatController_getChannelMembers",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Channel ID",
+            "schema": {
+              "example": "clx1234567890abcdef",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Members retrieved successfully"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - Not a member of this channel"
+          },
+          "404": {
+            "description": "Channel not found"
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Get channel members",
+        "tags": [
+          "Chat"
+        ]
+      }
+    },
+    "/api/channels/{id}/messages": {
+      "get": {
+        "description": "Retrieve messages for a channel with cursor-based pagination",
+        "operationId": "ChatController_getMessages",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Channel ID",
+            "schema": {
+              "example": "clx1234567890abcdef",
+              "type": "string"
+            }
+          },
+          {
+            "name": "cursor",
+            "required": false,
+            "in": "query",
+            "description": "Cursor for pagination (message ID to start from)",
+            "schema": {
+              "example": "clx1234567890abcdef",
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Number of messages to return",
+            "schema": {
+              "minimum": 1,
+              "default": 50,
+              "example": 50,
+              "type": "number"
+            }
+          },
+          {
+            "name": "direction",
+            "required": false,
+            "in": "query",
+            "description": "Direction to fetch messages (before or after cursor)",
+            "schema": {
+              "example": "before",
+              "type": "string"
+            }
+          },
+          {
+            "name": "questionsOnly",
+            "required": false,
+            "in": "query",
+            "description": "Filter to only show questions",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "pinnedOnly",
+            "required": false,
+            "in": "query",
+            "description": "Filter to only show pinned messages",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Messages retrieved successfully"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - Not a member of this channel"
+          },
+          "404": {
+            "description": "Channel not found"
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Get channel messages",
+        "tags": [
+          "Chat"
+        ]
+      },
+      "post": {
+        "description": "Create a new message in a channel. WebSocket is preferred for real-time messaging.",
+        "operationId": "ChatController_createMessage",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Channel ID",
+            "schema": {
+              "example": "clx1234567890abcdef",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMessageDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Message created successfully"
+          },
+          "400": {
+            "description": "Invalid input data"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - Not a member of this channel"
+          },
+          "404": {
+            "description": "Channel not found"
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Create message",
+        "tags": [
+          "Chat"
+        ]
+      }
+    },
+    "/api/messages/{id}": {
+      "get": {
+        "description": "Retrieve a single message with thread replies",
+        "operationId": "ChatController_getMessage",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Message ID",
+            "schema": {
+              "example": "clx1234567890abcdef",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Message retrieved successfully"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - Not a member of the channel"
+          },
+          "404": {
+            "description": "Message not found"
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Get message by ID",
+        "tags": [
+          "Chat"
+        ]
+      },
+      "patch": {
+        "description": "Edit a message. Only the author can edit their message.",
+        "operationId": "ChatController_updateMessage",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Message ID",
+            "schema": {
+              "example": "clx1234567890abcdef",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateMessageDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Message updated successfully"
+          },
+          "400": {
+            "description": "Invalid input data"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - Only author can edit"
+          },
+          "404": {
+            "description": "Message not found"
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Edit message",
+        "tags": [
+          "Chat"
+        ]
+      },
+      "delete": {
+        "description": "Delete a message. Author or channel admin can delete.",
+        "operationId": "ChatController_deleteMessage",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Message ID",
+            "schema": {
+              "example": "clx1234567890abcdef",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Message deleted successfully"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions"
+          },
+          "404": {
+            "description": "Message not found"
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Delete message",
+        "tags": [
+          "Chat"
+        ]
+      }
+    },
+    "/api/messages/{id}/pin": {
+      "post": {
+        "description": "Pin a message in the channel. Requires admin or owner role.",
+        "operationId": "ChatController_pinMessage",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Message ID",
+            "schema": {
+              "example": "clx1234567890abcdef",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Message pinned successfully"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions"
+          },
+          "404": {
+            "description": "Message not found"
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Pin message",
+        "tags": [
+          "Chat"
+        ]
+      },
+      "delete": {
+        "description": "Unpin a message in the channel. Requires admin or owner role.",
+        "operationId": "ChatController_unpinMessage",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Message ID",
+            "schema": {
+              "example": "clx1234567890abcdef",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Message unpinned successfully"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions"
+          },
+          "404": {
+            "description": "Message not found"
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Unpin message",
+        "tags": [
+          "Chat"
+        ]
+      }
+    },
+    "/api/messages/{id}/answer": {
+      "post": {
+        "description": "Mark a message as the answer to a question. Only the question author can mark.",
+        "operationId": "ChatController_markAsAnswer",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Message ID",
+            "schema": {
+              "example": "clx1234567890abcdef",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Message marked as answer"
+          },
+          "400": {
+            "description": "Message is not a reply to a question"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - Only question author can mark answer"
+          },
+          "404": {
+            "description": "Message not found"
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Mark as answer",
+        "tags": [
+          "Chat"
+        ]
+      }
+    },
+    "/api/notifications": {
+      "get": {
+        "description": "Retrieve current user's notifications with optional filtering and pagination",
+        "operationId": "NotificationsController_getNotifications",
+        "parameters": [
+          {
+            "name": "unreadOnly",
+            "required": false,
+            "in": "query",
+            "description": "Filter for unread notifications only",
+            "schema": {
+              "default": false,
+              "example": true,
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Maximum number of notifications to return",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20,
+              "example": 20,
+              "type": "number"
+            }
+          },
+          {
+            "name": "offset",
+            "required": false,
+            "in": "query",
+            "description": "Number of notifications to skip (for pagination)",
+            "schema": {
+              "minimum": 0,
+              "default": 0,
+              "example": 0,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Notifications retrieved successfully"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Get notifications",
+        "tags": [
+          "Notifications"
+        ]
+      },
+      "delete": {
+        "description": "Delete all notifications for the current user",
+        "operationId": "NotificationsController_deleteAllNotifications",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "All notifications deleted successfully",
             "content": {
               "application/json": {
                 "schema": {
-                  "example": {
-                    "stats": {
-                      "users": 100,
-                      "courses": 30,
-                      "projects": 50,
-                      "enrollments": 200
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
                     },
-                    "recentUsers": [],
-                    "recentCourses": []
+                    "count": {
+                      "type": "number",
+                      "example": 25,
+                      "description": "Number of notifications deleted"
+                    }
                   }
                 }
               }
@@ -1878,24 +3435,2456 @@
             "JWT-auth": []
           }
         ],
-        "summary": "Get admin dashboard statistics",
+        "summary": "Delete all notifications",
         "tags": [
-          "Admin"
+          "Notifications"
+        ]
+      }
+    },
+    "/api/notifications/unread-count": {
+      "get": {
+        "description": "Get the number of unread notifications for the current user",
+        "operationId": "NotificationsController_getUnreadCount",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Unread count retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "count": {
+                      "type": "number",
+                      "example": 5
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Get unread count",
+        "tags": [
+          "Notifications"
+        ]
+      }
+    },
+    "/api/notifications/{id}": {
+      "get": {
+        "description": "Retrieve a single notification by its ID",
+        "operationId": "NotificationsController_getNotification",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Notification ID",
+            "schema": {
+              "example": "clx1234567890abcdef",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Notification retrieved successfully"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - Not your notification"
+          },
+          "404": {
+            "description": "Notification not found"
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Get notification by ID",
+        "tags": [
+          "Notifications"
+        ]
+      },
+      "delete": {
+        "description": "Delete a notification by its ID",
+        "operationId": "NotificationsController_deleteNotification",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Notification ID",
+            "schema": {
+              "example": "clx1234567890abcdef",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Notification deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - Not your notification"
+          },
+          "404": {
+            "description": "Notification not found"
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Delete notification",
+        "tags": [
+          "Notifications"
+        ]
+      }
+    },
+    "/api/notifications/{id}/read": {
+      "patch": {
+        "description": "Mark a single notification as read",
+        "operationId": "NotificationsController_markAsRead",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Notification ID",
+            "schema": {
+              "example": "clx1234567890abcdef",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Notification marked as read successfully"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - Not your notification"
+          },
+          "404": {
+            "description": "Notification not found"
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Mark notification as read",
+        "tags": [
+          "Notifications"
+        ]
+      }
+    },
+    "/api/notifications/read-all": {
+      "patch": {
+        "description": "Mark all notifications as read for the current user",
+        "operationId": "NotificationsController_markAllAsRead",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "All notifications marked as read successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "count": {
+                      "type": "number",
+                      "example": 10,
+                      "description": "Number of notifications marked as read"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Mark all notifications as read",
+        "tags": [
+          "Notifications"
+        ]
+      }
+    },
+    "/api/mentoring/mentors": {
+      "get": {
+        "description": "Retrieve all mentors for the current user (active and pending mentorships)",
+        "operationId": "MentoringController_getMyMentors",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Mentors retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MentorshipResponseDto"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Get my mentors",
+        "tags": [
+          "Mentoring"
+        ]
+      }
+    },
+    "/api/mentoring/mentees": {
+      "get": {
+        "description": "Retrieve all mentees for the current user (active and pending mentorships)",
+        "operationId": "MentoringController_getMyMentees",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Mentees retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MentorshipResponseDto"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Get my mentees",
+        "tags": [
+          "Mentoring"
+        ]
+      }
+    },
+    "/api/mentoring/available-mentors": {
+      "get": {
+        "description": "Retrieve users who can be mentors based on rank hierarchy. JUNIOR can request SENIOR or MASTER. SENIOR can request MASTER. MASTER cannot request mentors.",
+        "operationId": "MentoringController_getAvailableMentors",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Available mentors retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AvailableMentorDto"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Get available mentors",
+        "tags": [
+          "Mentoring"
+        ]
+      }
+    },
+    "/api/mentoring/history": {
+      "get": {
+        "description": "Retrieve all past mentorships (completed and cancelled)",
+        "operationId": "MentoringController_getMentorshipHistory",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Mentorship history retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MentorshipResponseDto"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Get mentorship history",
+        "tags": [
+          "Mentoring"
+        ]
+      }
+    },
+    "/api/mentoring/{id}": {
+      "get": {
+        "description": "Retrieve a specific mentorship. User must be the mentor or mentee.",
+        "operationId": "MentoringController_getMentorship",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Mentorship ID",
+            "schema": {
+              "example": "123e4567-e89b-12d3-a456-426614174000",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Mentorship retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MentorshipResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - Not part of this mentorship"
+          },
+          "404": {
+            "description": "Mentorship not found"
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Get mentorship by ID",
+        "tags": [
+          "Mentoring"
+        ]
+      }
+    },
+    "/api/mentoring/request": {
+      "post": {
+        "description": "Request a user as mentor. JUNIOR can request SENIOR or MASTER. SENIOR can request MASTER.",
+        "operationId": "MentoringController_requestMentor",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RequestMentorDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Mentorship request created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MentorshipResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - Invalid rank hierarchy or self-mentorship"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Mentor not found"
+          },
+          "409": {
+            "description": "Conflict - Existing mentorship with this user"
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Request mentorship",
+        "tags": [
+          "Mentoring"
+        ]
+      }
+    },
+    "/api/mentoring/{id}/accept": {
+      "post": {
+        "description": "Accept a pending mentorship request. Only the mentor can accept.",
+        "operationId": "MentoringController_acceptMentorship",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Mentorship ID",
+            "schema": {
+              "example": "123e4567-e89b-12d3-a456-426614174000",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Mentorship accepted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MentorshipResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - Mentorship is not pending"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - Only the mentor can accept"
+          },
+          "404": {
+            "description": "Mentorship not found"
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Accept mentorship request",
+        "tags": [
+          "Mentoring"
+        ]
+      }
+    },
+    "/api/mentoring/{id}/reject": {
+      "post": {
+        "description": "Reject a pending mentorship request. Only the mentor can reject.",
+        "operationId": "MentoringController_rejectMentorship",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Mentorship ID",
+            "schema": {
+              "example": "123e4567-e89b-12d3-a456-426614174000",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Mentorship rejected successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MentorshipResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - Mentorship is not pending"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - Only the mentor can reject"
+          },
+          "404": {
+            "description": "Mentorship not found"
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Reject mentorship request",
+        "tags": [
+          "Mentoring"
+        ]
+      }
+    },
+    "/api/mentoring/{id}/cancel": {
+      "post": {
+        "description": "Cancel an active or pending mentorship. Either mentor or mentee can cancel.",
+        "operationId": "MentoringController_cancelMentorship",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Mentorship ID",
+            "schema": {
+              "example": "123e4567-e89b-12d3-a456-426614174000",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Mentorship cancelled successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MentorshipResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - Cannot cancel completed/cancelled mentorship"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - Not part of this mentorship"
+          },
+          "404": {
+            "description": "Mentorship not found"
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Cancel mentorship",
+        "tags": [
+          "Mentoring"
+        ]
+      }
+    },
+    "/api/mentoring/{id}/complete": {
+      "post": {
+        "description": "Mark an active mentorship as completed. Only the mentor can complete.",
+        "operationId": "MentoringController_completeMentorship",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Mentorship ID",
+            "schema": {
+              "example": "123e4567-e89b-12d3-a456-426614174000",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Mentorship completed successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MentorshipResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - Mentorship is not active"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - Only the mentor can complete"
+          },
+          "404": {
+            "description": "Mentorship not found"
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Complete mentorship",
+        "tags": [
+          "Mentoring"
+        ]
+      }
+    },
+    "/api/mentoring/{id}/rate": {
+      "post": {
+        "description": "Rate your mentor or mentee. Mentee can rate mentor, mentor can rate mentee. Only active or completed mentorships.",
+        "operationId": "MentoringController_rateMentorship",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Mentorship ID",
+            "schema": {
+              "example": "123e4567-e89b-12d3-a456-426614174000",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RateMentorshipDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Rating submitted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MentorshipResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - Invalid rating or mentorship status"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - Not part of this mentorship"
+          },
+          "404": {
+            "description": "Mentorship not found"
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Rate mentorship",
+        "tags": [
+          "Mentoring"
+        ]
+      }
+    },
+    "/api/mentoring/{id}/session": {
+      "post": {
+        "description": "Record a mentoring session. Increments session count and updates last session time.",
+        "operationId": "MentoringController_recordSession",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Mentorship ID",
+            "schema": {
+              "example": "123e4567-e89b-12d3-a456-426614174000",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Session recorded successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MentorshipResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - Mentorship is not active"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - Not part of this mentorship"
+          },
+          "404": {
+            "description": "Mentorship not found"
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Record mentoring session",
+        "tags": [
+          "Mentoring"
+        ]
+      }
+    },
+    "/api/xp/history": {
+      "get": {
+        "description": "Retrieve current user XP activity history with level and rank information",
+        "operationId": "XpController_getHistory",
+        "parameters": [
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Maximum number of activities to return",
+            "schema": {
+              "example": 20,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "XP history retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/XpHistoryResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token"
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Get XP history",
+        "tags": [
+          "XP"
+        ]
+      }
+    },
+    "/api/xp/leaderboard": {
+      "get": {
+        "description": "Retrieve top users sorted by XP",
+        "operationId": "XpController_getLeaderboard",
+        "parameters": [
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Maximum number of users to return",
+            "schema": {
+              "example": 10,
+              "type": "number"
+            }
+          },
+          {
+            "name": "period",
+            "required": false,
+            "in": "query",
+            "description": "Leaderboard period filter",
+            "schema": {
+              "enum": [
+                "all_time",
+                "this_month",
+                "this_week"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Leaderboard retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LeaderboardResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get XP leaderboard",
+        "tags": [
+          "XP"
+        ]
+      }
+    },
+    "/api/xp/my-rank": {
+      "get": {
+        "description": "Retrieve current user position on the leaderboard",
+        "operationId": "XpController_getMyRank",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Rank retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "userId": "123e4567-e89b-12d3-a456-426614174000",
+                    "position": 15,
+                    "xp": 1500
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token"
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Get my leaderboard rank",
+        "tags": [
+          "XP"
+        ]
+      }
+    },
+    "/api/xp/grant": {
+      "post": {
+        "description": "Manually grant XP to a user. Requires MASTER rank. Automatically updates user level and rank.",
+        "operationId": "XpController_grantXp",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateXpActivityDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "XP granted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/XpGrantResultDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token"
+          },
+          "403": {
+            "description": "Forbidden - Requires MASTER rank"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Grant XP to user (Admin)",
+        "tags": [
+          "XP"
+        ]
+      }
+    },
+    "/api/xp/check-level": {
+      "post": {
+        "description": "Verify and update user level/rank based on current XP. Useful for fixing desync issues.",
+        "operationId": "XpController_checkLevel",
+        "parameters": [
+          {
+            "name": "userId",
+            "required": true,
+            "in": "query",
+            "description": "User ID to check",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Level check completed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "userId": "123e4567-e89b-12d3-a456-426614174000",
+                    "xp": 1500,
+                    "previousLevel": 14,
+                    "previousRank": "JUNIOR",
+                    "currentLevel": 16,
+                    "currentRank": "SENIOR",
+                    "updated": true
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token"
+          },
+          "403": {
+            "description": "Forbidden - Requires MASTER rank"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Check and sync user level (Admin)",
+        "tags": [
+          "XP"
+        ]
+      }
+    },
+    "/api/qna/questions": {
+      "get": {
+        "description": "Retrieve questions with optional filtering, search, sorting and pagination",
+        "operationId": "QnaController_getQuestions",
+        "parameters": [
+          {
+            "name": "tags",
+            "required": false,
+            "in": "query",
+            "description": "Filter by tags (comma-separated)",
+            "schema": {
+              "example": "NestJS,TypeScript",
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "description": "Filter by question status",
+            "schema": {
+              "example": "OPEN",
+              "type": "string",
+              "enum": [
+                "ALL",
+                "OPEN",
+                "ANSWERED",
+                "CLOSED"
+              ]
+            }
+          },
+          {
+            "name": "search",
+            "required": false,
+            "in": "query",
+            "description": "Search in title and content",
+            "schema": {
+              "example": "jwt authentication",
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorId",
+            "required": false,
+            "in": "query",
+            "description": "Filter by author ID",
+            "schema": {
+              "example": "clp123abc456",
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortBy",
+            "required": false,
+            "in": "query",
+            "description": "Sort by",
+            "schema": {
+              "default": "newest",
+              "example": "newest",
+              "type": "string",
+              "enum": [
+                "newest",
+                "oldest",
+                "most_votes",
+                "most_answers",
+                "most_views",
+                "bounty"
+              ]
+            }
+          },
+          {
+            "name": "hasBounty",
+            "required": false,
+            "in": "query",
+            "description": "Filter questions with bounty only",
+            "schema": {
+              "example": false,
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Page number",
+            "schema": {
+              "minimum": 1,
+              "default": 1,
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Items per page",
+            "schema": {
+              "minimum": 1,
+              "default": 20,
+              "example": 20,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Questions retrieved successfully"
+          }
+        },
+        "summary": "Get all questions",
+        "tags": [
+          "Q&A"
+        ]
+      },
+      "post": {
+        "description": "Create a new question. Grants XP to the author.",
+        "operationId": "QnaController_createQuestion",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateQuestionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Question created successfully"
+          },
+          "400": {
+            "description": "Invalid input data"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Create a question",
+        "tags": [
+          "Q&A"
+        ]
+      }
+    },
+    "/api/qna/questions/{id}": {
+      "get": {
+        "description": "Retrieve detailed question information with answers. Increments view count.",
+        "operationId": "QnaController_getQuestion",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Question ID",
+            "schema": {
+              "example": "clp123abc456",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Question retrieved successfully"
+          },
+          "404": {
+            "description": "Question not found"
+          }
+        },
+        "summary": "Get question by ID",
+        "tags": [
+          "Q&A"
+        ]
+      },
+      "patch": {
+        "description": "Update question information. Only the author can update.",
+        "operationId": "QnaController_updateQuestion",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Question ID",
+            "schema": {
+              "example": "clp123abc456",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateQuestionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Question updated successfully"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - Only author can update"
+          },
+          "404": {
+            "description": "Question not found"
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Update a question",
+        "tags": [
+          "Q&A"
+        ]
+      },
+      "delete": {
+        "description": "Delete a question. Only the author or admin can delete.",
+        "operationId": "QnaController_deleteQuestion",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Question ID",
+            "schema": {
+              "example": "clp123abc456",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Question deleted successfully"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - Only author or admin can delete"
+          },
+          "404": {
+            "description": "Question not found"
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Delete a question",
+        "tags": [
+          "Q&A"
+        ]
+      }
+    },
+    "/api/qna/questions/{id}/bounty": {
+      "post": {
+        "description": "Set an XP bounty on your question. Deducts XP from your account.",
+        "operationId": "QnaController_setBounty",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Question ID",
+            "schema": {
+              "example": "clp123abc456",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BountyDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Bounty set successfully"
+          },
+          "400": {
+            "description": "Bad request - Insufficient XP or question already has bounty"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - Only author can set bounty"
+          },
+          "404": {
+            "description": "Question not found"
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Set bounty on a question",
+        "tags": [
+          "Q&A"
+        ]
+      }
+    },
+    "/api/qna/questions/{id}/vote": {
+      "post": {
+        "description": "Upvote (1) or downvote (-1) a question. Voting again with same value removes the vote.",
+        "operationId": "QnaController_voteQuestion",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Question ID",
+            "schema": {
+              "example": "clp123abc456",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VoteDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Vote recorded successfully"
+          },
+          "400": {
+            "description": "Bad request - Cannot vote on your own question"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Question not found"
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Vote on a question",
+        "tags": [
+          "Q&A"
+        ]
+      }
+    },
+    "/api/qna/questions/{id}/answers": {
+      "post": {
+        "description": "Answer a question. Grants XP and notifies the question author.",
+        "operationId": "QnaController_createAnswer",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Question ID",
+            "schema": {
+              "example": "clp123abc456",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAnswerDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Answer created successfully"
+          },
+          "400": {
+            "description": "Bad request - Question is closed"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Question not found"
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Create an answer",
+        "tags": [
+          "Q&A"
+        ]
+      }
+    },
+    "/api/qna/answers/{id}": {
+      "patch": {
+        "description": "Update answer content. Only the author can update.",
+        "operationId": "QnaController_updateAnswer",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Answer ID",
+            "schema": {
+              "example": "clp789xyz123",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAnswerDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Answer updated successfully"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - Only author can update"
+          },
+          "404": {
+            "description": "Answer not found"
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Update an answer",
+        "tags": [
+          "Q&A"
+        ]
+      },
+      "delete": {
+        "description": "Delete an answer. Only the author or admin can delete.",
+        "operationId": "QnaController_deleteAnswer",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Answer ID",
+            "schema": {
+              "example": "clp789xyz123",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Answer deleted successfully"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - Only author or admin can delete"
+          },
+          "404": {
+            "description": "Answer not found"
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Delete an answer",
+        "tags": [
+          "Q&A"
+        ]
+      }
+    },
+    "/api/qna/answers/{id}/accept": {
+      "post": {
+        "description": "Accept an answer as the solution. Only the question author can accept. Grants bonus XP to the answer author.",
+        "operationId": "QnaController_acceptAnswer",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Answer ID",
+            "schema": {
+              "example": "clp789xyz123",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Answer accepted successfully"
+          },
+          "400": {
+            "description": "Bad request - Answer already accepted"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden - Only question author can accept"
+          },
+          "404": {
+            "description": "Answer not found"
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Accept an answer",
+        "tags": [
+          "Q&A"
+        ]
+      }
+    },
+    "/api/qna/answers/{id}/vote": {
+      "post": {
+        "description": "Upvote (1) or downvote (-1) an answer. Voting again with same value removes the vote.",
+        "operationId": "QnaController_voteAnswer",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Answer ID",
+            "schema": {
+              "example": "clp789xyz123",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VoteDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Vote recorded successfully"
+          },
+          "400": {
+            "description": "Bad request - Cannot vote on your own answer"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Answer not found"
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Vote on an answer",
+        "tags": [
+          "Q&A"
+        ]
+      }
+    },
+    "/api/quizzes": {
+      "post": {
+        "description": "Create a new quiz for a chapter",
+        "operationId": "QuizzesController_createQuiz",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateQuizDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Create quiz",
+        "tags": [
+          "Quizzes"
+        ]
+      }
+    },
+    "/api/quizzes/{id}": {
+      "get": {
+        "description": "Get quiz details by ID",
+        "operationId": "QuizzesController_getQuiz",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Quiz ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Get quiz",
+        "tags": [
+          "Quizzes"
+        ]
+      },
+      "patch": {
+        "description": "Update quiz settings",
+        "operationId": "QuizzesController_updateQuiz",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Quiz ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateQuizDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Update quiz",
+        "tags": [
+          "Quizzes"
+        ]
+      },
+      "delete": {
+        "description": "Delete a quiz",
+        "operationId": "QuizzesController_deleteQuiz",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Quiz ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Delete quiz",
+        "tags": [
+          "Quizzes"
+        ]
+      }
+    },
+    "/api/quizzes/{id}/admin": {
+      "get": {
+        "description": "Get quiz details including correct answers (admin only)",
+        "operationId": "QuizzesController_getQuizWithAnswers",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Quiz ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Get quiz with answers",
+        "tags": [
+          "Quizzes"
+        ]
+      }
+    },
+    "/api/quizzes/chapter/{chapterId}": {
+      "get": {
+        "description": "Get all quizzes for a chapter",
+        "operationId": "QuizzesController_getChapterQuizzes",
+        "parameters": [
+          {
+            "name": "chapterId",
+            "required": true,
+            "in": "path",
+            "description": "Chapter ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Get chapter quizzes",
+        "tags": [
+          "Quizzes"
+        ]
+      }
+    },
+    "/api/quizzes/{id}/questions": {
+      "post": {
+        "description": "Add a question to a quiz",
+        "operationId": "QuizzesController_addQuestion",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Quiz ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateQuestionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Add question",
+        "tags": [
+          "Quizzes"
+        ]
+      }
+    },
+    "/api/quizzes/questions/{questionId}": {
+      "patch": {
+        "description": "Update a quiz question",
+        "operationId": "QuizzesController_updateQuestion",
+        "parameters": [
+          {
+            "name": "questionId",
+            "required": true,
+            "in": "path",
+            "description": "Question ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Update question",
+        "tags": [
+          "Quizzes"
+        ]
+      },
+      "delete": {
+        "description": "Delete a quiz question",
+        "operationId": "QuizzesController_deleteQuestion",
+        "parameters": [
+          {
+            "name": "questionId",
+            "required": true,
+            "in": "path",
+            "description": "Question ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Delete question",
+        "tags": [
+          "Quizzes"
+        ]
+      }
+    },
+    "/api/quizzes/{id}/submit": {
+      "post": {
+        "description": "Submit answers for a quiz attempt",
+        "operationId": "QuizzesController_submitQuiz",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Quiz ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubmitQuizDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Submit quiz",
+        "tags": [
+          "Quizzes"
+        ]
+      }
+    },
+    "/api/quizzes/{id}/attempts": {
+      "get": {
+        "description": "Get current user's attempts for a quiz",
+        "operationId": "QuizzesController_getMyAttempts",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Quiz ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Get my attempts",
+        "tags": [
+          "Quizzes"
+        ]
+      }
+    },
+    "/api/quizzes/attempts/{attemptId}": {
+      "get": {
+        "description": "Get details of a specific attempt",
+        "operationId": "QuizzesController_getAttemptDetails",
+        "parameters": [
+          {
+            "name": "attemptId",
+            "required": true,
+            "in": "path",
+            "description": "Attempt ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Get attempt details",
+        "tags": [
+          "Quizzes"
+        ]
+      }
+    },
+    "/api/quizzes/{id}/stats": {
+      "get": {
+        "description": "Get statistics for a quiz",
+        "operationId": "QuizzesController_getQuizStats",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Quiz ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Get quiz stats",
+        "tags": [
+          "Quizzes"
+        ]
+      }
+    },
+    "/api/certificates/issue": {
+      "post": {
+        "description": "Issue a certificate for a completed course",
+        "operationId": "CertificatesController_issueCertificate",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IssueCertificateDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Issue certificate",
+        "tags": [
+          "Certificates"
+        ]
+      }
+    },
+    "/api/certificates/my": {
+      "get": {
+        "description": "Get current user's certificates",
+        "operationId": "CertificatesController_getMyCertificates",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Get my certificates",
+        "tags": [
+          "Certificates"
+        ]
+      }
+    },
+    "/api/certificates/verify": {
+      "post": {
+        "description": "Verify a certificate by its number (public endpoint)",
+        "operationId": "CertificatesController_verifyCertificate",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VerifyCertificateDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Verify certificate",
+        "tags": [
+          "Certificates"
+        ]
+      }
+    },
+    "/api/certificates/check/{courseId}": {
+      "get": {
+        "description": "Check if current user can get a certificate for a course",
+        "operationId": "CertificatesController_checkCompletion",
+        "parameters": [
+          {
+            "name": "courseId",
+            "required": true,
+            "in": "path",
+            "description": "Course ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Check course completion",
+        "tags": [
+          "Certificates"
+        ]
+      }
+    },
+    "/api/certificates/{id}": {
+      "get": {
+        "description": "Get certificate details by ID",
+        "operationId": "CertificatesController_getCertificate",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Certificate ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Get certificate",
+        "tags": [
+          "Certificates"
+        ]
+      }
+    },
+    "/api/certificates/course/{courseId}": {
+      "get": {
+        "description": "Get all certificates issued for a course (admin only)",
+        "operationId": "CertificatesController_getCourseCertificates",
+        "parameters": [
+          {
+            "name": "courseId",
+            "required": true,
+            "in": "path",
+            "description": "Course ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Get course certificates",
+        "tags": [
+          "Certificates"
+        ]
+      }
+    },
+    "/api/certificates/course/{courseId}/stats": {
+      "get": {
+        "description": "Get certificate statistics for a course",
+        "operationId": "CertificatesController_getCourseStats",
+        "parameters": [
+          {
+            "name": "courseId",
+            "required": true,
+            "in": "path",
+            "description": "Course ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Get course certificate stats",
+        "tags": [
+          "Certificates"
+        ]
+      }
+    },
+    "/api/categories": {
+      "get": {
+        "description": "Get all post categories",
+        "operationId": "CategoriesController_findAll",
+        "parameters": [
+          {
+            "name": "includeInactive",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Get all categories",
+        "tags": [
+          "Categories"
+        ]
+      },
+      "post": {
+        "description": "Create a new post category (admin only)",
+        "operationId": "CategoriesController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCategoryDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Create category",
+        "tags": [
+          "Categories"
+        ]
+      }
+    },
+    "/api/categories/{id}": {
+      "get": {
+        "description": "Get category by ID",
+        "operationId": "CategoriesController_findById",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Category ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Get category",
+        "tags": [
+          "Categories"
+        ]
+      },
+      "patch": {
+        "description": "Update a post category (admin only)",
+        "operationId": "CategoriesController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Category ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCategoryDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Update category",
+        "tags": [
+          "Categories"
+        ]
+      },
+      "delete": {
+        "description": "Delete a post category (admin only)",
+        "operationId": "CategoriesController_delete",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Category ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Delete category",
+        "tags": [
+          "Categories"
+        ]
+      }
+    },
+    "/api/categories/slug/{slug}": {
+      "get": {
+        "description": "Get category by slug",
+        "operationId": "CategoriesController_findBySlug",
+        "parameters": [
+          {
+            "name": "slug",
+            "required": true,
+            "in": "path",
+            "description": "Category slug",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Get category by slug",
+        "tags": [
+          "Categories"
+        ]
+      }
+    },
+    "/api/categories/reorder": {
+      "post": {
+        "description": "Reorder post categories (admin only)",
+        "operationId": "CategoriesController_reorder",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Reorder categories",
+        "tags": [
+          "Categories"
         ]
       }
     }
   },
   "info": {
     "title": "WKU Software Crew API",
-    "description": "RESTful API for WKU Software Crew platform - A comprehensive learning and collaboration platform for software development students",
-    "version": "1.0",
+    "description": "RESTful API for WKU Software Crew platform - A comprehensive learning and collaboration platform for software development students.\n\n## Features\n- **Authentication**: GitHub OAuth login with JWT tokens\n- **User Management**: User profiles with gamification (XP, levels, ranks)\n- **Projects**: Collaborative project management with member roles\n- **Courses**: Learning platform with video chapters and progress tracking\n- **Community**: Forum posts with comments and voting system\n\n## Authentication\nThis API uses JWT Bearer token authentication. To authenticate:\n1. Navigate to `/api/auth/github` to initiate OAuth flow\n2. After successful login, you will receive a JWT token\n3. Include the token in the Authorization header: `Bearer <token>`\n\n## Rate Limiting\n- Authentication endpoints: 5-10 requests per 5 minutes\n- General endpoints: 100 requests per minute\n",
+    "version": "1.0.0",
     "contact": {
       "name": "WKU Software Crew",
       "url": "https://github.com/wku-crew",
       "email": "contact@wku-crew.com"
+    },
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
     }
   },
   "tags": [
+    {
+      "name": "Health",
+      "description": "Health check and monitoring endpoints"
+    },
     {
       "name": "Authentication",
       "description": "GitHub OAuth authentication endpoints"
@@ -1931,9 +5920,26 @@
     {
       "name": "Votes",
       "description": "Upvote/downvote system"
+    },
+    {
+      "name": "Admin",
+      "description": "Admin dashboard and statistics"
     }
   ],
-  "servers": [],
+  "servers": [
+    {
+      "url": "http://localhost:4000",
+      "description": "Local Development"
+    },
+    {
+      "url": "https://api.wku-crew.com",
+      "description": "Production"
+    },
+    {
+      "url": "https://staging-api.wku-crew.com",
+      "description": "Staging"
+    }
+  ],
   "components": {
     "securitySchemes": {
       "JWT-auth": {
@@ -1941,7 +5947,7 @@
         "bearerFormat": "JWT",
         "type": "http",
         "name": "JWT",
-        "description": "Enter JWT token",
+        "description": "Enter JWT token obtained from GitHub OAuth flow",
         "in": "header"
       }
     },
@@ -2142,6 +6148,55 @@
           "userId",
           "role"
         ]
+      },
+      "UpdateMemberRoleDto": {
+        "type": "object",
+        "properties": {
+          "role": {
+            "type": "string",
+            "description": "New role for the member",
+            "enum": [
+              "OWNER",
+              "ADMIN",
+              "MEMBER",
+              "VIEWER"
+            ]
+          }
+        },
+        "required": [
+          "role"
+        ]
+      },
+      "CreateInvitationDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "Email address to invite (for external users)",
+            "example": "user@example.com"
+          },
+          "userId": {
+            "type": "string",
+            "description": "User ID to invite (for existing users)",
+            "example": "cuid123"
+          },
+          "role": {
+            "type": "string",
+            "description": "Role to assign to the invited user",
+            "enum": [
+              "OWNER",
+              "ADMIN",
+              "MEMBER",
+              "VIEWER"
+            ],
+            "default": "MEMBER"
+          },
+          "message": {
+            "type": "string",
+            "description": "Optional message to include with the invitation",
+            "example": "Welcome to our project!"
+          }
+        }
       },
       "CreateCourseDto": {
         "type": "object",
@@ -2492,16 +6547,1056 @@
             "description": "Vote value: 1 for upvote, -1 for downvote",
             "example": 1,
             "minimum": -1,
-            "maximum": 1,
-            "enum": [
-              -1,
-              1
-            ]
+            "maximum": 1
           }
         },
         "required": [
           "value"
         ]
+      },
+      "CreateChannelDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Channel name",
+            "example": "general",
+            "maxLength": 100
+          },
+          "slug": {
+            "type": "string",
+            "description": "Channel slug (URL-friendly identifier)",
+            "example": "general",
+            "maxLength": 100
+          },
+          "description": {
+            "type": "string",
+            "description": "Channel description",
+            "example": "General discussion channel for all members",
+            "maxLength": 500
+          },
+          "type": {
+            "type": "string",
+            "description": "Channel type",
+            "enum": [
+              "PUBLIC",
+              "PRIVATE",
+              "LEVEL_RESTRICTED",
+              "DIRECT"
+            ],
+            "default": "PUBLIC"
+          },
+          "minRank": {
+            "type": "string",
+            "description": "Minimum rank required to join (for LEVEL_RESTRICTED channels)",
+            "enum": [
+              "JUNIOR",
+              "SENIOR",
+              "MASTER"
+            ]
+          },
+          "isDefault": {
+            "type": "boolean",
+            "description": "Whether new users should auto-join this channel",
+            "default": false
+          },
+          "icon": {
+            "type": "string",
+            "description": "Channel icon (emoji or URL)",
+            "example": "#",
+            "maxLength": 255
+          }
+        },
+        "required": [
+          "name",
+          "slug"
+        ]
+      },
+      "UpdateChannelDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Channel name",
+            "example": "general",
+            "maxLength": 100
+          },
+          "slug": {
+            "type": "string",
+            "description": "Channel slug (URL-friendly identifier)",
+            "example": "general",
+            "maxLength": 100
+          },
+          "description": {
+            "type": "string",
+            "description": "Channel description",
+            "example": "General discussion channel for all members",
+            "maxLength": 500
+          },
+          "type": {
+            "type": "string",
+            "description": "Channel type",
+            "enum": [
+              "PUBLIC",
+              "PRIVATE",
+              "LEVEL_RESTRICTED",
+              "DIRECT"
+            ],
+            "default": "PUBLIC"
+          },
+          "minRank": {
+            "type": "string",
+            "description": "Minimum rank required to join (for LEVEL_RESTRICTED channels)",
+            "enum": [
+              "JUNIOR",
+              "SENIOR",
+              "MASTER"
+            ]
+          },
+          "isDefault": {
+            "type": "boolean",
+            "description": "Whether new users should auto-join this channel",
+            "default": false
+          },
+          "icon": {
+            "type": "string",
+            "description": "Channel icon (emoji or URL)",
+            "example": "#",
+            "maxLength": 255
+          }
+        }
+      },
+      "CreateMessageDto": {
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "string",
+            "description": "Message content",
+            "example": "Hello, this is a test message!",
+            "maxLength": 4000
+          },
+          "channelId": {
+            "type": "string",
+            "description": "Channel ID to send the message to",
+            "example": "cuid123456789"
+          },
+          "type": {
+            "type": "string",
+            "description": "Message type",
+            "enum": [
+              "TEXT",
+              "CODE",
+              "FILE",
+              "QUESTION",
+              "SYSTEM"
+            ],
+            "default": "TEXT"
+          },
+          "parentId": {
+            "type": "string",
+            "description": "Parent message ID for thread replies",
+            "example": "cuid987654321"
+          },
+          "isQuestion": {
+            "type": "boolean",
+            "description": "Whether this message is a question (for Q&A)",
+            "default": false
+          }
+        },
+        "required": [
+          "content",
+          "channelId"
+        ]
+      },
+      "UpdateMessageDto": {
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "string",
+            "description": "Updated message content",
+            "example": "Hello everyone! (edited)",
+            "maxLength": 10000
+          }
+        },
+        "required": [
+          "content"
+        ]
+      },
+      "MentorshipUserDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "User ID",
+            "example": "123e4567-e89b-12d3-a456-426614174000",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "description": "User display name",
+            "example": "John Doe"
+          },
+          "avatar": {
+            "type": "string",
+            "description": "Profile picture URL",
+            "example": "https://avatars.githubusercontent.com/u/12345678"
+          },
+          "rank": {
+            "type": "string",
+            "description": "User rank",
+            "enum": [
+              "JUNIOR",
+              "SENIOR",
+              "MASTER"
+            ],
+            "example": "SENIOR"
+          },
+          "level": {
+            "type": "number",
+            "description": "User level",
+            "example": 5
+          },
+          "department": {
+            "type": "string",
+            "description": "User department",
+            "example": "Computer Science"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "rank",
+          "level"
+        ]
+      },
+      "MentorshipResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Mentorship ID",
+            "example": "123e4567-e89b-12d3-a456-426614174000",
+            "format": "uuid"
+          },
+          "mentor": {
+            "description": "Mentor information",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MentorshipUserDto"
+              }
+            ]
+          },
+          "mentee": {
+            "description": "Mentee information",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MentorshipUserDto"
+              }
+            ]
+          },
+          "status": {
+            "type": "string",
+            "description": "Mentorship status",
+            "enum": [
+              "PENDING",
+              "ACTIVE",
+              "COMPLETED",
+              "CANCELLED"
+            ],
+            "example": "ACTIVE"
+          },
+          "sessionsCount": {
+            "type": "number",
+            "description": "Number of mentoring sessions",
+            "example": 5
+          },
+          "lastSessionAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Last session timestamp",
+            "example": "2024-01-15T12:30:00.000Z"
+          },
+          "mentorRating": {
+            "type": "number",
+            "description": "Rating given by mentee to mentor (1-5)",
+            "example": 4.5,
+            "minimum": 1,
+            "maximum": 5
+          },
+          "menteeRating": {
+            "type": "number",
+            "description": "Rating given by mentor to mentee (1-5)",
+            "example": 4,
+            "minimum": 1,
+            "maximum": 5
+          },
+          "startedAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Mentorship start timestamp",
+            "example": "2024-01-01T00:00:00.000Z"
+          },
+          "endedAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Mentorship end timestamp",
+            "example": "2024-06-01T00:00:00.000Z"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Request creation timestamp",
+            "example": "2024-01-01T00:00:00.000Z"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Last update timestamp",
+            "example": "2024-01-15T12:30:00.000Z"
+          }
+        },
+        "required": [
+          "id",
+          "mentor",
+          "mentee",
+          "status",
+          "sessionsCount",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "AvailableMentorDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "User ID",
+            "example": "123e4567-e89b-12d3-a456-426614174000",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "description": "User display name",
+            "example": "John Doe"
+          },
+          "avatar": {
+            "type": "string",
+            "description": "Profile picture URL",
+            "example": "https://avatars.githubusercontent.com/u/12345678"
+          },
+          "bio": {
+            "type": "string",
+            "description": "User biography",
+            "example": "Senior developer with 5 years of experience"
+          },
+          "rank": {
+            "type": "string",
+            "description": "User rank",
+            "enum": [
+              "JUNIOR",
+              "SENIOR",
+              "MASTER"
+            ],
+            "example": "MASTER"
+          },
+          "level": {
+            "type": "number",
+            "description": "User level",
+            "example": 10
+          },
+          "department": {
+            "type": "string",
+            "description": "User department",
+            "example": "Computer Science"
+          },
+          "activeMenteesCount": {
+            "type": "number",
+            "description": "Number of active mentees",
+            "example": 3
+          },
+          "averageRating": {
+            "type": "number",
+            "description": "Average mentor rating",
+            "example": 4.8,
+            "minimum": 1,
+            "maximum": 5
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "rank",
+          "level",
+          "activeMenteesCount"
+        ]
+      },
+      "RequestMentorDto": {
+        "type": "object",
+        "properties": {
+          "mentorId": {
+            "type": "string",
+            "description": "ID of the user to request as mentor",
+            "example": "123e4567-e89b-12d3-a456-426614174000",
+            "format": "uuid"
+          }
+        },
+        "required": [
+          "mentorId"
+        ]
+      },
+      "RateMentorshipDto": {
+        "type": "object",
+        "properties": {
+          "rating": {
+            "type": "number",
+            "description": "Rating value (1-5 stars)",
+            "example": 5,
+            "minimum": 1,
+            "maximum": 5
+          },
+          "feedback": {
+            "type": "string",
+            "description": "Optional feedback comment",
+            "example": "Great mentor, very helpful and patient!"
+          }
+        },
+        "required": [
+          "rating"
+        ]
+      },
+      "XpActivityResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Activity ID",
+            "example": "789e0123-e45b-67d8-a901-426614174222",
+            "format": "uuid"
+          },
+          "userId": {
+            "type": "string",
+            "description": "User ID",
+            "example": "123e4567-e89b-12d3-a456-426614174000",
+            "format": "uuid"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of XP activity",
+            "enum": [
+              "POST_CREATED",
+              "ANSWER_CREATED",
+              "ANSWER_ACCEPTED",
+              "VOTE_RECEIVED",
+              "RESOURCE_SHARED",
+              "COURSE_COMPLETED",
+              "CHAPTER_COMPLETED",
+              "DAILY_LOGIN",
+              "STREAK_BONUS",
+              "MENTOR_BONUS"
+            ],
+            "example": "POST_CREATED"
+          },
+          "amount": {
+            "type": "number",
+            "description": "XP amount gained or lost",
+            "example": 5
+          },
+          "description": {
+            "type": "string",
+            "description": "Activity description",
+            "example": "Created a community post"
+          },
+          "referenceType": {
+            "type": "string",
+            "description": "Reference type",
+            "example": "post"
+          },
+          "referenceId": {
+            "type": "string",
+            "description": "Reference ID",
+            "example": "456e7890-e12b-34d5-a678-426614174111"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Activity timestamp",
+            "example": "2024-01-15T12:30:00.000Z"
+          }
+        },
+        "required": [
+          "id",
+          "userId",
+          "type",
+          "amount",
+          "createdAt"
+        ]
+      },
+      "XpHistoryResponseDto": {
+        "type": "object",
+        "properties": {
+          "totalXp": {
+            "type": "number",
+            "description": "Current total XP",
+            "example": 1500
+          },
+          "level": {
+            "type": "number",
+            "description": "Current level",
+            "example": 15
+          },
+          "rank": {
+            "type": "string",
+            "description": "Current rank",
+            "enum": [
+              "JUNIOR",
+              "SENIOR",
+              "MASTER"
+            ],
+            "example": "SENIOR"
+          },
+          "xpToNextLevel": {
+            "type": "number",
+            "description": "XP needed for next level",
+            "example": 50
+          },
+          "xpToNextRank": {
+            "type": "number",
+            "description": "XP needed for next rank",
+            "example": 3500
+          },
+          "activities": {
+            "description": "XP activities list",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/XpActivityResponseDto"
+            }
+          }
+        },
+        "required": [
+          "totalXp",
+          "level",
+          "rank",
+          "xpToNextLevel",
+          "xpToNextRank",
+          "activities"
+        ]
+      },
+      "LeaderboardEntryDto": {
+        "type": "object",
+        "properties": {
+          "position": {
+            "type": "number",
+            "description": "Leaderboard position",
+            "example": 1
+          },
+          "userId": {
+            "type": "string",
+            "description": "User ID",
+            "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          "name": {
+            "type": "string",
+            "description": "User name",
+            "example": "John Doe"
+          },
+          "avatar": {
+            "type": "string",
+            "description": "User avatar URL",
+            "example": "https://avatars.githubusercontent.com/u/12345678"
+          },
+          "xp": {
+            "type": "number",
+            "description": "Total XP",
+            "example": 5200
+          },
+          "level": {
+            "type": "number",
+            "description": "User level",
+            "example": 52
+          },
+          "rank": {
+            "type": "string",
+            "description": "User rank",
+            "enum": [
+              "JUNIOR",
+              "SENIOR",
+              "MASTER"
+            ],
+            "example": "MASTER"
+          }
+        },
+        "required": [
+          "position",
+          "userId",
+          "name",
+          "xp",
+          "level",
+          "rank"
+        ]
+      },
+      "LeaderboardResponseDto": {
+        "type": "object",
+        "properties": {
+          "users": {
+            "description": "Leaderboard user entries",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LeaderboardEntryDto"
+            }
+          },
+          "total": {
+            "type": "number",
+            "description": "Total number of users",
+            "example": 150
+          },
+          "currentUserPosition": {
+            "type": "number",
+            "description": "Current user position on the leaderboard",
+            "example": 15
+          },
+          "period": {
+            "type": "string",
+            "description": "Leaderboard period",
+            "enum": [
+              "all_time",
+              "this_month",
+              "this_week"
+            ],
+            "example": "all_time"
+          }
+        },
+        "required": [
+          "users",
+          "total",
+          "period"
+        ]
+      },
+      "CreateXpActivityDto": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "description": "User ID to grant XP to",
+            "example": "123e4567-e89b-12d3-a456-426614174000",
+            "format": "uuid"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of XP activity",
+            "enum": [
+              "POST_CREATED",
+              "ANSWER_CREATED",
+              "ANSWER_ACCEPTED",
+              "VOTE_RECEIVED",
+              "RESOURCE_SHARED",
+              "COURSE_COMPLETED",
+              "CHAPTER_COMPLETED",
+              "DAILY_LOGIN",
+              "STREAK_BONUS",
+              "MENTOR_BONUS"
+            ],
+            "example": "MENTOR_BONUS"
+          },
+          "amount": {
+            "type": "number",
+            "description": "Amount of XP to grant",
+            "example": 20,
+            "minimum": 1
+          },
+          "description": {
+            "type": "string",
+            "description": "Optional description for the XP grant",
+            "example": "Bonus for helping mentee with project setup"
+          },
+          "referenceType": {
+            "type": "string",
+            "description": "Reference type (post, comment, course, etc.)",
+            "example": "post"
+          },
+          "referenceId": {
+            "type": "string",
+            "description": "Reference ID (related entity ID)",
+            "example": "456e7890-e12b-34d5-a678-426614174111"
+          }
+        },
+        "required": [
+          "userId",
+          "type",
+          "amount"
+        ]
+      },
+      "XpGrantResultDto": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "Indicates success",
+            "example": true
+          },
+          "activity": {
+            "description": "XP activity record",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/XpActivityResponseDto"
+              }
+            ]
+          },
+          "newTotalXp": {
+            "type": "number",
+            "description": "User new total XP",
+            "example": 1520
+          },
+          "newLevel": {
+            "type": "number",
+            "description": "User new level",
+            "example": 16
+          },
+          "newRank": {
+            "type": "string",
+            "description": "User new rank",
+            "enum": [
+              "JUNIOR",
+              "SENIOR",
+              "MASTER"
+            ],
+            "example": "SENIOR"
+          },
+          "leveledUp": {
+            "type": "boolean",
+            "description": "Whether user leveled up",
+            "example": true
+          },
+          "rankedUp": {
+            "type": "boolean",
+            "description": "Whether user ranked up",
+            "example": false
+          }
+        },
+        "required": [
+          "success",
+          "activity",
+          "newTotalXp",
+          "newLevel",
+          "newRank",
+          "leveledUp",
+          "rankedUp"
+        ]
+      },
+      "CreateQuestionDto": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Question type",
+            "enum": [
+              "MULTIPLE_CHOICE",
+              "MULTIPLE_SELECT",
+              "TRUE_FALSE",
+              "SHORT_ANSWER"
+            ],
+            "default": "MULTIPLE_CHOICE"
+          },
+          "question": {
+            "type": "string",
+            "description": "Question text",
+            "example": "What is TypeScript?"
+          },
+          "options": {
+            "description": "Answer options",
+            "example": [
+              "A typed superset of JavaScript",
+              "A database",
+              "A framework"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "correctAnswer": {
+            "type": "string",
+            "description": "Correct answer (index or text)",
+            "example": "0"
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Explanation shown after answering"
+          },
+          "order": {
+            "type": "number",
+            "description": "Question order",
+            "default": 0
+          },
+          "points": {
+            "type": "number",
+            "description": "Points for this question",
+            "default": 1
+          }
+        },
+        "required": [
+          "type",
+          "question",
+          "options",
+          "correctAnswer"
+        ]
+      },
+      "UpdateQuestionDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Question title",
+            "example": "How to implement JWT authentication in NestJS?",
+            "maxLength": 200
+          },
+          "content": {
+            "type": "string",
+            "description": "Question content in Markdown format",
+            "example": "# Problem\n\nI am trying to implement JWT authentication in NestJS..."
+          },
+          "tags": {
+            "description": "Question tags",
+            "example": [
+              "NestJS",
+              "JWT",
+              "Authentication"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "BountyDto": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "number",
+            "description": "XP amount to offer as bounty",
+            "example": 50,
+            "minimum": 10,
+            "maximum": 500
+          },
+          "expiresAt": {
+            "type": "string",
+            "description": "Bounty expiration date (ISO 8601 format)",
+            "example": "2026-02-01T00:00:00.000Z"
+          }
+        },
+        "required": [
+          "amount"
+        ]
+      },
+      "CreateAnswerDto": {
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "string",
+            "description": "Answer content in Markdown format",
+            "example": "# Solution\n\nTo implement JWT authentication in NestJS, you need to..."
+          }
+        },
+        "required": [
+          "content"
+        ]
+      },
+      "UpdateAnswerDto": {
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "string",
+            "description": "Updated answer content in Markdown format",
+            "example": "# Updated Solution\n\nHere is a better approach to implement JWT..."
+          }
+        },
+        "required": [
+          "content"
+        ]
+      },
+      "CreateQuizDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Quiz title",
+            "example": "TypeScript Basics Quiz"
+          },
+          "description": {
+            "type": "string",
+            "description": "Quiz description"
+          },
+          "chapterId": {
+            "type": "string",
+            "description": "Chapter ID this quiz belongs to"
+          },
+          "passingScore": {
+            "type": "number",
+            "description": "Passing score percentage (0-100)",
+            "default": 70
+          },
+          "timeLimit": {
+            "type": "number",
+            "description": "Time limit in minutes (null for no limit)"
+          },
+          "maxAttempts": {
+            "type": "number",
+            "description": "Maximum attempts allowed",
+            "default": 3
+          },
+          "shuffleQuestions": {
+            "type": "boolean",
+            "description": "Shuffle questions order",
+            "default": false
+          },
+          "questions": {
+            "description": "Quiz questions",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CreateQuestionDto"
+            }
+          }
+        },
+        "required": [
+          "title",
+          "chapterId"
+        ]
+      },
+      "UpdateQuizDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "passingScore": {
+            "type": "number"
+          },
+          "timeLimit": {
+            "type": "number"
+          },
+          "maxAttempts": {
+            "type": "number"
+          },
+          "shuffleQuestions": {
+            "type": "boolean"
+          },
+          "isPublished": {
+            "type": "boolean"
+          }
+        }
+      },
+      "SubmitQuizDto": {
+        "type": "object",
+        "properties": {
+          "answers": {
+            "type": "object",
+            "description": "User answers for each question",
+            "example": {
+              "0": "0",
+              "1": "2",
+              "2": "true"
+            }
+          },
+          "timeSpent": {
+            "type": "number",
+            "description": "Time spent in seconds"
+          }
+        },
+        "required": [
+          "answers"
+        ]
+      },
+      "IssueCertificateDto": {
+        "type": "object",
+        "properties": {
+          "courseId": {
+            "type": "string",
+            "description": "Course ID to issue certificate for"
+          }
+        },
+        "required": [
+          "courseId"
+        ]
+      },
+      "VerifyCertificateDto": {
+        "type": "object",
+        "properties": {
+          "certificateNumber": {
+            "type": "string",
+            "description": "Certificate number to verify",
+            "example": "CERT-2026-ABCD1234"
+          }
+        },
+        "required": [
+          "certificateNumber"
+        ]
+      },
+      "CreateCategoryDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Category name",
+            "example": "Tech"
+          },
+          "slug": {
+            "type": "string",
+            "description": "Category slug (URL-friendly)",
+            "example": "tech"
+          },
+          "description": {
+            "type": "string",
+            "description": "Category description"
+          },
+          "icon": {
+            "type": "string",
+            "description": "Icon name",
+            "example": "code"
+          },
+          "color": {
+            "type": "string",
+            "description": "Hex color",
+            "example": "#3B82F6"
+          },
+          "order": {
+            "type": "number",
+            "description": "Display order",
+            "default": 0
+          }
+        },
+        "required": [
+          "name",
+          "slug"
+        ]
+      },
+      "UpdateCategoryDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "icon": {
+            "type": "string"
+          },
+          "color": {
+            "type": "string"
+          },
+          "order": {
+            "type": "number"
+          },
+          "isActive": {
+            "type": "boolean"
+          }
+        }
       }
     }
   }

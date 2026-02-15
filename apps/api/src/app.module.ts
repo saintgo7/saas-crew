@@ -14,6 +14,17 @@ import { CommentsModule } from './comments/comments.module'
 import { VotesModule } from './votes/votes.module'
 import { HealthModule } from './health/health.module'
 import { AdminModule } from './admin/admin.module'
+import { ChatModule } from './chat/chat.module'
+import { NotificationsModule } from './notifications/notifications.module'
+import { MentoringModule } from './mentoring/mentoring.module'
+import { XpModule } from './xp/xp.module'
+import { QnaModule } from './qna/qna.module'
+import { QuizzesModule } from './quizzes/quizzes.module'
+import { CertificatesModule } from './certificates/certificates.module'
+import { CategoriesModule } from './categories/categories.module'
+import { RedisModule } from './redis/redis.module'
+import { CanvasModule } from './canvas/canvas.module'
+import { ReportsModule } from './reports/reports.module'
 
 /**
  * App Module
@@ -47,6 +58,7 @@ import { AdminModule } from './admin/admin.module'
         limit: process.env.NODE_ENV === 'test' ? 10000 : 100,
       },
     ]),
+    RedisModule,
     PrismaModule,
     HealthModule,
     AuthModule,
@@ -59,6 +71,16 @@ import { AdminModule } from './admin/admin.module'
     CommentsModule,
     VotesModule,
     AdminModule,
+    ChatModule,
+    NotificationsModule,
+    MentoringModule,
+    XpModule,
+    QnaModule,
+    QuizzesModule,
+    CertificatesModule,
+    CategoriesModule,
+    CanvasModule,
+    ReportsModule,
   ],
   providers: [
     // Apply rate limiting globally

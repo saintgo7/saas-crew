@@ -60,8 +60,8 @@ interface SiteSettings {
 }
 
 const defaultSettings: SiteSettings = {
-  siteName: 'WKU Software Crew',
-  siteDescription: 'WKU Software Crew education platform',
+  siteName: 'CrewSpace',
+  siteDescription: 'CrewSpace - collaboration and learning platform',
   logoUrl: '',
   faviconUrl: '',
 

@@ -13,11 +13,16 @@ import {
   Twitter,
   Linkedin,
   Globe,
+  Zap,
 } from 'lucide-react'
 import { useUserStore } from '@/store/user-store'
 import { useTranslations, useLanguage } from '@/i18n/LanguageContext'
 import { ProfileForm } from '@/components/profile/ProfileForm'
-import type { UpdateUserInput } from '@/lib/api/types'
+import { RankBadge } from '@/components/xp/RankBadge'
+import { XpProgressBar } from '@/components/xp/XpProgressBar'
+import { XpActivityList } from '@/components/xp/XpActivityList'
+import { useXpHistory, useXpStats } from '@/hooks/useXp'
+import type { UpdateUserInput, UserRank } from '@/lib/api/types'
 import { formatDistanceToNow } from 'date-fns'
 import { ko, enUS } from 'date-fns/locale'
 
@@ -31,6 +36,10 @@ export default function ProfilePage() {
   const { user, setUser } = useUserStore()
   const [isEditing, setIsEditing] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
+
+  // XP hooks
+  const { data: xpStats, isLoading: xpStatsLoading } = useXpStats()
+  const { data: xpHistory, isLoading: xpHistoryLoading } = useXpHistory({ pageSize: 5 })
 
   useEffect(() => {
     const token = localStorage.getItem('auth_token')

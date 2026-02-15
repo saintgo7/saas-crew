@@ -65,3 +65,9 @@ backups/*.sql.gz
 # Docker
 docker-compose.override.yml
 .playwright-mcp/
+
+# Generated reports
+docs/html/
+
+# Excalidraw self-hosted fonts (copied from node_modules during build)
+apps/web/public/excalidraw-assets/

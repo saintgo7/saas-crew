@@ -87,4 +87,104 @@ export const projectsApi = {
   async deleteProject(id: string): Promise<void> {
     return apiClient.delete(`/api/projects/${id}`)
   },
+
+  // ============================================
+  // Member Management
+  // ============================================
+
+  /**
+   * Add a member to a project
+   */
+  async addMember(
+    projectId: string,
+    data: { userId: string; role?: string },
+  ): Promise<any> {
+    return apiClient.post(`/api/projects/${projectId}/members`, data)
+  },
+
+  /**
+   * Remove a member from a project
+   */
+  async removeMember(projectId: string, userId: string): Promise<void> {
+    return apiClient.delete(`/api/projects/${projectId}/members/${userId}`)
+  },
+
+  /**
+   * Update member role
+   */
+  async updateMemberRole(
+    projectId: string,
+    userId: string,
+    role: string,
+  ): Promise<any> {
+    return apiClient.patch(`/api/projects/${projectId}/members/${userId}/role`, {
+      role,
+    })
+  },
+
+  // ============================================
+  // Invitation System
+  // ============================================
+
+  /**
+   * Get project invitations
+   */
+  async getInvitations(projectId: string): Promise<any[]> {
+    return apiClient.get(`/api/projects/${projectId}/invitations`)
+  },
+
+  /**
+   * Create an invitation
+   */
+  async createInvitation(
+    projectId: string,
+    data: { email?: string; userId?: string; role?: string },
+  ): Promise<any> {
+    return apiClient.post(`/api/projects/${projectId}/invitations`, data)
+  },
+
+  /**
+   * Cancel an invitation
+   */
+  async cancelInvitation(projectId: string, invitationId: string): Promise<void> {
+    return apiClient.delete(`/api/projects/${projectId}/invitations/${invitationId}`)
+  },
+
+  /**
+   * Get current user's pending invitations
+   */
+  async getMyInvitations(): Promise<any[]> {
+    return apiClient.get('/api/users/me/invitations')
+  },
+
+  /**
+   * Respond to an invitation
+   */
+  async respondToInvitation(invitationId: string, accept: boolean): Promise<any> {
+    return apiClient.post(`/api/users/me/invitations/${invitationId}/respond`, {
+      accept,
+    })
+  },
+
+  // ============================================
+  // Activity Log
+  // ============================================
+
+  /**
+   * Get project activity log
+   */
+  async getActivityLog(projectId: string, limit = 50): Promise<any[]> {
+    return apiClient.get(`/api/projects/${projectId}/activities?limit=${limit}`)
+  },
+
+  // ============================================
+  // GitHub Integration
+  // ============================================
+
+  /**
+   * Sync project with GitHub
+   */
+  async syncGitHub(projectId: string): Promise<any> {
+    return apiClient.post(`/api/projects/${projectId}/sync-github`)
+  },
 }

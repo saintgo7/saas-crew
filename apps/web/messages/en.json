@@ -2,263 +2,426 @@
   "common": {
     "login": "Login",
     "logout": "Logout",
-    "search": "Search",
-    "submit": "Submit",
+    "loading": "Loading...",
+    "error": "Error",
+    "retry": "Retry",
     "cancel": "Cancel",
     "save": "Save",
-    "delete": "Delete",
     "edit": "Edit",
-    "loading": "Loading...",
-    "error": "An error occurred",
-    "noData": "No data available",
-    "viewMore": "View more",
-    "back": "Back",
-    "next": "Next",
+    "delete": "Delete",
+    "submit": "Submit",
+    "submitting": "Submitting...",
     "previous": "Previous",
-    "joinCrew": "Join the Crew",
-    "startNow": "Start Now",
-    "wkuStudentOnly": "Open to all Wonkwang University students",
-    "contactAdmin": "Contact the administrator for any inquiries",
+    "next": "Next",
+    "page": "Page",
+    "viewAll": "View All",
+    "all": "All",
+    "optional": "Optional",
+    "startNow": "Get Started",
+    "joinCrew": "Get Started Free",
+    "wkuStudentOnly": "Free for everyone to get started",
+    "contactAdmin": "Contact Sales",
     "tryAgain": "Try Again",
-    "goHome": "Go Home",
-    "goBack": "Go Back",
-    "retrying": "Retrying..."
-  },
-  "errors": {
-    "generic": {
-      "title": "Something went wrong",
-      "message": "An unexpected error occurred. Please try again."
-    },
-    "network": {
-      "title": "Connection Error",
-      "message": "Unable to connect. Please check your internet connection and try again."
-    },
-    "server": {
-      "title": "Server Error",
-      "message": "The server encountered an error. Please try again later."
-    },
-    "unauthorized": {
-      "title": "Access Denied",
-      "message": "You do not have permission to access this resource. Please log in or contact support."
-    },
-    "notFound": {
-      "title": "Not Found",
-      "message": "The requested resource could not be found."
-    },
-    "pageNotFound": {
-      "title": "Page Not Found",
-      "message": "The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.",
-      "lookingFor": "Maybe you were looking for:"
-    },
-    "somethingWentWrong": "Oops! Something went wrong",
-    "unexpectedError": "We encountered an unexpected error. Please try again.",
-    "persistProblem": "If this problem persists, please contact support@wku-crew.com.",
-    "errorId": "Error ID"
-  },
-  "toast": {
-    "success": {
-      "saved": "Saved successfully",
-      "deleted": "Deleted successfully",
-      "created": "Created successfully",
-      "updated": "Updated successfully",
-      "enrolled": "Successfully enrolled",
-      "unenrolled": "Successfully unenrolled",
-      "posted": "Posted successfully",
-      "commented": "Comment added",
-      "voted": "Vote recorded"
-    },
-    "error": {
-      "saveFailed": "Failed to save",
-      "deleteFailed": "Failed to delete",
-      "createFailed": "Failed to create",
-      "updateFailed": "Failed to update",
-      "enrollFailed": "Failed to enroll",
-      "loadFailed": "Failed to load",
-      "networkError": "Network error occurred",
-      "unauthorized": "Please log in"
-    },
-    "info": {
-      "processing": "Processing...",
-      "loading": "Loading..."
-    },
-    "warning": {
-      "unsavedChanges": "You have unsaved changes",
-      "sessionExpiring": "Your session is about to expire"
-    }
+    "you": "You"
   },
   "nav": {
     "home": "Home",
+    "dashboard": "Dashboard",
     "projects": "Projects",
     "courses": "Courses",
+    "coursesDescription": "Learn with structured courses",
+    "glossary": "Glossary",
+    "glossaryDescription": "Search development terms",
     "community": "Community",
-    "dashboard": "Dashboard",
-    "about": "About"
+    "communityDescription": "Connect with members",
+    "chat": "Chat",
+    "chatDescription": "Join real-time chat",
+    "qna": "Q&A",
+    "qnaDescription": "Ask and answer questions",
+    "mentoring": "Mentoring",
+    "mentoringDescription": "Learn from seniors",
+    "leaderboard": "Leaderboard",
+    "canvas": "Canvas",
+    "canvasDescription": "Real-time collaborative whiteboard",
+    "learn": "Learn",
+    "learnDescription": "Courses, Glossary, Q&A"
   },
   "home": {
-    "badge": "WKU Software Crew",
-    "title": "Growing Together",
-    "titleHighlight": "Developer Crew",
-    "description": "From Junior to Master through personal projects,",
-    "descriptionSub": "A platform to learn and grow together like a club",
-    "startWithGithub": "Start with GitHub",
-    "browseProjects": "Browse Projects",
+    "badge": "All-in-one platform for work and education",
+    "title": "Collaboration and Learning,",
+    "titleHighlight": "All in One Place",
+    "description": "Project management, real-time canvas, course learning, and community.",
+    "descriptionSub": "Manage all your team activities in one place with CrewSpace.",
+    "startWithGithub": "Get Started Free",
+    "browseProjects": "Explore Features",
     "levelSystem": {
-      "title": "Growing Level System",
-      "subtitle": "Grow from Junior to Master by completing projects",
+      "title": "Level System",
+      "subtitle": "Earn XP through activities and level up",
       "junior": {
-        "name": "Junior",
         "level": "Lv. 1-10",
-        "description": "First steps in programming",
-        "feature1": "Learn basic syntax",
-        "feature2": "Complete first personal project",
-        "feature3": "Git basics"
+        "name": "Junior",
+        "description": "Building fundamentals",
+        "feature1": "Basic courses",
+        "feature2": "Project participation",
+        "feature3": "Community activities"
       },
       "senior": {
+        "level": "Lv. 11-20",
         "name": "Senior",
-        "level": "Lv. 11-30",
-        "description": "Building your skills",
-        "feature1": "Full-stack project experience",
-        "feature2": "Crew mentoring participation",
-        "feature3": "Team project collaboration"
+        "description": "Developing skills",
+        "feature1": "Advanced courses",
+        "feature2": "Project leadership",
+        "feature3": "Mentoring juniors"
       },
       "master": {
+        "level": "Lv. 21+",
         "name": "Master",
-        "level": "Lv. 31-50",
-        "description": "Leap to expertise",
-        "feature1": "Industry-linked projects",
-        "feature2": "Crew leader role",
-        "feature3": "New member mentoring"
+        "description": "Expert level",
+        "feature1": "Master-only channels",
+        "feature2": "Course creation",
+        "feature3": "Mentor activities"
       }
     },
-    "howItWorks": {
-      "title": "How does it work?",
-      "step1": {
-        "title": "Sign Up",
-        "description": "Easy sign up with GitHub account"
+    "techStack": "Built with proven technologies",
+    "features": {
+      "sectionTitle": "From project management to learning, all in one",
+      "sectionDescription": "CrewSpace provides project management, real-time whiteboard, course learning, and community features in a single platform.",
+      "projects": {
+        "badge": "Project Collaboration",
+        "title": "Visual Project Management",
+        "description": "Kanban boards, team collaboration, and GitHub integration. Track all project progress at a glance."
       },
-      "step2": {
-        "title": "Start Project",
-        "description": "Start with your own project idea"
+      "learning": {
+        "badge": "Structured Learning",
+        "title": "Structured Course Learning",
+        "description": "Step-by-step courses, quizzes, and certificates. Systematically grow your team's capabilities."
       },
-      "step3": {
-        "title": "Complete & Share",
-        "description": "Register to showcase after completion"
-      },
-      "step4": {
-        "title": "Level Up!",
-        "description": "Earn XP and grow to the next level"
+      "community": {
+        "badge": "Active Community",
+        "title": "Real-time Communication & Mentoring",
+        "description": "Foster knowledge sharing and growth through Q&A, real-time chat, and mentoring programs."
       }
+    },
+    "cta": {
+      "title": "Start CrewSpace today",
+      "description": "Project management, learning, and community in one platform. Boost your team's productivity and capabilities."
+    }
+  },
+  "footer": {
+    "copyright": "2026 CrewSpace. All rights reserved.",
+    "about": "About",
+    "aboutDescription": "All-in-one platform for team collaboration and learning. Project management, courses, and community in one place.",
+    "projects": "Projects",
+    "github": "GitHub",
+    "navigation": "Navigate",
+    "resources": "Resources",
+    "connect": "Connect",
+    "university": ""
+  },
+  "profile": {
+    "title": "Profile",
+    "edit": "Edit Profile",
+    "bio": "Bio",
+    "skills": "Skills",
+    "github": "GitHub",
+    "website": "Website",
+    "joinedAt": "Joined",
+    "level": "Level",
+    "xp": "XP",
+    "projects": "Projects",
+    "courses": "Courses",
+    "posts": "Posts"
+  },
+  "language": {
+    "change": "Change Language"
+  },
+  "theme": {
+    "light": "Light Mode",
+    "dark": "Dark Mode",
+    "system": "System"
+  },
+  "qna": {
+    "title": "Q&A",
+    "description": "Ask questions and grow together through answers",
+    "askQuestion": "Ask Question",
+    "error": "An error occurred",
+    "unknownError": "An unknown error occurred",
+    "loading": "Loading questions...",
+    "noQuestions": "No questions yet",
+    "askFirst": "Be the first to ask a question!",
+    "demoBanner": "Showing demo data. Sign in to see real questions.",
+    "totalQuestions": "{count} questions total",
+    "searchPlaceholder": "Search questions...",
+    "views": "Views",
+    "answersCount": "{count} answers",
+    "status": {
+      "all": "All",
+      "open": "Open",
+      "answered": "Answered"
+    },
+    "sort": {
+      "latest": "Latest",
+      "oldest": "Oldest",
+      "votes": "Most Votes",
+      "answers": "Most Answers",
+      "views": "Most Views",
+      "bounty": "Bounty",
+      "unanswered": "Unanswered"
+    },
+    "filter": {
+      "all": "All Tags"
+    },
+    "form": {
+      "title": "Title",
+      "titlePlaceholder": "Enter your question title",
+      "content": "Content",
+      "contentPlaceholder": "Describe your question in detail",
+      "markdownHint": "Markdown is supported",
+      "tags": "Tags",
+      "newTagPlaceholder": "Enter tag",
+      "addTag": "Add",
+      "suggestedTags": "Suggested Tags",
+      "bounty": "Bounty",
+      "addBounty": "Add Bounty",
+      "removeBounty": "Remove Bounty",
+      "bountyDescription": "Reward XP for a great answer",
+      "bountyRange": "10-1000 XP",
+      "submitting": "Posting question...",
+      "submit": "Post Question",
+      "update": "Update Question",
+      "error": "Failed to post question",
+      "validation": {
+        "titleRequired": "Title is required",
+        "titleMinLength": "Title must be at least {min} characters",
+        "titleMaxLength": "Title cannot exceed {max} characters",
+        "contentRequired": "Content is required",
+        "contentMinLength": "Content must be at least {min} characters",
+        "contentMaxLength": "Content cannot exceed {max} characters"
+      }
+    },
+    "question": {
+      "confirmDelete": "Are you sure you want to delete this question?"
+    },
+    "answer": {
+      "placeholder": "Write your answer...",
+      "markdownSupported": "Markdown supported",
+      "submitting": "Posting answer...",
+      "submit": "Post Answer",
+      "update": "Update Answer",
+      "yourAnswer": "Your Answer",
+      "loginRequired": "Please login to post an answer",
+      "noAnswers": "No answers yet. Be the first to answer!",
+      "accepted": "Accepted",
+      "acceptAnswer": "Accept this answer",
+      "accept": "Accept",
+      "confirmDelete": "Are you sure you want to delete this answer?",
+      "validation": {
+        "required": "Answer content is required",
+        "minLength": "Answer must be at least {min} characters",
+        "maxLength": "Answer cannot exceed {max} characters"
+      },
+      "error": {
+        "submitFailed": "Failed to post answer"
+      }
+    },
+    "bounty": {
+      "addBounty": "Add Bounty",
+      "set": "Set Bounty"
+    }
+  },
+  "xp": {
+    "title": "Experience",
+    "leaderboard": "Leaderboard",
+    "leaderboardDescription": "See the most active members",
+    "yourRank": "Your Rank",
+    "period": "Period",
+    "rank": "Rank",
+    "member": "Member",
+    "tier": "Tier",
+    "level": "Level",
+    "progress": "Progress",
+    "demoBanner": "Showing demo data. Sign in to see real leaderboard.",
+    "noLeaderboard": "No leaderboard data available",
+    "topMembers": "Top Members",
+    "recentActivity": "Recent Activity",
+    "noActivity": "No recent activity",
+    "noActivityHint": "Join a project or write a question/answer",
+    "toNextLevel": "{xp} XP to next level"
+  },
+  "mentoring": {
+    "title": "Mentoring",
+    "description": "Learn from senior developers and help juniors",
+    "loadError": "Failed to load mentoring data",
+    "findMentor": "Find Mentor",
+    "findMentorDescription": "Find a mentor in your area of interest",
+    "searchMentors": "Search mentors...",
+    "filterByExpertise": "Filter by expertise",
+    "noMentorsAvailable": "No mentors available at the moment",
+    "requestMentorFrom": "Request mentor from:",
+    "addOptionalMessage": "Add optional message",
+    "messagePlaceholder": "Enter a message for the mentor...",
+    "sendRequest": "Send Request",
+    "masterRankNotice": "Only Master rank can be mentors",
+    "myMentors": "My Mentors",
+    "myMentees": "My Mentees",
+    "pendingRequests": "Pending Requests",
+    "completed": "Completed",
+    "awaitingRating": "Awaiting Rating",
+    "rateMentor": "Rate Mentor",
+    "rateDescription": "Rate your mentoring experience",
+    "yourRating": "Your Rating",
+    "feedback": "Feedback",
+    "feedbackPlaceholder": "Write your feedback about the mentoring...",
+    "noMentors": "No mentors yet",
+    "noMentees": "No mentees yet",
+    "availableMentors": "Available as Mentor",
+    "sessions": "sessions",
+    "startedAt": "Started:",
+    "completedOn": "Completed:",
+    "recordSession": "Record Session",
+    "complete": "Complete",
+    "needAtLeastOneSession": "At least 1 session required to complete",
+    "requestMentor": "Request Mentor",
+    "message": "Message",
+    "request": "Requesting...",
+    "incomingRequest": "Incoming Request",
+    "outgoingRequest": "Outgoing Request",
+    "accept": "Accept",
+    "reject": "Reject",
+    "cancelRequest": "Cancel Request",
+    "status": {
+      "pending": "Pending",
+      "active": "Active",
+      "completed": "Completed"
+    },
+    "ratingLabels": {
+      "poor": "Poor",
+      "fair": "Fair",
+      "good": "Good",
+      "veryGood": "Very Good",
+      "excellent": "Excellent"
+    }
+  },
+  "notifications": {
+    "title": "Notifications",
+    "markAllRead": "Mark all as read",
+    "empty": "No notifications yet",
+    "viewAll": "View all notifications",
+    "unread": "unread",
+    "emptyTitle": "No notifications",
+    "emptyDescription": "You don't have any notifications yet",
+    "emptyFilterDescription": "No notifications match the selected filter",
+    "pagination": {
+      "showing": "Showing",
+      "of": "of"
     }
   },
   "projects": {
     "title": "Projects",
-    "subtitle": "Check out projects from crew members",
-    "searchPlaceholder": "Search projects...",
-    "createProject": "Create Project",
-    "noProjects": "No projects found",
-    "noProjectsToShow": "No projects to display",
+    "subtitle": "Explore projects by members",
+    "createNew": "New Project",
     "loading": "Loading projects...",
     "error": "Failed to load projects",
     "unknownError": "An unknown error occurred",
-    "totalProjects": "{count} projects total",
+    "demoBanner": "Showing demo data. Sign in to see real projects.",
+    "searchPlaceholder": "Search projects...",
+    "createProject": "New Project",
     "membersCount": "{count} members",
-    "percentComplete": "{percent}% complete",
-    "backToList": "Back to project list",
+    "noProjectsToShow": "No projects to show",
+    "totalProjects": "{count} projects total",
     "filter": {
       "all": "All",
       "public": "Public",
       "private": "Private"
     },
-    "card": {
-      "members": "Members",
-      "viewDetails": "View Details"
-    },
-    "status": {
-      "active": "Active",
-      "completed": "Completed",
-      "paused": "Paused"
-    },
     "visibility": {
-      "public": "Public Project",
-      "private": "Private Project"
+      "public": "Public",
+      "private": "Private"
     },
     "detail": {
       "participants": "Participants",
       "participantsCount": "{count} members",
       "createdAt": "Created",
-      "updatedAt": "Last Updated",
+      "updatedAt": "Updated",
       "links": "Links",
       "deployedSite": "Deployed Site",
       "projectInfo": "Project Info",
-      "projectId": "Project ID"
+      "projectId": "Project ID",
+      "overview": "Overview"
     },
-    "notFound": {
-      "title": "Project Not Found",
-      "description": "The requested project does not exist or has been deleted."
+    "team": {
+      "title": "Team Members",
+      "roles": {
+        "owner": "Owner",
+        "admin": "Admin",
+        "member": "Member",
+        "viewer": "Viewer"
+      },
+      "confirmRoleChange": "Change role?",
+      "confirmRemove": "Remove {name} from project?",
+      "promoteToAdmin": "Promote to Admin",
+      "demoteToMember": "Demote to Member",
+      "remove": "Remove",
+      "inviteMember": "Invite Member"
     },
-    "form": {
-      "name": "Project Name",
-      "namePlaceholder": "Enter project name",
-      "nameRequired": "Project name is required",
-      "nameTooShort": "Project name must be at least 3 characters",
-      "nameTooLong": "Project name cannot exceed 100 characters",
-      "description": "Project Description",
-      "descriptionPlaceholder": "Describe your project",
-      "descriptionRequired": "Project description is required",
-      "descriptionTooShort": "Project description must be at least 10 characters",
-      "visibility": "Visibility",
-      "tags": "Tags (max 10)",
-      "newTagPlaceholder": "Enter new tag...",
-      "suggestedTags": "Suggested tags:",
-      "techStack": "Tech Stack (max 15)",
-      "newTechPlaceholder": "Enter new tech...",
-      "suggestedTech": "Suggested tech:",
-      "githubRepo": "GitHub Repository",
-      "deployUrl": "Deploy URL",
-      "invalidUrl": "Please enter a valid URL",
-      "submitting": "Saving...",
-      "create": "Create Project",
-      "update": "Update Project",
-      "error": "Failed to save project"
+    "invite": {
+      "title": "Invite Member",
+      "email": "Email",
+      "emailPlaceholder": "Email address to invite",
+      "role": "Select Role",
+      "roleDesc": {
+        "admin": "Can manage members and settings",
+        "member": "Can contribute to project",
+        "viewer": "Can only view project"
+      },
+      "send": "Send Invitation",
+      "sending": "Sending...",
+      "sent": "Invitation sent",
+      "sentDescription": "They will join the team once they accept",
+      "error": "Failed to send invitation",
+      "emailRequired": "Email is required",
+      "invalidEmail": "Invalid email format",
+      "pending": "Pending Invitations",
+      "expiresIn": "Expires in {time}",
+      "cancel": "Cancel Invitation",
+      "confirmCancel": "Cancel this invitation?"
     },
-    "new": {
-      "title": "Create New Project",
-      "subtitle": "Start a new project",
-      "tips": {
-        "title": "Project Writing Tips",
-        "tip1": "Write a clear and specific project name",
-        "tip2": "Describe the purpose and features of your project in detail",
-        "tip3": "Select appropriate tags and tech stack to improve searchability",
-        "tip4": "Link your GitHub repository and deploy URL for portfolio use"
-      }
+    "activity": {
+      "title": "Activity Log",
+      "empty": "No activity yet",
+      "error": "Failed to load activity"
     },
-    "edit": {
-      "title": "Edit Project",
-      "backToProject": "Back to Project"
+    "github": {
+      "sync": "Sync with GitHub",
+      "syncing": "Syncing...",
+      "synced": "Synced",
+      "stars": "Stars",
+      "forks": "Forks",
+      "lastSync": "Last synced"
     }
   },
   "courses": {
     "title": "Courses",
-    "subtitle": "Choose and learn courses that match your level",
-    "searchPlaceholder": "Search courses...",
-    "noCourses": "No courses found",
-    "noCoursesToShow": "No courses to display",
+    "subtitle": "Learn various technologies",
     "loading": "Loading courses...",
     "loadingDetail": "Loading course details...",
     "error": "Failed to load courses",
     "errorDetail": "Failed to load course details",
     "unknownError": "An unknown error occurred",
     "notFound": "Course not found",
-    "backToList": "Back to course list",
+    "demoBanner": "Showing demo data. Sign in to see real courses.",
+    "noCoursesToShow": "No courses to show",
+    "searchPlaceholder": "Search courses...",
     "totalCourses": "{count} courses total",
-    "confirmUnenroll": "Are you sure you want to unenroll?",
-    "processing": "Processing...",
-    "instructor": "Instructor",
-    "lastAccess": "Last accessed",
-    "none": "None",
-    "hours": "{hours} hours",
+    "hours": "{hours}h",
     "chaptersCount": "{count} chapters",
     "enrolledCount": "{count} enrolled",
+    "instructor": "Instructor",
+    "processing": "Processing...",
+    "confirmUnenroll": "Are you sure you want to unenroll?",
+    "lastAccess": "Last accessed",
+    "none": "None",
+    "backToList": "Back to courses",
     "level": {
       "all": "All",
       "junior": "Junior",
@@ -270,337 +433,430 @@
       "intermediate": "Intermediate",
       "advanced": "Advanced"
     },
-    "card": {
-      "chapters": "Chapters",
-      "enrolled": "Enrolled",
-      "duration": "Duration"
-    },
     "detail": {
       "enroll": "Enroll",
-      "unenroll": "Unenroll",
       "enrolled": "Enrolled",
-      "progress": "My Progress",
+      "unenroll": "Unenroll",
+      "progress": "Progress",
       "objectives": "Learning Objectives",
       "prerequisites": "Prerequisites",
       "curriculum": "Curriculum",
       "tags": "Tags"
     },
     "chapter": {
+      "noChapters": "No chapters yet",
       "title": "Chapter {number}",
       "completed": "Completed",
-      "noChapters": "No chapters registered yet",
       "duration": "{minutes} min",
       "watchVideo": "Watch Video",
       "resources": "Resources"
+    },
+    "categories": {
+      "all": "All",
+      "frontend": "Frontend",
+      "backend": "Backend",
+      "devops": "DevOps",
+      "design": "Design",
+      "aiml": "AI/ML",
+      "database": "Database",
+      "mobile": "Mobile",
+      "security": "Security"
+    },
+    "enrolled": {
+      "title": "My Courses",
+      "subtitle": "View your enrolled courses",
+      "empty": "No enrolled courses yet",
+      "emptyHint": "Explore and enroll in courses you're interested in",
+      "filter": {
+        "all": "All",
+        "inProgress": "In Progress",
+        "completed": "Completed"
+      },
+      "progressLabel": "{percent}% complete",
+      "demoBanner": "Showing demo data. Sign in to see your actual enrolled courses."
+    },
+    "reviews": {
+      "title": "Course Reviews",
+      "averageRating": "Average Rating",
+      "writeReview": "Write a Review",
+      "submitReview": "Submit Review",
+      "placeholder": "Share your experience with this course...",
+      "noReviews": "No reviews yet"
+    },
+    "bookmark": {
+      "added": "Added to bookmarks",
+      "removed": "Removed from bookmarks"
+    },
+    "related": {
+      "title": "Related Courses"
+    },
+    "stats": {
+      "totalCourses": "Total Courses",
+      "byLevel": "By Level",
+      "topCategories": "Top Categories"
+    },
+    "learn": {
+      "title": "Learning",
+      "nextChapter": "Next Chapter",
+      "prevChapter": "Previous Chapter",
+      "backToCourse": "Back to Course",
+      "completeChapter": "Complete Chapter",
+      "completed": "Completed",
+      "sidebar": {
+        "chapters": "Chapters",
+        "progress": "Progress"
+      }
     }
   },
   "community": {
     "title": "Community",
-    "subtitle": "Q&A board to ask questions and grow together",
-    "searchPlaceholder": "Search posts...",
-    "createPost": "Ask Question",
-    "noPosts": "No posts found",
-    "noPostsToShow": "No posts to display",
+    "subtitle": "Connect freely with members",
     "loading": "Loading posts...",
-    "loadingDetail": "Loading post details...",
-    "error": "Failed to load posts",
-    "errorDetail": "Failed to load post details",
-    "unknownError": "An unknown error occurred",
-    "notFound": "Post not found",
+    "createPost": "Write Post",
+    "categories": "Categories",
+    "allCategories": "All",
+    "selectCategory": "Select Category",
+    "pinned": "Pinned",
+    "pin": "Pin to Top",
+    "unpin": "Unpin",
+    "like": "Like",
+    "liked": "Unlike",
+    "likeCount": "{count} likes",
+    "reply": "Reply",
+    "replies": "{count} replies",
+    "showReplies": "Show Replies",
+    "hideReplies": "Hide Replies",
+    "writeReply": "Write Reply",
+    "noPostsInCategory": "No posts in this category",
+    "categoryFilter": {
+      "general": "General",
+      "tech": "Tech",
+      "project": "Project",
+      "career": "Career",
+      "study": "Study",
+      "notice": "Notice"
+    },
+    "newPage": {
+      "title": "Create New Post",
+      "subtitle": "Share your thoughts with the community"
+    },
+    "form": {
+      "title": "Title",
+      "titlePlaceholder": "Enter post title",
+      "content": "Content",
+      "contentPlaceholder": "Write your post content (Markdown supported)",
+      "markdownHint": "Markdown syntax is supported",
+      "tags": "Tags",
+      "newTagPlaceholder": "Add new tag",
+      "addTag": "Add Tag",
+      "category": "Category",
+      "submit": "Publish",
+      "submitting": "Publishing...",
+      "cancel": "Cancel"
+    },
+    "demoBanner": "Showing demo data. Sign in to see real posts.",
     "totalPosts": "{count} posts total",
-    "backToList": "Back to community",
+    "noPostsToShow": "No posts to show",
     "filter": {
       "all": "All",
       "latest": "Latest",
       "popular": "Popular",
-      "views": "Most Viewed"
-    },
-    "card": {
-      "votes": "Votes",
-      "comments": "Comments",
       "views": "Views"
     },
-    "detail": {
-      "writeComment": "Write a comment",
-      "acceptAnswer": "Accept Answer",
-      "accepted": "Accepted",
-      "confirmDelete": "Are you sure you want to delete?",
-      "edit": "Edit",
-      "delete": "Delete"
-    },
-    "new": {
-      "title": "Write New Question",
-      "titleLabel": "Title",
-      "titlePlaceholder": "Enter question title",
-      "contentLabel": "Content",
-      "contentPlaceholder": "Enter question content",
-      "tagsLabel": "Tags",
-      "submit": "Submit Question"
-    },
-    "comment": {
-      "placeholder": "Enter your comment...",
-      "submit": "Submit Comment",
-      "submitting": "Submitting...",
-      "noComments": "No comments yet",
-      "replies": "{count} replies",
-      "answerCount": "{count} answers",
-      "answerPlaceholder": "Write your answer...",
-      "answerSubmit": "Submit Answer",
-      "replyPlaceholder": "Reply to {name}...",
-      "replySubmit": "Submit Reply",
-      "reply": "Reply",
-      "noAnswers": "No answers yet. Be the first to answer.",
-      "bestAnswer": "Best Answer",
-      "acceptAnswer": "Accept Answer",
-      "views": "views",
-      "cancel": "Cancel",
-      "submittingComment": "Submitting...",
-      "edit": "Edit",
-      "delete": "Delete",
-      "update": "Update",
-      "edited": "edited",
-      "moreActions": "More actions",
-      "confirmDelete": "Are you sure you want to delete?",
-      "loginToComment": "Please log in to write a comment.",
-      "markdownSupported": "Markdown syntax is supported.",
-      "validation": {
-        "required": "Please enter content.",
-        "minLength": "Please enter at least {min} characters.",
-        "maxLength": "Maximum {max} characters allowed."
-      },
-      "error": {
-        "submitFailed": "Failed to submit comment.",
-        "editFailed": "Failed to edit comment.",
-        "deleteFailed": "Failed to delete comment."
-      }
-    },
-    "form": {
-      "titleLabel": "Title",
-      "titlePlaceholder": "Enter question title",
-      "contentLabel": "Content",
-      "contentPlaceholder": "Please describe your question in detail. Markdown syntax is supported.",
-      "markdownHelp": "Markdown syntax is supported. Use ``` for code blocks.",
-      "tagsLabel": "Tags (max 5)",
-      "newTagPlaceholder": "Enter new tag...",
-      "add": "Add",
-      "suggestedTags": "Suggested tags:",
-      "cancel": "Cancel",
-      "submitting": "Submitting...",
-      "submit": "Submit Post",
-      "error": "Failed to create post"
-    },
-    "newPage": {
-      "title": "Write a Question",
-      "subtitle": "Ask other developers for help",
-      "tips": {
-        "title": "Tips for writing good questions",
-        "tip1": "Write a clear and specific title",
-        "tip2": "Describe the problem situation in detail",
-        "tip3": "Share the solutions you have tried",
-        "tip4": "Use markdown code blocks (```) for code",
-        "tip5": "Add relevant tags to find the right answerers"
-      }
-    }
+    "searchPlaceholder": "Search posts..."
   },
-  "dashboard": {
-    "title": "Dashboard",
-    "subtitle": "Check your activity status",
-    "welcome": "Welcome",
-    "myProjects": "My Projects",
-    "myCourses": "Enrolled Courses",
-    "recentActivity": "Recent Activity",
-    "levelProgress": "Level Progress",
-    "viewAll": "View All",
-    "stats": {
-      "projects": "Projects",
-      "courses": "Courses",
-      "posts": "Posts",
-      "comments": "Comments",
-      "achievements": "Achievements",
-      "coursesEnrolled": "Courses Enrolled",
-      "coursesCompleted": "Courses Completed",
-      "contributions": "Contributions",
-      "daysActive": "Days Active",
-      "streak": "streak",
-      "overview": "Stats Overview"
+  "chat": {
+    "title": "Chat",
+    "channels": "Channels",
+    "createChannel": "Create Channel",
+    "noChannels": "No channels",
+    "channelCount": "{count} channels",
+    "loadingMore": "Loading messages...",
+    "loadOlderMessages": "Load older messages",
+    "channelGroups": {
+      "general": "General",
+      "levelRestricted": "Level Restricted",
+      "project": "Project"
     },
-    "profile": {
-      "editProfile": "Edit Profile",
-      "level": "Level",
-      "xp": "XP",
-      "currentLevel": "Current Level",
-      "xpProgress": "Experience",
-      "xpRemaining": "{xp} XP to next level",
-      "recentAchievements": "Recent Achievements",
-      "loadingLevel": "Loading level information"
+    "loginRequired": "Login Required",
+    "loginToChat": "Please login to use chat",
+    "members": "Members",
+    "online": "online",
+    "noMembers": "No members",
+    "usergroups": {
+      "admins": "Admins",
+      "mentors": "Mentors",
+      "members": "Members"
     },
-    "noProjects": "No projects joined yet",
-    "noCourses": "No courses enrolled yet",
-    "noActivity": "No recent activity",
-    "noActivityHint": "Start learning courses or contributing to see your activity here",
-    "noAchievements": "Complete activities to earn achievements!",
-    "courseProgress": "Course Progress",
-    "totalCourses": "{count} courses total",
-    "modulesCompleted": "{completed}/{total} modules completed",
-    "progress": "Progress",
-    "teamMembers": "Team Members",
-    "continueLearning": "Continue Learning",
-    "reviewCourse": "Review Course",
-    "browseCourses": "Browse Courses",
-    "createProject": "Create Project",
-    "viewProject": "View Details",
-    "completed": "Completed",
-    "role": {
-      "admin": "Admin",
-      "mentor": "Mentor",
-      "student": "Student"
+    "userGroups": {
+      "admins": "Admins",
+      "mentors": "Mentors",
+      "members": "Members"
     },
-    "projectStatus": {
-      "planning": "Planning",
-      "in_progress": "In Progress",
-      "completed": "Completed",
-      "archived": "Archived"
-    },
-    "members": "{count} members"
-  },
-  "profile": {
-    "title": "My Profile",
-    "subtitle": "View and edit your profile information",
-    "details": "Profile Details",
-    "editProfile": "Edit Profile",
-    "editSubtitle": "Update your profile information and save changes",
-    "backToProfile": "Back to Profile",
-    "name": "Name",
-    "email": "Email",
-    "bio": "Bio",
-    "bioPlaceholder": "Tell us about yourself",
-    "department": "Department",
-    "departmentPlaceholder": "e.g., Computer Science",
-    "grade": "Year",
-    "gradeYear": "Year {year}",
-    "level": "Level & Experience",
-    "joined": "Joined",
-    "notSet": "Not set",
-    "imageNote": "Profile image is synced from GitHub or you can enter a custom URL",
-    "avatarSection": "Profile Image",
-    "avatarUrl": "Image URL",
-    "avatarUrlPlaceholder": "https://example.com/avatar.jpg",
-    "socialLinks": "Social Links",
-    "website": "Website",
-    "socialPlaceholder": {
-      "github": "username",
-      "twitter": "username",
-      "linkedin": "username",
-      "website": "https://example.com"
-    },
-    "saveSuccess": "Profile saved successfully",
-    "saveError": "Failed to save profile",
-    "notAuthenticated": "Authentication required",
-    "helpTitle": "Profile Tips",
-    "helpTip1": "Using your real name makes it easier for other crew members to recognize you",
-    "helpTip2": "Include your interests and tech stack in your bio",
-    "helpTip3": "Adding social links helps you connect with other crew members",
-    "validation": {
-      "nameRequired": "Name is required",
-      "nameMinLength": "Name must be at least 2 characters",
-      "nameMaxLength": "Name cannot exceed 50 characters",
-      "bioMaxLength": "Bio cannot exceed 500 characters",
-      "departmentMaxLength": "Department cannot exceed 100 characters",
-      "invalidUrl": "Please enter a valid URL",
-      "invalidGithub": "Please enter a valid GitHub username",
-      "invalidTwitter": "Please enter a valid Twitter username",
-      "invalidLinkedin": "Please enter a valid LinkedIn profile"
-    }
+    "loadChannelsFailed": "Failed to load channels",
+    "loadMessagesFailed": "Failed to load messages",
+    "editMessage": "Edit message",
+    "levelRestricted": "Level Restricted Channel",
+    "levelRequired": "You need to be level {level} or higher to access this channel",
+    "demoBanner": "You are experiencing chat in demo mode. Messages are not saved.",
+    "noMessages": "No messages yet",
+    "startConversation": "Send the first message!",
+    "scrollToBottom": "Latest messages",
+    "sendFailed": "Failed to send message",
+    "replyingTo": "Replying to",
+    "attachFile": "Attach file",
+    "messagePlaceholder": "Message #{channel}...",
+    "cannotSend": "Cannot send messages",
+    "addEmoji": "Add emoji",
+    "send": "Send",
+    "keyboardHint": "Enter to send, Shift+Enter for new line",
+    "typingOne": "{name} is typing...",
+    "typingTwo": "{name1} and {name2} are typing...",
+    "typingMany": "{count} people are typing...",
+    "toggleChannels": "Toggle channels",
+    "searchMessages": "Search messages",
+    "pinnedMessages": "Pinned messages",
+    "notifications": "Notifications",
+    "showMembers": "Show members",
+    "edited": "edited",
+    "addReaction": "Add reaction",
+    "reply": "Reply",
+    "moreOptions": "More options",
+    "copyMessage": "Copy message",
+    "confirmDelete": "Are you sure you want to delete this message?"
   },
   "auth": {
     "login": {
       "title": "Login",
-      "subtitle": "Join the crew and grow together",
+      "subtitle": "Sign in with your GitHub account",
       "withGithub": "Login with GitHub",
-      "info": "Only Wonkwang University students can register.",
-      "notice": "Notice",
-      "noticeDesc": "Sign in easily with your GitHub account. Additional benefits available when linked with Wonkwang University email.",
-      "features": {
-        "title": "Login to access these features:",
-        "projects": "Create and manage projects",
-        "courses": "Take courses and track progress",
-        "community": "Community Q&A participation",
-        "levelUp": "Level up system and earn XP"
-      }
-    },
-    "callback": {
-      "loading": "Processing login...",
-      "pleaseWait": "Please wait a moment",
-      "success": "Login successful!",
-      "redirecting": "Redirecting to dashboard...",
-      "error": "Login failed",
-      "tryAgain": "Try again"
+      "redirecting": "Redirecting..."
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Welcome",
+    "stats": {
+      "level": "Level",
+      "xp": "XP",
+      "projects": "Projects",
+      "courses": "Courses"
     }
   },
   "about": {
-    "title": "WKU Software Crew",
-    "subtitle": "Software growth platform for Wonkwang University students",
-    "mission": {
-      "title": "Mission",
-      "description": "A student-driven software education platform to grow from Junior to Master through personal projects. Learn together like a club, give and receive mentoring, and gain real-world experience."
+    "title": "About",
+    "subtitle": "Learn about CrewSpace"
+  },
+  "glossary": {
+    "title": "Development Glossary",
+    "subtitle": "CrewSpace Development Glossary - Essential terms for beginner developers (386 terms)",
+    "searchPlaceholder": "Search terms... (e.g., API, React, Database)",
+    "searchResults": "Search results",
+    "loading": "Loading glossary...",
+    "demoBanner": "Currently showing demo glossary. Full 386 terms available after connecting to the server.",
+    "totalTerms": "Total Terms",
+    "categories": "Categories",
+    "fileSize": "File Size"
+  },
+  "quiz": {
+    "title": "Quiz",
+    "start": "Start Quiz",
+    "retake": "Retake",
+    "tryAgain": "Try Again",
+    "notAvailable": "Not Available",
+    "completed": "Completed",
+    "noAttemptsLeft": "No Attempts Left",
+    "questions": "Questions",
+    "timeLimit": "Time Limit",
+    "minutes": "minutes",
+    "attempts": "Attempts",
+    "passingScore": "Passing Score",
+    "bestScore": "Best Score",
+    "passed": "Passed",
+    "failed": "Failed",
+    "submit": "Submit",
+    "submitting": "Submitting...",
+    "exit": "Exit",
+    "previous": "Previous",
+    "next": "Next",
+    "question": "Question",
+    "of": "of",
+    "answered": "Answered",
+    "points": "points",
+    "correct": "Correct",
+    "incorrect": "Incorrect",
+    "congratulations": "Congratulations!",
+    "keepTrying": "Keep Trying!",
+    "youPassed": "You passed the quiz!",
+    "needToPass": "You need {score}% to pass",
+    "yourScore": "Your Score",
+    "correctAnswers": "Correct Answers",
+    "continue": "Continue",
+    "backToCourse": "Back to Course",
+    "confirmSubmit": "Submit Quiz?",
+    "unansweredWarning": "You have {count} unanswered questions",
+    "cannotChange": "You cannot change your answers after submission",
+    "reviewAnswers": "Review Answers",
+    "confirmExit": "Exit Quiz?",
+    "progressNotSaved": "Your progress will not be saved",
+    "continueQuiz": "Continue Quiz"
+  },
+  "certificate": {
+    "title": "Certificates",
+    "subtitle": "Complete courses and earn certificates",
+    "myCertificates": "My Certificates",
+    "verify": "Verify Certificate",
+    "verifyDescription": "Enter certificate number to verify authenticity",
+    "verifyPlaceholder": "Enter certificate number (e.g., CERT-2026-ABCD1234)",
+    "verifying": "Verifying...",
+    "valid": "Valid Certificate",
+    "invalid": "Invalid Certificate",
+    "notFound": "Certificate not found",
+    "holder": "Holder",
+    "course": "Course",
+    "level": "Level",
+    "issuedAt": "Issued At",
+    "certificateNumber": "Certificate Number",
+    "ofCompletion": "Certificate of Completion",
+    "certifies": "This certifies that",
+    "hasCompleted": "has successfully completed the course",
+    "directorOfEducation": "Director of Education",
+    "dateOfIssue": "Date of Issue",
+    "verified": "Verified Certificate",
+    "share": "Share",
+    "download": "Download PDF",
+    "downloadComingSoon": "PDF download coming soon",
+    "linkCopied": "Link copied to clipboard",
+    "cannotGetCertificate": "Cannot get certificate",
+    "completeAllChapters": "Please complete all chapters",
+    "passAllQuizzes": "Please pass all quizzes",
+    "progress": "Progress",
+    "chaptersCompleted": "Chapters {completed}/{total} completed",
+    "quizzesPassed": "Quizzes {passed}/{total} passed",
+    "getCertificate": "Get Certificate",
+    "getting": "Issuing...",
+    "alreadyIssued": "Certificate already issued",
+    "viewMyCertificate": "View My Certificate"
+  },
+  "canvas": {
+    "title": "Canvas",
+    "subtitle": "Real-time collaborative whiteboard",
+    "create": "New Canvas",
+    "delete": "Delete Canvas",
+    "confirmDelete": "Are you sure you want to delete this canvas?",
+    "noCanvases": "No canvases yet",
+    "createFirst": "Create your first canvas!",
+    "members": "{count} members active",
+    "saving": "Saving...",
+    "saved": "Saved",
+    "connecting": "Connecting...",
+    "connected": "Connected",
+    "disconnected": "Disconnected",
+    "share": "Share",
+    "demoBanner": "Currently showing demo canvases."
+  },
+  "admin": {
+    "title": "Admin",
+    "dashboard": "Admin Dashboard",
+    "overview": "Overview",
+    "users": "User Management",
+    "analytics": "Analytics",
+    "settings": "Settings",
+    "stats": {
+      "totalUsers": "Total Users",
+      "totalCourses": "Total Courses",
+      "totalProjects": "Total Projects",
+      "totalEnrollments": "Total Enrollments",
+      "totalPosts": "Total Posts",
+      "totalQuestions": "Total Questions",
+      "totalChannels": "Total Channels",
+      "totalCertificates": "Total Certificates"
     },
-    "features": {
-      "title": "Key Features",
-      "levelSystem": {
-        "title": "Level System",
-        "description": "Earn XP by completing projects and grow through Junior, Senior, and Master levels."
-      },
-      "projectManagement": {
-        "title": "Project Management",
-        "description": "Register personal and team projects, and manage your portfolio with GitHub integration."
-      },
-      "community": {
-        "title": "Community",
-        "description": "Ask and answer questions on the Q&A board, and exchange mentoring."
-      }
+    "growth": {
+      "title": "Growth (30 Days)",
+      "newUsers": "New Users",
+      "newEnrollments": "New Enrollments",
+      "newPosts": "New Posts",
+      "newCertificates": "New Certificates"
     },
-    "howItWorks": {
-      "title": "How It Works",
-      "step1": {
-        "title": "Sign Up with GitHub",
-        "description": "Easily sign up and start with your GitHub account."
+    "rankDistribution": {
+      "title": "Rank Distribution",
+      "junior": "Junior",
+      "senior": "Senior",
+      "master": "Master"
+    },
+    "recentActivity": {
+      "title": "Recent Activity",
+      "users": "Recent Users",
+      "courses": "Recent Courses",
+      "projects": "Recent Projects"
+    },
+    "topCourses": {
+      "title": "Top Courses",
+      "enrollments": "Enrollments"
+    },
+    "userManagement": {
+      "title": "User Management",
+      "search": "Search by name or email",
+      "filterByRank": "Filter by Rank",
+      "allRanks": "All Ranks",
+      "updateRank": "Update Rank",
+      "updateLevel": "Update Level",
+      "viewDetails": "View Details",
+      "totalPosts": "Posts",
+      "totalComments": "Comments",
+      "totalProjects": "Projects",
+      "totalEnrollments": "Enrollments"
+    },
+    "activityAnalytics": {
+      "title": "Activity Analytics",
+      "period": "Period",
+      "userSignups": "User Signups",
+      "posts": "Posts",
+      "enrollments": "Enrollments"
+    },
+    "courseAnalytics": {
+      "title": "Course Analytics",
+      "completionRate": "Completion Rate",
+      "chapters": "Chapters",
+      "certificates": "Certificates"
+    },
+    "leaderboard": {
+      "title": "Leaderboard",
+      "position": "Position",
+      "name": "Name",
+      "rank": "Rank",
+      "level": "Level",
+      "xp": "XP"
+    },
+    "reports": {
+      "title": "Report Management",
+      "description": "Create and manage learning operation reports",
+      "new": "New Report",
+      "edit": "Edit Report",
+      "view": "Report Detail",
+      "reportTitle": "Report Title",
+      "period": "Report Period",
+      "periodStart": "Start Date",
+      "periodEnd": "End Date",
+      "status": {
+        "all": "All",
+        "draft": "Draft",
+        "published": "Published"
       },
-      "step2": {
-        "title": "Start a Project",
-        "description": "Start with your own project idea or join existing projects."
+      "sections": {
+        "learningSummary": "Learning Summary",
+        "achievements": "Key Achievements",
+        "courseDetails": "Course Details",
+        "issues": "Issues & Improvements",
+        "nextPlans": "Next Plans"
       },
-      "step3": {
-        "title": "Take Courses",
-        "description": "Learn necessary skills through level-appropriate courses."
-      },
-      "step4": {
-        "title": "Level Up & Grow",
-        "description": "Complete projects and earn XP to advance to the next level."
-      }
+      "saveDraft": "Save Draft",
+      "publish": "Publish",
+      "confirmDelete": "Are you sure you want to delete this report?",
+      "noReports": "No reports yet",
+      "learningStats": "Learning Statistics",
+      "print": "Print"
     }
-  },
-  "footer": {
-    "copyright": "© 2026 WKU Software Crew. All rights reserved.",
-    "about": "About",
-    "projects": "Projects",
-    "github": "GitHub",
-    "contact": "Contact",
-    "terms": "Terms of Service",
-    "privacy": "Privacy Policy"
-  },
-  "theme": {
-    "light": "Light Mode",
-    "dark": "Dark Mode",
-    "system": "System",
-    "toggle": "Change theme"
-  },
-  "language": {
-    "ko": "Korean",
-    "en": "English",
-    "change": "Change language"
-  },
-  "accessibility": {
-    "upvote": "Upvote",
-    "downvote": "Downvote"
   }
 }

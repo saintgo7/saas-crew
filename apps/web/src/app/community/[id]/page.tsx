@@ -16,7 +16,7 @@ export async function generateMetadata({
 }: PostPageProps): Promise<Metadata> {
   const { id } = await params
   return {
-    title: 'Post | WKU Software Crew',
+    title: 'Post | CrewSpace',
     description: 'Community post',
   }
 }

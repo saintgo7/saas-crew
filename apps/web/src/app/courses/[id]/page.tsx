@@ -14,7 +14,7 @@ export async function generateMetadata({
 }: CoursePageProps): Promise<Metadata> {
   const { id } = await params
   return {
-    title: 'Course Detail | WKU Software Crew',
+    title: 'Course Detail | CrewSpace',
     description: 'View course details and curriculum to start learning',
   }
 }

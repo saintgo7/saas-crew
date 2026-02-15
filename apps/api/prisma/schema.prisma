@@ -46,6 +46,27 @@ model User {
   posts         Post[]
   comments      Comment[]
   votes         Vote[]
+  commentLikes  CommentLike[]
+
+  // Course & Quiz relations
+  chapterProgress Progress[]
+  quizAttempts    QuizAttempt[]
+  certificates    Certificate[]
+
+  // Chat relations
+  channelMembers ChannelMember[]
+  messages       Message[]
+
+  // Canvas relations
+  canvases       Canvas[]
+  canvasMembers  CanvasMember[]
+
+  // Report relations
+  reports        Report[]
+
+  // Mentoring relations
+  mentorships    Mentorship[] @relation("Mentor")
+  menteeships    Mentorship[] @relation("Mentee")
 
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
@@ -127,6 +148,7 @@ model Course {
   // Content
   chapters      Chapter[]
   enrollments   Enrollment[]
+  certificates  Certificate[]
 
   // Metadata
   tags          String[]
@@ -172,6 +194,7 @@ model Chapter {
 
   assignments Assignment[]
   progresses  Progress[]
+  quizzes     Quiz[]
 
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -212,6 +235,7 @@ model Progress {
   id           String    @id @default(cuid())
 
   userId       String
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   chapterId    String
   chapter      Chapter   @relation(fields: [chapterId], references: [id], onDelete: Cascade)
 
@@ -269,6 +293,119 @@ model Submission {
 }
 
 // ============================================
+// Quiz System
+// ============================================
+
+model Quiz {
+  id          String       @id @default(cuid())
+  title       String
+  description String?      @db.Text
+
+  chapterId   String
+  chapter     Chapter      @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+
+  // Quiz settings
+  passingScore Int         @default(70) // Percentage required to pass
+  timeLimit    Int?        // Minutes allowed (null = no limit)
+  maxAttempts  Int         @default(3) // Maximum attempts allowed
+  shuffleQuestions Boolean @default(false)
+
+  questions   QuizQuestion[]
+  attempts    QuizAttempt[]
+
+  isPublished Boolean      @default(false)
+
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  @@index([chapterId])
+  @@map("quizzes")
+}
+
+model QuizQuestion {
+  id          String       @id @default(cuid())
+
+  quizId      String
+  quiz        Quiz         @relation(fields: [quizId], references: [id], onDelete: Cascade)
+
+  type        QuestionType @default(MULTIPLE_CHOICE)
+  question    String       @db.Text
+  options     Json         // Array of answer options
+  correctAnswer String     // Index or text of correct answer
+  explanation String?      @db.Text // Explanation shown after answering
+
+  order       Int          @default(0)
+  points      Int          @default(1)
+
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  @@index([quizId, order])
+  @@map("quiz_questions")
+}
+
+enum QuestionType {
+  MULTIPLE_CHOICE   // Single correct answer
+  MULTIPLE_SELECT   // Multiple correct answers
+  TRUE_FALSE        // Boolean answer
+  SHORT_ANSWER      // Text input
+}
+
+model QuizAttempt {
+  id          String      @id @default(cuid())
+
+  userId      String
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  quizId      String
+  quiz        Quiz        @relation(fields: [quizId], references: [id], onDelete: Cascade)
+
+  // Attempt data
+  answers     Json        // User's answers to each question
+  score       Int         // Percentage score
+  passed      Boolean     // Whether the attempt passed
+  timeSpent   Int?        // Seconds spent on the quiz
+
+  startedAt   DateTime    @default(now())
+  completedAt DateTime?
+
+  @@index([userId, quizId])
+  @@index([quizId])
+  @@map("quiz_attempts")
+}
+
+// ============================================
+// Certificate System
+// ============================================
+
+model Certificate {
+  id          String   @id @default(cuid())
+
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  courseId    String
+  course      Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  // Certificate data
+  certificateNumber String @unique // Unique verification number
+  issuedAt    DateTime @default(now())
+
+  // Course snapshot at time of completion
+  courseName  String
+  courseLevel String
+
+  // Verification URL
+  verificationUrl String?
+
+  createdAt   DateTime @default(now())
+
+  @@unique([userId, courseId])
+  @@index([userId])
+  @@index([courseId])
+  @@index([certificateNumber])
+  @@map("certificates")
+}
+
+// ============================================
 // Project Management
 // ============================================
 
@@ -279,10 +416,20 @@ model Project {
   description String?      @db.Text
   visibility  Visibility   @default(PRIVATE)
 
-  githubRepo  String?
+  // GitHub Integration
+  githubRepo        String?
+  githubOwner       String?   // GitHub owner/organization
+  githubDefaultBranch String? // Default branch (main/master)
+  githubStars       Int       @default(0)
+  githubForks       Int       @default(0)
+  lastSyncAt        DateTime? // Last GitHub sync time
+
   deployUrl   String?
 
   members     ProjectMember[]
+  invitations ProjectInvitation[]
+  activities  ProjectActivity[]
+  canvases    Canvas[]
 
   // Metadata
   tags        String[]
@@ -337,63 +484,196 @@ enum ProjectRole {
   VIEWER
 }
 
+model ProjectInvitation {
+  id          String           @id @default(cuid())
+
+  projectId   String
+  project     Project          @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  // Invitee (either email or userId)
+  email       String?          // Email for external invites
+  userId      String?          // User ID for existing users
+
+  inviterId   String           // Who sent the invite
+
+  role        ProjectRole      @default(MEMBER)
+  status      InvitationStatus @default(PENDING)
+
+  // Token for email invitations
+  token       String           @unique @default(cuid())
+
+  expiresAt   DateTime
+  acceptedAt  DateTime?
+  rejectedAt  DateTime?
+
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+
+  @@index([projectId])
+  @@index([email])
+  @@index([userId])
+  @@index([token])
+  @@index([status])
+  @@map("project_invitations")
+}
+
+enum InvitationStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+  EXPIRED
+}
+
+model ProjectActivity {
+  id          String              @id @default(cuid())
+
+  projectId   String
+  project     Project             @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  actorId     String              // Who performed the action
+
+  type        ProjectActivityType
+  description String
+
+  // Optional metadata (JSON)
+  metadata    Json?
+
+  // Reference to related entity
+  referenceType String?          // 'member', 'invitation', 'project'
+  referenceId   String?
+
+  createdAt   DateTime            @default(now())
+
+  @@index([projectId, createdAt(sort: Desc)])
+  @@index([actorId])
+  @@map("project_activities")
+}
+
+enum ProjectActivityType {
+  // Project events
+  PROJECT_CREATED
+  PROJECT_UPDATED
+  PROJECT_DELETED
+
+  // Member events
+  MEMBER_JOINED
+  MEMBER_LEFT
+  MEMBER_REMOVED
+  MEMBER_ROLE_CHANGED
+
+  // Invitation events
+  INVITATION_SENT
+  INVITATION_ACCEPTED
+  INVITATION_REJECTED
+  INVITATION_CANCELLED
+
+  // GitHub events
+  GITHUB_SYNCED
+  GITHUB_CONNECTED
+  GITHUB_DISCONNECTED
+}
+
 // ============================================
 // Community
 // ============================================
 
+model PostCategory {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  slug        String   @unique
+  description String?
+  icon        String?  // Icon name (e.g., "code", "help-circle")
+  color       String?  // Hex color (e.g., "#3B82F6")
+  order       Int      @default(0)
+  isActive    Boolean  @default(true)
+
+  posts       Post[]
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([slug])
+  @@index([order])
+  @@map("post_categories")
+}
+
 model Post {
-  id        String    @id @default(cuid())
-  title     String
-  slug      String    @unique
-  content   String    @db.Text
-  tags      String[]
+  id         String        @id @default(cuid())
+  title      String
+  slug       String        @unique
+  content    String        @db.Text
+  tags       String[]
 
-  authorId  String
-  author    User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  categoryId String?
+  category   PostCategory? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
 
-  comments  Comment[]
-  votes     Vote[]
+  authorId   String
+  author     User          @relation(fields: [authorId], references: [id], onDelete: Cascade)
 
-  viewCount Int       @default(0)
+  comments   Comment[]
+  votes      Vote[]
 
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  viewCount  Int           @default(0)
+  isPinned   Boolean       @default(false)
+
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
 
   // Performance Indexes:
   // - authorId: fast author post lookups
   // - slug: unique constraint already indexed
   // - createdAt desc: optimized for default sorting (latest posts)
   // - tags: GIN index for array contains queries (hasSome)
+  // - categoryId: fast category filtering
   @@index([authorId])
   @@index([slug])
+  @@index([categoryId])
   @@index([createdAt(sort: Desc)])
   @@index([tags], type: Gin)
   @@map("posts")
 }
 
 model Comment {
-  id        String    @id @default(cuid())
-  content   String    @db.Text
+  id        String        @id @default(cuid())
+  content   String        @db.Text
 
   postId    String
-  post      Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
+  post      Post          @relation(fields: [postId], references: [id], onDelete: Cascade)
 
   authorId  String
-  author    User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  author    User          @relation(fields: [authorId], references: [id], onDelete: Cascade)
 
   parentId  String?
-  parent    Comment?  @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
-  replies   Comment[] @relation("CommentReplies")
+  parent    Comment?      @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
+  replies   Comment[]     @relation("CommentReplies")
 
-  accepted  Boolean   @default(false) // Best answer
+  likes     CommentLike[]
 
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  accepted  Boolean       @default(false) // Best answer
+
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
 
   @@index([postId])
   @@index([authorId])
   @@index([parentId])
   @@map("comments")
+}
+
+model CommentLike {
+  id        String   @id @default(cuid())
+
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  commentId String
+  comment   Comment  @relation(fields: [commentId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@unique([userId, commentId])
+  @@index([commentId])
+  @@map("comment_likes")
 }
 
 model Vote {
@@ -415,4 +695,445 @@ model Vote {
   @@unique([userId, postId])
   @@index([postId])
   @@map("votes")
+}
+
+// ============================================
+// Real-time Chat System
+// ============================================
+
+model Channel {
+  id          String        @id @default(cuid())
+  name        String
+  slug        String        @unique
+  description String?
+  type        ChannelType   @default(PUBLIC)
+  minRank     UserRank?     // Minimum rank required to join (for LEVEL_RESTRICTED)
+
+  // Channel settings
+  isDefault   Boolean       @default(false) // Auto-join for new users
+  icon        String?
+
+  // Relations
+  members     ChannelMember[]
+  messages    Message[]
+
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@index([slug])
+  @@index([type])
+  @@index([minRank])
+  @@map("channels")
+}
+
+enum ChannelType {
+  PUBLIC           // Anyone can join
+  PRIVATE          // Invite only
+  LEVEL_RESTRICTED // Requires minimum rank
+  DIRECT           // 1:1 DM
+}
+
+model ChannelMember {
+  id          String        @id @default(cuid())
+
+  channelId   String
+  channel     Channel       @relation(fields: [channelId], references: [id], onDelete: Cascade)
+
+  userId      String
+  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  role        ChannelRole   @default(MEMBER)
+
+  // Notification settings
+  muted       Boolean       @default(false)
+  lastReadAt  DateTime      @default(now())
+
+  joinedAt    DateTime      @default(now())
+
+  @@unique([channelId, userId])
+  @@index([userId])
+  @@index([channelId])
+  @@map("channel_members")
+}
+
+enum ChannelRole {
+  OWNER
+  ADMIN
+  MEMBER
+}
+
+model Message {
+  id          String        @id @default(cuid())
+  content     String        @db.Text
+  type        MessageType   @default(TEXT)
+
+  channelId   String
+  channel     Channel       @relation(fields: [channelId], references: [id], onDelete: Cascade)
+
+  authorId    String
+  author      User          @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  // Thread support (Twitter-style replies)
+  parentId    String?
+  parent      Message?      @relation("MessageThread", fields: [parentId], references: [id], onDelete: SetNull)
+  replies     Message[]     @relation("MessageThread")
+
+  // Q&A features
+  isQuestion  Boolean       @default(false)
+  isAnswered  Boolean       @default(false)
+  isPinned    Boolean       @default(false)
+
+  // Attachments
+  attachments Attachment[]
+
+  // Reactions count (denormalized for performance)
+  reactionCount Int         @default(0)
+
+  // Edit history
+  editedAt    DateTime?
+  isDeleted   Boolean       @default(false)
+
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@index([channelId, createdAt(sort: Desc)])
+  @@index([authorId])
+  @@index([parentId])
+  @@index([isQuestion, isAnswered])
+  @@map("messages")
+}
+
+enum MessageType {
+  TEXT        // Plain text message
+  CODE        // Code snippet with syntax highlighting
+  FILE        // File attachment
+  QUESTION    // Q&A question
+  SYSTEM      // System message (join, leave, etc.)
+}
+
+model Attachment {
+  id          String   @id @default(cuid())
+  filename    String
+  originalName String
+  url         String
+  mimeType    String
+  size        Int      // bytes
+
+  messageId   String
+  message     Message  @relation(fields: [messageId], references: [id], onDelete: Cascade)
+
+  createdAt   DateTime @default(now())
+
+  @@index([messageId])
+  @@map("attachments")
+}
+
+model MessageReaction {
+  id          String   @id @default(cuid())
+  emoji       String   // e.g., "thumbsup", "heart", "check"
+
+  messageId   String
+  userId      String
+
+  createdAt   DateTime @default(now())
+
+  @@unique([messageId, userId, emoji])
+  @@index([messageId])
+  @@map("message_reactions")
+}
+
+// ============================================
+// XP & Gamification System
+// ============================================
+
+model XpActivity {
+  id          String      @id @default(cuid())
+
+  userId      String
+
+  type        XpActivityType
+  amount      Int         // XP gained or lost
+  description String?
+
+  // Reference to the source (post, comment, message, etc.)
+  referenceType String?   // 'post', 'comment', 'message', 'course'
+  referenceId   String?
+
+  createdAt   DateTime    @default(now())
+
+  @@index([userId])
+  @@index([type])
+  @@index([createdAt(sort: Desc)])
+  @@map("xp_activities")
+}
+
+enum XpActivityType {
+  POST_CREATED        // +5 XP
+  ANSWER_CREATED      // +10 XP
+  ANSWER_ACCEPTED     // +25 XP
+  VOTE_RECEIVED       // +2 XP
+  RESOURCE_SHARED     // +15 XP
+  COURSE_COMPLETED    // +50 XP
+  CHAPTER_COMPLETED   // +10 XP
+  DAILY_LOGIN         // +5 XP
+  STREAK_BONUS        // +10 XP per day
+  MENTOR_BONUS        // +20 XP for helping mentee
+}
+
+// ============================================
+// Notification System
+// ============================================
+
+model Notification {
+  id          String           @id @default(cuid())
+
+  userId      String           // Recipient
+
+  type        NotificationType
+  title       String
+  content     String
+
+  // Reference to source
+  referenceType String?        // 'post', 'comment', 'message', 'channel'
+  referenceId   String?
+
+  // Actor (who triggered the notification)
+  actorId     String?
+
+  isRead      Boolean          @default(false)
+  readAt      DateTime?
+
+  createdAt   DateTime         @default(now())
+
+  @@index([userId, isRead])
+  @@index([userId, createdAt(sort: Desc)])
+  @@map("notifications")
+}
+
+enum NotificationType {
+  // Q&A
+  NEW_QUESTION          // New question in your channel
+  NEW_ANSWER            // Someone answered your question
+  ANSWER_ACCEPTED       // Your answer was accepted
+
+  // Social
+  NEW_FOLLOWER          // Someone followed you
+  MENTION               // You were mentioned
+  VOTE_RECEIVED         // Your post/comment received a vote
+
+  // System
+  LEVEL_UP              // You leveled up
+  RANK_UP               // You ranked up (Junior -> Senior)
+  XP_GAINED             // XP gained notification
+
+  // Mentoring
+  MENTOR_ASSIGNED       // You have a new mentor
+  MENTEE_ASSIGNED       // You have a new mentee
+  MENTOR_MESSAGE        // Message from mentor/mentee
+}
+
+// ============================================
+// Mentoring System
+// ============================================
+
+model Mentorship {
+  id          String           @id @default(cuid())
+
+  mentorId    String
+  mentor      User             @relation("Mentor", fields: [mentorId], references: [id], onDelete: Cascade)
+  menteeId    String
+  mentee      User             @relation("Mentee", fields: [menteeId], references: [id], onDelete: Cascade)
+
+  status      MentorshipStatus @default(PENDING)
+
+  // Stats
+  sessionsCount Int            @default(0)
+  lastSessionAt DateTime?
+
+  // Feedback
+  mentorRating  Float?         // 1-5 stars from mentee
+  menteeRating  Float?         // 1-5 stars from mentor
+
+  startedAt   DateTime?
+  endedAt     DateTime?
+
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+
+  @@unique([mentorId, menteeId])
+  @@index([mentorId])
+  @@index([menteeId])
+  @@index([status])
+  @@map("mentorships")
+}
+
+enum MentorshipStatus {
+  PENDING     // Request sent
+  ACTIVE      // Currently active
+  COMPLETED   // Successfully completed
+  CANCELLED   // Cancelled by either party
+}
+
+// ============================================
+// Q&A Enhancement
+// ============================================
+
+model Question {
+  id          String         @id @default(cuid())
+
+  title       String
+  content     String         @db.Text
+  tags        String[]
+
+  authorId    String
+
+  // Status
+  status      QuestionStatus @default(OPEN)
+
+  // Best answer
+  acceptedAnswerId String?   @unique
+  acceptedAnswer   Answer?   @relation("AcceptedAnswer", fields: [acceptedAnswerId], references: [id])
+
+  // Stats
+  viewCount   Int            @default(0)
+  answerCount Int            @default(0)
+  voteCount   Int            @default(0)
+
+  // Bounty (optional XP reward)
+  bounty      Int            @default(0)
+  bountyExpiresAt DateTime?
+
+  answers     Answer[]
+
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  @@index([authorId])
+  @@index([status])
+  @@index([tags], type: Gin)
+  @@index([createdAt(sort: Desc)])
+  @@map("questions")
+}
+
+enum QuestionStatus {
+  OPEN        // Accepting answers
+  ANSWERED    // Has accepted answer
+  CLOSED      // Closed by author or admin
+}
+
+model Answer {
+  id          String   @id @default(cuid())
+
+  content     String   @db.Text
+
+  questionId  String
+  question    Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  authorId    String
+
+  // Stats
+  voteCount   Int      @default(0)
+
+  // For accepted answer relation
+  acceptedFor Question? @relation("AcceptedAnswer")
+
+  isAccepted  Boolean  @default(false)
+  acceptedAt  DateTime?
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([questionId])
+  @@index([authorId])
+  @@index([voteCount(sort: Desc)])
+  @@map("answers")
+}
+
+model QuestionVote {
+  id          String   @id @default(cuid())
+
+  userId      String
+  questionId  String?
+  answerId    String?
+
+  value       Int      // 1 for upvote, -1 for downvote
+
+  createdAt   DateTime @default(now())
+
+  @@unique([userId, questionId])
+  @@unique([userId, answerId])
+  @@index([questionId])
+  @@index([answerId])
+  @@map("question_votes")
+}
+
+// ============================================
+// Collaborative Canvas System
+// ============================================
+
+model Canvas {
+  id          String         @id @default(cuid())
+  name        String
+  description String?
+  projectId   String?
+  project     Project?       @relation(fields: [projectId], references: [id], onDelete: SetNull)
+  ownerId     String
+  owner       User           @relation(fields: [ownerId], references: [id])
+  data        Json?          // Excalidraw elements JSON
+  thumbnail   String?        // Preview image URL
+  isPublic    Boolean        @default(false)
+  members     CanvasMember[]
+
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  @@index([ownerId])
+  @@index([projectId])
+  @@index([isPublic])
+  @@index([createdAt(sort: Desc)])
+  @@map("canvases")
+}
+
+model CanvasMember {
+  id        String   @id @default(cuid())
+  canvasId  String
+  canvas    Canvas   @relation(fields: [canvasId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  role      String   @default("EDITOR") // OWNER, EDITOR, VIEWER
+
+  createdAt DateTime @default(now())
+
+  @@unique([canvasId, userId])
+  @@index([userId])
+  @@index([canvasId])
+  @@map("canvas_members")
+}
+
+// ============================================
+// Report System
+// ============================================
+
+model Report {
+  id          String       @id @default(cuid())
+  title       String
+  periodStart DateTime
+  periodEnd   DateTime
+  status      ReportStatus @default(DRAFT)
+  sections    Json         // JSONB - template section data
+  summary     String?      @db.Text
+  authorId    String
+  author      User         @relation(fields: [authorId], references: [id])
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  @@index([authorId])
+  @@index([status])
+  @@index([createdAt(sort: Desc)])
+  @@map("reports")
+}
+
+enum ReportStatus {
+  DRAFT
+  PUBLISHED
 }

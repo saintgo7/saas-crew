@@ -215,4 +215,63 @@ export class CommentsController {
   async acceptAnswer(@Param('id') id: string, @Req() req: any) {
     return this.commentsService.acceptAnswer(id, req.user.id)
   }
+
+  /**
+   * POST /api/comments/:id/like
+   * Like a comment
+   */
+  @Post('comments/:id/like')
+  @UseGuards(AuthGuard('jwt'))
+  @HttpCode(HttpStatus.OK)
+  @ApiBearerAuth('JWT-auth')
+  @ApiOperation({
+    summary: 'Like comment',
+    description: 'Like a comment',
+  })
+  @ApiParam({
+    name: 'id',
+    description: 'Comment ID',
+  })
+  async likeComment(@Param('id') id: string, @Req() req: any) {
+    return this.commentsService.likeComment(id, req.user.id)
+  }
+
+  /**
+   * DELETE /api/comments/:id/like
+   * Unlike a comment
+   */
+  @Delete('comments/:id/like')
+  @UseGuards(AuthGuard('jwt'))
+  @HttpCode(HttpStatus.OK)
+  @ApiBearerAuth('JWT-auth')
+  @ApiOperation({
+    summary: 'Unlike comment',
+    description: 'Remove like from a comment',
+  })
+  @ApiParam({
+    name: 'id',
+    description: 'Comment ID',
+  })
+  async unlikeComment(@Param('id') id: string, @Req() req: any) {
+    return this.commentsService.unlikeComment(id, req.user.id)
+  }
+
+  /**
+   * GET /api/comments/:id/like
+   * Get like status for a comment
+   */
+  @Get('comments/:id/like')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({
+    summary: 'Get like status',
+    description: 'Get like count and status for a comment',
+  })
+  @ApiParam({
+    name: 'id',
+    description: 'Comment ID',
+  })
+  async getLikeStatus(@Param('id') id: string, @Req() req: any) {
+    const userId = req.user?.id
+    return this.commentsService.getLikeStatus(id, userId)
+  }
 }

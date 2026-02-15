@@ -86,7 +86,7 @@ export default function AdminDashboard() {
           관리자 대시보드
         </h1>
         <p className="mt-1 text-gray-600 dark:text-gray-400">
-          WKU Software Crew 관리 페이지입니다
+          CrewSpace 관리 페이지입니다
         </p>
       </div>
 

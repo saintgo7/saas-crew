@@ -16,6 +16,7 @@ export const useCourses = (params?: {
     queryKey: ['courses', params],
     queryFn: () => coursesApi.getCourses(params),
     staleTime: 5 * 60 * 1000, // 5 minutes
+    retry: 1,
   })
 }
 

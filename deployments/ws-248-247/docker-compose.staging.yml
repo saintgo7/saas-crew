@@ -1,0 +1,120 @@
+# WKU Software Crew - Staging Environment
+# Domains: staging-crew.abada.kr, staging-api-crew.abada.kr
+# Uses separate containers on different ports
+
+services:
+  # Next.js Frontend (Staging)
+  web-staging:
+    build:
+      context: ./app
+      dockerfile: apps/web/Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: https://staging-api-crew.abada.kr
+    image: crew-web:staging
+    container_name: crew-web-staging
+    restart: unless-stopped
+    expose:
+      - "3001"
+    environment:
+      NODE_ENV: production
+      NEXT_PUBLIC_API_URL: https://staging-api-crew.abada.kr
+      PORT: 3001
+    networks:
+      - workstation_manager_network
+    healthcheck:
+      test: ["CMD-SHELL", "node -e \"require('http').get('http://localhost:3001', (r) => process.exit(r.statusCode === 200 ? 0 : 1)).on('error', () => process.exit(1))\""]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+        reservations:
+          memory: 256M
+
+  # NestJS API Server (Staging)
+  api-staging:
+    build:
+      context: ./app
+      dockerfile: apps/api/Dockerfile
+    image: crew-api:staging
+    container_name: crew-api-staging
+    restart: unless-stopped
+    expose:
+      - "4001"
+    environment:
+      NODE_ENV: staging
+      PORT: 4001
+
+      # Database - Staging schema
+      DATABASE_URL: postgresql://crew_user:${DATABASE_PASSWORD}@wm_postgres:5432/crew_staging?schema=public
+
+      # Redis - DB 4 for staging isolation
+      REDIS_HOST: wm_redis
+      REDIS_PORT: 6379
+      REDIS_DB: 4
+
+      # JWT (same as production or different for isolation)
+      JWT_SECRET: ${JWT_SECRET_STAGING:-${JWT_SECRET}}
+      JWT_EXPIRES_IN: 7d
+
+      # GitHub OAuth (use staging OAuth app if available)
+      GITHUB_CLIENT_ID: ${GITHUB_CLIENT_ID_STAGING:-${GITHUB_CLIENT_ID}}
+      GITHUB_CLIENT_SECRET: ${GITHUB_CLIENT_SECRET_STAGING:-${GITHUB_CLIENT_SECRET}}
+      GITHUB_CALLBACK_URL: https://staging-api-crew.abada.kr/api/auth/github/callback
+
+      # CORS
+      ALLOWED_ORIGINS: https://staging-crew.abada.kr
+
+      # Frontend URL
+      FRONTEND_URL: https://staging-crew.abada.kr
+
+    networks:
+      - workstation_manager_network
+    healthcheck:
+      test: ["CMD-SHELL", "node -e \"require('http').get('http://localhost:4001/api/health', (r) => process.exit(r.statusCode === 200 ? 0 : 1)).on('error', () => process.exit(1))\""]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+        reservations:
+          memory: 256M
+
+  # Cloudflare Tunnel for Staging
+  tunnel-staging:
+    image: cloudflare/cloudflared:latest
+    container_name: crew-tunnel-staging
+    restart: unless-stopped
+    command: tunnel --no-autoupdate run --token ${TUNNEL_TOKEN_STAGING}
+    networks:
+      - workstation_manager_network
+    depends_on:
+      api-staging:
+        condition: service_healthy
+      web-staging:
+        condition: service_healthy
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+networks:
+  workstation_manager_network:
+    external: true

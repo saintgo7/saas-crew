@@ -4,7 +4,7 @@ import { DashboardSkeleton } from '@/components/dashboard/DashboardSkeleton'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Dashboard | WKU Software Crew',
+  title: 'Dashboard | CrewSpace',
   description: 'Check your profile, projects, and course progress',
 }
 

@@ -43,12 +43,12 @@ export async function generateMetadata({
 
   if (!project) {
     return {
-      title: 'Project Not Found | WKU Software Crew',
+      title: 'Project Not Found | CrewSpace',
     }
   }
 
   return {
-    title: `${project.name} | WKU Software Crew`,
+    title: `${project.name} | CrewSpace`,
     description: project.description,
   }
 }

@@ -16,6 +16,7 @@ export const usePosts = (filters?: PostFilters) => {
     queryKey: ['posts', filters],
     queryFn: () => communityApi.getPosts(filters),
     staleTime: 2 * 60 * 1000, // 2 minutes
+    retry: 1,
   })
 }
 

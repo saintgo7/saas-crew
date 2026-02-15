@@ -21,7 +21,15 @@ import {
   ApiParam,
 } from '@nestjs/swagger'
 import { ProjectsService } from './projects.service'
-import { CreateProjectDto, UpdateProjectDto, ProjectQueryDto, AddMemberDto } from './dto'
+import {
+  CreateProjectDto,
+  UpdateProjectDto,
+  ProjectQueryDto,
+  AddMemberDto,
+  CreateInvitationDto,
+  RespondInvitationDto,
+  UpdateMemberRoleDto,
+} from './dto'
 
 /**
  * Projects Controller
@@ -278,5 +286,176 @@ export class ProjectsController {
     @Req() req: any,
   ) {
     return this.projectsService.removeMember(id, userId, req.user.id)
+  }
+
+  /**
+   * PATCH /api/projects/:id/members/:userId/role
+   * Update member role
+   * Protected endpoint - requires OWNER role
+   */
+  @Patch(':id/members/:userId/role')
+  @UseGuards(AuthGuard('jwt'))
+  @HttpCode(HttpStatus.OK)
+  @ApiBearerAuth('JWT-auth')
+  @ApiOperation({
+    summary: 'Update member role',
+    description: 'Update a member role. Only the project owner can change roles.',
+  })
+  @ApiParam({
+    name: 'id',
+    description: 'Project ID',
+  })
+  @ApiParam({
+    name: 'userId',
+    description: 'User ID to update',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Role updated successfully',
+  })
+  @ApiResponse({
+    status: 403,
+    description: 'Forbidden - Only owner can change roles',
+  })
+  async updateMemberRole(
+    @Param('id') id: string,
+    @Param('userId') userId: string,
+    @Body() dto: UpdateMemberRoleDto,
+    @Req() req: any,
+  ) {
+    return this.projectsService.updateMemberRole(id, userId, dto, req.user.id)
+  }
+
+  // ============================================
+  // Invitation Endpoints
+  // ============================================
+
+  /**
+   * POST /api/projects/:id/invitations
+   * Create an invitation to join the project
+   * Protected endpoint - requires OWNER or ADMIN role
+   */
+  @Post(':id/invitations')
+  @UseGuards(AuthGuard('jwt'))
+  @HttpCode(HttpStatus.CREATED)
+  @ApiBearerAuth('JWT-auth')
+  @ApiOperation({
+    summary: 'Create invitation',
+    description: 'Create an invitation to join the project. Requires OWNER or ADMIN role.',
+  })
+  @ApiParam({
+    name: 'id',
+    description: 'Project ID',
+  })
+  @ApiResponse({
+    status: 201,
+    description: 'Invitation created successfully',
+  })
+  @ApiResponse({
+    status: 403,
+    description: 'Forbidden - Insufficient permissions',
+  })
+  async createInvitation(
+    @Param('id') id: string,
+    @Body() dto: CreateInvitationDto,
+    @Req() req: any,
+  ) {
+    return this.projectsService.createInvitation(id, dto, req.user.id)
+  }
+
+  /**
+   * GET /api/projects/:id/invitations
+   * Get project invitations
+   * Protected endpoint - requires OWNER or ADMIN role
+   */
+  @Get(':id/invitations')
+  @UseGuards(AuthGuard('jwt'))
+  @HttpCode(HttpStatus.OK)
+  @ApiBearerAuth('JWT-auth')
+  @ApiOperation({
+    summary: 'Get project invitations',
+    description: 'Get all invitations for the project. Requires OWNER or ADMIN role.',
+  })
+  @ApiParam({
+    name: 'id',
+    description: 'Project ID',
+  })
+  async getInvitations(@Param('id') id: string, @Req() req: any) {
+    return this.projectsService.getInvitations(id, req.user.id)
+  }
+
+  /**
+   * DELETE /api/projects/:id/invitations/:invitationId
+   * Cancel an invitation
+   * Protected endpoint - requires OWNER or ADMIN role
+   */
+  @Delete(':id/invitations/:invitationId')
+  @UseGuards(AuthGuard('jwt'))
+  @HttpCode(HttpStatus.OK)
+  @ApiBearerAuth('JWT-auth')
+  @ApiOperation({
+    summary: 'Cancel invitation',
+    description: 'Cancel a pending invitation. Requires OWNER or ADMIN role.',
+  })
+  @ApiParam({
+    name: 'id',
+    description: 'Project ID',
+  })
+  @ApiParam({
+    name: 'invitationId',
+    description: 'Invitation ID',
+  })
+  async cancelInvitation(
+    @Param('id') id: string,
+    @Param('invitationId') invitationId: string,
+    @Req() req: any,
+  ) {
+    return this.projectsService.cancelInvitation(invitationId, req.user.id)
+  }
+
+  /**
+   * GET /api/projects/:id/activities
+   * Get project activity log
+   * Protected endpoint - requires project membership
+   */
+  @Get(':id/activities')
+  @UseGuards(AuthGuard('jwt'))
+  @HttpCode(HttpStatus.OK)
+  @ApiBearerAuth('JWT-auth')
+  @ApiOperation({
+    summary: 'Get activity log',
+    description: 'Get project activity history. Requires project membership.',
+  })
+  @ApiParam({
+    name: 'id',
+    description: 'Project ID',
+  })
+  async getActivities(
+    @Param('id') id: string,
+    @Query('limit') limit: number,
+    @Req() req: any,
+  ) {
+    return this.projectsService.getActivityLog(id, req.user.id, limit)
+  }
+
+  /**
+   * POST /api/projects/:id/sync-github
+   * Sync project with GitHub repository
+   * Protected endpoint - requires OWNER or ADMIN role
+   */
+  @Post(':id/sync-github')
+  @UseGuards(AuthGuard('jwt'))
+  @HttpCode(HttpStatus.OK)
+  @ApiBearerAuth('JWT-auth')
+  @ApiOperation({
+    summary: 'Sync GitHub repository',
+    description: 'Sync project with linked GitHub repository. Updates stars, forks, and branch info.',
+  })
+  @ApiParam({
+    name: 'id',
+    description: 'Project ID',
+  })
+  async syncGitHub(@Param('id') id: string, @Req() req: any) {
+    return this.projectsService.syncGitHub(id, req.user.id)
   }
 }
