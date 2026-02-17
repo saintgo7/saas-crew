@@ -1,0 +1,17 @@
+# CrewSpace Book - Auto-Generated
+
+This directory contains the automatically generated book "CrewSpace 개발 실전 가이드".
+
+## Files
+- 00-index.md: Table of contents
+- part1-introduction.md: Part 1 complete
+- part2-planning-design.md: Part 2 complete
+- diagrams.md: Mermaid diagram sources
+- README.md: Book introduction
+
+## Status
+- Part 1: ✅ Complete (561 lines)
+- Part 2: ✅ Complete (834 lines)
+- Part 3-6: 📝 Outline ready
+
+## Total: ~2,045 lines (~50KB)
