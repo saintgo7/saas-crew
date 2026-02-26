@@ -58,19 +58,19 @@ cd "$PROJ_DIR"
 
 # 2. Build staging images
 echo -e "${YELLOW}[2/5] Building staging Docker images...${NC}"
-docker compose -f "$COMPOSE_FILE" build api-staging web-staging
+docker-compose -f "$COMPOSE_FILE" build api-staging web-staging
 
 # 3. Run database migrations for staging
 echo -e "${YELLOW}[3/5] Running staging database migrations...${NC}"
 # Create staging database if not exists
 docker exec wm_postgres psql -U crew_user -d postgres -c "CREATE DATABASE crew_staging;" 2>/dev/null || echo "Staging database already exists"
-docker compose -f "$COMPOSE_FILE" run --rm api-staging npx prisma migrate deploy || echo "Migration skipped or failed"
+docker-compose -f "$COMPOSE_FILE" run --rm api-staging npx prisma migrate deploy || echo "Migration skipped or failed"
 
 # 4. Restart staging containers
 echo -e "${YELLOW}[4/5] Restarting staging containers...${NC}"
-docker compose -f "$COMPOSE_FILE" up -d api-staging web-staging
+docker-compose -f "$COMPOSE_FILE" up -d api-staging web-staging
 if grep -q "TUNNEL_TOKEN_STAGING" .env; then
-    docker compose -f "$COMPOSE_FILE" up -d tunnel-staging
+    docker-compose -f "$COMPOSE_FILE" up -d tunnel-staging
 fi
 
 # 5. Health checks

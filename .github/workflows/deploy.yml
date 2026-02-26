@@ -47,10 +47,28 @@ jobs:
           proxy_key: ${{ secrets.BASTION_SSH_KEY }}
           command_timeout: 15m
           script: |
-            cd ~/saas-crew
+            set -e
 
-            # Run staging deployment script
-            ./deployments/ws-248-247/deploy-staging.sh
+            # Update source code (API)
+            cd ~/saas-crew/crew-api.abada.kr/src
+            git fetch origin develop
+            git reset --hard origin/develop
+
+            # Build and deploy API
+            cd ~/saas-crew/crew-api.abada.kr
+            docker-compose build
+            docker-compose up -d
+
+            # Update source code (Web)
+            cd ~/saas-crew/crew.abada.kr/src
+            git fetch origin develop
+            git reset --hard origin/develop
+
+            # Build and deploy Web (staging uses separate dirs)
+            cd ~/saas-crew/staging-crew.abada.kr
+            docker-compose build 2>/dev/null && docker-compose up -d || true
+            cd ~/saas-crew/staging-crew-api.abada.kr
+            docker-compose build 2>/dev/null && docker-compose up -d || true
 
             echo "Staging deployment completed"
 
@@ -111,10 +129,27 @@ jobs:
           proxy_key: ${{ secrets.BASTION_SSH_KEY }}
           command_timeout: 15m
           script: |
-            cd ~/saas-crew
+            set -e
 
-            # Run production deployment script
-            ./deployments/ws-248-247/deploy.sh
+            # Update source code (API)
+            cd ~/saas-crew/crew-api.abada.kr/src
+            git fetch origin main
+            git reset --hard origin/main
+
+            # Build and deploy API
+            cd ~/saas-crew/crew-api.abada.kr
+            docker-compose build
+            docker-compose up -d
+
+            # Update source code (Web)
+            cd ~/saas-crew/crew.abada.kr/src
+            git fetch origin main
+            git reset --hard origin/main
+
+            # Build and deploy Web
+            cd ~/saas-crew/crew.abada.kr
+            docker-compose build
+            docker-compose up -d
 
             echo "Production deployment completed"
 

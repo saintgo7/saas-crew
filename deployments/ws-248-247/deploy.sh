@@ -49,7 +49,7 @@ cd "$PROJ_DIR"
 
 # 2. Build new images
 echo -e "${YELLOW}[2/6] Building Docker images...${NC}"
-docker compose build api web
+docker-compose build api web
 
 # 3. Backup current images
 echo -e "${YELLOW}[3/6] Backing up current images...${NC}"
@@ -58,12 +58,12 @@ docker tag crew-web:latest crew-web:backup 2>/dev/null || echo "No previous Web 
 
 # 4. Run database migrations
 echo -e "${YELLOW}[4/6] Running database migrations...${NC}"
-docker compose run --rm api npx prisma migrate deploy || echo "Migration skipped or failed"
+docker-compose run --rm api npx prisma migrate deploy || echo "Migration skipped or failed"
 
 # 5. Restart containers
 echo -e "${YELLOW}[5/6] Restarting containers...${NC}"
-docker compose up -d api web
-docker compose restart tunnel
+docker-compose up -d api web
+docker-compose restart tunnel
 
 # 6. Health checks (using Docker's built-in health status)
 echo -e "${YELLOW}[6/6] Running health checks...${NC}"
@@ -104,13 +104,13 @@ echo -e "========================================${NC}"
 
 if docker image inspect crew-api:backup > /dev/null 2>&1; then
     docker tag crew-api:backup crew-api:latest
-    docker compose up -d api
+    docker-compose up -d api
     echo "Rolled back API to previous version"
 fi
 
 if docker image inspect crew-web:backup > /dev/null 2>&1; then
     docker tag crew-web:backup crew-web:latest
-    docker compose up -d web
+    docker-compose up -d web
     echo "Rolled back Web to previous version"
 fi
 
