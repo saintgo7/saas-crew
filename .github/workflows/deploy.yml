@@ -35,12 +35,17 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Deploy to Staging Server
-        uses: appleboy/ssh-action@v1.0.3
+        uses: appleboy/ssh-action@v1
         with:
-          host: ${{ secrets.SERVER_HOST }}
-          port: ${{ secrets.SERVER_PORT }}
+          host: ${{ secrets.ABADA_SSH_HOST }}
+          port: ${{ secrets.SERVER_PORT || 5022 }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
+          proxy_host: ${{ secrets.BASTION_SSH_HOST }}
+          proxy_port: ${{ secrets.BASTION_SSH_PORT || 5022 }}
+          proxy_username: ${{ secrets.BASTION_SSH_USER }}
+          proxy_key: ${{ secrets.BASTION_SSH_KEY }}
+          command_timeout: 15m
           script: |
             cd ~/saas-crew
 
@@ -94,12 +99,17 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Deploy to Production Server
-        uses: appleboy/ssh-action@v1.0.3
+        uses: appleboy/ssh-action@v1
         with:
-          host: ${{ secrets.SERVER_HOST }}
-          port: ${{ secrets.SERVER_PORT }}
+          host: ${{ secrets.ABADA_SSH_HOST }}
+          port: ${{ secrets.SERVER_PORT || 5022 }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
+          proxy_host: ${{ secrets.BASTION_SSH_HOST }}
+          proxy_port: ${{ secrets.BASTION_SSH_PORT || 5022 }}
+          proxy_username: ${{ secrets.BASTION_SSH_USER }}
+          proxy_key: ${{ secrets.BASTION_SSH_KEY }}
+          command_timeout: 15m
           script: |
             cd ~/saas-crew
 
