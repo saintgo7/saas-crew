@@ -287,15 +287,15 @@ export default function GlossaryPage() {
       {/* Quick Stats */}
       <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 text-center">
-          <div className="text-3xl font-bold text-blue-600 dark:text-blue-400">386</div>
+          <div className="text-3xl font-bold text-blue-600 dark:text-blue-400">524</div>
           <div className="text-sm text-gray-600 dark:text-gray-400">Total Terms</div>
         </div>
         <div className="bg-green-50 dark:bg-green-900/20 rounded-lg p-4 text-center">
-          <div className="text-3xl font-bold text-green-600 dark:text-green-400">11</div>
+          <div className="text-3xl font-bold text-green-600 dark:text-green-400">12</div>
           <div className="text-sm text-gray-600 dark:text-gray-400">Categories</div>
         </div>
         <div className="bg-purple-50 dark:bg-purple-900/20 rounded-lg p-4 text-center">
-          <div className="text-3xl font-bold text-purple-600 dark:text-purple-400">177KB</div>
+          <div className="text-3xl font-bold text-purple-600 dark:text-purple-400">268KB</div>
           <div className="text-sm text-gray-600 dark:text-gray-400">File Size</div>
         </div>
       </div>
