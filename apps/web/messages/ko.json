@@ -505,7 +505,14 @@
       "sidebar": {
         "chapters": "챕터 목록",
         "progress": "학습 진도"
-      }
+      },
+      "tabs": {
+        "content": "학습 내용",
+        "quiz": "퀴즈",
+        "assignment": "과제"
+      },
+      "courseComplete": "코스를 모두 완료했습니다!",
+      "getCertificate": "수료증 받기"
     }
   },
   "quiz": {
@@ -587,6 +594,28 @@
     "getting": "발급 중...",
     "alreadyIssued": "이미 수료증이 발급되었습니다",
     "viewMyCertificate": "내 수료증 보기"
+  },
+  "assignment": {
+    "title": "과제",
+    "submitYour": "과제 제출",
+    "mySubmission": "내 제출물",
+    "content": "내용",
+    "contentPlaceholder": "과제 내용을 작성해주세요...",
+    "dueDate": "마감일",
+    "overdue": "기한 초과",
+    "maxScore": "최고 점수",
+    "score": "점수",
+    "feedback": "피드백",
+    "edit": "수정하기",
+    "editSubmission": "제출물 수정",
+    "update": "업데이트",
+    "returned": "반려됨 - 수정 후 다시 제출해주세요",
+    "status": {
+      "pending": "대기 중",
+      "submitted": "제출됨",
+      "reviewed": "검토 완료",
+      "returned": "반려됨"
+    }
   },
   "community": {
     "title": "커뮤니티",

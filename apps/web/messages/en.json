@@ -505,7 +505,14 @@
       "sidebar": {
         "chapters": "Chapters",
         "progress": "Progress"
-      }
+      },
+      "tabs": {
+        "content": "Content",
+        "quiz": "Quiz",
+        "assignment": "Assignment"
+      },
+      "courseComplete": "You have completed this course!",
+      "getCertificate": "Get Certificate"
     }
   },
   "community": {
@@ -737,6 +744,28 @@
     "getting": "Issuing...",
     "alreadyIssued": "Certificate already issued",
     "viewMyCertificate": "View My Certificate"
+  },
+  "assignment": {
+    "title": "Assignment",
+    "submitYour": "Submit Assignment",
+    "mySubmission": "My Submission",
+    "content": "Content",
+    "contentPlaceholder": "Write your assignment here...",
+    "dueDate": "Due Date",
+    "overdue": "Overdue",
+    "maxScore": "Max Score",
+    "score": "Score",
+    "feedback": "Feedback",
+    "edit": "Edit",
+    "editSubmission": "Edit Submission",
+    "update": "Update",
+    "returned": "Returned - Please revise and resubmit",
+    "status": {
+      "pending": "Pending",
+      "submitted": "Submitted",
+      "reviewed": "Reviewed",
+      "returned": "Returned"
+    }
   },
   "canvas": {
     "title": "Canvas",

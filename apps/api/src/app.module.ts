@@ -21,6 +21,7 @@ import { XpModule } from './xp/xp.module'
 import { QnaModule } from './qna/qna.module'
 import { QuizzesModule } from './quizzes/quizzes.module'
 import { CertificatesModule } from './certificates/certificates.module'
+import { AssignmentsModule } from './assignments/assignments.module'
 import { CategoriesModule } from './categories/categories.module'
 import { RedisModule } from './redis/redis.module'
 import { CanvasModule } from './canvas/canvas.module'
@@ -78,6 +79,7 @@ import { ReportsModule } from './reports/reports.module'
     QnaModule,
     QuizzesModule,
     CertificatesModule,
+    AssignmentsModule,
     CategoriesModule,
     CanvasModule,
     ReportsModule,

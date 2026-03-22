@@ -3,6 +3,9 @@
 import { useState, useMemo } from 'react'
 import { useCourse, useCourseProgress, useUpdateChapterProgress } from '@/lib/hooks/use-courses'
 import { ProgressBar } from './ProgressBar'
+import { QuizSection } from './QuizSection'
+import { AssignmentSection } from './AssignmentSection'
+import { CertificateSection } from './CertificateSection'
 import {
   ArrowLeft,
   ChevronLeft,
@@ -13,6 +16,9 @@ import {
   Loader2,
   Menu,
   X,
+  Trophy,
+  FileText,
+  Award,
 } from 'lucide-react'
 import Link from 'next/link'
 import { useTranslations } from '@/i18n/LanguageContext'
@@ -24,11 +30,14 @@ interface LearningViewProps {
   courseId: string
 }
 
+type ContentTab = 'content' | 'quiz' | 'assignment'
+
 export function LearningView({ courseId }: LearningViewProps) {
   const t = useTranslations()
   const [activeChapterIndex, setActiveChapterIndex] = useState(0)
   const [completedChapters, setCompletedChapters] = useState<Set<string>>(new Set())
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [activeTab, setActiveTab] = useState<ContentTab>('content')
 
   const { data, isLoading, error } = useCourse(courseId)
   const { data: progressData } = useCourseProgress(courseId, !error)
@@ -102,18 +111,21 @@ export function LearningView({ courseId }: LearningViewProps) {
 
   const handleChapterSelect = (index: number) => {
     setActiveChapterIndex(index)
+    setActiveTab('content')
     setSidebarOpen(false)
   }
 
   const handlePrevChapter = () => {
     if (activeChapterIndex > 0) {
       setActiveChapterIndex(activeChapterIndex - 1)
+      setActiveTab('content')
     }
   }
 
   const handleNextChapter = () => {
     if (activeChapterIndex < totalChapters - 1) {
       setActiveChapterIndex(activeChapterIndex + 1)
+      setActiveTab('content')
     }
   }
 
@@ -134,6 +146,24 @@ export function LearningView({ courseId }: LearningViewProps) {
       })
     }
   }
+
+  const tabs: { key: ContentTab; label: string; icon: React.ReactNode }[] = [
+    {
+      key: 'content',
+      label: t('courses.learn.tabs.content'),
+      icon: <BookOpen className="h-4 w-4" />,
+    },
+    {
+      key: 'quiz',
+      label: t('courses.learn.tabs.quiz'),
+      icon: <Trophy className="h-4 w-4" />,
+    },
+    {
+      key: 'assignment',
+      label: t('courses.learn.tabs.assignment'),
+      icon: <FileText className="h-4 w-4" />,
+    },
+  ]
 
   return (
     <div className="flex h-[calc(100vh-4rem)] flex-col">
@@ -221,6 +251,19 @@ export function LearningView({ courseId }: LearningViewProps) {
               )
             })}
           </nav>
+
+          {/* Certificate section in sidebar when complete */}
+          {overallProgress === 100 && (
+            <div className="border-t border-gray-200 p-4 dark:border-gray-700">
+              <Link
+                href="/certificates"
+                className="flex items-center gap-2 rounded-lg bg-amber-100 px-3 py-2 text-sm font-medium text-amber-800 transition-colors hover:bg-amber-200 dark:bg-amber-900/30 dark:text-amber-400 dark:hover:bg-amber-900/50"
+              >
+                <Award className="h-4 w-4" />
+                {t('courses.learn.getCertificate')}
+              </Link>
+            </div>
+          )}
         </aside>
 
         {/* Overlay for mobile sidebar */}
@@ -236,7 +279,7 @@ export function LearningView({ courseId }: LearningViewProps) {
           {activeChapter ? (
             <div className="mx-auto max-w-3xl px-6 py-8">
               {/* Chapter Header */}
-              <div className="mb-8">
+              <div className="mb-6">
                 <p className="mb-1 text-sm text-gray-500 dark:text-gray-400">
                   {t('courses.chapter.title', { number: (activeChapterIndex + 1).toString() })}
                 </p>
@@ -250,87 +293,147 @@ export function LearningView({ courseId }: LearningViewProps) {
                 )}
               </div>
 
-              {/* Chapter Content */}
-              {activeChapter.content && (
-                <div className="prose prose-gray max-w-none dark:prose-invert">
-                  {activeChapter.content.split('\n').map((line, i) => {
-                    if (line.startsWith('# ')) {
-                      return (
-                        <h1 key={i} className="text-2xl font-bold text-gray-900 dark:text-white">
-                          {line.slice(2)}
-                        </h1>
-                      )
-                    }
-                    if (line.startsWith('## ')) {
-                      return (
-                        <h2 key={i} className="mt-6 text-xl font-semibold text-gray-900 dark:text-white">
-                          {line.slice(3)}
-                        </h2>
-                      )
-                    }
-                    if (line.startsWith('- ')) {
-                      return (
-                        <li key={i} className="ml-4 text-gray-700 dark:text-gray-300">
-                          {line.slice(2)}
-                        </li>
-                      )
-                    }
-                    if (line.startsWith('> ')) {
-                      return (
-                        <blockquote
-                          key={i}
-                          className="border-l-4 border-blue-500 bg-blue-50 py-2 pl-4 text-gray-700 dark:bg-blue-900/20 dark:text-gray-300"
-                        >
-                          {line.slice(2)}
-                        </blockquote>
-                      )
-                    }
-                    if (line.trim() === '') {
-                      return <br key={i} />
-                    }
-                    // Handle bold text
-                    const parts = line.split(/\*\*(.*?)\*\*/)
-                    return (
-                      <p key={i} className="text-gray-700 dark:text-gray-300">
-                        {parts.map((part, j) =>
-                          j % 2 === 1 ? (
-                            <strong key={j} className="font-semibold text-gray-900 dark:text-white">
-                              {part}
-                            </strong>
-                          ) : (
-                            part
+              {/* Content Tabs */}
+              <div className="mb-6 border-b border-gray-200 dark:border-gray-700">
+                <nav className="-mb-px flex gap-1">
+                  {tabs.map((tab) => (
+                    <button
+                      key={tab.key}
+                      onClick={() => setActiveTab(tab.key)}
+                      className={cn(
+                        'flex items-center gap-2 border-b-2 px-4 py-3 text-sm font-medium transition-colors',
+                        activeTab === tab.key
+                          ? 'border-blue-600 text-blue-600 dark:border-blue-400 dark:text-blue-400'
+                          : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 dark:text-gray-400 dark:hover:border-gray-600 dark:hover:text-gray-300'
+                      )}
+                    >
+                      {tab.icon}
+                      {tab.label}
+                    </button>
+                  ))}
+                </nav>
+              </div>
+
+              {/* Tab Content */}
+              {activeTab === 'content' && (
+                <>
+                  {/* Chapter Content */}
+                  {activeChapter.content && (
+                    <div className="prose prose-gray max-w-none dark:prose-invert">
+                      {activeChapter.content.split('\n').map((line, i) => {
+                        if (line.startsWith('# ')) {
+                          return (
+                            <h1 key={i} className="text-2xl font-bold text-gray-900 dark:text-white">
+                              {line.slice(2)}
+                            </h1>
                           )
-                        )}
-                      </p>
-                    )
-                  })}
-                </div>
+                        }
+                        if (line.startsWith('## ')) {
+                          return (
+                            <h2 key={i} className="mt-6 text-xl font-semibold text-gray-900 dark:text-white">
+                              {line.slice(3)}
+                            </h2>
+                          )
+                        }
+                        if (line.startsWith('- ')) {
+                          return (
+                            <li key={i} className="ml-4 text-gray-700 dark:text-gray-300">
+                              {line.slice(2)}
+                            </li>
+                          )
+                        }
+                        if (line.startsWith('> ')) {
+                          return (
+                            <blockquote
+                              key={i}
+                              className="border-l-4 border-blue-500 bg-blue-50 py-2 pl-4 text-gray-700 dark:bg-blue-900/20 dark:text-gray-300"
+                            >
+                              {line.slice(2)}
+                            </blockquote>
+                          )
+                        }
+                        if (line.trim() === '') {
+                          return <br key={i} />
+                        }
+                        // Handle bold text
+                        const parts = line.split(/\*\*(.*?)\*\*/)
+                        return (
+                          <p key={i} className="text-gray-700 dark:text-gray-300">
+                            {parts.map((part, j) =>
+                              j % 2 === 1 ? (
+                                <strong key={j} className="font-semibold text-gray-900 dark:text-white">
+                                  {part}
+                                </strong>
+                              ) : (
+                                part
+                              )
+                            )}
+                          </p>
+                        )
+                      })}
+                    </div>
+                  )}
+
+                  {/* Complete Chapter Button */}
+                  <div className="mt-8 border-t border-gray-200 pt-6 dark:border-gray-700">
+                    <button
+                      onClick={() => handleToggleComplete(activeChapter.id)}
+                      className={cn(
+                        'inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors',
+                        completedChapters.has(activeChapter.id)
+                          ? 'bg-green-100 text-green-700 hover:bg-green-200 dark:bg-green-900/30 dark:text-green-400 dark:hover:bg-green-900/50'
+                          : 'bg-blue-600 text-white hover:bg-blue-700'
+                      )}
+                    >
+                      {completedChapters.has(activeChapter.id) ? (
+                        <>
+                          <CheckCircle2 className="h-4 w-4" />
+                          {t('courses.chapter.completed')}
+                        </>
+                      ) : (
+                        <>
+                          <Circle className="h-4 w-4" />
+                          {t('courses.learn.completeChapter')}
+                        </>
+                      )}
+                    </button>
+                  </div>
+
+                  {/* Course Complete Banner */}
+                  {overallProgress === 100 && (
+                    <div className="mt-6 rounded-lg border border-amber-200 bg-amber-50 p-4 dark:border-amber-800 dark:bg-amber-900/20">
+                      <div className="flex items-center gap-3">
+                        <Award className="h-6 w-6 text-amber-600 dark:text-amber-400" />
+                        <div>
+                          <p className="font-medium text-amber-800 dark:text-amber-300">
+                            {t('courses.learn.courseComplete')}
+                          </p>
+                          <Link
+                            href="/certificates"
+                            className="mt-1 inline-flex items-center gap-1 text-sm text-amber-700 underline hover:text-amber-900 dark:text-amber-400 dark:hover:text-amber-300"
+                          >
+                            {t('courses.learn.getCertificate')}
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </>
               )}
 
-              {/* Complete Chapter Button */}
-              <div className="mt-8 border-t border-gray-200 pt-6 dark:border-gray-700">
-                <button
-                  onClick={() => handleToggleComplete(activeChapter.id)}
-                  className={cn(
-                    'inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors',
-                    completedChapters.has(activeChapter.id)
-                      ? 'bg-green-100 text-green-700 hover:bg-green-200 dark:bg-green-900/30 dark:text-green-400 dark:hover:bg-green-900/50'
-                      : 'bg-blue-600 text-white hover:bg-blue-700'
-                  )}
-                >
-                  {completedChapters.has(activeChapter.id) ? (
-                    <>
-                      <CheckCircle2 className="h-4 w-4" />
-                      {t('courses.chapter.completed')}
-                    </>
-                  ) : (
-                    <>
-                      <Circle className="h-4 w-4" />
-                      {t('courses.learn.completeChapter')}
-                    </>
-                  )}
-                </button>
-              </div>
+              {activeTab === 'quiz' && (
+                <QuizSection
+                  chapterId={activeChapter.id}
+                  isDemo={isDemo}
+                />
+              )}
+
+              {activeTab === 'assignment' && (
+                <AssignmentSection
+                  chapterId={activeChapter.id}
+                  isDemo={isDemo}
+                />
+              )}
 
               {/* Previous/Next Navigation */}
               <div className="mt-6 flex items-center justify-between border-t border-gray-200 pt-6 dark:border-gray-700">

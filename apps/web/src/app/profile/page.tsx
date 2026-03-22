@@ -366,6 +366,42 @@ export default function ProfilePage() {
           </div>
         </div>
       </div>
+
+      {/* Quick Links */}
+      <div className="mt-6 rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+        <h3 className="mb-4 text-lg font-semibold text-gray-900 dark:text-white">
+          {t('profile.quickLinks') || 'Quick Links'}
+        </h3>
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          <Link
+            href="/certificates"
+            className="flex items-center gap-3 rounded-lg border border-gray-200 p-4 transition-colors hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-700/50"
+          >
+            <Award className="h-5 w-5 text-amber-600 dark:text-amber-400" />
+            <span className="text-sm font-medium text-gray-900 dark:text-white">
+              {t('certificate.myCertificates')}
+            </span>
+          </Link>
+          <Link
+            href="/courses/enrolled"
+            className="flex items-center gap-3 rounded-lg border border-gray-200 p-4 transition-colors hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-700/50"
+          >
+            <Zap className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+            <span className="text-sm font-medium text-gray-900 dark:text-white">
+              {t('nav.courses')}
+            </span>
+          </Link>
+          <Link
+            href="/leaderboard"
+            className="flex items-center gap-3 rounded-lg border border-gray-200 p-4 transition-colors hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-700/50"
+          >
+            <Trophy className="h-5 w-5 text-purple-600 dark:text-purple-400" />
+            <span className="text-sm font-medium text-gray-900 dark:text-white">
+              {t('nav.leaderboard')}
+            </span>
+          </Link>
+        </div>
+      </div>
     </div>
   )
 }

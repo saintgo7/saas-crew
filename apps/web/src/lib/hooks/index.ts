@@ -67,3 +67,22 @@ export {
   useDeleteNotification,
   getNotificationCategory,
 } from './use-notifications'
+export {
+  useChapterQuiz,
+  useSubmitQuizAttempt,
+  useMyQuizAttempts,
+  useQuizAttemptDetails,
+} from './use-quiz'
+export {
+  useChapterAssignments,
+  useSubmitAssignment,
+  useUpdateSubmission,
+  useMySubmissions,
+  useMySubmissionForAssignment,
+} from './use-assignments'
+export {
+  useGenerateCertificate,
+  useMyCertificates,
+  useVerifyCertificate,
+  useCourseCompletion,
+} from './use-certificates'

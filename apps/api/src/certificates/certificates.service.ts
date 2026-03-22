@@ -28,8 +28,8 @@ export class CertificatesService {
    */
   private generateCertificateNumber(): string {
     const year = new Date().getFullYear()
-    const random = randomBytes(4).toString('hex').toUpperCase()
-    return `CERT-${year}-${random}`
+    const random = randomBytes(3).toString('hex').toUpperCase()
+    return `WKU-CREW-${year}-${random}`
   }
 
   /**
