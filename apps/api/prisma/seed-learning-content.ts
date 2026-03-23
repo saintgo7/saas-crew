@@ -4948,15 +4948,225 @@ CREATE TABLE enrollments (
 
 
 // ============================================================
+// COURSE DEFINITIONS (for full-set creation)
+// ============================================================
+
+interface CourseDefinition {
+  slug: string
+  title: string
+  description: string
+  level: 'JUNIOR' | 'SENIOR' | 'MASTER'
+  duration: number
+  tags: string[]
+  category: string
+  topics: string[]
+  order: number
+  chapters: { slug: string; title: string; duration?: number }[]
+}
+
+const courseDefinitions: CourseDefinition[] = [
+  {
+    slug: 'git-github-mastery',
+    title: 'Git & GitHub 완전 정복',
+    description: 'Git의 기본 명령어부터 브랜치 전략, GitHub 협업, 고급 기법까지 버전 관리의 모든 것을 학습합니다.',
+    level: 'JUNIOR',
+    duration: 8,
+    tags: ['Git', 'GitHub', 'DevOps', 'Version Control'],
+    category: 'DEVOPS',
+    topics: ['Git 기본 명령어', '브랜치 전략', 'GitHub 협업 워크플로우', 'Git 고급 기법'],
+    order: 1,
+    chapters: [
+      { slug: 'intro-and-setup', title: 'Git 소개와 설치', duration: 30 },
+      { slug: 'basic-commands', title: 'Git 기본 명령어', duration: 45 },
+      { slug: 'branching-and-merging', title: '브랜치와 병합', duration: 50 },
+      { slug: 'github-workflow', title: 'GitHub 협업', duration: 55 },
+    ],
+  },
+  {
+    slug: 'html-css-fundamentals',
+    title: 'HTML/CSS 웹 기초',
+    description: 'HTML 시맨틱 마크업부터 CSS 레이아웃, 반응형 디자인까지 웹 프론트엔드의 기초를 다집니다.',
+    level: 'JUNIOR',
+    duration: 10,
+    tags: ['HTML', 'CSS', 'Frontend', 'Web'],
+    category: 'FRONTEND',
+    topics: ['시맨틱 HTML', 'CSS 선택자와 박스 모델', 'Flexbox/Grid', '반응형 디자인'],
+    order: 2,
+    chapters: [
+      { slug: 'html-basics', title: 'HTML 기초 구조와 시맨틱 태그', duration: 40 },
+      { slug: 'css-basics', title: 'CSS 선택자와 박스 모델', duration: 45 },
+      { slug: 'flexbox-layout', title: 'Flexbox와 Grid 레이아웃', duration: 50 },
+      { slug: 'responsive-design', title: '반응형 웹 디자인', duration: 50 },
+    ],
+  },
+  {
+    slug: 'javascript-programming',
+    title: 'JavaScript 핵심 개념',
+    description: '변수와 타입부터 비동기 프로그래밍, ES6+ 문법까지 JavaScript의 핵심을 체계적으로 학습합니다.',
+    level: 'JUNIOR',
+    duration: 14,
+    tags: ['JavaScript', 'ES6', 'Frontend', 'Programming'],
+    category: 'FRONTEND',
+    topics: ['변수와 타입', '함수와 스코프', '배열/객체 메서드', '비동기 프로그래밍'],
+    order: 3,
+    chapters: [
+      { slug: 'js-intro', title: '변수, 타입, 연산자', duration: 40 },
+      { slug: 'functions-scope', title: '함수와 스코프', duration: 50 },
+      { slug: 'arrays-objects', title: '배열과 객체 메서드', duration: 55 },
+      { slug: 'async-programming', title: '비동기 프로그래밍', duration: 60 },
+    ],
+  },
+  {
+    slug: 'react-frontend-development',
+    title: 'React 프론트엔드 개발',
+    description: 'React의 컴포넌트, JSX, Hooks, 이벤트 처리 등 핵심 개념을 학습하고 실전 프로젝트를 통해 능력을 키웁니다.',
+    level: 'SENIOR',
+    duration: 16,
+    tags: ['React', 'JavaScript', 'Frontend', 'Hooks'],
+    category: 'FRONTEND',
+    topics: ['컴포넌트와 JSX', 'State와 Props', 'React Hooks', '이벤트 처리와 폼'],
+    order: 4,
+    chapters: [
+      { slug: 'getting-started', title: '컴포넌트와 JSX', duration: 45 },
+      { slug: 'components-props', title: 'State와 Props', duration: 50 },
+      { slug: 'state-events', title: 'Hooks (useState, useEffect, useContext)', duration: 60 },
+      { slug: 'react-hooks-advanced', title: '이벤트 처리와 폼', duration: 55 },
+    ],
+  },
+  {
+    slug: 'typescript-mastery',
+    title: 'TypeScript 마스터',
+    description: 'TypeScript의 타입 시스템, 인터페이스, 제네릭, 유틸리티 타입까지 타입 안전한 개발을 완성합니다.',
+    level: 'SENIOR',
+    duration: 12,
+    tags: ['TypeScript', 'JavaScript', 'Frontend'],
+    category: 'FRONTEND',
+    topics: ['타입 시스템 기초', '인터페이스와 타입 별칭', '제네릭', '유틸리티 타입'],
+    order: 5,
+    chapters: [
+      { slug: 'ts-basics', title: '타입 시스템 기초', duration: 50 },
+      { slug: 'generics', title: '제네릭', duration: 55 },
+    ],
+  },
+  {
+    slug: 'nodejs-backend',
+    title: 'Node.js 백엔드 개발',
+    description: 'Node.js 기초부터 Express 서버, REST API 설계까지 백엔드 개발의 핵심을 학습합니다.',
+    level: 'SENIOR',
+    duration: 14,
+    tags: ['Node.js', 'Express', 'Backend', 'API'],
+    category: 'BACKEND',
+    topics: ['Node.js 모듈 시스템', 'Express 라우팅', 'REST API 설계'],
+    order: 6,
+    chapters: [
+      { slug: 'nodejs-intro', title: 'Node.js 기초와 모듈 시스템', duration: 45 },
+      { slug: 'express-basics', title: 'Express 서버와 라우팅', duration: 50 },
+    ],
+  },
+  {
+    slug: 'sql-databases',
+    title: 'SQL과 데이터베이스',
+    description: '관계형 데이터베이스 개념부터 SQL 쿼리, JOIN, ORM 활용까지 데이터베이스의 핵심을 마스터합니다.',
+    level: 'JUNIOR',
+    duration: 10,
+    tags: ['SQL', 'PostgreSQL', 'Database', 'Prisma'],
+    category: 'DATABASE',
+    topics: ['관계형 DB 개념', 'SQL 기본/고급 쿼리', 'ORM 활용'],
+    order: 7,
+    chapters: [
+      { slug: 'sql-basics', title: '관계형 DB 개념과 SQL 기초', duration: 50 },
+    ],
+  },
+]
+
+
+// ============================================================
 // MAIN SEED FUNCTION
 // ============================================================
 
 async function seedLearningContent(): Promise<void> {
-  console.log('=== Seeding Learning Content ===')
+  console.log('=== Seeding Learning Content (Full Set) ===')
   console.log('')
 
-  // 1. Update chapter content
-  console.log('[1/3] Updating chapter content...')
+  // 1. Create courses and chapters
+  console.log('[1/4] Creating courses and chapters...')
+
+  for (const def of courseDefinitions) {
+    const existing = await prisma.course.findUnique({ where: { slug: def.slug } })
+
+    if (existing) {
+      // Update existing course
+      await prisma.course.update({
+        where: { slug: def.slug },
+        data: {
+          title: def.title,
+          description: def.description,
+          level: def.level as any,
+          duration: def.duration,
+          published: true,
+          featured: def.order <= 4,
+          tags: def.tags,
+          category: def.category,
+          topics: def.topics,
+          order: def.order,
+        },
+      })
+      console.log(`  UPDATE: ${def.slug}`)
+    } else {
+      // Create new course
+      await prisma.course.create({
+        data: {
+          title: def.title,
+          slug: def.slug,
+          description: def.description,
+          level: def.level as any,
+          duration: def.duration,
+          published: true,
+          featured: def.order <= 4,
+          tags: def.tags,
+          category: def.category,
+          topics: def.topics,
+          order: def.order,
+        },
+      })
+      console.log(`  CREATE: ${def.slug}`)
+    }
+
+    // Upsert chapters
+    const course = await prisma.course.findUnique({ where: { slug: def.slug } })
+    if (!course) continue
+
+    for (let i = 0; i < def.chapters.length; i++) {
+      const ch = def.chapters[i]
+      const contentData = chapterContents[def.slug]?.[ch.slug] || `# ${ch.title}\n\n콘텐츠 준비 중입니다.`
+
+      const existingChapter = await prisma.chapter.findUnique({
+        where: { courseId_slug: { courseId: course.id, slug: ch.slug } },
+      })
+
+      if (existingChapter) {
+        await prisma.chapter.update({
+          where: { id: existingChapter.id },
+          data: { title: ch.title, order: i + 1, content: contentData, duration: ch.duration },
+        })
+      } else {
+        await prisma.chapter.create({
+          data: {
+            title: ch.title,
+            slug: ch.slug,
+            order: i + 1,
+            content: contentData,
+            duration: ch.duration,
+            courseId: course.id,
+          },
+        })
+      }
+    }
+  }
+
+  // 2. Update chapter content
+  console.log('')
+  console.log('[2/4] Updating chapter content...')
 
   for (const [courseSlug, chapters] of Object.entries(chapterContents)) {
     const course = await prisma.course.findUnique({
@@ -4971,10 +5181,7 @@ async function seedLearningContent(): Promise<void> {
 
     for (const [chapterSlug, content] of Object.entries(chapters)) {
       const chapter = course.chapters.find(c => c.slug === chapterSlug)
-      if (!chapter) {
-        console.log(`  SKIP: Chapter "${chapterSlug}" not found in "${courseSlug}"`)
-        continue
-      }
+      if (!chapter) continue
 
       await prisma.chapter.update({
         where: { id: chapter.id },
@@ -4985,9 +5192,9 @@ async function seedLearningContent(): Promise<void> {
     console.log(`  OK: ${courseSlug} - ${Object.keys(chapters).length} chapters updated`)
   }
 
-  // 2. Create quizzes
+  // 3. Create quizzes
   console.log('')
-  console.log('[2/3] Creating quizzes...')
+  console.log('[3/4] Creating quizzes...')
 
   for (const [courseSlug, chapters] of Object.entries(quizData)) {
     const course = await prisma.course.findUnique({
@@ -5009,34 +5216,28 @@ async function seedLearningContent(): Promise<void> {
         continue
       }
 
-      // Check if quiz already exists for this chapter
+      // Delete existing quiz for this chapter (clean recreate)
       const existing = await prisma.quiz.findFirst({
         where: { chapterId: chapter.id },
       })
 
       if (existing) {
-        // Update existing quiz and its questions
-        await prisma.quiz.update({
-          where: { id: existing.id },
-          data: {
-            title: quiz.title,
-            description: quiz.description,
-            passingScore: quiz.passingScore,
-            timeLimit: quiz.timeLimit,
-            maxAttempts: quiz.maxAttempts,
-            isPublished: true,
-          },
-        })
+        await prisma.quizQuestion.deleteMany({ where: { quizId: existing.id } })
+        await prisma.quizAttempt.deleteMany({ where: { quizId: existing.id } })
+        await prisma.quiz.delete({ where: { id: existing.id } })
+      }
 
-        // Delete old questions and recreate
-        await prisma.quizQuestion.deleteMany({
-          where: { quizId: existing.id },
-        })
-
-        for (const q of quiz.questions) {
-          await prisma.quizQuestion.create({
-            data: {
-              quizId: existing.id,
+      await prisma.quiz.create({
+        data: {
+          title: quiz.title,
+          description: quiz.description,
+          chapterId: chapter.id,
+          passingScore: quiz.passingScore,
+          timeLimit: quiz.timeLimit,
+          maxAttempts: quiz.maxAttempts,
+          isPublished: true,
+          questions: {
+            create: quiz.questions.map(q => ({
               type: q.type,
               question: q.question,
               options: q.options,
@@ -5044,34 +5245,10 @@ async function seedLearningContent(): Promise<void> {
               explanation: q.explanation,
               order: q.order,
               points: q.points,
-            },
-          })
-        }
-      } else {
-        // Create new quiz with questions
-        await prisma.quiz.create({
-          data: {
-            title: quiz.title,
-            description: quiz.description,
-            chapterId: chapter.id,
-            passingScore: quiz.passingScore,
-            timeLimit: quiz.timeLimit,
-            maxAttempts: quiz.maxAttempts,
-            isPublished: true,
-            questions: {
-              create: quiz.questions.map(q => ({
-                type: q.type,
-                question: q.question,
-                options: q.options,
-                correctAnswer: q.correctAnswer,
-                explanation: q.explanation,
-                order: q.order,
-                points: q.points,
-              })),
-            },
+            })),
           },
-        })
-      }
+        },
+      })
 
       quizCount++
     }
@@ -5079,9 +5256,9 @@ async function seedLearningContent(): Promise<void> {
     console.log(`  OK: ${courseSlug} - ${quizCount} quizzes created`)
   }
 
-  // 3. Create assignments
+  // 4. Create assignments
   console.log('')
-  console.log('[3/3] Creating assignments...')
+  console.log('[4/4] Creating assignments...')
 
   for (const [courseSlug, assignments] of Object.entries(assignmentData)) {
     const course = await prisma.course.findUnique({
@@ -5094,36 +5271,21 @@ async function seedLearningContent(): Promise<void> {
       continue
     }
 
-    // Assign to the last chapter of the course (capstone-style)
     const lastChapter = course.chapters.reduce((prev, curr) =>
       curr.order > prev.order ? curr : prev
     )
 
+    // Clean existing assignments for this chapter
+    await prisma.assignment.deleteMany({ where: { chapterId: lastChapter.id } })
+
     for (const assignment of assignments) {
-      // Check if assignment already exists
-      const existing = await prisma.assignment.findFirst({
-        where: {
-          chapterId: lastChapter.id,
+      await prisma.assignment.create({
+        data: {
           title: assignment.title,
+          description: assignment.description,
+          chapterId: lastChapter.id,
         },
       })
-
-      if (existing) {
-        await prisma.assignment.update({
-          where: { id: existing.id },
-          data: {
-            description: assignment.description,
-          },
-        })
-      } else {
-        await prisma.assignment.create({
-          data: {
-            title: assignment.title,
-            description: assignment.description,
-            chapterId: lastChapter.id,
-          },
-        })
-      }
     }
 
     console.log(`  OK: ${courseSlug} - ${assignments.length} assignments created`)
@@ -5133,9 +5295,7 @@ async function seedLearningContent(): Promise<void> {
   console.log('=== Learning Content Seed Complete ===')
 
   // Print summary
-  const totalChapters = Object.values(chapterContents).reduce(
-    (sum, chapters) => sum + Object.keys(chapters).length, 0
-  )
+  const totalChapters = courseDefinitions.reduce((sum, c) => sum + c.chapters.length, 0)
   const totalQuizzes = Object.values(quizData).reduce(
     (sum, chapters) => sum + Object.keys(chapters).length, 0
   )
@@ -5150,10 +5310,11 @@ async function seedLearningContent(): Promise<void> {
 
   console.log('')
   console.log('Summary:')
-  console.log(`  Chapters updated: ${totalChapters}`)
-  console.log(`  Quizzes created:  ${totalQuizzes}`)
-  console.log(`  Questions:        ${totalQuestions}`)
-  console.log(`  Assignments:      ${totalAssignments}`)
+  console.log(`  Courses:     ${courseDefinitions.length}`)
+  console.log(`  Chapters:    ${totalChapters}`)
+  console.log(`  Quizzes:     ${totalQuizzes}`)
+  console.log(`  Questions:   ${totalQuestions}`)
+  console.log(`  Assignments: ${totalAssignments}`)
 }
 
 // Allow both direct execution and import
