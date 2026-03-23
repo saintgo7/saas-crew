@@ -317,22 +317,23 @@ export function LearningView({ courseId }: LearningViewProps) {
               {/* Tab Content */}
               {activeTab === 'content' && (
                 <>
-                  {/* Video Player */}
+                  {/* Video Link */}
                   {activeChapter.videoUrl && (
-                    <div className="mb-6">
-                      <div className="relative w-full overflow-hidden rounded-lg" style={{ paddingBottom: '56.25%' }}>
-                        <iframe
-                          className="absolute inset-0 h-full w-full"
-                          src={activeChapter.videoUrl.includes('youtube.com/watch')
-                            ? activeChapter.videoUrl.replace('watch?v=', 'embed/')
-                            : activeChapter.videoUrl.includes('youtu.be/')
-                            ? `https://www.youtube.com/embed/${activeChapter.videoUrl.split('youtu.be/')[1]?.split('?')[0]}`
-                            : activeChapter.videoUrl}
-                          title={activeChapter.title}
-                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                          allowFullScreen
-                        />
+                    <div className="mb-6 flex items-center gap-3 rounded-lg border border-blue-200 bg-blue-50 px-4 py-3 dark:border-blue-800 dark:bg-blue-900/20">
+                      <span className="text-2xl">▶</span>
+                      <div className="flex-1">
+                        <p className="text-sm font-medium text-blue-900 dark:text-blue-100">
+                          {t('courses.learn.videoAvailable') || '이 챕터의 참고 영상이 있습니다'}
+                        </p>
                       </div>
+                      <a
+                        href={activeChapter.videoUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700"
+                      >
+                        YouTube
+                      </a>
                     </div>
                   )}
 
