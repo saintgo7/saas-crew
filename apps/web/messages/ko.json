@@ -737,9 +737,73 @@
   "auth": {
     "login": {
       "title": "로그인",
-      "subtitle": "GitHub 계정으로 로그인하세요",
+      "subtitle": "CrewSpace에 로그인하세요",
       "withGithub": "GitHub로 로그인",
-      "redirecting": "리다이렉트 중..."
+      "withEmail": "이메일로 로그인",
+      "email": "이메일",
+      "emailPlaceholder": "이메일 주소를 입력하세요",
+      "password": "비밀번호",
+      "passwordPlaceholder": "비밀번호를 입력하세요",
+      "submit": "로그인",
+      "submitting": "로그인 중...",
+      "or": "또는",
+      "noAccount": "계정이 없으신가요?",
+      "register": "회원가입 (원광대 이메일)",
+      "redirecting": "리다이렉트 중...",
+      "notice": "안내",
+      "noticeDesc": "GitHub 계정 또는 원광대 이메일로 로그인할 수 있습니다",
+      "features": {
+        "title": "CrewSpace에서 할 수 있는 것들:",
+        "projects": "프로젝트 관리 및 협업",
+        "courses": "체계적인 코스 학습",
+        "community": "커뮤니티 활동 및 Q&A",
+        "levelUp": "경험치 획득 및 레벨업"
+      },
+      "info": "로그인하면 모든 기능을 이용할 수 있습니다.",
+      "error": {
+        "invalidCredentials": "이메일 또는 비밀번호가 올바르지 않습니다",
+        "generic": "로그인 중 오류가 발생했습니다"
+      }
+    },
+    "register": {
+      "title": "회원가입",
+      "subtitle": "CrewSpace 계정을 만드세요",
+      "email": "이메일",
+      "emailPlaceholder": "example@wku.ac.kr",
+      "emailHelper": "원광대학교 이메일(@wku.ac.kr)만 가입 가능합니다",
+      "name": "닉네임/이름",
+      "namePlaceholder": "사용할 이름을 입력하세요",
+      "nameHelper": "가명(닉네임) 사용 가능합니다",
+      "password": "비밀번호",
+      "passwordPlaceholder": "6자 이상 입력하세요",
+      "confirmPassword": "비밀번호 확인",
+      "confirmPasswordPlaceholder": "비밀번호를 다시 입력하세요",
+      "submit": "회원가입",
+      "submitting": "가입 중...",
+      "hasAccount": "이미 계정이 있으신가요?",
+      "login": "로그인",
+      "success": "회원가입이 완료되었습니다!",
+      "error": {
+        "emailRequired": "이메일을 입력해주세요",
+        "emailInvalidDomain": "원광대학교 이메일(@wku.ac.kr)만 가입 가능합니다",
+        "emailInvalid": "올바른 이메일 형식이 아닙니다",
+        "emailDuplicate": "이미 등록된 이메일입니다",
+        "nameRequired": "이름을 입력해주세요",
+        "nameMinLength": "이름은 2자 이상이어야 합니다",
+        "passwordRequired": "비밀번호를 입력해주세요",
+        "passwordMinLength": "비밀번호는 6자 이상이어야 합니다",
+        "confirmPasswordRequired": "비밀번호 확인을 입력해주세요",
+        "passwordMismatch": "비밀번호가 일치하지 않습니다",
+        "generic": "회원가입 중 오류가 발생했습니다"
+      }
+    },
+    "callback": {
+      "loading": "인증 처리 중...",
+      "pleaseWait": "잠시만 기다려주세요",
+      "success": "인증 성공!",
+      "redirecting": "리다이렉트 중...",
+      "error": "인증 실패",
+      "tryAgain": "다시 시도"
     }
   },
   "dashboard": {

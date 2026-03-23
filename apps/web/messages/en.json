@@ -635,9 +635,73 @@
   "auth": {
     "login": {
       "title": "Login",
-      "subtitle": "Sign in with your GitHub account",
+      "subtitle": "Sign in to CrewSpace",
       "withGithub": "Login with GitHub",
-      "redirecting": "Redirecting..."
+      "withEmail": "Login with Email",
+      "email": "Email",
+      "emailPlaceholder": "Enter your email address",
+      "password": "Password",
+      "passwordPlaceholder": "Enter your password",
+      "submit": "Login",
+      "submitting": "Logging in...",
+      "or": "or",
+      "noAccount": "Don't have an account?",
+      "register": "Sign up (WKU email)",
+      "redirecting": "Redirecting...",
+      "notice": "Notice",
+      "noticeDesc": "You can sign in with GitHub or your WKU email",
+      "features": {
+        "title": "What you can do on CrewSpace:",
+        "projects": "Project management & collaboration",
+        "courses": "Structured course learning",
+        "community": "Community activities & Q&A",
+        "levelUp": "Earn XP and level up"
+      },
+      "info": "Sign in to access all features.",
+      "error": {
+        "invalidCredentials": "Invalid email or password",
+        "generic": "An error occurred during login"
+      }
+    },
+    "register": {
+      "title": "Sign Up",
+      "subtitle": "Create your CrewSpace account",
+      "email": "Email",
+      "emailPlaceholder": "example@wku.ac.kr",
+      "emailHelper": "Only Wonkwang University email (@wku.ac.kr) is accepted",
+      "name": "Nickname / Name",
+      "namePlaceholder": "Enter your display name",
+      "nameHelper": "You can use a pseudonym (nickname)",
+      "password": "Password",
+      "passwordPlaceholder": "At least 6 characters",
+      "confirmPassword": "Confirm Password",
+      "confirmPasswordPlaceholder": "Re-enter your password",
+      "submit": "Sign Up",
+      "submitting": "Signing up...",
+      "hasAccount": "Already have an account?",
+      "login": "Login",
+      "success": "Registration complete!",
+      "error": {
+        "emailRequired": "Email is required",
+        "emailInvalidDomain": "Only Wonkwang University email (@wku.ac.kr) is accepted",
+        "emailInvalid": "Invalid email format",
+        "emailDuplicate": "This email is already registered",
+        "nameRequired": "Name is required",
+        "nameMinLength": "Name must be at least 2 characters",
+        "passwordRequired": "Password is required",
+        "passwordMinLength": "Password must be at least 6 characters",
+        "confirmPasswordRequired": "Please confirm your password",
+        "passwordMismatch": "Passwords do not match",
+        "generic": "An error occurred during registration"
+      }
+    },
+    "callback": {
+      "loading": "Processing authentication...",
+      "pleaseWait": "Please wait a moment",
+      "success": "Authentication successful!",
+      "redirecting": "Redirecting...",
+      "error": "Authentication failed",
+      "tryAgain": "Try Again"
     }
   },
   "dashboard": {
