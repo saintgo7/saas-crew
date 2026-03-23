@@ -317,6 +317,25 @@ export function LearningView({ courseId }: LearningViewProps) {
               {/* Tab Content */}
               {activeTab === 'content' && (
                 <>
+                  {/* Video Player */}
+                  {activeChapter.videoUrl && (
+                    <div className="mb-6">
+                      <div className="relative w-full overflow-hidden rounded-lg" style={{ paddingBottom: '56.25%' }}>
+                        <iframe
+                          className="absolute inset-0 h-full w-full"
+                          src={activeChapter.videoUrl.includes('youtube.com/watch')
+                            ? activeChapter.videoUrl.replace('watch?v=', 'embed/')
+                            : activeChapter.videoUrl.includes('youtu.be/')
+                            ? `https://www.youtube.com/embed/${activeChapter.videoUrl.split('youtu.be/')[1]?.split('?')[0]}`
+                            : activeChapter.videoUrl}
+                          title={activeChapter.title}
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                        />
+                      </div>
+                    </div>
+                  )}
+
                   {/* Chapter Content */}
                   {activeChapter.content && (
                     <div className="prose prose-gray max-w-none dark:prose-invert">
