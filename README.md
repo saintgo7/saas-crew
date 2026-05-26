@@ -460,3 +460,12 @@ Conventional Commits 사용:
 **Created with ❤️ by WKU Software Crew Team**
 **Version**: 1.0.0
 **Last Updated**: 2026-01-22
+
+## 라이브 서비스 (Live Service)
+
+| 환경 | URL |
+|------|-----|
+| Production | https://crew.abada.kr |
+| API | https://crew-api.abada.kr |
+| Staging | https://staging-crew.abada.kr |
+
