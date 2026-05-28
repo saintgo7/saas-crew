@@ -1,0 +1,24 @@
+# saas-crew 개발 환경
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: crew-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: crew_dev
+      POSTGRES_PASSWORD: crew_dev_pass
+      POSTGRES_DB: saas_crew
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - crew-pgdata:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    container_name: crew-redis
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:6379:6379"
+
+volumes:
+  crew-pgdata:

@@ -1,0 +1,46 @@
+{
+  "name": "saas-crew",
+  "version": "0.1.0",
+  "private": true,
+  "description": "항공사 객실 승무원 관리 SaaS - 스케줄 + 자격 + 정산",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "db:generate": "drizzle-kit generate",
+    "db:push": "drizzle-kit push",
+    "db:studio": "drizzle-kit studio",
+    "test": "vitest",
+    "test:e2e": "playwright test"
+  },
+  "dependencies": {
+    "next": "^14.2.0",
+    "react": "^18.3.0",
+    "react-dom": "^18.3.0",
+    "drizzle-orm": "^0.32.0",
+    "postgres": "^3.4.0",
+    "next-auth": "5.0.0-beta.20",
+    "@auth/drizzle-adapter": "^1.0.0",
+    "zod": "^3.23.0",
+    "zustand": "^4.5.0",
+    "@tanstack/react-query": "^5.0.0",
+    "bcryptjs": "^2.4.3",
+    "date-fns": "^3.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.0",
+    "@types/node": "^20.0.0",
+    "@types/react": "^18.3.0",
+    "@types/react-dom": "^18.3.0",
+    "@types/bcryptjs": "^2.4.6",
+    "drizzle-kit": "^0.24.0",
+    "vitest": "^2.0.0",
+    "@playwright/test": "^1.45.0",
+    "tailwindcss": "^3.4.0",
+    "autoprefixer": "^10.4.18",
+    "postcss": "^8.4.35",
+    "eslint": "^8.57.0",
+    "eslint-config-next": "^14.2.0"
+  }
+}
