@@ -1,0 +1,13 @@
+{"hookEvent":"Stop","ccVersion":"2.1.126","sessionId":"a3dd3aba-90cb-4241-9c9a-598c7909f35e","timestamp":"2026-05-02T20:29:50.717Z","context":{"agent":"main","skill":null}}
+{"hookEvent":"SubagentStop","ccVersion":"2.1.126","sessionId":"a3dd3aba-90cb-4241-9c9a-598c7909f35e","timestamp":"2026-05-02T20:32:55.206Z","context":{"agentType":"unknown","status":"completed"}}
+{"hookEvent":"Stop","ccVersion":"2.1.126","sessionId":"a3dd3aba-90cb-4241-9c9a-598c7909f35e","timestamp":"2026-05-02T20:34:08.329Z","context":{"agent":"main","skill":null}}
+{"hookEvent":"Stop","ccVersion":"2.1.126","sessionId":"a3dd3aba-90cb-4241-9c9a-598c7909f35e","timestamp":"2026-05-02T20:43:48.194Z","context":{"agent":"main","skill":null}}
+{"hookEvent":"Stop","ccVersion":"2.1.126","sessionId":"a3dd3aba-90cb-4241-9c9a-598c7909f35e","timestamp":"2026-05-02T20:45:22.919Z","context":{"agent":"main","skill":null}}
+{"hookEvent":"Stop","ccVersion":"2.1.126","sessionId":"a3dd3aba-90cb-4241-9c9a-598c7909f35e","timestamp":"2026-05-02T20:48:17.361Z","context":{"agent":"main","skill":null}}
+{"hookEvent":"Stop","ccVersion":"2.1.126","sessionId":"a3dd3aba-90cb-4241-9c9a-598c7909f35e","timestamp":"2026-05-02T20:50:13.648Z","context":{"agent":"main","skill":null}}
+{"hookEvent":"Stop","ccVersion":"2.1.126","sessionId":"a3dd3aba-90cb-4241-9c9a-598c7909f35e","timestamp":"2026-05-02T20:51:22.808Z","context":{"agent":"main","skill":null}}
+{"hookEvent":"Stop","ccVersion":"2.1.126","sessionId":"a3dd3aba-90cb-4241-9c9a-598c7909f35e","timestamp":"2026-05-02T20:54:54.509Z","context":{"agent":"main","skill":null}}
+{"hookEvent":"Stop","ccVersion":"2.1.126","sessionId":"a3dd3aba-90cb-4241-9c9a-598c7909f35e","timestamp":"2026-05-02T20:59:46.930Z","context":{"agent":"main","skill":null}}
+{"hookEvent":"SubagentStop","ccVersion":"2.1.126","sessionId":"a3dd3aba-90cb-4241-9c9a-598c7909f35e","timestamp":"2026-05-02T21:02:51.296Z","context":{"agentType":"unknown","status":"completed"}}
+{"hookEvent":"Stop","ccVersion":"2.1.126","sessionId":"a3dd3aba-90cb-4241-9c9a-598c7909f35e","timestamp":"2026-05-02T21:09:59.355Z","context":{"agent":"main","skill":null}}
+{"hookEvent":"SubagentStop","ccVersion":"2.1.126","sessionId":"a3dd3aba-90cb-4241-9c9a-598c7909f35e","timestamp":"2026-05-02T21:19:02.568Z","context":{"agentType":"unknown","status":"completed"}}
