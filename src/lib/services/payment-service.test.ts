@@ -44,18 +44,22 @@ describe('computePay', () => {
     expect(r.longHaulSurcharge).toBe(60000);
   });
 
-  it('야간 경계값: 도착 06:00은 야간 아님, 05:59대는 야간', () => {
+  it('야간 경계값: 도착 정각 06:00은 야간 아님(시각순서 유효)', () => {
+    // 출발 20:00 → 도착 익일 06:00. 둘 다 [06,22) 밖이 아니므로 야간 아님.
     const notNight = computePay({
       position: 'cabin',
-      departureAt: '2026-05-01T08:00:00.000Z',
-      arrivalAt: '2026-05-01T12:00:00.000Z',
+      departureAt: '2026-05-01T20:00:00.000Z',
+      arrivalAt: '2026-05-02T06:00:00.000Z',
     });
     expect(notNight.isNight).toBe(false);
+  });
 
+  it('야간 경계값: 도착 05:59는 야간 창(<06)에 걸려 야간(시각순서 유효)', () => {
+    // 출발 20:00 → 도착 익일 05:59. 도착 시각이 06시 미만이라 야간.
     const night = computePay({
       position: 'cabin',
-      departureAt: '2026-05-01T08:00:00.000Z',
-      arrivalAt: '2026-05-01T05:59:00.000Z', // 도착 시각이 야간 창(<06)에 걸림
+      departureAt: '2026-05-01T20:00:00.000Z',
+      arrivalAt: '2026-05-02T05:59:00.000Z',
     });
     expect(night.isNight).toBe(true);
   });
