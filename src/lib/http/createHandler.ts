@@ -16,7 +16,7 @@ export function createHandler<TInput, TOutput>(opts: {
   return async (req: NextRequest) => {
     try {
       // TODO: 실제 세션 조회 로직 (NextAuth)
-      const session = { userId: 'demo', role: 'U' as Role };
+      const session = { userId: 'demo', role: 'SA' as Role };
 
       // RBAC 체크
       const perm = checkPermission(opts.fnId, session.role);
