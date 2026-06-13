@@ -22,26 +22,16 @@ export const PaymentCalcSchema = z.object({
   payPeriodEnd: z.string().refine((s) => !isNaN(Date.parse(s))),
 });
 
-export async function calculatePayment(
-  input: z.infer<typeof PaymentCalcSchema>
-) {
-  const validated = PaymentCalcSchema.parse(input);
+// 순수 수당 계산 — DB 없이 직급·출발·도착만으로 산출(단위 테스트 가능).
+export function computePay(opts: {
+  position: string;
+  departureAt: Date | string;
+  arrivalAt: Date | string;
+}) {
+  const rates = RATE_TABLE[opts.position] || RATE_TABLE.cabin;
 
-  const rows = await db
-    .select({ assignment: crewAssignments, flight: flights })
-    .from(crewAssignments)
-    .innerJoin(flights, eq(crewAssignments.flightId, flights.id))
-    .where(eq(crewAssignments.id, validated.assignmentId));
-
-  const row = rows[0];
-  if (!row) throw new Error(`assignment ${validated.assignmentId} not found`);
-
-  const { assignment, flight } = row;
-  const position = assignment.position;
-  const rates = RATE_TABLE[position] || RATE_TABLE.cabin;
-
-  const dep = new Date(flight.departureAt);
-  const arr = new Date(flight.arrivalAt);
+  const dep = new Date(opts.departureAt);
+  const arr = new Date(opts.arrivalAt);
   const durationHours = (arr.getTime() - dep.getTime()) / 3_600_000;
 
   const isNight =
@@ -66,6 +56,29 @@ export async function calculatePayment(
     durationHours: Number(durationHours.toFixed(2)),
     currency: 'KRW',
   };
+}
+
+export async function calculatePayment(
+  input: z.infer<typeof PaymentCalcSchema>
+) {
+  const validated = PaymentCalcSchema.parse(input);
+
+  const rows = await db
+    .select({ assignment: crewAssignments, flight: flights })
+    .from(crewAssignments)
+    .innerJoin(flights, eq(crewAssignments.flightId, flights.id))
+    .where(eq(crewAssignments.id, validated.assignmentId));
+
+  const row = rows[0];
+  if (!row) throw new Error(`assignment ${validated.assignmentId} not found`);
+
+  const { assignment, flight } = row;
+
+  return computePay({
+    position: assignment.position,
+    departureAt: flight.departureAt,
+    arrivalAt: flight.arrivalAt,
+  });
 }
 
 export async function recordPayment(opts: {
