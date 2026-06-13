@@ -17,6 +17,8 @@ export const ROLES: Record<Role, { name: string; level: number }> = {
 
 export const RBAC_MATRIX: Record<FnId, Record<Role, Permission>> = {
   'FN-101': { G: 'ALLOW', CA: 'ALLOW', SC: 'ALLOW', QM: 'ALLOW', PA: 'ALLOW', SA: 'ALLOW' },
+  // 비행편 생성/조회 (POST /api/flights). 스케줄러·관리자만 쓰기 허용.
+  'FN-1-FLIGHTS': { G: 'DENY', CA: 'DENY', SC: 'ALLOW', QM: 'ALLOW', PA: 'DENY', SA: 'ALLOW' },
   // TODO: 나머지 FN-ID 추가 (docs/07-auth-permission.md 참조)
 };
 

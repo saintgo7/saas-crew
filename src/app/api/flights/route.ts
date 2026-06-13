@@ -11,7 +11,7 @@ import { z } from 'zod';
 import { NextRequest, NextResponse } from 'next/server';
 
 export const POST = createHandler({
-  fnId: 'FN-1-FLIGHTS' as any,
+  fnId: 'FN-1-FLIGHTS',
   input: FlightInputSchema,
   handler: async (_ctx, input) => createFlight(input),
 });
