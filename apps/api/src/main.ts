@@ -24,6 +24,17 @@ import { HttpExceptionFilter } from './common/filters/http-exception.filter'
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
 
+  // Security: Fail fast in production if JWT_SECRET is not configured.
+  // Several modules fall back to a hardcoded 'development-secret-key' when
+  // JWT_SECRET is unset; that fallback must never be used in production
+  // because it would allow anyone to forge valid JWTs.
+  if (process.env.NODE_ENV === 'production' && !process.env.JWT_SECRET) {
+    throw new Error(
+      'JWT_SECRET environment variable must be set in production. ' +
+        'Refusing to start with the insecure development fallback secret.',
+    )
+  }
+
   // Security: Helmet middleware for secure HTTP headers
   app.use(
     helmet({
