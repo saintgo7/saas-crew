@@ -22,6 +22,9 @@ import {
 } from '@nestjs/swagger'
 import { CategoriesService } from './categories.service'
 import { CreateCategoryDto, UpdateCategoryDto } from './dto'
+import { RolesGuard } from '../auth/guards/roles.guard'
+import { Roles } from '../common/decorators/roles.decorator'
+import { UserRank } from '@prisma/client'
 
 /**
  * Categories Controller
@@ -86,7 +89,8 @@ export class CategoriesController {
    * Create a new category (admin only)
    */
   @Post()
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles(UserRank.MASTER)
   @HttpCode(HttpStatus.CREATED)
   @ApiBearerAuth('JWT-auth')
   @ApiOperation({
@@ -102,7 +106,8 @@ export class CategoriesController {
    * Update a category (admin only)
    */
   @Patch(':id')
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles(UserRank.MASTER)
   @HttpCode(HttpStatus.OK)
   @ApiBearerAuth('JWT-auth')
   @ApiOperation({
@@ -119,7 +124,8 @@ export class CategoriesController {
    * Delete a category (admin only)
    */
   @Delete(':id')
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles(UserRank.MASTER)
   @HttpCode(HttpStatus.OK)
   @ApiBearerAuth('JWT-auth')
   @ApiOperation({
@@ -136,7 +142,8 @@ export class CategoriesController {
    * Reorder categories (admin only)
    */
   @Post('reorder')
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles(UserRank.MASTER)
   @HttpCode(HttpStatus.OK)
   @ApiBearerAuth('JWT-auth')
   @ApiOperation({
