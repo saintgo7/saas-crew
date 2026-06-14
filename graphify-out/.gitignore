@@ -1,0 +1,5 @@
+# graphify 산출물 중 캐시와 대용량 시각화 파일은 추적 제외 (그래프 데이터·리포트만 유지)
+graph.html
+cache/
+.graphify_root
+.graphify_labels.json
