@@ -3,12 +3,21 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { AssignmentInputSchema, assignCrew } from '@/lib/services/flight-service';
+import { auth } from '@/lib/auth/config';
+import { checkPermission, Role } from '@/lib/permissions/matrix';
 
 export async function POST(
   req: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
+    const session = await auth();
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+    if (checkPermission('FN-2-ASSIGN', session.user.role as Role) === 'DENY') {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     const body = await req.json();
     const parsed = AssignmentInputSchema.safeParse({
       ...body,

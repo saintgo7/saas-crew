@@ -2,6 +2,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { checkPermission, FnId, Role } from '../permissions/matrix';
+import { auth } from '../auth/config';
 
 export interface HandlerContext {
   session: { userId: string; role: Role };
@@ -15,13 +16,15 @@ export function createHandler<TInput, TOutput>(opts: {
 }) {
   return async (req: NextRequest) => {
     try {
-      // TODO: 실제 세션 조회 로직 (NextAuth auth()로 교체).
-      // 그 전까지 데모 세션은 dev/test에서만 허용한다. 프로덕션에서
-      // 무인증 쓰기가 열리지 않도록 fail-closed 한다.
-      if (process.env.NODE_ENV === 'production') {
+      // 실제 세션 조회 (NextAuth). 미인증이면 fail-closed(401).
+      const authSession = await auth();
+      if (!authSession?.user?.id) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
       }
-      const session = { userId: 'demo', role: 'SA' as Role };
+      const session = {
+        userId: authSession.user.id,
+        role: authSession.user.role as Role,
+      };
 
       // RBAC 체크
       const perm = checkPermission(opts.fnId, session.role);

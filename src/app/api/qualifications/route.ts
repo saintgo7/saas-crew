@@ -7,9 +7,18 @@ import {
   grantQualification,
   findExpiringQualifications,
 } from '@/lib/services/qualification-service';
+import { auth } from '@/lib/auth/config';
+import { checkPermission, Role } from '@/lib/permissions/matrix';
 
 export async function POST(req: NextRequest) {
   try {
+    const session = await auth();
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+    if (checkPermission('FN-3-QUAL-GRANT', session.user.role as Role) === 'DENY') {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     const body = await req.json();
     const parsed = GrantQualificationSchema.safeParse(body);
     if (!parsed.success) {
@@ -30,6 +39,13 @@ export async function POST(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
   try {
+    const session = await auth();
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+    if (checkPermission('FN-3-QUAL-READ', session.user.role as Role) === 'DENY') {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     const url = new URL(req.url);
     const days = Number(url.searchParams.get('withinDays') || '30');
     if (isNaN(days) || days < 0 || days > 365) {

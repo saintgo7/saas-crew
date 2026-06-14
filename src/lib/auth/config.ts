@@ -34,7 +34,7 @@ declare module 'next-auth/jwt' {
 export const { handlers, auth, signIn, signOut } = NextAuth({
   adapter: DrizzleAdapter(db as any) as any,
   trustHost: true, // Cloudflare Tunnel 뒤
-  secret: process.env.AUTH_SECRET,
+  secret: process.env.AUTH_SECRET ?? process.env.NEXTAUTH_SECRET,
   session: { strategy: 'jwt' },
   pages: {
     signIn: '/login',

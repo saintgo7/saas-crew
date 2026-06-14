@@ -8,9 +8,18 @@ import {
   recordPayment,
   aggregateMonthlyPayout,
 } from '@/lib/services/payment-service';
+import { auth } from '@/lib/auth/config';
+import { checkPermission, Role } from '@/lib/permissions/matrix';
 
 export async function POST(req: NextRequest) {
   try {
+    const session = await auth();
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+    if (checkPermission('FN-4-PAYROLL', session.user.role as Role) === 'DENY') {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     const body = await req.json();
     const parsed = PaymentCalcSchema.safeParse(body);
     if (!parsed.success) {
@@ -43,6 +52,13 @@ export async function POST(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
   try {
+    const session = await auth();
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+    if (checkPermission('FN-4-PAYROLL', session.user.role as Role) === 'DENY') {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     const url = new URL(req.url);
     const crewId = url.searchParams.get('crewId');
     const yearMonth = url.searchParams.get('yearMonth');
