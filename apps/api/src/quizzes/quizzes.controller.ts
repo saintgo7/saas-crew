@@ -28,6 +28,9 @@ import {
   UpdateQuizDto,
   CreateQuestionDto,
 } from './dto'
+import { RolesGuard } from '../auth/guards/roles.guard'
+import { Roles } from '../common/decorators/roles.decorator'
+import { UserRank } from '@prisma/client'
 
 /**
  * Quizzes Controller
@@ -76,7 +79,8 @@ export class QuizzesController {
    * Get quiz by ID with correct answers (admin only)
    */
   @Get(':id/admin')
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles(UserRank.MASTER)
   @HttpCode(HttpStatus.OK)
   @ApiBearerAuth('JWT-auth')
   @ApiOperation({
@@ -148,7 +152,8 @@ export class QuizzesController {
    * Add a question to a quiz
    */
   @Post(':id/questions')
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles(UserRank.MASTER)
   @HttpCode(HttpStatus.CREATED)
   @ApiBearerAuth('JWT-auth')
   @ApiOperation({
@@ -165,7 +170,8 @@ export class QuizzesController {
    * Update a question
    */
   @Patch('questions/:questionId')
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles(UserRank.MASTER)
   @HttpCode(HttpStatus.OK)
   @ApiBearerAuth('JWT-auth')
   @ApiOperation({
@@ -185,7 +191,8 @@ export class QuizzesController {
    * Delete a question
    */
   @Delete('questions/:questionId')
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles(UserRank.MASTER)
   @HttpCode(HttpStatus.OK)
   @ApiBearerAuth('JWT-auth')
   @ApiOperation({

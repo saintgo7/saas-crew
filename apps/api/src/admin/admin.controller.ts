@@ -19,6 +19,8 @@ import {
   ApiQuery,
 } from '@nestjs/swagger'
 import { AdminService } from './admin.service'
+import { RolesGuard } from '../auth/guards/roles.guard'
+import { Roles } from '../common/decorators/roles.decorator'
 import { UserRank } from '@prisma/client'
 
 /**
@@ -100,6 +102,8 @@ export class AdminController {
    * Update user rank
    */
   @Patch('users/:id/rank')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles(UserRank.MASTER)
   @HttpCode(HttpStatus.OK)
   @ApiOperation({
     summary: 'Update user rank',

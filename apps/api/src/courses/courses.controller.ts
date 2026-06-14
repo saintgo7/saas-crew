@@ -23,6 +23,9 @@ import { CoursesService } from './courses.service'
 import { ChaptersService } from '../chapters/chapters.service'
 import { CreateCourseDto, UpdateCourseDto, CourseQueryDto } from './dto'
 import { CreateChapterDto } from '../chapters/dto'
+import { RolesGuard } from '../auth/guards/roles.guard'
+import { Roles } from '../common/decorators/roles.decorator'
+import { UserRank } from '@prisma/client'
 
 /**
  * Courses Controller
@@ -62,7 +65,8 @@ export class CoursesController {
    * Protected endpoint - requires JWT authentication (Admin only)
    */
   @Post()
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles(UserRank.MASTER)
   @HttpCode(HttpStatus.CREATED)
   @ApiBearerAuth('JWT-auth')
   @ApiOperation({
@@ -119,7 +123,8 @@ export class CoursesController {
    * Protected endpoint - requires JWT authentication (Admin only)
    */
   @Patch(':id')
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles(UserRank.MASTER)
   @HttpCode(HttpStatus.OK)
   @ApiBearerAuth('JWT-auth')
   @ApiOperation({
@@ -153,7 +158,8 @@ export class CoursesController {
    * Protected endpoint - requires JWT authentication (Admin only)
    */
   @Delete(':id')
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles(UserRank.MASTER)
   @HttpCode(HttpStatus.OK)
   @ApiBearerAuth('JWT-auth')
   @ApiOperation({
@@ -215,7 +221,8 @@ export class CoursesController {
    * Protected endpoint - requires JWT authentication (Admin only)
    */
   @Post(':id/chapters')
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles(UserRank.MASTER)
   @HttpCode(HttpStatus.CREATED)
   @ApiBearerAuth('JWT-auth')
   @ApiOperation({
