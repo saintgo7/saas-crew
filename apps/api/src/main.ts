@@ -24,14 +24,19 @@ import { HttpExceptionFilter } from './common/filters/http-exception.filter'
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
 
-  // Security: Fail fast in production if JWT_SECRET is not configured.
-  // Several modules fall back to a hardcoded 'development-secret-key' when
-  // JWT_SECRET is unset; that fallback must never be used in production
-  // because it would allow anyone to forge valid JWTs.
-  if (process.env.NODE_ENV === 'production' && !process.env.JWT_SECRET) {
+  // Security: Fail fast in any non-development environment if JWT_SECRET is
+  // missing or set to a known-insecure value. Several modules fall back to a
+  // hardcoded 'development-secret-key' when JWT_SECRET is unset; that fallback
+  // must never reach production or staging because it would allow anyone to
+  // forge valid JWTs. Staging deploys NODE_ENV=staging, so a production-only
+  // check is not enough — anything other than 'development'/'test' is guarded.
+  const nodeEnv = process.env.NODE_ENV || 'development'
+  const isDevLikeEnv = nodeEnv === 'development' || nodeEnv === 'test'
+  const jwtSecret = (process.env.JWT_SECRET || '').trim()
+  if (!isDevLikeEnv && (jwtSecret === '' || jwtSecret === 'development-secret-key')) {
     throw new Error(
-      'JWT_SECRET environment variable must be set in production. ' +
-        'Refusing to start with the insecure development fallback secret.',
+      `JWT_SECRET environment variable must be set to a secure value in '${nodeEnv}'. ` +
+        'Refusing to start with a missing or insecure development fallback secret.',
     )
   }
 
