@@ -217,6 +217,11 @@ export class CanvasGateway implements OnGatewayInit, OnGatewayConnection, OnGate
   ) {
     const { canvasId, elements, appState } = data
 
+    // Only allow sync from a client that actually joined this canvas room
+    if (this.socketCanvas.get(client.id) !== canvasId) {
+      throw new WsException('Not joined to this canvas')
+    }
+
     // Broadcast to other users in the canvas
     client.to(canvasId).emit('canvas:sync', {
       elements,
@@ -236,6 +241,11 @@ export class CanvasGateway implements OnGatewayInit, OnGatewayConnection, OnGate
     @MessageBody() data: { canvasId: string; cursor?: { x: number; y: number }; selectedElementIds?: string[] },
   ) {
     const { canvasId, cursor, selectedElementIds } = data
+
+    // Only allow awareness updates from a client that joined this canvas room
+    if (this.socketCanvas.get(client.id) !== canvasId) {
+      throw new WsException('Not joined to this canvas')
+    }
 
     // Update tracked user cursor
     const users = this.canvasUsers.get(canvasId)
