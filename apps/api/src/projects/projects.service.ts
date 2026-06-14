@@ -38,15 +38,12 @@ export class ProjectsService {
    * Repository Layer: Complex query with pagination and filtering
    */
   async findAll(query: ProjectQueryDto) {
-    const { visibility, tags, search, page = 1, limit = 20 } = query
+    const { tags, search, page = 1, limit = 20 } = query
     const skip = (page - 1) * limit
 
     // Build where clause
-    const where: any = {}
-
-    if (visibility) {
-      where.visibility = visibility
-    }
+    // Public listing only exposes PUBLIC projects (PRIVATE/TEAM require membership)
+    const where: any = { visibility: Visibility.PUBLIC }
 
     if (tags) {
       const tagArray = tags.split(',').map((tag) => tag.trim())
@@ -173,6 +170,12 @@ export class ProjectsService {
     })
 
     if (!project) {
+      throw new NotFoundException(`Project with ID ${id} not found`)
+    }
+
+    // Public detail endpoint: only PUBLIC projects are exposed
+    // (PRIVATE/TEAM members access them through authenticated paths)
+    if (project.visibility !== Visibility.PUBLIC) {
       throw new NotFoundException(`Project with ID ${id} not found`)
     }
 
