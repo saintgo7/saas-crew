@@ -91,7 +91,7 @@ describe('ProjectsService', () => {
       })
     })
 
-    it('should filter by visibility', async () => {
+    it('should force PUBLIC visibility on the public listing (security: cannot list PRIVATE)', async () => {
       const query: ProjectQueryDto = { visibility: Visibility.PRIVATE, page: 1, limit: 20 }
 
       mockPrismaService.project.findMany.mockResolvedValue([mockProject])
@@ -101,7 +101,7 @@ describe('ProjectsService', () => {
 
       expect(prisma.project.findMany).toHaveBeenCalledWith(
         expect.objectContaining({
-          where: { visibility: Visibility.PRIVATE },
+          where: { visibility: Visibility.PUBLIC },
         }),
       )
     })
@@ -120,6 +120,7 @@ describe('ProjectsService', () => {
             tags: {
               hasSome: ['javascript', 'react'],
             },
+            visibility: Visibility.PUBLIC,
           },
         }),
       )
@@ -140,6 +141,7 @@ describe('ProjectsService', () => {
               { name: { contains: 'test', mode: 'insensitive' } },
               { description: { contains: 'test', mode: 'insensitive' } },
             ],
+            visibility: Visibility.PUBLIC,
           },
         }),
       )
