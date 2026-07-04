@@ -1,217 +1,217 @@
-# Graph Report - .  (2026-06-14)
+# Graph Report - .  (2026-07-03)
 
 ## Corpus Check
 - cluster-only mode — file stats not available
 
 ## Summary
-- 9544 nodes · 11894 edges · 636 communities (606 shown, 30 thin omitted)
+- 9544 nodes · 11894 edges · 640 communities (610 shown, 30 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 32 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `33987726`
+- Built from commit: `8caf5841`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
 ## Community Hubs (Navigation)
-- [[_COMMUNITY_Community 0|Community 0]]
-- [[_COMMUNITY_Community 1|Community 1]]
-- [[_COMMUNITY_Community 2|Community 2]]
-- [[_COMMUNITY_Community 3|Community 3]]
-- [[_COMMUNITY_Community 4|Community 4]]
-- [[_COMMUNITY_Community 5|Community 5]]
-- [[_COMMUNITY_Community 6|Community 6]]
-- [[_COMMUNITY_Community 7|Community 7]]
-- [[_COMMUNITY_Community 8|Community 8]]
-- [[_COMMUNITY_Community 9|Community 9]]
-- [[_COMMUNITY_Community 10|Community 10]]
-- [[_COMMUNITY_Community 11|Community 11]]
-- [[_COMMUNITY_Community 12|Community 12]]
-- [[_COMMUNITY_Community 13|Community 13]]
-- [[_COMMUNITY_Community 14|Community 14]]
-- [[_COMMUNITY_Community 15|Community 15]]
-- [[_COMMUNITY_Community 16|Community 16]]
-- [[_COMMUNITY_Community 17|Community 17]]
-- [[_COMMUNITY_Community 18|Community 18]]
-- [[_COMMUNITY_Community 19|Community 19]]
-- [[_COMMUNITY_Community 20|Community 20]]
-- [[_COMMUNITY_Community 21|Community 21]]
-- [[_COMMUNITY_Community 22|Community 22]]
-- [[_COMMUNITY_Community 23|Community 23]]
-- [[_COMMUNITY_Community 24|Community 24]]
-- [[_COMMUNITY_Community 25|Community 25]]
-- [[_COMMUNITY_Community 26|Community 26]]
-- [[_COMMUNITY_Community 27|Community 27]]
-- [[_COMMUNITY_Community 28|Community 28]]
-- [[_COMMUNITY_Community 29|Community 29]]
-- [[_COMMUNITY_Community 30|Community 30]]
-- [[_COMMUNITY_Community 31|Community 31]]
-- [[_COMMUNITY_Community 32|Community 32]]
-- [[_COMMUNITY_Community 33|Community 33]]
-- [[_COMMUNITY_Community 34|Community 34]]
-- [[_COMMUNITY_Community 35|Community 35]]
-- [[_COMMUNITY_Community 36|Community 36]]
+- [[_COMMUNITY_AI & Machine Learning|AI & Machine Learning]]
+- [[_COMMUNITY_Authentication API Client|Authentication API Client]]
+- [[_COMMUNITY_Q&A API Service|Q&A API Service]]
+- [[_COMMUNITY_Course Chapter Management|Course Chapter Management]]
+- [[_COMMUNITY_User Progress Tracking|User Progress Tracking]]
+- [[_COMMUNITY_Admin Analytics Service|Admin Analytics Service]]
+- [[_COMMUNITY_Canvas Data Controller|Canvas Data Controller]]
+- [[_COMMUNITY_Post & Comment UI|Post & Comment UI]]
+- [[_COMMUNITY_Chat & Messaging System|Chat & Messaging System]]
+- [[_COMMUNITY_Mentoring & Notifications|Mentoring & Notifications]]
+- [[_COMMUNITY_Backend Infrastructure Strategy|Backend Infrastructure Strategy]]
+- [[_COMMUNITY_Backend Infrastructure Strategy|Backend Infrastructure Strategy]]
+- [[_COMMUNITY_Mentorship Management API|Mentorship Management API]]
+- [[_COMMUNITY_Notification DTOs & Logic|Notification DTOs & Logic]]
+- [[_COMMUNITY_Chapter Service Controller|Chapter Service Controller]]
+- [[_COMMUNITY_Admin Settings UI|Admin Settings UI]]
+- [[_COMMUNITY_Database Fundamentals|Database Fundamentals]]
+- [[_COMMUNITY_Database Fundamentals|Database Fundamentals]]
+- [[_COMMUNITY_Frontend UI Components|Frontend UI Components]]
+- [[_COMMUNITY_Cloud & DevOps Infrastructure|Cloud & DevOps Infrastructure]]
+- [[_COMMUNITY_Frontend UI Components|Frontend UI Components]]
+- [[_COMMUNITY_Cloud & DevOps Infrastructure|Cloud & DevOps Infrastructure]]
+- [[_COMMUNITY_Question & Answer DTOs|Question & Answer DTOs]]
+- [[_COMMUNITY_Project FAQ|Project FAQ]]
+- [[_COMMUNITY_Business Model Strategy|Business Model Strategy]]
+- [[_COMMUNITY_Testing & QA Standards|Testing & QA Standards]]
+- [[_COMMUNITY_Development Phase Summary|Development Phase Summary]]
+- [[_COMMUNITY_Test Performance Analysis|Test Performance Analysis]]
+- [[_COMMUNITY_NestJS Project Structure|NestJS Project Structure]]
+- [[_COMMUNITY_Project Management API|Project Management API]]
+- [[_COMMUNITY_CrewSpace Project Overview|CrewSpace Project Overview]]
+- [[_COMMUNITY_Project Appendix & Resources|Project Appendix & Resources]]
+- [[_COMMUNITY_Deployment Guide|Deployment Guide]]
+- [[_COMMUNITY_Project References & FAQ|Project References & FAQ]]
+- [[_COMMUNITY_API Layer Implementation|API Layer Implementation]]
+- [[_COMMUNITY_E2E Testing Framework|E2E Testing Framework]]
+- [[_COMMUNITY_CICD Configuration Fixes|CI/CD Configuration Fixes]]
 - [[_COMMUNITY_Community 37|Community 37]]
-- [[_COMMUNITY_Community 38|Community 38]]
-- [[_COMMUNITY_Community 39|Community 39]]
-- [[_COMMUNITY_Community 40|Community 40]]
-- [[_COMMUNITY_Community 41|Community 41]]
-- [[_COMMUNITY_Community 42|Community 42]]
-- [[_COMMUNITY_Community 43|Community 43]]
-- [[_COMMUNITY_Community 44|Community 44]]
-- [[_COMMUNITY_Community 45|Community 45]]
-- [[_COMMUNITY_Community 46|Community 46]]
-- [[_COMMUNITY_Community 47|Community 47]]
-- [[_COMMUNITY_Community 48|Community 48]]
-- [[_COMMUNITY_Community 49|Community 49]]
-- [[_COMMUNITY_Community 50|Community 50]]
-- [[_COMMUNITY_Community 51|Community 51]]
-- [[_COMMUNITY_Community 52|Community 52]]
-- [[_COMMUNITY_Community 53|Community 53]]
-- [[_COMMUNITY_Community 54|Community 54]]
-- [[_COMMUNITY_Community 55|Community 55]]
-- [[_COMMUNITY_Community 56|Community 56]]
-- [[_COMMUNITY_Community 57|Community 57]]
-- [[_COMMUNITY_Community 58|Community 58]]
-- [[_COMMUNITY_Community 59|Community 59]]
-- [[_COMMUNITY_Community 60|Community 60]]
-- [[_COMMUNITY_Community 61|Community 61]]
-- [[_COMMUNITY_Community 62|Community 62]]
-- [[_COMMUNITY_Community 63|Community 63]]
-- [[_COMMUNITY_Community 64|Community 64]]
-- [[_COMMUNITY_Community 65|Community 65]]
-- [[_COMMUNITY_Community 66|Community 66]]
-- [[_COMMUNITY_Community 67|Community 67]]
-- [[_COMMUNITY_Community 68|Community 68]]
-- [[_COMMUNITY_Community 69|Community 69]]
-- [[_COMMUNITY_Community 70|Community 70]]
-- [[_COMMUNITY_Community 71|Community 71]]
-- [[_COMMUNITY_Community 72|Community 72]]
-- [[_COMMUNITY_Community 73|Community 73]]
-- [[_COMMUNITY_Community 74|Community 74]]
-- [[_COMMUNITY_Community 75|Community 75]]
-- [[_COMMUNITY_Community 76|Community 76]]
-- [[_COMMUNITY_Community 77|Community 77]]
-- [[_COMMUNITY_Community 78|Community 78]]
-- [[_COMMUNITY_Community 79|Community 79]]
-- [[_COMMUNITY_Community 80|Community 80]]
-- [[_COMMUNITY_Community 81|Community 81]]
-- [[_COMMUNITY_Community 82|Community 82]]
-- [[_COMMUNITY_Community 83|Community 83]]
-- [[_COMMUNITY_Community 84|Community 84]]
-- [[_COMMUNITY_Community 85|Community 85]]
-- [[_COMMUNITY_Community 86|Community 86]]
-- [[_COMMUNITY_Community 87|Community 87]]
-- [[_COMMUNITY_Community 88|Community 88]]
-- [[_COMMUNITY_Community 89|Community 89]]
-- [[_COMMUNITY_Community 90|Community 90]]
-- [[_COMMUNITY_Community 91|Community 91]]
-- [[_COMMUNITY_Community 92|Community 92]]
-- [[_COMMUNITY_Community 93|Community 93]]
-- [[_COMMUNITY_Community 94|Community 94]]
-- [[_COMMUNITY_Community 95|Community 95]]
-- [[_COMMUNITY_Community 96|Community 96]]
-- [[_COMMUNITY_Community 97|Community 97]]
-- [[_COMMUNITY_Community 98|Community 98]]
-- [[_COMMUNITY_Community 99|Community 99]]
-- [[_COMMUNITY_Community 100|Community 100]]
-- [[_COMMUNITY_Community 101|Community 101]]
-- [[_COMMUNITY_Community 102|Community 102]]
-- [[_COMMUNITY_Community 103|Community 103]]
-- [[_COMMUNITY_Community 104|Community 104]]
-- [[_COMMUNITY_Community 105|Community 105]]
-- [[_COMMUNITY_Community 106|Community 106]]
-- [[_COMMUNITY_Community 107|Community 107]]
-- [[_COMMUNITY_Community 108|Community 108]]
-- [[_COMMUNITY_Community 109|Community 109]]
-- [[_COMMUNITY_Community 110|Community 110]]
-- [[_COMMUNITY_Community 111|Community 111]]
-- [[_COMMUNITY_Community 112|Community 112]]
-- [[_COMMUNITY_Community 113|Community 113]]
-- [[_COMMUNITY_Community 114|Community 114]]
-- [[_COMMUNITY_Community 115|Community 115]]
-- [[_COMMUNITY_Community 116|Community 116]]
-- [[_COMMUNITY_Community 117|Community 117]]
-- [[_COMMUNITY_Community 118|Community 118]]
-- [[_COMMUNITY_Community 119|Community 119]]
-- [[_COMMUNITY_Community 120|Community 120]]
-- [[_COMMUNITY_Community 121|Community 121]]
-- [[_COMMUNITY_Community 122|Community 122]]
-- [[_COMMUNITY_Community 123|Community 123]]
-- [[_COMMUNITY_Community 124|Community 124]]
-- [[_COMMUNITY_Community 125|Community 125]]
-- [[_COMMUNITY_Community 126|Community 126]]
-- [[_COMMUNITY_Community 127|Community 127]]
-- [[_COMMUNITY_Community 128|Community 128]]
-- [[_COMMUNITY_Community 129|Community 129]]
-- [[_COMMUNITY_Community 130|Community 130]]
-- [[_COMMUNITY_Community 131|Community 131]]
-- [[_COMMUNITY_Community 132|Community 132]]
-- [[_COMMUNITY_Community 133|Community 133]]
-- [[_COMMUNITY_Community 134|Community 134]]
-- [[_COMMUNITY_Community 135|Community 135]]
-- [[_COMMUNITY_Community 136|Community 136]]
-- [[_COMMUNITY_Community 137|Community 137]]
-- [[_COMMUNITY_Community 138|Community 138]]
-- [[_COMMUNITY_Community 139|Community 139]]
-- [[_COMMUNITY_Community 140|Community 140]]
-- [[_COMMUNITY_Community 141|Community 141]]
-- [[_COMMUNITY_Community 142|Community 142]]
-- [[_COMMUNITY_Community 143|Community 143]]
-- [[_COMMUNITY_Community 144|Community 144]]
-- [[_COMMUNITY_Community 145|Community 145]]
-- [[_COMMUNITY_Community 146|Community 146]]
-- [[_COMMUNITY_Community 147|Community 147]]
-- [[_COMMUNITY_Community 148|Community 148]]
-- [[_COMMUNITY_Community 149|Community 149]]
-- [[_COMMUNITY_Community 150|Community 150]]
-- [[_COMMUNITY_Community 151|Community 151]]
-- [[_COMMUNITY_Community 152|Community 152]]
-- [[_COMMUNITY_Community 153|Community 153]]
-- [[_COMMUNITY_Community 154|Community 154]]
-- [[_COMMUNITY_Community 155|Community 155]]
-- [[_COMMUNITY_Community 156|Community 156]]
-- [[_COMMUNITY_Community 157|Community 157]]
-- [[_COMMUNITY_Community 158|Community 158]]
-- [[_COMMUNITY_Community 159|Community 159]]
-- [[_COMMUNITY_Community 160|Community 160]]
-- [[_COMMUNITY_Community 161|Community 161]]
-- [[_COMMUNITY_Community 162|Community 162]]
-- [[_COMMUNITY_Community 163|Community 163]]
-- [[_COMMUNITY_Community 164|Community 164]]
-- [[_COMMUNITY_Community 165|Community 165]]
-- [[_COMMUNITY_Community 166|Community 166]]
-- [[_COMMUNITY_Community 167|Community 167]]
-- [[_COMMUNITY_Community 168|Community 168]]
-- [[_COMMUNITY_Community 169|Community 169]]
-- [[_COMMUNITY_Community 170|Community 170]]
-- [[_COMMUNITY_Community 171|Community 171]]
-- [[_COMMUNITY_Community 172|Community 172]]
-- [[_COMMUNITY_Community 173|Community 173]]
-- [[_COMMUNITY_Community 174|Community 174]]
-- [[_COMMUNITY_Community 175|Community 175]]
-- [[_COMMUNITY_Community 176|Community 176]]
-- [[_COMMUNITY_Community 177|Community 177]]
-- [[_COMMUNITY_Community 178|Community 178]]
-- [[_COMMUNITY_Community 179|Community 179]]
-- [[_COMMUNITY_Community 180|Community 180]]
-- [[_COMMUNITY_Community 181|Community 181]]
-- [[_COMMUNITY_Community 182|Community 182]]
-- [[_COMMUNITY_Community 183|Community 183]]
-- [[_COMMUNITY_Community 184|Community 184]]
-- [[_COMMUNITY_Community 185|Community 185]]
-- [[_COMMUNITY_Community 186|Community 186]]
-- [[_COMMUNITY_Community 187|Community 187]]
-- [[_COMMUNITY_Community 188|Community 188]]
-- [[_COMMUNITY_Community 189|Community 189]]
-- [[_COMMUNITY_Community 190|Community 190]]
-- [[_COMMUNITY_Community 191|Community 191]]
-- [[_COMMUNITY_Community 192|Community 192]]
-- [[_COMMUNITY_Community 193|Community 193]]
-- [[_COMMUNITY_Community 194|Community 194]]
-- [[_COMMUNITY_Community 195|Community 195]]
-- [[_COMMUNITY_Community 196|Community 196]]
-- [[_COMMUNITY_Community 197|Community 197]]
+- [[_COMMUNITY_Backend Test Report|Backend Test Report]]
+- [[_COMMUNITY_Community Feature Integration|Community Feature Integration]]
+- [[_COMMUNITY_API Documentation Standards|API Documentation Standards]]
+- [[_COMMUNITY_Marketing Strategy Plan|Marketing Strategy Plan]]
+- [[_COMMUNITY_Operations & Hiring Plan|Operations & Hiring Plan]]
+- [[_COMMUNITY_Software Engineering Principles|Software Engineering Principles]]
+- [[_COMMUNITY_Risk Management Framework|Risk Management Framework]]
+- [[_COMMUNITY_Backend Module Implementation|Backend Module Implementation]]
+- [[_COMMUNITY_Software Engineering Principles|Software Engineering Principles]]
+- [[_COMMUNITY_Development Roadmap|Development Roadmap]]
+- [[_COMMUNITY_Frontend API Integration|Frontend API Integration]]
+- [[_COMMUNITY_Course Module Implementation|Course Module Implementation]]
+- [[_COMMUNITY_Swagger API Documentation|Swagger API Documentation]]
+- [[_COMMUNITY_API Test Coverage|API Test Coverage]]
+- [[_COMMUNITY_E2E Testing Summary|E2E Testing Summary]]
+- [[_COMMUNITY_Project Specifications|Project Specifications]]
+- [[_COMMUNITY_Frontend Feature Implementation|Frontend Feature Implementation]]
+- [[_COMMUNITY_Localization & Context|Localization & Context]]
+- [[_COMMUNITY_Course Enrollment Service|Course Enrollment Service]]
+- [[_COMMUNITY_GSD Execution Guide|GSD Execution Guide]]
+- [[_COMMUNITY_Quick Start Guide|Quick Start Guide]]
+- [[_COMMUNITY_Project README Overview|Project README Overview]]
+- [[_COMMUNITY_System Running Instructions|System Running Instructions]]
+- [[_COMMUNITY_API Security Implementation|API Security Implementation]]
+- [[_COMMUNITY_Mentorship Controller API|Mentorship Controller API]]
+- [[_COMMUNITY_Quiz Management Service|Quiz Management Service]]
+- [[_COMMUNITY_Community Post Features|Community Post Features]]
+- [[_COMMUNITY_User Roles & XP|User Roles & XP]]
+- [[_COMMUNITY_Course UI Implementation|Course UI Implementation]]
+- [[_COMMUNITY_Docker Environment Setup|Docker Environment Setup]]
+- [[_COMMUNITY_Development Workflow Plan|Development Workflow Plan]]
+- [[_COMMUNITY_Software Testing Methodologies|Software Testing Methodologies]]
+- [[_COMMUNITY_Post API Endpoints|Post API Endpoints]]
+- [[_COMMUNITY_Customer Success Strategy|Customer Success Strategy]]
+- [[_COMMUNITY_Business Expansion Strategy|Business Expansion Strategy]]
+- [[_COMMUNITY_Software Testing Methodologies|Software Testing Methodologies]]
+- [[_COMMUNITY_API Environment Setup|API Environment Setup]]
+- [[_COMMUNITY_Unit Testing Guide|Unit Testing Guide]]
+- [[_COMMUNITY_Performance Optimization Report|Performance Optimization Report]]
+- [[_COMMUNITY_Course API Implementation|Course API Implementation]]
+- [[_COMMUNITY_Project Timeline Gantt|Project Timeline Gantt]]
+- [[_COMMUNITY_CICD Setup Checklist|CI/CD Setup Checklist]]
+- [[_COMMUNITY_Quiz Service Logic|Quiz Service Logic]]
+- [[_COMMUNITY_Leaderboard UI Components|Leaderboard UI Components]]
+- [[_COMMUNITY_Security Compliance Checklist|Security Compliance Checklist]]
+- [[_COMMUNITY_UI Alert Dialogs|UI Alert Dialogs]]
+- [[_COMMUNITY_Data Analytics Strategy|Data Analytics Strategy]]
+- [[_COMMUNITY_Security Audit Status|Security Audit Status]]
+- [[_COMMUNITY_Authentication Controller Service|Authentication Controller Service]]
+- [[_COMMUNITY_Project Development Log|Project Development Log]]
+- [[_COMMUNITY_Ralph Loop Patterns|Ralph Loop Patterns]]
+- [[_COMMUNITY_Technical Architecture Overview|Technical Architecture Overview]]
+- [[_COMMUNITY_Performance Optimization Summary|Performance Optimization Summary]]
+- [[_COMMUNITY_Project Member Management|Project Member Management]]
+- [[_COMMUNITY_Contribution Guidelines|Contribution Guidelines]]
+- [[_COMMUNITY_API Documentation Reference|API Documentation Reference]]
+- [[_COMMUNITY_Web Security Protocols|Web Security Protocols]]
+- [[_COMMUNITY_Investment Strategy Plan|Investment Strategy Plan]]
+- [[_COMMUNITY_Web Security Protocols|Web Security Protocols]]
+- [[_COMMUNITY_Full Stack Development Overview|Full Stack Development Overview]]
+- [[_COMMUNITY_Learning Reports Service|Learning Reports Service]]
+- [[_COMMUNITY_Customer Success Roadmap|Customer Success Roadmap]]
+- [[_COMMUNITY_Project API Endpoints|Project API Endpoints]]
+- [[_COMMUNITY_Certificate Management Service|Certificate Management Service]]
+- [[_COMMUNITY_Risk Management Framework|Risk Management Framework]]
+- [[_COMMUNITY_Partnership Strategy|Partnership Strategy]]
+- [[_COMMUNITY_Frontend Home Components|Frontend Home Components]]
+- [[_COMMUNITY_Comments Controller|Comments Controller]]
+- [[_COMMUNITY_Bundle Optimization Analysis|Bundle Optimization Analysis]]
+- [[_COMMUNITY_Deployment Dev Log|Deployment Dev Log]]
+- [[_COMMUNITY_Backend Dependencies|Backend Dependencies]]
+- [[_COMMUNITY_GitHub OAuth Setup|GitHub OAuth Setup]]
+- [[_COMMUNITY_Partnership Strategy English|Partnership Strategy English]]
+- [[_COMMUNITY_Data Analysis Strategy|Data Analysis Strategy]]
+- [[_COMMUNITY_Integration Testing Guide|Integration Testing Guide]]
+- [[_COMMUNITY_Admin Layout Components|Admin Layout Components]]
+- [[_COMMUNITY_Service Test Results|Service Test Results]]
+- [[_COMMUNITY_Reports Controller|Reports Controller]]
+- [[_COMMUNITY_Users and Projects Module|Users and Projects Module]]
+- [[_COMMUNITY_Deployment Architecture English|Deployment Architecture English]]
+- [[_COMMUNITY_Deployment Guide Korean|Deployment Guide Korean]]
+- [[_COMMUNITY_Certificates and Badges|Certificates and Badges]]
+- [[_COMMUNITY_Test Coverage Summary|Test Coverage Summary]]
+- [[_COMMUNITY_Posts Controller|Posts Controller]]
+- [[_COMMUNITY_Swagger API Documentation|Swagger API Documentation]]
+- [[_COMMUNITY_Sustainability Plan|Sustainability Plan]]
+- [[_COMMUNITY_Chat Socket Services|Chat Socket Services]]
+- [[_COMMUNITY_Quiz UI Components|Quiz UI Components]]
+- [[_COMMUNITY_XP and Leaderboard API|XP and Leaderboard API]]
+- [[_COMMUNITY_Categories Module|Categories Module]]
+- [[_COMMUNITY_Certificates Service|Certificates Service]]
+- [[_COMMUNITY_Collaborative Canvas UI|Collaborative Canvas UI]]
+- [[_COMMUNITY_Development Glossary|Development Glossary]]
+- [[_COMMUNITY_Sustainability Plan Korean|Sustainability Plan Korean]]
+- [[_COMMUNITY_Project Scripts|Project Scripts]]
+- [[_COMMUNITY_Dependency Security Audit|Dependency Security Audit]]
+- [[_COMMUNITY_Legal and Privacy Policy|Legal and Privacy Policy]]
+- [[_COMMUNITY_Community API Endpoints|Community API Endpoints]]
+- [[_COMMUNITY_CICD Pipeline Plan|CI/CD Pipeline Plan]]
+- [[_COMMUNITY_Assignments Module|Assignments Module]]
+- [[_COMMUNITY_Quality Assurance Plan|Quality Assurance Plan]]
+- [[_COMMUNITY_Backend Testing Strategy|Backend Testing Strategy]]
+- [[_COMMUNITY_Assignment Submission Logic|Assignment Submission Logic]]
+- [[_COMMUNITY_TypeScript Configuration|TypeScript Configuration]]
+- [[_COMMUNITY_Project Development Guide|Project Development Guide]]
+- [[_COMMUNITY_Chat Service Logic|Chat Service Logic]]
+- [[_COMMUNITY_Deployment and Backup|Deployment and Backup]]
+- [[_COMMUNITY_Demo Polish Tasks|Demo Polish Tasks]]
+- [[_COMMUNITY_Prompt History Log|Prompt History Log]]
+- [[_COMMUNITY_End-to-End Integration Tests|End-to-End Integration Tests]]
+- [[_COMMUNITY_Performance Analysis Report|Performance Analysis Report]]
+- [[_COMMUNITY_Frontend Component Tests|Frontend Component Tests]]
+- [[_COMMUNITY_Frontend Dependencies|Frontend Dependencies]]
+- [[_COMMUNITY_Cloudflare Tunnel Setup|Cloudflare Tunnel Setup]]
+- [[_COMMUNITY_Development Dependencies|Development Dependencies]]
+- [[_COMMUNITY_Performance Baseline Analysis|Performance Baseline Analysis]]
+- [[_COMMUNITY_E2E Testing Checklist|E2E Testing Checklist]]
+- [[_COMMUNITY_QA Strategy Plan|QA Strategy Plan]]
+- [[_COMMUNITY_Package Configuration|Package Configuration]]
+- [[_COMMUNITY_TypeScript Module Config|TypeScript Module Config]]
+- [[_COMMUNITY_Backend Service Testing|Backend Service Testing]]
+- [[_COMMUNITY_Performance Optimization Tasks|Performance Optimization Tasks]]
+- [[_COMMUNITY_Expansion Strategy Roadmap|Expansion Strategy Roadmap]]
+- [[_COMMUNITY_Projects Service Logic|Projects Service Logic]]
+- [[_COMMUNITY_CrewSpace Development Guide|CrewSpace Development Guide]]
+- [[_COMMUNITY_Rebranding and Fixes|Rebranding and Fixes]]
+- [[_COMMUNITY_Branch Protection Rules|Branch Protection Rules]]
+- [[_COMMUNITY_Revenue and Business Models|Revenue and Business Models]]
+- [[_COMMUNITY_Privacy and Data Policy|Privacy and Data Policy]]
+- [[_COMMUNITY_Project State Management|Project State Management]]
+- [[_COMMUNITY_Technical Glossary|Technical Glossary]]
+- [[_COMMUNITY_Core API Types|Core API Types]]
+- [[_COMMUNITY_E2E Testing Quickstart|E2E Testing Quickstart]]
+- [[_COMMUNITY_Admin Analytics Service|Admin Analytics Service]]
+- [[_COMMUNITY_E2E Test Fixes|E2E Test Fixes]]
+- [[_COMMUNITY_Git Workflow Guide|Git Workflow Guide]]
+- [[_COMMUNITY_Market Analysis Strategy|Market Analysis Strategy]]
+- [[_COMMUNITY_Project Development Roadmap|Project Development Roadmap]]
+- [[_COMMUNITY_Git Version Control|Git Version Control]]
+- [[_COMMUNITY_Page Object Models|Page Object Models]]
+- [[_COMMUNITY_Build and Test Scripts|Build and Test Scripts]]
+- [[_COMMUNITY_Playwright Testing Guide|Playwright Testing Guide]]
+- [[_COMMUNITY_Chrome Extension Manifest|Chrome Extension Manifest]]
+- [[_COMMUNITY_Security Audit Plan|Security Audit Plan]]
+- [[_COMMUNITY_Performance Optimization Plan|Performance Optimization Plan]]
+- [[_COMMUNITY_Channel Messaging API|Channel Messaging API]]
+- [[_COMMUNITY_Chat Gateway Module|Chat Gateway Module]]
+- [[_COMMUNITY_Software Architecture Concepts|Software Architecture Concepts]]
+- [[_COMMUNITY_Web Development Terms|Web Development Terms]]
+- [[_COMMUNITY_User Persona Analysis|User Persona Analysis]]
+- [[_COMMUNITY_UI Component Design|UI Component Design]]
+- [[_COMMUNITY_System Architecture Concepts|System Architecture Concepts]]
+- [[_COMMUNITY_Web Networking Terms|Web Networking Terms]]
+- [[_COMMUNITY_Commit Heatmap Script|Commit Heatmap Script]]
+- [[_COMMUNITY_E2E Testing Plan|E2E Testing Plan]]
+- [[_COMMUNITY_Investment and Funding Strategy|Investment and Funding Strategy]]
+- [[_COMMUNITY_Financial Cost Structure|Financial Cost Structure]]
+- [[_COMMUNITY_Competitor Analysis|Competitor Analysis]]
+- [[_COMMUNITY_Marketing Channel Strategy|Marketing Channel Strategy]]
+- [[_COMMUNITY_Chat Controller Logic|Chat Controller Logic]]
 - [[_COMMUNITY_Community 198|Community 198]]
 - [[_COMMUNITY_Community 199|Community 199]]
 - [[_COMMUNITY_Community 200|Community 200]]
@@ -220,6 +220,7 @@
 - [[_COMMUNITY_Community 203|Community 203]]
 - [[_COMMUNITY_Community 204|Community 204]]
 - [[_COMMUNITY_Community 205|Community 205]]
+- [[_COMMUNITY_Community API Services|Community API Services]]
 - [[_COMMUNITY_Community 207|Community 207]]
 - [[_COMMUNITY_Community 208|Community 208]]
 - [[_COMMUNITY_Community 209|Community 209]]
@@ -259,6 +260,7 @@
 - [[_COMMUNITY_Community 243|Community 243]]
 - [[_COMMUNITY_Community 244|Community 244]]
 - [[_COMMUNITY_Community 245|Community 245]]
+- [[_COMMUNITY_Community 246|Community 246]]
 - [[_COMMUNITY_Community 247|Community 247]]
 - [[_COMMUNITY_Community 248|Community 248]]
 - [[_COMMUNITY_Community 249|Community 249]]
@@ -311,105 +313,105 @@
 - [[_COMMUNITY_Community 296|Community 296]]
 - [[_COMMUNITY_Community 297|Community 297]]
 - [[_COMMUNITY_Community 298|Community 298]]
-- [[_COMMUNITY_Community 299|Community 299]]
-- [[_COMMUNITY_Community 300|Community 300]]
-- [[_COMMUNITY_Community 301|Community 301]]
-- [[_COMMUNITY_Community 302|Community 302]]
-- [[_COMMUNITY_Community 303|Community 303]]
-- [[_COMMUNITY_Community 304|Community 304]]
-- [[_COMMUNITY_Community 305|Community 305]]
-- [[_COMMUNITY_Community 306|Community 306]]
-- [[_COMMUNITY_Community 307|Community 307]]
-- [[_COMMUNITY_Community 308|Community 308]]
-- [[_COMMUNITY_Community 309|Community 309]]
-- [[_COMMUNITY_Community 310|Community 310]]
-- [[_COMMUNITY_Community 311|Community 311]]
-- [[_COMMUNITY_Community 312|Community 312]]
-- [[_COMMUNITY_Community 313|Community 313]]
+- [[_COMMUNITY_Customer Support Channels|Customer Support Channels]]
+- [[_COMMUNITY_Copyright and Licensing|Copyright and Licensing]]
+- [[_COMMUNITY_Payment and Refund Policy|Payment and Refund Policy]]
+- [[_COMMUNITY_Learning Content Seeding|Learning Content Seeding]]
+- [[_COMMUNITY_Project Completion Report|Project Completion Report]]
+- [[_COMMUNITY_HTML Generation Utility|HTML Generation Utility]]
+- [[_COMMUNITY_Commit Time Analysis|Commit Time Analysis]]
+- [[_COMMUNITY_End-to-End Test Specs|End-to-End Test Specs]]
+- [[_COMMUNITY_Toast Notification System|Toast Notification System]]
+- [[_COMMUNITY_Backend Implementation Summary|Backend Implementation Summary]]
+- [[_COMMUNITY_Requirements and Personas|Requirements and Personas]]
+- [[_COMMUNITY_Error Boundary Component|Error Boundary Component]]
+- [[_COMMUNITY_Deployment Guide|Deployment Guide]]
+- [[_COMMUNITY_Development Roadmap|Development Roadmap]]
+- [[_COMMUNITY_Project Status Report|Project Status Report]]
 - [[_COMMUNITY_Community 314|Community 314]]
-- [[_COMMUNITY_Community 315|Community 315]]
-- [[_COMMUNITY_Community 316|Community 316]]
-- [[_COMMUNITY_Community 317|Community 317]]
-- [[_COMMUNITY_Community 318|Community 318]]
-- [[_COMMUNITY_Community 319|Community 319]]
-- [[_COMMUNITY_Community 320|Community 320]]
-- [[_COMMUNITY_Community 321|Community 321]]
-- [[_COMMUNITY_Community 322|Community 322]]
-- [[_COMMUNITY_Community 323|Community 323]]
-- [[_COMMUNITY_Community 324|Community 324]]
-- [[_COMMUNITY_Community 325|Community 325]]
-- [[_COMMUNITY_Community 326|Community 326]]
-- [[_COMMUNITY_Community 327|Community 327]]
-- [[_COMMUNITY_Community 328|Community 328]]
-- [[_COMMUNITY_Community 329|Community 329]]
-- [[_COMMUNITY_Community 330|Community 330]]
-- [[_COMMUNITY_Community 331|Community 331]]
-- [[_COMMUNITY_Community 332|Community 332]]
-- [[_COMMUNITY_Community 333|Community 333]]
-- [[_COMMUNITY_Community 334|Community 334]]
-- [[_COMMUNITY_Community 335|Community 335]]
-- [[_COMMUNITY_Community 336|Community 336]]
-- [[_COMMUNITY_Community 337|Community 337]]
-- [[_COMMUNITY_Community 338|Community 338]]
-- [[_COMMUNITY_Community 339|Community 339]]
-- [[_COMMUNITY_Community 340|Community 340]]
-- [[_COMMUNITY_Community 341|Community 341]]
-- [[_COMMUNITY_Community 342|Community 342]]
-- [[_COMMUNITY_Community 343|Community 343]]
-- [[_COMMUNITY_Community 344|Community 344]]
-- [[_COMMUNITY_Community 345|Community 345]]
-- [[_COMMUNITY_Community 346|Community 346]]
-- [[_COMMUNITY_Community 347|Community 347]]
-- [[_COMMUNITY_Community 348|Community 348]]
-- [[_COMMUNITY_Community 349|Community 349]]
-- [[_COMMUNITY_Community 350|Community 350]]
-- [[_COMMUNITY_Community 351|Community 351]]
-- [[_COMMUNITY_Community 352|Community 352]]
-- [[_COMMUNITY_Community 353|Community 353]]
-- [[_COMMUNITY_Community 354|Community 354]]
-- [[_COMMUNITY_Community 355|Community 355]]
-- [[_COMMUNITY_Community 356|Community 356]]
-- [[_COMMUNITY_Community 357|Community 357]]
-- [[_COMMUNITY_Community 358|Community 358]]
-- [[_COMMUNITY_Community 359|Community 359]]
-- [[_COMMUNITY_Community 360|Community 360]]
-- [[_COMMUNITY_Community 361|Community 361]]
-- [[_COMMUNITY_Community 362|Community 362]]
-- [[_COMMUNITY_Community 363|Community 363]]
-- [[_COMMUNITY_Community 364|Community 364]]
-- [[_COMMUNITY_Community 365|Community 365]]
-- [[_COMMUNITY_Community 366|Community 366]]
-- [[_COMMUNITY_Community 367|Community 367]]
-- [[_COMMUNITY_Community 368|Community 368]]
-- [[_COMMUNITY_Community 369|Community 369]]
-- [[_COMMUNITY_Community 370|Community 370]]
-- [[_COMMUNITY_Community 371|Community 371]]
-- [[_COMMUNITY_Community 372|Community 372]]
-- [[_COMMUNITY_Community 373|Community 373]]
-- [[_COMMUNITY_Community 374|Community 374]]
-- [[_COMMUNITY_Community 375|Community 375]]
-- [[_COMMUNITY_Community 376|Community 376]]
-- [[_COMMUNITY_Community 377|Community 377]]
-- [[_COMMUNITY_Community 378|Community 378]]
-- [[_COMMUNITY_Community 379|Community 379]]
-- [[_COMMUNITY_Community 380|Community 380]]
-- [[_COMMUNITY_Community 381|Community 381]]
-- [[_COMMUNITY_Community 382|Community 382]]
-- [[_COMMUNITY_Community 383|Community 383]]
-- [[_COMMUNITY_Community 384|Community 384]]
-- [[_COMMUNITY_Community 385|Community 385]]
-- [[_COMMUNITY_Community 386|Community 386]]
-- [[_COMMUNITY_Community 387|Community 387]]
-- [[_COMMUNITY_Community 388|Community 388]]
-- [[_COMMUNITY_Community 389|Community 389]]
-- [[_COMMUNITY_Community 390|Community 390]]
-- [[_COMMUNITY_Community 391|Community 391]]
-- [[_COMMUNITY_Community 392|Community 392]]
-- [[_COMMUNITY_Community 393|Community 393]]
-- [[_COMMUNITY_Community 394|Community 394]]
-- [[_COMMUNITY_Community 395|Community 395]]
-- [[_COMMUNITY_Community 396|Community 396]]
-- [[_COMMUNITY_Community 397|Community 397]]
+- [[_COMMUNITY_Course Learning Flow|Course Learning Flow]]
+- [[_COMMUNITY_Project Showcase Process|Project Showcase Process]]
+- [[_COMMUNITY_Project Management Operations|Project Management Operations]]
+- [[_COMMUNITY_User Profile Settings|User Profile Settings]]
+- [[_COMMUNITY_Playwright Test Execution|Playwright Test Execution]]
+- [[_COMMUNITY_Project Overview and Structure|Project Overview and Structure]]
+- [[_COMMUNITY_Market Risks and Barriers|Market Risks and Barriers]]
+- [[_COMMUNITY_Market Opportunities|Market Opportunities]]
+- [[_COMMUNITY_Market Research and Validation|Market Research and Validation]]
+- [[_COMMUNITY_UIUX Design Guide|UI/UX Design Guide]]
+- [[_COMMUNITY_Project Budget and Stakeholders|Project Budget and Stakeholders]]
+- [[_COMMUNITY_Investment and Exit Strategy|Investment and Exit Strategy]]
+- [[_COMMUNITY_Competitive Landscape Analysis|Competitive Landscape Analysis]]
+- [[_COMMUNITY_Competitor Positioning Analysis|Competitor Positioning Analysis]]
+- [[_COMMUNITY_System Architecture and Monitoring|System Architecture and Monitoring]]
+- [[_COMMUNITY_Technical Stack Overview|Technical Stack Overview]]
+- [[_COMMUNITY_Security Architecture|Security Architecture]]
+- [[_COMMUNITY_Performance Optimization Strategies|Performance Optimization Strategies]]
+- [[_COMMUNITY_Brand Identity and Philosophy|Brand Identity and Philosophy]]
+- [[_COMMUNITY_Development Methodology|Development Methodology]]
+- [[_COMMUNITY_Marketing Strategy and Budget|Marketing Strategy and Budget]]
+- [[_COMMUNITY_Daily Operations Schedule|Daily Operations Schedule]]
+- [[_COMMUNITY_Data Management and Privacy|Data Management and Privacy]]
+- [[_COMMUNITY_Project Phase Completion|Project Phase Completion]]
+- [[_COMMUNITY_API Error Handling|API Error Handling]]
+- [[_COMMUNITY_Community Post Logic|Community Post Logic]]
+- [[_COMMUNITY_Project API Endpoints|Project API Endpoints]]
+- [[_COMMUNITY_Database ERD Design|Database ERD Design]]
+- [[_COMMUNITY_API DTO Documentation|API DTO Documentation]]
+- [[_COMMUNITY_Best Answer Selection|Best Answer Selection]]
+- [[_COMMUNITY_Project FAQ|Project FAQ]]
+- [[_COMMUNITY_User Onboarding Guide|User Onboarding Guide]]
+- [[_COMMUNITY_Repository README Documentation|Repository README Documentation]]
+- [[_COMMUNITY_Market Segmentation and Expansion|Market Segmentation and Expansion]]
+- [[_COMMUNITY_Competitor Analysis Elice|Competitor Analysis: Elice]]
+- [[_COMMUNITY_Cloud IDE Features|Cloud IDE Features]]
+- [[_COMMUNITY_Revenue Projections|Revenue Projections]]
+- [[_COMMUNITY_Educational Benchmarking|Educational Benchmarking]]
+- [[_COMMUNITY_User Persona Professor|User Persona: Professor]]
+- [[_COMMUNITY_User Persona HR Manager|User Persona: HR Manager]]
+- [[_COMMUNITY_Mentoring and Code Review|Mentoring and Code Review]]
+- [[_COMMUNITY_Layout and Grid Systems|Layout and Grid Systems]]
+- [[_COMMUNITY_Resource and Infrastructure Planning|Resource and Infrastructure Planning]]
+- [[_COMMUNITY_Project Risk Management|Project Risk Management]]
+- [[_COMMUNITY_Growth Hacking Strategies|Growth Hacking Strategies]]
+- [[_COMMUNITY_Organizational Structure|Organizational Structure]]
+- [[_COMMUNITY_Monthly Operational Plan|Monthly Operational Plan]]
+- [[_COMMUNITY_Legal and Compliance|Legal and Compliance]]
+- [[_COMMUNITY_Financial Reporting Processes|Financial Reporting Processes]]
+- [[_COMMUNITY_Learning Page Implementation|Learning Page Implementation]]
+- [[_COMMUNITY_Project Core Requirements|Project Core Requirements]]
+- [[_COMMUNITY_Pre-deployment Checklist|Pre-deployment Checklist]]
+- [[_COMMUNITY_Commit Size Analysis|Commit Size Analysis]]
+- [[_COMMUNITY_File History Analysis|File History Analysis]]
+- [[_COMMUNITY_Frontend Routing Design|Frontend Routing Design]]
+- [[_COMMUNITY_Authentication and Authorization|Authentication and Authorization]]
+- [[_COMMUNITY_System Troubleshooting Guide|System Troubleshooting Guide]]
+- [[_COMMUNITY_GSD Execution Plan|GSD Execution Plan]]
+- [[_COMMUNITY_API Endpoint Registry|API Endpoint Registry]]
+- [[_COMMUNITY_Feature Implementation Progress|Feature Implementation Progress]]
+- [[_COMMUNITY_Swagger API Documentation|Swagger API Documentation]]
+- [[_COMMUNITY_Community User Guide|Community User Guide]]
+- [[_COMMUNITY_Q&A Help Center|Q&A Help Center]]
+- [[_COMMUNITY_Course Learning Guide|Course Learning Guide]]
+- [[_COMMUNITY_Learning Progress Tracking|Learning Progress Tracking]]
+- [[_COMMUNITY_Course FAQ|Course FAQ]]
+- [[_COMMUNITY_User Leveling System|User Leveling System]]
+- [[_COMMUNITY_Account and Profile FAQ|Account and Profile FAQ]]
+- [[_COMMUNITY_GitHub OAuth Registration|GitHub OAuth Registration]]
+- [[_COMMUNITY_Competitor Identification|Competitor Identification]]
+- [[_COMMUNITY_Competitor Analysis Inflearn|Competitor Analysis: Inflearn]]
+- [[_COMMUNITY_Competitor Analysis Programmers|Competitor Analysis: Programmers]]
+- [[_COMMUNITY_Competitor Analysis Goorm|Competitor Analysis: Goorm]]
+- [[_COMMUNITY_Competitive Threats and Countermeasures|Competitive Threats and Countermeasures]]
+- [[_COMMUNITY_Non-Functional Requirements|Non-Functional Requirements]]
+- [[_COMMUNITY_Web Accessibility Standards|Web Accessibility Standards]]
+- [[_COMMUNITY_UI Input Components|UI Input Components]]
+- [[_COMMUNITY_Operational Budget Planning|Operational Budget Planning]]
+- [[_COMMUNITY_Quality Assurance and SLA|Quality Assurance and SLA]]
+- [[_COMMUNITY_Content Management Operations|Content Management Operations]]
+- [[_COMMUNITY_Security Monitoring and Response|Security Monitoring and Response]]
+- [[_COMMUNITY_Fundraising and Valuation Plan|Fundraising and Valuation Plan]]
+- [[_COMMUNITY_Financial Management Strategy|Financial Management Strategy]]
 - [[_COMMUNITY_Community 398|Community 398]]
 - [[_COMMUNITY_Community 399|Community 399]]
 - [[_COMMUNITY_Community 400|Community 400]]
@@ -418,7 +420,9 @@
 - [[_COMMUNITY_Community 403|Community 403]]
 - [[_COMMUNITY_Community 404|Community 404]]
 - [[_COMMUNITY_Community 405|Community 405]]
+- [[_COMMUNITY_Community 406|Community 406]]
 - [[_COMMUNITY_Community 407|Community 407]]
+- [[_COMMUNITY_Community 408|Community 408]]
 - [[_COMMUNITY_Community 409|Community 409]]
 - [[_COMMUNITY_Community 410|Community 410]]
 - [[_COMMUNITY_Community 411|Community 411]]
@@ -499,7 +503,7 @@
 - [[_COMMUNITY_Community 486|Community 486]]
 - [[_COMMUNITY_Community 487|Community 487]]
 - [[_COMMUNITY_Community 488|Community 488]]
-- [[_COMMUNITY_Community 489|Community 489]]
+- [[_COMMUNITY_Illustration Guidelines|Illustration Guidelines]]
 - [[_COMMUNITY_Community 490|Community 490]]
 - [[_COMMUNITY_Community 491|Community 491]]
 - [[_COMMUNITY_Community 492|Community 492]]
@@ -508,127 +512,127 @@
 - [[_COMMUNITY_Community 495|Community 495]]
 - [[_COMMUNITY_Community 496|Community 496]]
 - [[_COMMUNITY_Community 497|Community 497]]
-- [[_COMMUNITY_Community 498|Community 498]]
-- [[_COMMUNITY_Community 499|Community 499]]
-- [[_COMMUNITY_Community 500|Community 500]]
-- [[_COMMUNITY_Community 501|Community 501]]
-- [[_COMMUNITY_Community 502|Community 502]]
-- [[_COMMUNITY_Community 503|Community 503]]
-- [[_COMMUNITY_Community 504|Community 504]]
-- [[_COMMUNITY_Community 505|Community 505]]
-- [[_COMMUNITY_Community 506|Community 506]]
-- [[_COMMUNITY_Community 507|Community 507]]
-- [[_COMMUNITY_Community 508|Community 508]]
-- [[_COMMUNITY_Community 509|Community 509]]
-- [[_COMMUNITY_Community 510|Community 510]]
-- [[_COMMUNITY_Community 511|Community 511]]
-- [[_COMMUNITY_Community 512|Community 512]]
-- [[_COMMUNITY_Community 513|Community 513]]
-- [[_COMMUNITY_Community 514|Community 514]]
-- [[_COMMUNITY_Community 515|Community 515]]
-- [[_COMMUNITY_Community 516|Community 516]]
-- [[_COMMUNITY_Community 517|Community 517]]
-- [[_COMMUNITY_Community 518|Community 518]]
-- [[_COMMUNITY_Community 519|Community 519]]
-- [[_COMMUNITY_Community 520|Community 520]]
-- [[_COMMUNITY_Community 521|Community 521]]
-- [[_COMMUNITY_Community 522|Community 522]]
-- [[_COMMUNITY_Community 523|Community 523]]
-- [[_COMMUNITY_Community 524|Community 524]]
-- [[_COMMUNITY_Community 525|Community 525]]
-- [[_COMMUNITY_Community 526|Community 526]]
-- [[_COMMUNITY_Community 527|Community 527]]
-- [[_COMMUNITY_Community 528|Community 528]]
+- [[_COMMUNITY_Cost Structure Analysis|Cost Structure Analysis]]
+- [[_COMMUNITY_Project Development Metrics|Project Development Metrics]]
+- [[_COMMUNITY_Deployment Infrastructure|Deployment Infrastructure]]
+- [[_COMMUNITY_Manifest Configuration|Manifest Configuration]]
+- [[_COMMUNITY_Manifest Configuration|Manifest Configuration]]
+- [[_COMMUNITY_Manifest Configuration|Manifest Configuration]]
+- [[_COMMUNITY_Notifications API|Notifications API]]
+- [[_COMMUNITY_UI Component Logic|UI Component Logic]]
+- [[_COMMUNITY_Admin Dashboard Implementation|Admin Dashboard Implementation]]
+- [[_COMMUNITY_Software Architecture Patterns|Software Architecture Patterns]]
+- [[_COMMUNITY_Core Module Structure|Core Module Structure]]
+- [[_COMMUNITY_File Path Summary|File Path Summary]]
+- [[_COMMUNITY_Security and Authentication|Security and Authentication]]
+- [[_COMMUNITY_Database Performance Optimization|Database Performance Optimization]]
+- [[_COMMUNITY_RESTful API Principles|RESTful API Principles]]
+- [[_COMMUNITY_Authentication API Endpoints|Authentication API Endpoints]]
+- [[_COMMUNITY_Channel Management DTO|Channel Management DTO]]
+- [[_COMMUNITY_Backup and Recovery|Backup and Recovery]]
+- [[_COMMUNITY_Backend Deployment Strategies|Backend Deployment Strategies]]
+- [[_COMMUNITY_CICD Pipeline Configuration|CI/CD Pipeline Configuration]]
+- [[_COMMUNITY_Frontend Deployment Configuration|Frontend Deployment Configuration]]
+- [[_COMMUNITY_Monitoring and Logging|Monitoring and Logging]]
+- [[_COMMUNITY_Dashboard Development Phases|Dashboard Development Phases]]
+- [[_COMMUNITY_Course System Development|Course System Development]]
+- [[_COMMUNITY_Community Feature Development|Community Feature Development]]
+- [[_COMMUNITY_Page Routing Implementation|Page Routing Implementation]]
+- [[_COMMUNITY_Technical Stack Status|Technical Stack Status]]
+- [[_COMMUNITY_Product Launch Roadmap|Product Launch Roadmap]]
+- [[_COMMUNITY_Internationalization and UI|Internationalization and UI]]
+- [[_COMMUNITY_Security Audit Progress|Security Audit Progress]]
+- [[_COMMUNITY_User Login Procedure|User Login Procedure]]
 - [[_COMMUNITY_Community 529|Community 529]]
-- [[_COMMUNITY_Community 530|Community 530]]
-- [[_COMMUNITY_Community 531|Community 531]]
-- [[_COMMUNITY_Community 532|Community 532]]
-- [[_COMMUNITY_Community 533|Community 533]]
-- [[_COMMUNITY_Community 534|Community 534]]
-- [[_COMMUNITY_Community 535|Community 535]]
-- [[_COMMUNITY_Community 536|Community 536]]
-- [[_COMMUNITY_Community 537|Community 537]]
-- [[_COMMUNITY_Community 538|Community 538]]
-- [[_COMMUNITY_Community 539|Community 539]]
-- [[_COMMUNITY_Community 540|Community 540]]
-- [[_COMMUNITY_Community 541|Community 541]]
-- [[_COMMUNITY_Community 542|Community 542]]
-- [[_COMMUNITY_Community 543|Community 543]]
-- [[_COMMUNITY_Community 544|Community 544]]
-- [[_COMMUNITY_Community 545|Community 545]]
-- [[_COMMUNITY_Community 546|Community 546]]
-- [[_COMMUNITY_Community 547|Community 547]]
-- [[_COMMUNITY_Community 548|Community 548]]
-- [[_COMMUNITY_Community 549|Community 549]]
-- [[_COMMUNITY_Community 550|Community 550]]
-- [[_COMMUNITY_Community 551|Community 551]]
-- [[_COMMUNITY_Community 552|Community 552]]
-- [[_COMMUNITY_Community 553|Community 553]]
-- [[_COMMUNITY_Community 554|Community 554]]
-- [[_COMMUNITY_Community 555|Community 555]]
-- [[_COMMUNITY_Community 556|Community 556]]
+- [[_COMMUNITY_Test Performance Optimization|Test Performance Optimization]]
+- [[_COMMUNITY_Reference and Appendices|Reference and Appendices]]
+- [[_COMMUNITY_Market Entry Strategy|Market Entry Strategy]]
+- [[_COMMUNITY_Market Research Methodology|Market Research Methodology]]
+- [[_COMMUNITY_WinLoss Analysis|Win/Loss Analysis]]
+- [[_COMMUNITY_Strategic Recommendations|Strategic Recommendations]]
+- [[_COMMUNITY_User Persona Design|User Persona Design]]
+- [[_COMMUNITY_Persona Marketing Messaging|Persona Marketing Messaging]]
+- [[_COMMUNITY_Persona Validation Plan|Persona Validation Plan]]
+- [[_COMMUNITY_Target User Personas|Target User Personas]]
+- [[_COMMUNITY_API Requirements and Standards|API Requirements and Standards]]
+- [[_COMMUNITY_Document Overview|Document Overview]]
+- [[_COMMUNITY_Mentoring System Requirements|Mentoring System Requirements]]
+- [[_COMMUNITY_Page Layout Design|Page Layout Design]]
+- [[_COMMUNITY_UI Micro-interactions|UI Micro-interactions]]
+- [[_COMMUNITY_Responsive Design Strategy|Responsive Design Strategy]]
+- [[_COMMUNITY_Dark Mode Implementation|Dark Mode Implementation]]
+- [[_COMMUNITY_Animations and Transitions|Animations and Transitions]]
+- [[_COMMUNITY_JWT Authentication Guard|JWT Authentication Guard]]
+- [[_COMMUNITY_Project Constraints|Project Constraints]]
+- [[_COMMUNITY_Risk Factor Analysis|Risk Factor Analysis]]
+- [[_COMMUNITY_Expected Project Impact|Expected Project Impact]]
+- [[_COMMUNITY_Project Definition|Project Definition]]
+- [[_COMMUNITY_Value Proposition|Value Proposition]]
+- [[_COMMUNITY_Project Scope Definition|Project Scope Definition]]
+- [[_COMMUNITY_Competitive Strategy Summary|Competitive Strategy Summary]]
+- [[_COMMUNITY_Canvas API Services|Canvas API Services]]
 - [[_COMMUNITY_Community 557|Community 557]]
-- [[_COMMUNITY_Community 558|Community 558]]
-- [[_COMMUNITY_Community 559|Community 559]]
-- [[_COMMUNITY_Community 560|Community 560]]
-- [[_COMMUNITY_Community 561|Community 561]]
-- [[_COMMUNITY_Community 562|Community 562]]
-- [[_COMMUNITY_Community 563|Community 563]]
+- [[_COMMUNITY_Loading State UI|Loading State UI]]
+- [[_COMMUNITY_Target Market Segments|Target Market Segments]]
+- [[_COMMUNITY_Marketing STP Strategy|Marketing STP Strategy]]
+- [[_COMMUNITY_Financial Checklist|Financial Checklist]]
+- [[_COMMUNITY_Three Year Financial Goals|Three Year Financial Goals]]
+- [[_COMMUNITY_Revenue Model Projections|Revenue Model Projections]]
 - [[_COMMUNITY_Community 564|Community 564]]
-- [[_COMMUNITY_Community 565|Community 565]]
-- [[_COMMUNITY_Community 566|Community 566]]
-- [[_COMMUNITY_Community 567|Community 567]]
-- [[_COMMUNITY_Community 568|Community 568]]
-- [[_COMMUNITY_Community 569|Community 569]]
-- [[_COMMUNITY_Community 570|Community 570]]
-- [[_COMMUNITY_Community 571|Community 571]]
-- [[_COMMUNITY_Community 572|Community 572]]
-- [[_COMMUNITY_Community 573|Community 573]]
-- [[_COMMUNITY_Community 574|Community 574]]
-- [[_COMMUNITY_Community 575|Community 575]]
-- [[_COMMUNITY_Community 576|Community 576]]
-- [[_COMMUNITY_Community 577|Community 577]]
-- [[_COMMUNITY_Community 578|Community 578]]
-- [[_COMMUNITY_Community 579|Community 579]]
-- [[_COMMUNITY_Community 580|Community 580]]
-- [[_COMMUNITY_Community 581|Community 581]]
-- [[_COMMUNITY_Community 582|Community 582]]
-- [[_COMMUNITY_Community 583|Community 583]]
-- [[_COMMUNITY_Community 584|Community 584]]
-- [[_COMMUNITY_Community 585|Community 585]]
-- [[_COMMUNITY_Community 586|Community 586]]
-- [[_COMMUNITY_Community 587|Community 587]]
-- [[_COMMUNITY_Community 588|Community 588]]
-- [[_COMMUNITY_Community 589|Community 589]]
-- [[_COMMUNITY_Community 590|Community 590]]
-- [[_COMMUNITY_Community 591|Community 591]]
-- [[_COMMUNITY_Community 592|Community 592]]
-- [[_COMMUNITY_Community 593|Community 593]]
-- [[_COMMUNITY_Community 594|Community 594]]
-- [[_COMMUNITY_Community 595|Community 595]]
-- [[_COMMUNITY_Community 596|Community 596]]
-- [[_COMMUNITY_Community 597|Community 597]]
-- [[_COMMUNITY_Community 598|Community 598]]
-- [[_COMMUNITY_Community 599|Community 599]]
-- [[_COMMUNITY_Community 600|Community 600]]
-- [[_COMMUNITY_Community 601|Community 601]]
-- [[_COMMUNITY_Community 602|Community 602]]
-- [[_COMMUNITY_Community 603|Community 603]]
-- [[_COMMUNITY_Community 604|Community 604]]
-- [[_COMMUNITY_Community 605|Community 605]]
-- [[_COMMUNITY_Community 606|Community 606]]
-- [[_COMMUNITY_Community 607|Community 607]]
-- [[_COMMUNITY_Community 608|Community 608]]
-- [[_COMMUNITY_Community 609|Community 609]]
-- [[_COMMUNITY_Community 612|Community 612]]
-- [[_COMMUNITY_Community 615|Community 615]]
-- [[_COMMUNITY_Community 619|Community 619]]
-- [[_COMMUNITY_Community 620|Community 620]]
-- [[_COMMUNITY_Community 621|Community 621]]
-- [[_COMMUNITY_Community 622|Community 622]]
-- [[_COMMUNITY_Community 623|Community 623]]
-- [[_COMMUNITY_Community 624|Community 624]]
-- [[_COMMUNITY_Community 625|Community 625]]
+- [[_COMMUNITY_Financial Scenario Analysis|Financial Scenario Analysis]]
+- [[_COMMUNITY_Project Documentation Types|Project Documentation Types]]
+- [[_COMMUNITY_Key Performance Achievements|Key Performance Achievements]]
+- [[_COMMUNITY_Installation Scripts|Installation Scripts]]
+- [[_COMMUNITY_Statistics Generation Script|Statistics Generation Script]]
+- [[_COMMUNITY_ESLint Configuration|ESLint Configuration]]
+- [[_COMMUNITY_Package Configuration|Package Configuration]]
+- [[_COMMUNITY_API Test Scenarios|API Test Scenarios]]
+- [[_COMMUNITY_Database Schema Design|Database Schema Design]]
+- [[_COMMUNITY_Permission and Role System|Permission and Role System]]
+- [[_COMMUNITY_Error Handling Implementation|Error Handling Implementation]]
+- [[_COMMUNITY_Frontend Integration Roadmap|Frontend Integration Roadmap]]
+- [[_COMMUNITY_Error Page Component|Error Page Component]]
+- [[_COMMUNITY_Community API Endpoints|Community API Endpoints]]
+- [[_COMMUNITY_Layout and Metadata|Layout and Metadata]]
+- [[_COMMUNITY_Production Launch Checklist|Production Launch Checklist]]
+- [[_COMMUNITY_Environment Variable Configuration|Environment Variable Configuration]]
+- [[_COMMUNITY_SSLTLS Configuration|SSL/TLS Configuration]]
+- [[_COMMUNITY_System Prerequisites|System Prerequisites]]
+- [[_COMMUNITY_Testing and Documentation|Testing and Documentation]]
+- [[_COMMUNITY_Next Development Steps|Next Development Steps]]
+- [[_COMMUNITY_Project Overview Statistics|Project Overview Statistics]]
+- [[_COMMUNITY_CICD Workflow Status|CI/CD Workflow Status]]
+- [[_COMMUNITY_Test Report Access|Test Report Access]]
+- [[_COMMUNITY_Budget and Funding Strategy|Budget and Funding Strategy]]
+- [[_COMMUNITY_Risk Assessment and Mitigation|Risk Assessment and Mitigation]]
+- [[_COMMUNITY_Critical Success Factors|Critical Success Factors]]
+- [[_COMMUNITY_Stakeholder Analysis|Stakeholder Analysis]]
+- [[_COMMUNITY_Communication Plan|Communication Plan]]
+- [[_COMMUNITY_Project Background|Project Background]]
+- [[_COMMUNITY_Core Value Proposition|Core Value Proposition]]
+- [[_COMMUNITY_Target Market Analysis|Target Market Analysis]]
+- [[_COMMUNITY_Business Model Projections|Business Model Projections]]
+- [[_COMMUNITY_Design Philosophy|Design Philosophy]]
+- [[_COMMUNITY_Iconography Guidelines|Iconography Guidelines]]
+- [[_COMMUNITY_Project Background and Analysis|Project Background and Analysis]]
+- [[_COMMUNITY_Project Objectives|Project Objectives]]
+- [[_COMMUNITY_Target User Profiles|Target User Profiles]]
+- [[_COMMUNITY_Security Vulnerabilities and Features|Security Vulnerabilities and Features]]
+- [[_COMMUNITY_Backup Scripts and Credentials|Backup Scripts and Credentials]]
+- [[_COMMUNITY_Production Migration Scripts|Production Migration Scripts]]
+- [[_COMMUNITY_Restore Scripts and Credentials|Restore Scripts and Credentials]]
+- [[_COMMUNITY_OAuth Configuration Verification|OAuth Configuration Verification]]
+- [[_COMMUNITY_API Constants and Endpoints|API Constants and Endpoints]]
+- [[_COMMUNITY_Next.js Configuration|Next.js Configuration]]
+- [[_COMMUNITY_Test Configuration|Test Configuration]]
+- [[_COMMUNITY_Current User Decorators|Current User Decorators]]
+- [[_COMMUNITY_HTML Update Scripts|HTML Update Scripts]]
+- [[_COMMUNITY_Excalidraw Type Definitions|Excalidraw Type Definitions]]
+- [[_COMMUNITY_Deployment Scripts|Deployment Scripts]]
+- [[_COMMUNITY_Staging Deployment Scripts|Staging Deployment Scripts]]
+- [[_COMMUNITY_Setup Scripts|Setup Scripts]]
+- [[_COMMUNITY_PostCSS Configuration|PostCSS Configuration]]
+- [[_COMMUNITY_Tailwind CSS Configuration|Tailwind CSS Configuration]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `useTranslations()` - 216 edges
@@ -643,14 +647,14 @@
 10. `Frontend Development` - 51 edges
 
 ## Surprising Connections (you probably didn't know these)
+- `AdminProjectsPage()` --calls--> `cn()`  [INFERRED]
+  apps/web/src/app/admin/projects/page.tsx → apps/web/src/lib/utils.ts
 - `CoursesLoading()` --calls--> `useTranslations()`  [INFERRED]
   apps/web/src/app/courses/page.tsx → apps/web/src/i18n/LanguageContext.tsx
 - `CoursesPage()` --calls--> `useTranslations()`  [INFERRED]
   apps/web/src/app/courses/page.tsx → apps/web/src/i18n/LanguageContext.tsx
 - `NewQuestionPage()` --calls--> `useTranslations()`  [INFERRED]
   apps/web/src/app/qna/new/page.tsx → apps/web/src/i18n/LanguageContext.tsx
-- `AdminProjectsPage()` --calls--> `cn()`  [INFERRED]
-  apps/web/src/app/admin/projects/page.tsx → apps/web/src/lib/utils.ts
 - `ReportDetailPage()` --calls--> `cn()`  [INFERRED]
   apps/web/src/app/admin/reports/[id]/page.tsx → apps/web/src/lib/utils.ts
 
@@ -658,153 +662,153 @@
 - 1-file cycle: `scripts/generate-deployment.py -> scripts/generate-deployment.py`
 - 1-file cycle: `scripts/generate-heatmap.py -> scripts/generate-heatmap.py`
 
-## Communities (636 total, 30 thin omitted)
+## Communities (640 total, 30 thin omitted)
 
-### Community 0 - "Community 0"
+### Community 0 - "AI & Machine Learning"
 Cohesion: 0.01
 Nodes (139): Activation Function, Agent (AI), Agentic AI, AI Ethics, AI Governance, AI Literacy, AI & Machine Learning, AI Safety (+131 more)
 
-### Community 1 - "Community 1"
-Cohesion: 0.04
-Nodes (54): authApi, AuthResponse, LoginInput, RegisterInput, CreateCategoryDto, PostCategory, UpdateCategoryDto, apiClient (+46 more)
+### Community 1 - "Authentication API Client"
+Cohesion: 0.06
+Nodes (34): authApi, AuthResponse, LoginInput, RegisterInput, apiClient, ApiError, Comment, CreateCommentDto (+26 more)
 
-### Community 2 - "Community 2"
+### Community 2 - "Q&A API Service"
 Cohesion: 0.07
 Nodes (48): qnaApi, Answer, CreateAnswerInput, CreateQuestionInput, Question, QuestionAuthor, QuestionFilters, QuestionsListResponse (+40 more)
 
-### Community 3 - "Community 3"
+### Community 3 - "Course Chapter Management"
 Cohesion: 0.07
 Nodes (43): Chapter, ChapterProgress, Course, CourseWithChapters, BookmarkButton(), BookmarkButtonProps, ChapterList(), ChapterListProps (+35 more)
 
-### Community 4 - "Community 4"
+### Community 4 - "User Progress Tracking"
 Cohesion: 0.06
 Nodes (40): CourseProgress, LevelProgress, activityConfig, ActivityFeedWidget(), ActivityFeedWidgetProps, ActivityItem, ActivityType, CourseProgress() (+32 more)
 
-### Community 5 - "Community 5"
+### Community 5 - "Admin Analytics Service"
 Cohesion: 0.05
 Nodes (12): AdminController, AdminModule, AdminService, OwnershipGuard, HealthController, PrismaService, VoteDto, VotesController (+4 more)
 
-### Community 6 - "Community 6"
+### Community 6 - "Canvas Data Controller"
 Cohesion: 0.05
 Nodes (13): CanvasController, AuthenticatedSocket, AuthenticatedUser, CanvasGateway, CanvasUser, USER_COLORS, CanvasModule, CanvasService (+5 more)
 
-### Community 7 - "Community 7"
-Cohesion: 0.05
-Nodes (56): AboutPage(), communityApi, Comment, CreateCommentInput, CreatePostInput, Post, PostFilters, PostsListResponse (+48 more)
+### Community 7 - "Post & Comment UI"
+Cohesion: 0.07
+Nodes (35): AboutPage(), Comment, Post, PostSortBy, PostWithComments, CommentForm(), CommentFormProps, CommentItem() (+27 more)
 
-### Community 8 - "Community 8"
+### Community 8 - "Chat & Messaging System"
 Cohesion: 0.06
 Nodes (44): ChannelsResponse, ChatChannel, ChatMessage, CreateChannelInput, MessageReaction, MessagesResponse, OnlineUser, OnlineUsersResponse (+36 more)
 
-### Community 9 - "Community 9"
+### Community 9 - "Mentoring & Notifications"
 Cohesion: 0.05
 Nodes (10): MentoringModule, RANK_ORDER, NotificationsController, AuthenticatedSocket, AuthenticatedUser, NotificationPayload, NotificationsGateway, NotificationsModule (+2 more)
 
-### Community 10 - "Community 10"
+### Community 10 - "Backend Infrastructure Strategy"
 Cohesion: 0.03
 Nodes (59): Apache, Apache Kafka, API Gateway, API Versioning, ASP.NET Core, Backend, Backend Development, Background Jobs (+51 more)
 
-### Community 11 - "Community 11"
+### Community 11 - "Backend Infrastructure Strategy"
 Cohesion: 0.03
 Nodes (59): Apache, Apache Kafka, API Gateway, API Versioning, ASP.NET Core, Backend, Backend Development, Background Jobs (+51 more)
 
-### Community 12 - "Community 12"
-Cohesion: 0.05
-Nodes (72): Assignment, AssignmentSubmission, getChapterAssignments(), getMySubmissionForAssignment(), getMySubmissions(), SubmissionStatus, submitAssignment(), SubmitAssignmentDto (+64 more)
+### Community 12 - "Mentorship Management API"
+Cohesion: 0.08
+Nodes (49): mentoringApi, AvailableMentorsParams, AvailableMentorsResponse, MentorInfo, MentoringDashboard, Mentorship, MentorshipRequest, RateMentorshipInput (+41 more)
 
-### Community 13 - "Community 13"
+### Community 13 - "Notification DTOs & Logic"
 Cohesion: 0.05
 Nodes (38): CreateNotificationDto, NotificationType, NotificationQueryDto, ActorResponseDto, NotificationResponseDto, NotificationsListResponseDto, UnreadCountResponseDto, HttpExceptionFilter (+30 more)
 
-### Community 14 - "Community 14"
+### Community 14 - "Chapter Service Controller"
 Cohesion: 0.06
 Nodes (10): ChaptersController, ChaptersService, CoursesController, CoursesService, CourseQueryDto, CreateChapterDto, CreateCourseDto, UpdateChapterDto (+2 more)
 
-### Community 15 - "Community 15"
+### Community 15 - "Admin Settings UI"
 Cohesion: 0.08
-Nodes (30): cn(), AdminProjectsPage(), Project, statusColors, statusLabels, CourseCardSkeleton(), CourseCardSkeletonProps, CourseListSkeleton() (+22 more)
+Nodes (30): cn(), AdminSettingsPage(), defaultSettings, SettingsSection, SiteSettings, CourseCardSkeleton(), CourseCardSkeletonProps, CourseListSkeleton() (+22 more)
 
-### Community 16 - "Community 16"
+### Community 16 - "Database Fundamentals"
 Cohesion: 0.04
 Nodes (52): ACID, Availability, BASE, Big Data, Cache, CAP Theorem, Cassandra, Column Store (+44 more)
 
-### Community 17 - "Community 17"
+### Community 17 - "Database Fundamentals"
 Cohesion: 0.04
 Nodes (52): ACID, Availability, BASE, Big Data, Cache, CAP Theorem, Cassandra, Column Store (+44 more)
 
-### Community 18 - "Community 18"
+### Community 18 - "Frontend UI Components"
 Cohesion: 0.04
 Nodes (51): Accessibility, Ant Design, ARIA, Bootstrap, Browser DevTools, Build Tool, Chakra UI, Chromatic (+43 more)
 
-### Community 19 - "Community 19"
+### Community 19 - "Cloud & DevOps Infrastructure"
 Cohesion: 0.04
 Nodes (51): Alerting, Ansible, APM (Application Performance Monitoring), Auto-scaling, AWS (Amazon Web Services), Azure, Backup, Blue-Green Deployment (+43 more)
 
-### Community 20 - "Community 20"
+### Community 20 - "Frontend UI Components"
 Cohesion: 0.04
 Nodes (51): Accessibility, Ant Design, ARIA, Bootstrap, Browser DevTools, Build Tool, Chakra UI, Chromatic (+43 more)
 
-### Community 21 - "Community 21"
+### Community 21 - "Cloud & DevOps Infrastructure"
 Cohesion: 0.04
 Nodes (51): Alerting, Ansible, APM (Application Performance Monitoring), Auto-scaling, AWS (Amazon Web Services), Azure, Backup, Blue-Green Deployment (+43 more)
 
-### Community 22 - "Community 22"
+### Community 22 - "Question & Answer DTOs"
 Cohesion: 0.07
 Nodes (11): BountyDto, CreateAnswerDto, CreateQuestionDto, QuestionQueryDto, QuestionSortBy, QuestionStatusFilter, UpdateAnswerDto, UpdateQuestionDto (+3 more)
 
-### Community 23 - "Community 23"
+### Community 23 - "Project FAQ"
 Cohesion: 0.04
 Nodes (48): FAQ - 자주 묻는 질문, Q10. 랭크 뱃지는 어떻게 받나요?, Q11. 프로젝트를 몇 개까지 등록할 수 있나요?, Q12. 진행 중인 프로젝트도 등록할 수 있나요?, Q13. 프로젝트 슬러그(URL)를 변경할 수 있나요?, Q14. 프로젝트 쇼케이스에 등록하려면?, Q15. GitHub private 저장소도 연동할 수 있나요?, Q16. 팀 프로젝트는 어떻게 XP가 분배되나요? (+40 more)
 
-### Community 24 - "Community 24"
+### Community 24 - "Business Model Strategy"
 Cohesion: 0.04
 Nodes (48): 10.1 Key Assumptions to Test, 10.2 Validation Milestones, 10. Business Model Validation, 11.1 Pricing Optimization, 11.2 Conversion Rate Optimization, 11.3 Retention Optimization, 11. Revenue Optimization, 1.1 Overview (+40 more)
 
-### Community 25 - "Community 25"
+### Community 25 - "Testing & QA Standards"
 Cohesion: 0.04
 Nodes (48): 1. Authentication (인증), 1. 독립성 (Isolation), 2. AAA 패턴 (Arrange-Act-Assert), 2. Users (사용자), 3. Projects (프로젝트), 3. 의미 있는 테스트 이름, 4. Courses (강좌), 4. 엣지 케이스 테스트 (+40 more)
 
-### Community 26 - "Community 26"
+### Community 26 - "Development Phase Summary"
 Cohesion: 0.04
 Nodes (47): Agent 활용, Git 커밋, Git 커밋, Git 커밋, Git 커밋, Phase 7: Testing & Quality - 종합 완료 보고서, Phase 7 목표 vs 실제, Phase 8: Documentation & Deployment (+39 more)
 
-### Community 27 - "Community 27"
+### Community 27 - "Test Performance Analysis"
 Cohesion: 0.04
 Nodes (46): Appendix: Test Statistics, Areas for Improvement, Best Practices Identified, Challenge 1: Test File Organization, Challenge 2: Test Data Management, Challenge 3: Integration Test Complexity, Challenges & Solutions, Code Quality (+38 more)
 
-### Community 28 - "Community 28"
+### Community 28 - "NestJS Project Structure"
 Cohesion: 0.04
 Nodes (46): 1. NestJS 프로젝트 구조 생성, 1. 서버 시작, 2. API 테스트, 2. Prisma Service 모듈, 3. GitHub OAuth 테스트, 3. Users 모듈 (RESTful API), 4. Auth 모듈, 5. 진입점 (`src/main.ts`) (+38 more)
 
-### Community 29 - "Community 29"
+### Community 29 - "Project Management API"
 Cohesion: 0.08
 Nodes (33): projectsApi, ProjectsQueryParams, CreateProjectInput, Project, ProjectsListResponse, ProjectWithOwner, UpdateProjectInput, MyProjects() (+25 more)
 
-### Community 30 - "Community 30"
+### Community 30 - "CrewSpace Project Overview"
 Cohesion: 0.04
 Nodes (46): 1.1 CrewSpace란 무엇인가, 1.2 프로젝트 목표 및 기능 요구사항, 1.3 기술 스택 선정 이유, 1.4 개발 환경 구성, 1.5 Git Flow 및 브랜치 전략, 1.6 초기 프로젝트 구조 생성, 1. 사용자 관리, 2. 프로젝트 관리 (+38 more)
 
-### Community 31 - "Community 31"
+### Community 31 - "Project Appendix & Resources"
 Cohesion: 0.04
 Nodes (46): 10. FAQ (자주 묻는 질문), 11. 추가 자료, 1. 용어 정의 (Glossary), 2. 참고 문헌, 3. 유용한 도구, 4. 주요 경쟁사 분석, 5. 관련 법규 및 규정, 6. 유용한 웹사이트 (+38 more)
 
-### Community 32 - "Community 32"
+### Community 32 - "Deployment Guide"
 Cohesion: 0.04
 Nodes (45): 1.1 Create Tunnel, 1.2 Get Credentials, 1.3 Configure Public Hostname, 2.1 SSH to Server, 2.2 Create Directory Structure, 2.3 Clone Repository, 2.4 Copy Deployment Files, 2.5 Configure Environment (+37 more)
 
-### Community 33 - "Community 33"
+### Community 33 - "Project References & FAQ"
 Cohesion: 0.04
 Nodes (45): 10. FAQ, 11. Additional Resources, 1. Glossary, 2. References, 3. Tools & Resources, 4. Competitor Landscape, 5. Legal & Compliance, 6. Useful Websites (+37 more)
 
-### Community 34 - "Community 34"
+### Community 34 - "API Layer Implementation"
 Cohesion: 0.04
 Nodes (45): 10. 다음 단계 권장사항, 1. 생성된 파일 목록 (10개), 2. 핵심 기능, 3. API 설계, 4. 타입 시스템, 5. React Query 훅 (7개), 6. 성능 최적화, 7. 디자인 시스템 (+37 more)
 
-### Community 35 - "Community 35"
+### Community 35 - "E2E Testing Framework"
 Cohesion: 0.04
 Nodes (45): 1. Playwright 테스트 프레임워크, 1. 명명 규칙, 1. 인증 모킹, 2. AAA 패턴, 2. 디렉토리 구조, 2. 페이지 객체 모델, 3. API 모킹, 3. 선택자 우선순위 (+37 more)
 
-### Community 36 - "Community 36"
+### Community 36 - "CI/CD Configuration Fixes"
 Cohesion: 0.04
 Nodes (44): 1. pnpm Lockfile Compatibility, 2. Prisma Types Not Found, 3. ESLint Configuration Missing, 4. E2E Test Database Connection, 5. Next.js 16 Lint Command, 6. React ESLint Unescaped Quotes, API Configuration Files, `apps/api/.eslintrc.js` (Created) (+36 more)
 
@@ -812,627 +816,627 @@ Nodes (44): 1. pnpm Lockfile Compatibility, 2. Prisma Types Not Found, 3. ESLint
 Cohesion: 0.04
 Nodes (44): Agent 활용, API 엔드포인트 (23개), Backend, Clean Architecture 패턴, DevOps, Frontend, MVP 목표 (4주), Parallel Execution (+36 more)
 
-### Community 38 - "Community 38"
+### Community 38 - "Backend Test Report"
 Cohesion: 0.04
 Nodes (44): 1. Prisma Client 미생성, 1. 백엔드 서버 (NestJS) - ✅ 통과, 2. API 엔드포인트 - ✅ 통과, 2. @nestjs/swagger 패키지 누락, 3. Swagger API 문서 - ✅ 통과, 3. @types/express 누락, 4. 프론트엔드 (Next.js) - ✅ 통과, 5. 데이터베이스 (PostgreSQL) - ✅ 통과 (+36 more)
 
-### Community 39 - "Community 39"
+### Community 39 - "Community Feature Integration"
 Cohesion: 0.04
 Nodes (44): API Client, API 통합, Architecture, Comment Components, Comment Hooks, Community Features - Phase 6, Core Components, Dependencies (+36 more)
 
-### Community 40 - "Community 40"
+### Community 40 - "API Documentation Standards"
 Cohesion: 0.05
 Nodes (43): API Documentation, API Endpoints, Authentication, Authentication, Authorization, Caching, Clean Architecture Pattern, Code Standards (+35 more)
 
-### Community 41 - "Community 41"
+### Community 41 - "Marketing Strategy Plan"
 Cohesion: 0.05
 Nodes (43): 1.1 Marketing Goals, 1.2 Budget, 1. Marketing Overview, 2.1 Segmentation, 2.2 Targeting, 2.3 Positioning, 2. Market Segmentation (STP), 3.1 Product (+35 more)
 
-### Community 42 - "Community 42"
+### Community 42 - "Operations & Hiring Plan"
 Cohesion: 0.05
 Nodes (43): 10.1 Hiring Process, 10.2 Onboarding, 10. Hiring & Onboarding, 11.1 OKRs (Objectives & Key Results), 11.2 Performance Reviews, 11.3 Compensation & Promotions, 11. Performance Management, 12.1 Core Tools (+35 more)
 
-### Community 43 - "Community 43"
+### Community 43 - "Software Engineering Principles"
 Cohesion: 0.05
 Nodes (43): Agile, Changelog, Class, Clean Code, Code Formatting, Code Linting, Code Review, Code Smell (+35 more)
 
-### Community 44 - "Community 44"
+### Community 44 - "Risk Management Framework"
 Cohesion: 0.05
 Nodes (42): 10.1 연간 리스크 대응 예산 (₩50,000,000), 10. 리스크 대응 예산, 11.1 위기 레벨 정의, 11.2 위기 대응 팀, 11.3 위기 대응 프로토콜, 11. 위기 관리 계획 (Crisis Management), 12.1 Post-Mortem 템플릿, 12. 사후 분석 (Post-Mortem) (+34 more)
 
-### Community 45 - "Community 45"
+### Community 45 - "Backend Module Implementation"
 Cohesion: 0.05
 Nodes (42): 1. main.ts (진입점), 1. 프로젝트 구조 생성, 2. app.module.ts (루트 모듈), 2. Users 모듈 RESTful API, 3. Auth 모듈, 3. users.service.ts (핵심 비즈니스 로직), 4. auth.service.ts (인증 로직), 4. Prisma Service (+34 more)
 
-### Community 46 - "Community 46"
+### Community 46 - "Software Engineering Principles"
 Cohesion: 0.05
 Nodes (43): Agile, Changelog, Class, Clean Code, Code Formatting, Code Linting, Code Review, Code Smell (+35 more)
 
-### Community 47 - "Community 47"
+### Community 47 - "Development Roadmap"
 Cohesion: 0.05
 Nodes (41): 10.1 Agenda, 10.2 Reporting, 10. Monthly Check-ins, 1.1 Timeline Summary, 1. Overview, 2.1 Week 1: Foundation, 2.2 Week 2: Design System, 2.3 Week 3: Database & API Design (+33 more)
 
-### Community 48 - "Community 48"
+### Community 48 - "Frontend API Integration"
 Cohesion: 0.05
 Nodes (41): 1. Optimistic Updates, 2. Automatic Caching, 3. Loading States, 4. Error Handling, 5. Responsive Design, API 401 Errors, API Client, API Endpoints (+33 more)
 
-### Community 49 - "Community 49"
+### Community 49 - "Course Module Implementation"
 Cohesion: 0.05
 Nodes (40): 1. Courses Module (코스 관리), 2. Chapters Module (챕터 진도 관리), 3. Enrollments Module (수강 신청 관리), API 라우팅 구조, App Module (통합), Assignments & Submissions, Chapters Module, Clean Architecture 패턴 (+32 more)
 
-### Community 50 - "Community 50"
+### Community 50 - "Swagger API Documentation"
 Cohesion: 0.05
 Nodes (40): 1. Document All Endpoints, 1. swagger.ts, 2. Comprehensive DTOs, 2. main.ts, 3. Error Responses, 3. generate-openapi.ts, 4. Organize by Tags, 5. Keep Examples Realistic (+32 more)
 
-### Community 51 - "Community 51"
+### Community 51 - "API Test Coverage"
 Cohesion: 0.05
 Nodes (40): Added in Phase 7, Admin Functions, API E2E Tests (Jest + Supertest), API Tests, API Unit Tests (Jest), Authentication & Authorization, CI/CD Integration, Community Features (+32 more)
 
-### Community 52 - "Community 52"
+### Community 52 - "E2E Testing Summary"
 Cohesion: 0.05
 Nodes (40): 1. Playwright 설정 및 구성, 2. 테스트 인프라, 3. 테스트 커버리지, 4. 핵심 기능, 5. CI/CD 통합, 6. 문서화, 7. 설정 파일, A. 비인증 사용자 시나리오 (+32 more)
 
-### Community 53 - "Community 53"
+### Community 53 - "Project Specifications"
 Cohesion: 0.05
 Nodes (40): 10. 핵심 원칙, 1. 프로젝트 정의, 2.1 학생 (크루 멤버), 2.2 관리자/교수, 2.3 기업 파트너 (Phase 2), 2. 사용자 유형, 3. 핵심 기능 (우선순위), 4. 기술 스택 (+32 more)
 
-### Community 54 - "Community 54"
+### Community 54 - "Frontend Feature Implementation"
 Cohesion: 0.05
 Nodes (40): 1. Authentication Flow, 1. 프로젝트 구조, 2. Error Boundaries, 2. 구현된 컴포넌트, 3. API Integration, 3. Testing, 4. Real-time Features, 4. State Management (+32 more)
 
-### Community 55 - "Community 55"
+### Community 55 - "Localization & Context"
 Cohesion: 0.08
 Nodes (27): inter, metadata, Providers(), getLocaleLabel(), Locale, locales, LanguageContext, LanguageContextType (+19 more)
 
-### Community 56 - "Community 56"
+### Community 56 - "Course Enrollment Service"
 Cohesion: 0.11
 Nodes (12): CertificatesModule, ChaptersModule, CoursesModule, EnrollmentsController, EnrollmentsModule, EnrollmentsService, HealthModule, PrismaModule (+4 more)
 
-### Community 57 - "Community 57"
+### Community 57 - "GSD Execution Guide"
 Cohesion: 0.05
 Nodes (39): 1단계: 프로젝트 초기화, 2단계: 로드맵 생성, 3단계: Phase별 계획 수립, 4단계: Ralph Loop 설정, 5단계: Phase 실행, 6단계: 진행 상황 모니터링, 7단계: 문제 발생 시 대응, Context 관리 (+31 more)
 
-### Community 58 - "Community 58"
+### Community 58 - "Quick Start Guide"
 Cohesion: 0.05
 Nodes (39): 1. 병렬 실행 활용, 2. Ralph Loop 최대 활용, 3. 테스트 자동 생성, 4. 보안 자동 검토, 5. 성능 자동 최적화, 🚀 5분 안에 시작하는 방법, GSD 도움말, Phase 가정사항 확인 (+31 more)
 
-### Community 59 - "Community 59"
+### Community 59 - "Project README Overview"
 Cohesion: 0.05
 Nodes (39): 📚 API 문서, Backend, DevOps, Frontend, Swagger/OpenAPI, Testing, WKU Software Crew 🚀, 🙏 감사의 말 (+31 more)
 
-### Community 60 - "Community 60"
+### Community 60 - "System Running Instructions"
 Cohesion: 0.05
 Nodes (39): 1. 새 기능 개발, 2. API 테스트, 3. 프론트엔드 개발, API 엔드포인트 테스트, Backend (.env), Backend (NestJS), Community API, Courses API (+31 more)
 
-### Community 61 - "Community 61"
+### Community 61 - "API Security Implementation"
 Cohesion: 0.05
 Nodes (38): 1. Authentication & Authorization, 2. Security Headers (Helmet), 3. Rate Limiting (3-tier), 4. CORS Policy, 5. Input Validation, Configuration, Filters & Security, Git 커밋 히스토리 (+30 more)
 
-### Community 62 - "Community 62"
+### Community 62 - "Mentorship Controller API"
 Cohesion: 0.07
 Nodes (7): AvailableMentorDto, MentorshipResponseDto, MentorshipUserDto, RateMentorshipDto, RequestMentorDto, MentoringController, MentoringService
 
-### Community 63 - "Community 63"
+### Community 63 - "Quiz Management Service"
 Cohesion: 0.09
 Nodes (7): CreateQuestionDto, CreateQuizDto, SubmitQuizDto, UpdateQuizDto, QuizzesController, QuizzesModule, QuizzesService
 
-### Community 64 - "Community 64"
+### Community 64 - "Community Post Features"
 Cohesion: 0.05
 Nodes (38): 1. `/community` - 게시글 목록, 1. Optimistic Updates, 2. `/community/new` - 게시글 작성, 2. 계층형 댓글, 3. `/community/[id]` - 게시글 상세, 3. 마크다운 지원, 4. 실시간 피드백, API Client (`lib/api/community.ts`) (+30 more)
 
-### Community 65 - "Community 65"
-Cohesion: 0.12
-Nodes (9): Roles(), CreateXpActivityDto, LeaderboardEntryDto, LeaderboardResponseDto, XpActivityResponseDto, XpGrantResultDto, XpHistoryResponseDto, RolesGuard (+1 more)
+### Community 65 - "User Roles & XP"
+Cohesion: 0.08
+Nodes (10): Roles(), CreateXpActivityDto, LeaderboardEntryDto, LeaderboardResponseDto, XpActivityResponseDto, XpGrantResultDto, XpHistoryResponseDto, RolesGuard (+2 more)
 
-### Community 66 - "Community 66"
+### Community 66 - "Course UI Implementation"
 Cohesion: 0.05
 Nodes (37): 1. Server Component 활용, 1. 코스 목록 페이지 (/courses), 2. Suspense 경계, 2. 코스 상세 페이지 (/courses/[id]), 3. React Query 최적화, 3. 진도 관리, 4. 이미지 최적화, 5. 코드 스플리팅 (+29 more)
 
-### Community 67 - "Community 67"
+### Community 67 - "Docker Environment Setup"
 Cohesion: 0.05
 Nodes (36): Add user to docker group, All services, Context, Copy environment templates, Dependencies, Edit environment files, Fill in:, - GitHub OAuth credentials (+28 more)
 
-### Community 68 - "Community 68"
+### Community 68 - "Development Workflow Plan"
 Cohesion: 0.05
 Nodes (36): 10. 결론, 1. 현재 상황 분석, 2. 권장 브랜치 전략: Simplified Git Flow, 3. 워크플로우, 4. 환경 구성, 5. CI/CD 파이프라인, 6. 구현 단계, 7. 기능 개발 로드맵 (+28 more)
 
-### Community 69 - "Community 69"
+### Community 69 - "Software Testing Methodologies"
 Cohesion: 0.05
 Nodes (37): A/B Testing, Analytics, BDD (Behavior-Driven Development), Bug, Code Coverage, Code Quality, Continuous Testing, Contract Testing (+29 more)
 
-### Community 70 - "Community 70"
+### Community 70 - "Post API Endpoints"
 Cohesion: 0.05
 Nodes (36): 10. POST /api/comments/:id/accept, 11. POST /api/posts/:id/vote, 12. DELETE /api/posts/:id/vote, 13. GET /api/posts/:id/votes, 1. GET /api/posts, 2. POST /api/posts, 3. GET /api/posts/:id, 400 Bad Request (+28 more)
 
-### Community 71 - "Community 71"
+### Community 71 - "Customer Success Strategy"
 Cohesion: 0.05
 Nodes (36): 1.1 Definition, 1.2 Goals, 1. Customer Success Overview, 2.1 Awareness, 2.2 Onboarding, 2.3 Engagement, 2.4 Conversion, 2.5 Retention (+28 more)
 
-### Community 72 - "Community 72"
+### Community 72 - "Business Expansion Strategy"
 Cohesion: 0.05
 Nodes (36): 1.1 지역 확장, 1.2 제품 확장, 1. 확장 로드맵, 2.1 타 대학 확장, 2.2 세그먼트 확장, 2. 수평 확장 (Horizontal Scaling), 3.1 상위 가치사슬, 3.2 하위 가치사슬 (+28 more)
 
-### Community 73 - "Community 73"
+### Community 73 - "Software Testing Methodologies"
 Cohesion: 0.05
 Nodes (37): A/B Testing, Analytics, BDD (Behavior-Driven Development), Bug, Code Coverage, Code Quality, Continuous Testing, Contract Testing (+29 more)
 
-### Community 74 - "Community 74"
+### Community 74 - "API Environment Setup"
 Cohesion: 0.06
 Nodes (35): All services, API E2E tests, API logs, API unit tests, Check if API is healthy, Context, Copy environment templates, Database logs (+27 more)
 
-### Community 75 - "Community 75"
+### Community 75 - "Unit Testing Guide"
 Cohesion: 0.06
 Nodes (35): 1. AAA 패턴 사용, 1. Users Service (`users.service.spec.ts`), 1. 의존성 설치, 2. Projects Service (`projects.service.spec.ts`), 2. 명확한 테스트 이름, 2. 전체 테스트 실행, 3. Courses Service (`courses.service.spec.ts`), 3. Mock 초기화 (+27 more)
 
-### Community 76 - "Community 76"
+### Community 76 - "Performance Optimization Report"
 Cohesion: 0.06
 Nodes (35): 1. API 성능 측정 및 프로파일링, 2. 데이터베이스 쿼리 최적화, 3. 프론트엔드 번들 최적화, 4. 캐싱 전략, 5. 성능 테스트 자동화, API 응답시간, API 캐싱 (Redis), E2E 성능 테스트 (+27 more)
 
-### Community 77 - "Community 77"
+### Community 77 - "Course API Implementation"
 Cohesion: 0.06
 Nodes (35): 1. Courses API (코스 관리), 1. 코스 생성 및 조회, 2. Enrollment API (수강 신청), 2. 수강 신청 및 진도 관리, 3. Progress API (진도 관리), 3. 수강 취소, API 엔드포인트, Clean Architecture 패턴 (+27 more)
 
-### Community 78 - "Community 78"
+### Community 78 - "Project Timeline Gantt"
 Cohesion: 0.06
 Nodes (35): Checkpoint 1: Phase 7 시작 (01/23), Checkpoint 2: Phase 7 중간 (01/25), Checkpoint 3: Phase 7 완료 (01/28), Checkpoint 4: Phase 8 시작 (01/29), Checkpoint 5: Beta Launch (02/05), Phase 7 (현재), Phase 8 (예정), Plan 07-01: E2E 테스트 완성 및 커버리지 향상 (+27 more)
 
-### Community 79 - "Community 79"
+### Community 79 - "CI/CD Setup Checklist"
 Cohesion: 0.06
 Nodes (35): CI가 실패하는 경우, Git Flow 설정 체크리스트, Phase 1: 코드 설정 (완료), Phase 2: GitHub Secrets 설정, Phase 3: Branch Protection 설정, Phase 4: Cloudflare Tunnel 설정, Phase 5: 서버 설정, Phase 6: 테스트 (+27 more)
 
-### Community 80 - "Community 80"
+### Community 80 - "Quiz Service Logic"
 Cohesion: 0.08
 Nodes (21): CreateQuestionDto, CreateQuizDto, getAttemptDetails(), getChapterQuizzes(), getMyAttempts(), QuestionType, QuizAttempt, QuizQuestion (+13 more)
 
-### Community 81 - "Community 81"
+### Community 81 - "Leaderboard UI Components"
 Cohesion: 0.12
 Nodes (27): LeaderboardUser, UserRank, XpActivity, XpActivityType, LeaderboardRowProps, getPositionStyle(), Leaderboard(), LeaderboardCompact() (+19 more)
 
-### Community 82 - "Community 82"
+### Community 82 - "Security Compliance Checklist"
 Cohesion: 0.06
 Nodes (34): API Security, Authentication & Authorization, Compliance Considerations, CORS Configuration, Data Privacy, Data Protection, Database Security, Dependency Security (+26 more)
 
-### Community 83 - "Community 83"
-Cohesion: 0.08
-Nodes (30): AlertDialog(), AlertDialogAction, AlertDialogActionProps, AlertDialogCancel, AlertDialogCancelProps, AlertDialogContent, AlertDialogContentProps, AlertDialogContext (+22 more)
+### Community 83 - "UI Alert Dialogs"
+Cohesion: 0.10
+Nodes (24): AlertDialog(), AlertDialogAction, AlertDialogActionProps, AlertDialogCancel, AlertDialogCancelProps, AlertDialogContent, AlertDialogContentProps, AlertDialogContext (+16 more)
 
-### Community 84 - "Community 84"
+### Community 84 - "Data Analytics Strategy"
 Cohesion: 0.06
 Nodes (33): 1.1 핵심 목표, 1. 데이터 분석 목표, 2.1 수집 데이터, 2.2 수집 도구, 2. 데이터 수집, 3.1 AARRR Funnel 분석, 3.2 코호트 분석, 3.3 Funnel 분석 (+25 more)
 
-### Community 85 - "Community 85"
+### Community 85 - "Security Audit Status"
 Cohesion: 0.06
 Nodes (32): CI/CD, Git 커밋, Immediate (완료 후), Phase 7-03 준비, Plan 07-02 상태: 보안 검토 및 강화, Post-Beta 개선, Pre-flight Checks, Success Criteria (+24 more)
 
-### Community 86 - "Community 86"
+### Community 86 - "Authentication Controller Service"
 Cohesion: 0.10
 Nodes (9): AuthController, AuthModule, AuthService, GithubProfile, JwtPayload, GithubStrategy, JwtStrategy, LoginDto (+1 more)
 
-### Community 87 - "Community 87"
+### Community 87 - "Project Development Log"
 Cohesion: 0.06
 Nodes (32): Backend (API), Common Tasks, Completed Setup, Contact & Resources, Current State: Git Flow Setup Complete, Database Access, Deploy to Production, Deployment (+24 more)
 
-### Community 88 - "Community 88"
+### Community 88 - "Ralph Loop Patterns"
 Cohesion: 0.06
 Nodes (32): 1. Ralph Loop 시작, 1. 명확한 첫 번째 패턴, 2. 일관성 유지, 2. 첫 번째 패턴 생성 (수동), 3. Ralph가 패턴 학습, 3. 점진적 개선, 4. 다음 리소스 생성 (반자동), 4. 문서화 (+24 more)
 
-### Community 89 - "Community 89"
+### Community 89 - "Technical Architecture Overview"
 Cohesion: 0.06
 Nodes (32): 1.1 System Architecture Diagram, 1.2 Architecture Principles, 1. Architecture Overview, 2.1 Frontend Stack, 2.2 Backend Stack, 2.3 Infrastructure & DevOps, 2.4 Database & Storage, 2. Technology Stack (+24 more)
 
-### Community 90 - "Community 90"
+### Community 90 - "Performance Optimization Summary"
 Cohesion: 0.06
 Nodes (31): API 응답시간, Performance Agent 활용, Ralph Loop 적용, Summary: 07-03 성능 최적화 및 모니터링, Task 1: API 성능 측정 및 프로파일링 ✅, Task 2: 데이터베이스 쿼리 최적화 ✅, Task 3: 프론트엔드 번들 최적화 ✅, Task 4: 캐싱 전략 구현 ✅ (+23 more)
 
-### Community 91 - "Community 91"
+### Community 91 - "Project Member Management"
 Cohesion: 0.11
 Nodes (8): AddMemberDto, CreateInvitationDto, RespondInvitationDto, UpdateMemberRoleDto, CreateProjectDto, ProjectQueryDto, UpdateProjectDto, ProjectsController
 
-### Community 92 - "Community 92"
+### Community 92 - "Contribution Guidelines"
 Cohesion: 0.06
 Nodes (31): Contributing to WKU Software Crew, NestJS Backend, Next.js Frontend, PR 리뷰 프로세스, PR 생성, PR 생성 전 체크리스트, Pull Request 프로세스, Scope (선택사항) (+23 more)
 
-### Community 93 - "Community 93"
+### Community 93 - "API Documentation Reference"
 Cohesion: 0.06
 Nodes (31): API Endpoints, Authentication, Authentication, Base URL, Best Practices, Chapters, Comments, Common Query Parameters (+23 more)
 
-### Community 94 - "Community 94"
+### Community 94 - "Web Security Protocols"
 Cohesion: 0.06
 Nodes (32): API Key, Authentication, Authorization, Bearer Token, Certificate, Certificate Authority (CA), Content Security Policy (CSP), CSRF (Cross-Site Request Forgery) (+24 more)
 
-### Community 95 - "Community 95"
+### Community 95 - "Investment Strategy Plan"
 Cohesion: 0.06
 Nodes (31): 1.1 투자 라운드 계획, 1. 투자 유치 개요, 2.1 Seed Round 타겟 투자자, 2.2 Series A 타겟 투자자, 2. 투자자 타겟팅, 3.1 엘리베이터 피치 (30초), 3.2 피칭 덱 구조 (15-20 슬라이드), 3.3 핵심 메시지 (+23 more)
 
-### Community 96 - "Community 96"
+### Community 96 - "Web Security Protocols"
 Cohesion: 0.06
 Nodes (32): API Key, Authentication, Authorization, Bearer Token, Certificate, Certificate Authority (CA), Content Security Policy (CSP), CSRF (Cross-Site Request Forgery) (+24 more)
 
-### Community 97 - "Community 97"
+### Community 97 - "Full Stack Development Overview"
 Cohesion: 0.25
 Nodes (8): Backend Development (45+ terms), Cloud & DevOps (50+ terms), Database & Data (35+ terms), Development Practices (25+ terms), Frontend Development (40+ terms), Security & Authentication (30+ terms), Summary of Coverage, Testing & Quality (25+ terms)
 
-### Community 98 - "Community 98"
+### Community 98 - "Learning Reports Service"
 Cohesion: 0.12
 Nodes (23): LearningStats, Report, reportsApi, ReportSections, ReportsListResponse, EditReportPage(), sectionConfig, useCreateReport() (+15 more)
 
-### Community 99 - "Community 99"
+### Community 99 - "Customer Success Roadmap"
 Cohesion: 0.06
 Nodes (30): 1.1 정의, 1.2 목표, 1. 고객 성공 (Customer Success) 개요, 2.1 Awareness (인지), 2.2 Onboarding (온보딩), 2.3 Engagement (참여), 2.4 Conversion (전환), 2.5 Retention (유지) (+22 more)
 
-### Community 100 - "Community 100"
+### Community 100 - "Project API Endpoints"
 Cohesion: 0.06
 Nodes (30): 1. GET /api/projects, 2. POST /api/projects, 3. GET /api/projects/:id, 4. PATCH /api/projects/:id, 5. DELETE /api/projects/:id, 6. POST /api/projects/:id/members, 7. DELETE /api/projects/:id/members/:userId, API 엔드포인트 (+22 more)
 
-### Community 101 - "Community 101"
+### Community 101 - "Certificate Management Service"
 Cohesion: 0.11
 Nodes (21): CertificateStats, CertificateVerification, checkCourseCompletion(), CourseCompletion, getMyCertificates(), issueCertificate(), verifyCertificate(), CertificatesPage() (+13 more)
 
-### Community 102 - "Community 102"
+### Community 102 - "Risk Management Framework"
 Cohesion: 0.07
 Nodes (29): 10.1 Recommended Policies, 10.2 Self-Insurance, 10. Insurance Coverage, 1.1 Risk Categories, 1.2 Risk Assessment Matrix, 1. Risk Management Framework, 2.1 Platform Performance Issues [HIGH], 2.2 Data Security Breach [CRITICAL] (+21 more)
 
-### Community 103 - "Community 103"
+### Community 103 - "Partnership Strategy"
 Cohesion: 0.07
 Nodes (29): 1.1 파트너십 목표, 1. 파트너십 개요, 1차 (1년차): 원광대학교, 2.1 타겟 대학, 2.2 파트너십 모델, 2.3 제안 프로세스, 2. 대학 파트너십, 2차 (2년차): 전라북도 대학 (+21 more)
 
-### Community 104 - "Community 104"
+### Community 104 - "Frontend Home Components"
 Cohesion: 0.13
 Nodes (16): CTASection(), features, FeatureShowcase(), Footer(), footerSections, HeroSection(), LogoTicker(), techLogos (+8 more)
 
-### Community 105 - "Community 105"
+### Community 105 - "Comments Controller"
 Cohesion: 0.11
 Nodes (5): CommentsController, CommentsModule, CommentsService, CreateCommentDto, UpdateCommentDto
 
-### Community 106 - "Community 106"
+### Community 106 - "Bundle Optimization Analysis"
 Cohesion: 0.07
 Nodes (28): After Optimization, Before Optimization, Bundle Analysis Report, Code Splitting 전략, Common Chunk, Dynamic Import 후보, Heavy Components (>20KB), Immediate Actions (+20 more)
 
-### Community 107 - "Community 107"
+### Community 107 - "Deployment Dev Log"
 Cohesion: 0.07
 Nodes (28): 1. Branching Strategy Decision, 1. Cloudflare Pages Attempt (Abandoned), 2. Docker + Cloudflare Tunnel Deployment (Successful), 2. Staging Environment Configuration, 3. CI/CD Pipeline Update, 3. Cloudflare Tunnel Configuration, 4. Documentation Created, 4. Health Check Fix (+20 more)
 
-### Community 108 - "Community 108"
+### Community 108 - "Backend Dependencies"
 Cohesion: 0.07
 Nodes (28): dependencies, bcryptjs, class-transformer, class-validator, compression, helmet, ioredis, @nestjs/common (+20 more)
 
-### Community 109 - "Community 109"
+### Community 109 - "GitHub OAuth Setup"
 Cohesion: 0.07
 Nodes (27): Architecture, Backend (apps/api/.env), Callback URL Format, Check Backend OAuth Routes, Configuration Reference, Development Environment, Environment Variables Summary, Error: "Invalid client_id" (+19 more)
 
-### Community 110 - "Community 110"
+### Community 110 - "Partnership Strategy English"
 Cohesion: 0.07
 Nodes (27): 1.1 Partnership Goals, 1.2 Partnership Types, 1. Partnership Overview, 2.1 Target Universities, 2.2 Partnership Models, 2.3 Partnership Benefits, 2.4 Partnership Process, 2. University Partnerships (+19 more)
 
-### Community 111 - "Community 111"
+### Community 111 - "Data Analysis Strategy"
 Cohesion: 0.07
 Nodes (27): 1. Data Analysis Goals, 2.1 Data Sources, 2.2 Data Collection Tools, 2. Data Collection, 3.1 AARRR Funnel, 3.2 Cohort Analysis, 3.3 Funnel Analysis, 3. Analytics Framework (+19 more)
 
-### Community 112 - "Community 112"
+### Community 112 - "Integration Testing Guide"
 Cohesion: 0.07
 Nodes (27): 1. 인증 테스트, 2. 권한 테스트, 3. 유효성 검사 테스트, 4. 데이터베이스 트랜잭션 테스트, CI/CD 통합, Integration Tests (E2E), PostgreSQL 테스트 데이터베이스, Test Helpers (`test-helpers.ts`) (+19 more)
 
-### Community 113 - "Community 113"
+### Community 113 - "Admin Layout Components"
 Cohesion: 0.12
 Nodes (17): AdminLayout(), adminNavItems, SocialLinks, UpdateUserInput, User, AuthCallbackContent(), ProfileWidgetProps, ProfileEditPage() (+9 more)
 
-### Community 114 - "Community 114"
+### Community 114 - "Service Test Results"
 Cohesion: 0.07
 Nodes (26): 1. Users Service (17 tests), 2. Projects Service (19 tests), 3. Courses Service (14 tests), 4. Posts Service (13 tests), 5. Comments Service (14 tests), 6. Votes Service (17 tests), AAA 패턴 준수, Coverage Report (+18 more)
 
-### Community 115 - "Community 115"
+### Community 115 - "Reports Controller"
 Cohesion: 0.12
 Nodes (6): CreateReportDto, ReportQueryDto, UpdateReportDto, ReportsController, ReportsModule, ReportsService
 
-### Community 116 - "Community 116"
+### Community 116 - "Users and Projects Module"
 Cohesion: 0.11
 Nodes (5): UpdateUserDto, ProjectsModule, UsersController, UsersModule, UsersService
 
-### Community 117 - "Community 117"
+### Community 117 - "Deployment Architecture English"
 Cohesion: 0.07
 Nodes (26): 1. Automated Deployment (Recommended), 2. Manual Deployment, API Not Accessible, Backup, Cloudflare Tunnel Configuration, Connection, CORS Error, Database Management (+18 more)
 
-### Community 118 - "Community 118"
+### Community 118 - "Deployment Guide Korean"
 Cohesion: 0.07
 Nodes (26): 1. 자동 배포 (권장), 2. 수동 배포, API 접속 불가, Cloudflare Tunnel 설정, CORS 에러, Frontend 접속 불가, Tunnel 연결 실패, Tunnel 정보 (+18 more)
 
-### Community 119 - "Community 119"
+### Community 119 - "Certificates and Badges"
 Cohesion: 0.13
 Nodes (18): Certificate, CertificateCardProps, CertificateVerifier(), CertificateViewer(), CertificateViewerProps, CertificateCardProps, QuizPlayer(), Badge (+10 more)
 
-### Community 120 - "Community 120"
+### Community 120 - "Test Coverage Summary"
 Cohesion: 0.08
 Nodes (25): Admin Service Tests (9 tests), Auth Service Tests (13 tests), Chapters Service Tests (18 tests), Comprehensive Test Patterns, Configuration Updated, Controllers (0% Coverage), Coverage by Module, Enrollments Service Tests (11 tests) (+17 more)
 
-### Community 121 - "Community 121"
+### Community 121 - "Posts Controller"
 Cohesion: 0.14
 Nodes (6): CreatePostDto, PostQueryDto, UpdatePostDto, PostsController, PostsModule, PostsService
 
-### Community 122 - "Community 122"
+### Community 122 - "Swagger API Documentation"
 Cohesion: 0.08
 Nodes (25): 1. 스키마 확인, 1단계: 패키지 설치, 2. 실시간 테스트, 2단계: 개발 서버 실행, 3. 코드 예제, 3단계: Swagger UI 열기, 4단계: API 탐색, 5단계: 인증 설정 (보호된 엔드포인트용) (+17 more)
 
-### Community 123 - "Community 123"
+### Community 123 - "Sustainability Plan"
 Cohesion: 0.08
 Nodes (25): 1. Sustainability Vision, 2.1 Revenue Diversification, 2.2 Cost Optimization, 2. Economic Sustainability, 3.1 Green IT, 3.2 Carbon Footprint, 3.3 Paperless Operations, 3. Environmental Sustainability (+17 more)
 
-### Community 124 - "Community 124"
+### Community 124 - "Chat Socket Services"
 Cohesion: 0.18
 Nodes (22): chatApi, TypingUser, useChannels(), UseChannelsOptions, UseChannelsReturn, useChat(), UseChatOptions, UseChatReturn (+14 more)
 
-### Community 125 - "Community 125"
+### Community 125 - "Quiz UI Components"
 Cohesion: 0.12
 Nodes (18): Quiz, QuizSubmitResult, QuizCardProps, QuizPlayerProps, QuizResultProps, Card, CardContentProps, CardDescription (+10 more)
 
-### Community 126 - "Community 126"
+### Community 126 - "XP and Leaderboard API"
 Cohesion: 0.13
 Nodes (21): LeaderboardResponse, XpHistoryResponse, XpStats, LeaderboardParams, LeaderboardPeriod, xpApi, XpHistoryParams, useLeaderboard() (+13 more)
 
-### Community 127 - "Community 127"
+### Community 127 - "Categories Module"
 Cohesion: 0.12
 Nodes (5): CategoriesController, CategoriesModule, CategoriesService, CreateCategoryDto, UpdateCategoryDto
 
-### Community 128 - "Community 128"
-Cohesion: 0.07
-Nodes (6): CertificatesController, CertificatesService, CertificateResponseDto, IssueCertificateDto, VerifyCertificateDto, XpService
+### Community 128 - "Certificates Service"
+Cohesion: 0.10
+Nodes (5): CertificatesController, CertificatesService, CertificateResponseDto, IssueCertificateDto, VerifyCertificateDto
 
-### Community 129 - "Community 129"
+### Community 129 - "Collaborative Canvas UI"
 Cohesion: 0.12
 Nodes (19): CanvasToolbar(), CanvasToolbarProps, CollaborativeCanvas(), CollaborativeCanvasProps, Excalidraw, UserCursorsProps, useCanvas(), useUpdateCanvas() (+11 more)
 
-### Community 130 - "Community 130"
+### Community 130 - "Development Glossary"
 Cohesion: 0.09
 Nodes (22): Additional Resources, API (Application Programming Interface), Common Abbreviations, Contributing, Dependency, Development Glossary, Environment (Dev/Staging/Production), Framework (+14 more)
 
-### Community 131 - "Community 131"
+### Community 131 - "Sustainability Plan Korean"
 Cohesion: 0.08
 Nodes (23): 1.1 목표, 1.2 3대 축, 1. 지속 가능성 비전, 2.1 수익 다각화, 2.2 비용 최적화, 2. 경제적 지속 가능성, 3.1 그린 IT, 3.2 탄소 발자국 측정 (+15 more)
 
-### Community 132 - "Community 132"
+### Community 132 - "Project Scripts"
 Cohesion: 0.09
 Nodes (23): scripts, build, db:generate, db:migrate, db:push, db:seed:content, db:studio, dev (+15 more)
 
-### Community 133 - "Community 133"
+### Community 133 - "Dependency Security Audit"
 Cohesion: 0.09
 Nodes (22): 1. CRITICAL - Authorization Bypass in Next.js Middleware, 1단계: 즉시 수정 (P0), 2026-01-23 수정 완료, 2. HIGH - Next.js Denial of Service with Server Components, 2단계: 검증, 3. HIGH - Next.js DoS Follow-Up, 3단계: CI/CD 자동화, 4. MODERATE - js-yaml Prototype Pollution (+14 more)
 
-### Community 134 - "Community 134"
+### Community 134 - "Legal and Privacy Policy"
 Cohesion: 0.09
 Nodes (22): 1. Legal Structure, 2.1 Key Clauses, 2.2 User Responsibilities, 2. Terms of Service, 3.1 Data Collection, 3.2 Data Usage, 3.3 Data Sharing, 3.4 User Rights (+14 more)
 
-### Community 135 - "Community 135"
+### Community 135 - "Community API Endpoints"
 Cohesion: 0.09
 Nodes (22): API 엔드포인트 연동, Comments, Community Setup Guide, GET /api/posts, GET /api/posts/:id, GET /api/posts/tags, POST /api/comments/:id/accept, POST /api/posts (+14 more)
 
-### Community 136 - "Community 136"
+### Community 136 - "CI/CD Pipeline Plan"
 Cohesion: 0.09
 Nodes (21): Add as SCHOOL_SERVER_SSH_KEY secret, API health, Context, Copy private key to GitHub secrets, Copy public key to school server, Dependencies, Next Steps, On your local machine (+13 more)
 
-### Community 137 - "Community 137"
+### Community 137 - "Assignments Module"
 Cohesion: 0.14
 Nodes (5): AssignmentsController, AssignmentsModule, AssignmentsService, SubmitAssignmentDto, UpdateSubmissionDto
 
-### Community 138 - "Community 138"
+### Community 138 - "Quality Assurance Plan"
 Cohesion: 0.09
 Nodes (21): 1.1 품질 목표, 1. 품질 보증 개요, 2.1 테스트 피라미드, 2.2 테스트 유형, 2. 테스트 전략, 3.1 코드 리뷰, 3.2 정적 분석, 3. 코드 품질 (+13 more)
 
-### Community 139 - "Community 139"
+### Community 139 - "Backend Testing Strategy"
 Cohesion: 0.09
 Nodes (22): 1. E2E 통합 테스트 (Backend API), 2. 단위 테스트 (Backend Services), 3. 프론트엔드 테스트 (계획), CI/CD 통합, Docker 환경, GitHub Actions, Prisma 스키마 동기화 오류, Testing Guide (+14 more)
 
-### Community 140 - "Community 140"
-Cohesion: 0.21
-Nodes (16): Canvas, canvasApi, CanvasMember, CreateCanvasInput, SaveCanvasInput, UpdateCanvasInput, CanvasCard(), CanvasCardProps (+8 more)
+### Community 140 - "Assignment Submission Logic"
+Cohesion: 0.14
+Nodes (21): Assignment, AssignmentSubmission, getChapterAssignments(), getMySubmissionForAssignment(), getMySubmissions(), SubmissionStatus, submitAssignment(), SubmitAssignmentDto (+13 more)
 
-### Community 141 - "Community 141"
+### Community 141 - "TypeScript Configuration"
 Cohesion: 0.10
 Nodes (20): compilerOptions, allowSyntheticDefaultImports, baseUrl, declaration, emitDecoratorMetadata, experimentalDecorators, forceConsistentCasingInFileNames, incremental (+12 more)
 
-### Community 142 - "Community 142"
+### Community 142 - "Project Development Guide"
 Cohesion: 0.10
 Nodes (20): CrewSpace 개발 실전 가이드, [Part 1: Introduction - 프로젝트 소개 및 초기 설정](./part1-introduction.md), Part 2: Planning & Design - 계획 및 설계, Part 3: Implementation - 구현, Part 4: Advanced Features - 고급 기능, Part 5: Testing & Deployment - 테스트 및 배포, Part 6: Appendix - 부록, 기술 스택 (+12 more)
 
-### Community 144 - "Community 144"
+### Community 144 - "Deployment and Backup"
 Cohesion: 0.10
 Nodes (20): 1. Clone the Repository, 2. Configure Environment, 3. SSL Certificates, 4. Deploy, Automated Backups, Backup and Restore, Container Logs, Database Migrations (+12 more)
 
-### Community 145 - "Community 145"
+### Community 145 - "Demo Polish Tasks"
 Cohesion: 0.10
 Nodes (20): 1. 팀 에이전트 구성 및 병렬 작업, 2. Chat 페이지 데모 개선 (chat-dev), 3. Leaderboard 페이지네이션 수정 (page-dev), 4. Course 검색/필터/페이지네이션 추가 (page-dev), 5. 번역 수정 (quality-dev), 6. 코드 품질 정리 (quality-dev), 7. 빌드 테스트, 8. 프로덕션 배포 (+12 more)
 
-### Community 146 - "Community 146"
+### Community 146 - "Prompt History Log"
 Cohesion: 0.10
 Nodes (20): 2026-01-24 Session 1: Frontend Deployment, 2026-01-24 Session 2: Git Flow Setup, Cloudflare Tunnel 설정, Do's, Don'ts, Git Flow 설정 시작, Overview, Prompt Patterns (+12 more)
 
-### Community 148 - "Community 148"
+### Community 148 - "Performance Analysis Report"
 Cohesion: 0.10
 Nodes (20): 1. **검색 디바운싱**, 2. **백엔드 쿼리 최적화**, 3. **React Query 캐싱**, 4. **Next.js App Router 활용**, Bundle Size Analysis, Conclusion, Executive Summary, Implemented Optimizations (+12 more)
 
-### Community 149 - "Community 149"
+### Community 149 - "Frontend Component Tests"
 Cohesion: 0.14
 Nodes (5): mockApiResponse(), navigateTo(), typeWithDelay(), waitForHydration(), waitForPageLoad()
 
-### Community 150 - "Community 150"
+### Community 150 - "Frontend Dependencies"
 Cohesion: 0.10
 Nodes (21): dependencies, class-variance-authority, clsx, date-fns, @excalidraw/excalidraw, framer-motion, lucide-react, next (+13 more)
 
-### Community 151 - "Community 151"
+### Community 151 - "Cloudflare Tunnel Setup"
 Cohesion: 0.10
 Nodes (20): 1. Configure Cloudflare Tunnel Routes, 2. Get Tunnel Token, 3. Upload files to server, 4. Setup on server, API not responding, Architecture, Check Cloudflare Dashboard, Cloudflare Tunnel Info (+12 more)
 
-### Community 152 - "Community 152"
+### Community 152 - "Development Dependencies"
 Cohesion: 0.10
 Nodes (20): devDependencies, eslint, jest, @nestjs/cli, @nestjs/testing, prisma, supertest, ts-jest (+12 more)
 
-### Community 153 - "Community 153"
+### Community 153 - "Performance Baseline Analysis"
 Cohesion: 0.10
 Nodes (19): After Optimization, API 엔드포인트 성능, Before Optimization (측정 필요), Lighthouse 점수, N+1 쿼리, Performance Baseline, Phase 1: 데이터베이스, Phase 2: API (+11 more)
 
-### Community 154 - "Community 154"
+### Community 154 - "E2E Testing Checklist"
 Cohesion: 0.10
 Nodes (19): 1. 프로젝트 설정, 2. Playwright 설정, 3. 테스트 인프라, 4. 테스트 스위트 작성, 5. CI/CD 통합, 6. 문서화, 7. 테스트 커버리지, E2E Testing Implementation Checklist (+11 more)
 
-### Community 155 - "Community 155"
+### Community 155 - "QA Strategy Plan"
 Cohesion: 0.10
 Nodes (19): 1. QA Goals, 2.1 Test Pyramid, 2.2 Test Coverage Targets, 2. Testing Strategy, 3.1 Unit Tests, 3.2 Integration Tests, 3.3 E2E Tests, 3.4 Performance Tests (+11 more)
 
-### Community 156 - "Community 156"
+### Community 156 - "Package Configuration"
 Cohesion: 0.10
 Nodes (19): dependencies, devDependencies, typescript, engines, node, name, private, scripts (+11 more)
 
-### Community 157 - "Community 157"
+### Community 157 - "TypeScript Module Config"
 Cohesion: 0.10
 Nodes (19): compilerOptions, allowJs, esModuleInterop, incremental, isolatedModules, jsx, lib, module (+11 more)
 
-### Community 158 - "Community 158"
+### Community 158 - "Backend Service Testing"
 Cohesion: 0.11
 Nodes (18): 1. Service Test Template, 2. Mock Setup, 3. Error Testing, Backend Testing - Quick Reference, Best Practices, CI/CD Integration, Coverage Reports, Mock not working (+10 more)
 
-### Community 159 - "Community 159"
+### Community 159 - "Performance Optimization Tasks"
 Cohesion: 0.11
 Nodes (18): 1. N+1 Query Fix in Posts Service, 2. Parallel Dashboard API Calls, 3. Response Compression, 4. React Query Cache Optimization, 5. Next.js Configuration Optimization, Additional Optimizations, Component Memoization (PostCard), Database Indexes (+10 more)
 
-### Community 160 - "Community 160"
+### Community 160 - "Expansion Strategy Roadmap"
 Cohesion: 0.11
 Nodes (18): 1.1 5-Year Roadmap, 1. Expansion Vision, 2.1 Phase 1: Jeollabuk-do (Year 1), 2.2 Phase 2: National Expansion (Year 2), 2.3 Phase 3: International (Year 3+), 2. Geographic Expansion, 3.1 Horizontal Expansion (New Audiences), 3.2 Vertical Expansion (Deeper Features) (+10 more)
 
-### Community 162 - "Community 162"
+### Community 162 - "CrewSpace Development Guide"
 Cohesion: 0.11
 Nodes (17): CrewSpace 개발 실전 가이드, Part 1: Introduction - 프로젝트 소개 및 초기 설정, Part 2: Planning & Design - 계획 및 설계, Part 3: Implementation - 구현, Part 4: Advanced Features - 고급 기능, Part 5: Testing & Deployment - 테스트 및 배포, Part 6: Appendix - 부록, 개발자를 위한 실전 노하우 (+9 more)
 
-### Community 163 - "Community 163"
+### Community 163 - "Rebranding and Fixes"
 Cohesion: 0.11
 Nodes (17): 1. CrewSpace 리브랜딩 (a68640d), 2. 데모 캔버스 렌더링 수정 (f14a46e), 3. Excalidraw 아이콘 크기 수정 (f714b83), 4. esm.sh 폰트 차단 해결 (e94d8e1, 8380f0c), 5. 리스트 컴포넌트 개선 (b78ca5b), 6. 배포 설정 변경 (d488998), Changes Made, CSP 변경 내용 (+9 more)
 
-### Community 164 - "Community 164"
+### Community 164 - "Branch Protection Rules"
 Cohesion: 0.11
 Nodes (17): 1. Main Branch Protection, 2. Develop Branch Protection, Admin bypass needed, Branch Protection Rules Setup, Develop Branch Protection, GitHub Branch Protection Settings, Hotfix, Main Branch Protection (+9 more)
 
-### Community 165 - "Community 165"
+### Community 165 - "Revenue and Business Models"
 Cohesion: 0.11
 Nodes (18): 2.1 Freemium 모델, 2.2 B2B SaaS 모델, 2.3 정부 지원금 모델, 2.4 광고 및 스폰서십, 2.5 부가 수익원, 2. 수익 모델 상세, Corporate License (연 ₩50,000,000), Free Tier (무료) (+10 more)
 
-### Community 166 - "Community 166"
+### Community 166 - "Privacy and Data Policy"
 Cohesion: 0.11
 Nodes (18): 2.1 수집 정보, 2.2 개인정보 처리 방침, 2.3 사용자 권리, 2.4 개인정보 보호 조치, 2.5 개인정보 보호 책임자, 2. 개인정보 보호, 관리적 조치, 기술적 조치 (+10 more)
 
-### Community 167 - "Community 167"
+### Community 167 - "Project State Management"
 Cohesion: 0.11
 Nodes (17): Accumulated Context, Before Phase 8, Blockers/Concerns Carried Forward, Current Position, Deferred Issues, Immediate Actions, Key Decisions, Living State: WKU Software Crew (+9 more)
 
-### Community 168 - "Community 168"
+### Community 168 - "Technical Glossary"
 Cohesion: 0.11
 Nodes (17): Additional Resources, Backend Development (45+ terms), Cloud & DevOps (50+ terms), Common Abbreviations, Contributing, Database & Data (35+ terms), Development Glossary, Development Practices (25+ terms) (+9 more)
 
-### Community 169 - "Community 169"
+### Community 169 - "Core API Types"
 Cohesion: 0.12
 Nodes (14): ApiResponse, AuthUser, Course, CourseProgress, LoginResponse, PaginatedResponse, Project, ProjectStatus (+6 more)
 
-### Community 170 - "Community 170"
+### Community 170 - "E2E Testing Quickstart"
 Cohesion: 0.11
 Nodes (17): 1단계: 테스트 데이터베이스 설정, 2단계: 테스트 실행, 3단계: 결과 확인, 5분 안에 테스트 실행하기, "Database connection failed", E2E 테스트 빠른 시작 가이드, "Port 5433 already in use", "Prisma schema out of sync" (+9 more)
 
-### Community 171 - "Community 171"
+### Community 171 - "Admin Analytics Service"
 Cohesion: 0.13
 Nodes (10): ActivityAnalytics, AdminStats, AdminUser, buildQueryString(), CourseAnalytics, getLeaderboard(), getUsers(), LeaderboardUser (+2 more)
 
-### Community 172 - "Community 172"
+### Community 172 - "E2E Test Fixes"
 Cohesion: 0.12
 Nodes (16): API Configuration, Changes Made, Community Tests, Courses Tests, Dev Log #009: E2E Test Fixes, Files Modified, Integration Tests, Key Issues Fixed (+8 more)
 
-### Community 173 - "Community 173"
+### Community 173 - "Git Workflow Guide"
 Cohesion: 0.12
 Nodes (17): Branch, Clone, Commit, Commit Message, Conflict, Conventional Commits, Fork, Git (+9 more)
 
-### Community 174 - "Community 174"
+### Community 174 - "Market Analysis Strategy"
 Cohesion: 0.12
 Nodes (16): 13.1 Market Success Indicators, 13.2 Market Position Goals, 13. Success Factors & Critical Metrics, 1.1 Market Overview, 1.2 Market Opportunity, 1. Executive Summary, 4.1 Year 1 Target (2026), 4.2 Three-Year Market Capture (+8 more)
 
-### Community 175 - "Community 175"
+### Community 175 - "Project Development Roadmap"
 Cohesion: 0.12
 Nodes (17): 2.1 Week 1-2: 프로젝트 셋업 (1/22 - 2/4), 2.2 Week 3-4: 인증 시스템 (2/5 - 2/18), 2.3 Week 5-6: LMS 기초 (2/19 - 3/4), 2.4 Week 7-8: 클라우드 IDE 기초 (3/5 - 3/18), 2.5 Week 9: 커뮤니티 Q&A (3/19 - 3/25), 2.6 Week 10: 통합 테스트 & 버그 수정 (3/26 - 4/1), 2. Phase 1: MVP 개발 (1-3월), 개발 환경 구축 (+9 more)
 
-### Community 176 - "Community 176"
+### Community 176 - "Git Version Control"
 Cohesion: 0.12
 Nodes (17): Branch, Clone, Commit, Commit Message, Conflict, Conventional Commits, Fork, Git (+9 more)
 
-### Community 177 - "Community 177"
+### Community 177 - "Page Object Models"
 Cohesion: 0.13
 Nodes (3): BasePage, CourseDetailPage, DashboardPage
 
-### Community 178 - "Community 178"
+### Community 178 - "Build and Test Scripts"
 Cohesion: 0.12
 Nodes (17): scripts, analyze, analyze:browser, analyze:server, build, build:cf, dev, lint (+9 more)
 
-### Community 179 - "Community 179"
+### Community 179 - "Playwright Testing Guide"
 Cohesion: 0.12
 Nodes (16): 1. Playwright 브라우저 설치, 2. 개발 서버 실행, 3. 테스트 실행, CI/CD, E2E Testing Quick Start Guide, Playwright 재설치, 더 자세한 정보, 디버깅 (+8 more)
 
-### Community 180 - "Community 180"
+### Community 180 - "Chrome Extension Manifest"
 Cohesion: 0.12
 Nodes (16): description, icons, 128, 16, manifest_version, minimum_chrome_version, name, platforms (+8 more)
 
-### Community 181 - "Community 181"
+### Community 181 - "Security Audit Plan"
 Cohesion: 0.12
 Nodes (15): Context, Files to Create/Modify, Goal, Notes, Plan 07-02: 보안 검토 및 강화, Pre-flight Checks, Rollback Plan, Status (+7 more)
 
-### Community 182 - "Community 182"
+### Community 182 - "Performance Optimization Plan"
 Cohesion: 0.12
 Nodes (15): Context, Files to Create/Modify, Goal, Notes, Plan 07-03: 성능 최적화 및 모니터링, Pre-flight Checks, Rollback Plan, Status (+7 more)
 
-### Community 183 - "Community 183"
+### Community 183 - "Channel Messaging API"
 Cohesion: 0.23
 Nodes (8): ChannelQueryDto, ChannelType, JoinChannelDto, LeaveChannelDto, TypingDto, MessageQueryDto, UpdateChannelDto, UpdateMessageDto
 
-### Community 184 - "Community 184"
+### Community 184 - "Chat Gateway Module"
 Cohesion: 0.21
 Nodes (8): AuthenticatedSocket, AuthenticatedUser, OnlineUser, ChatModule, ChannelRole, UserInfo, CreateMessageDto, MessageType
 
-### Community 185 - "Community 185"
+### Community 185 - "Software Architecture Concepts"
 Cohesion: 0.12
 Nodes (16): Additional Concepts, API Documentation, Architecture, Async/Await, Console, Event, Event-Driven, Logging (+8 more)
 
-### Community 186 - "Community 186"
+### Community 186 - "Web Development Terms"
 Cohesion: 0.12
 Nodes (16): Cookie, DNS (Domain Name System), Domain, HTTP/HTTPS, JavaScript (JS), JSON (JavaScript Object Notation), Localhost, npm (Node Package Manager) (+8 more)
 
-### Community 187 - "Community 187"
+### Community 187 - "User Persona Analysis"
 Cohesion: 0.12
 Nodes (15): 10.1 Minji's Empathy Map, 10. Empathy Maps, 11.1 Journey Touchpoints, 11. User Journey Comparison, 15.1 Special Needs, 15. Accessibility Considerations by Persona, 1.1 Purpose, 1.2 Persona Categories (+7 more)
 
-### Community 188 - "Community 188"
-Cohesion: 0.12
-Nodes (16): 3.1 Buttons (버튼), 3.3 Cards (카드), 3.7 Badges & Tags, 3. 컴포넌트 디자인, Badge, Basic Card, Course Card, Danger Button (+8 more)
+### Community 188 - "UI Component Design"
+Cohesion: 0.11
+Nodes (18): 3.3 Cards (카드), 3.4 Navigation (네비게이션), 3.5 Modals & Dialogs, 3.7 Badges & Tags, 3. 컴포넌트 디자인, Alert Dialog, Badge, Basic Card (+10 more)
 
-### Community 189 - "Community 189"
+### Community 189 - "System Architecture Concepts"
 Cohesion: 0.12
 Nodes (16): Additional Concepts, API Documentation, Architecture, Async/Await, Console, Event, Event-Driven, Logging (+8 more)
 
-### Community 190 - "Community 190"
+### Community 190 - "Web Networking Terms"
 Cohesion: 0.12
 Nodes (16): Cookie, DNS (Domain Name System), Domain, HTTP/HTTPS, JavaScript (JS), JSON (JavaScript Object Notation), Localhost, npm (Node Package Manager) (+8 more)
 
-### Community 191 - "Community 191"
+### Community 191 - "Commit Heatmap Script"
 Cohesion: 0.21
 Nodes (15): calculate_streak(), count_commits_by_date(), generate_heatmap_grid(), generate_html(), generate_legend_html(), get_date_only(), get_date_range(), main() (+7 more)
 
-### Community 192 - "Community 192"
+### Community 192 - "E2E Testing Plan"
 Cohesion: 0.13
 Nodes (14): Context, Files to Create/Modify, Goal, Notes, Plan 07-01: E2E 테스트 완성 및 커버리지 향상, Pre-flight Checks, Rollback Plan, Status (+6 more)
 
-### Community 193 - "Community 193"
+### Community 193 - "Investment and Funding Strategy"
 Cohesion: 0.13
 Nodes (14): 1.1 Pre-Seed Round (Q1 2026), 1.2 Seed Round (Q4 2026), 1.3 Series A (Year 2, Q4), 1. Funding Roadmap, 2.1 Angel Investors, 2.2 Venture Capital Firms, 2.3 Corporate Strategic Investors, 2.4 Government & Grants (+6 more)
 
-### Community 194 - "Community 194"
+### Community 194 - "Financial Cost Structure"
 Cohesion: 0.13
 Nodes (15): 1년차, 4.1 초기 투자 (CAPEX), 4.2 월간 운영 비용 (OPEX), 4.3 손익 분기점 (Break-Even Point), 4. 비용 구조 상세, 개발 비용, 기타, 디자인 & UX (+7 more)
 
-### Community 195 - "Community 195"
+### Community 195 - "Competitor Analysis"
 Cohesion: 0.13
 Nodes (15): 3.1 Udemy, 3.2 Coursera, 3.3 YouTube (무료 강의), 3. 부분 경쟁사 분석, 강점 vs 약점, 강점 vs 약점, 강점 vs 약점, 개요 (+7 more)
 
-### Community 196 - "Community 196"
+### Community 196 - "Marketing Channel Strategy"
 Cohesion: 0.13
 Nodes (15): 6.1 SNS 마케팅, 6.2 콘텐츠 마케팅, 6.3 이벤트 마케팅, 6.4 파트너십 마케팅, 6. 채널별 전략, Instagram, YouTube, 기업 파트너십 (+7 more)
 
@@ -1454,7 +1458,7 @@ Nodes (14): FR-1.1.1 이메일 회원가입 [P0], FR-1.1.2 소셜 로그인 [P0]
 
 ### Community 202 - "Community 202"
 Cohesion: 0.14
-Nodes (13): 12.1 Tailwind CSS 설정, 12.2 Shadcn/ui 사용, 12.3 컴포넌트 예제, 12. 구현 가이드, 8.1 아이콘 라이브러리, 8.2 아이콘 크기, 8.3 아이콘 사용 예, 8. 아이콘 시스템 (+5 more)
+Nodes (13): 11.1 디자인 도구, 11.2 프로토타이핑, 11.3 협업, 11. 디자인 도구, 12.1 Tailwind CSS 설정, 12.2 Shadcn/ui 사용, 12.3 컴포넌트 예제, 12. 구현 가이드 (+5 more)
 
 ### Community 203 - "Community 203"
 Cohesion: 0.23
@@ -1467,6 +1471,10 @@ Nodes (14): devDependencies, autoprefixer, eslint, eslint-config-next, @next/bun
 ### Community 205 - "Community 205"
 Cohesion: 0.15
 Nodes (12): Context, Dependencies, Next Steps, Plan 08-01: API 문서화 및 OpenAPI 완성, Risks and Mitigation, Success Metrics, Task 1: DTO Swagger Decorators 추가, Task 2: Controller 응답 Decorators 추가 (+4 more)
+
+### Community 206 - "Community API Services"
+Cohesion: 0.13
+Nodes (21): communityApi, CreateCommentInput, CreatePostInput, PostFilters, PostsListResponse, UpdateCommentInput, VoteInput, PostForm() (+13 more)
 
 ### Community 207 - "Community 207"
 Cohesion: 0.21
@@ -1619,6 +1627,10 @@ Nodes (11): compilerOptions, declaration, esModuleInterop, module, moduleResolut
 ### Community 245 - "Community 245"
 Cohesion: 0.17
 Nodes (11): Best Practices Applied, Component Architecture, Data Flow, Directory Tree, Environment Setup, File Count, Key Technologies, Next Steps (+3 more)
+
+### Community 246 - "Community 246"
+Cohesion: 0.18
+Nodes (3): CreateCategoryDto, PostCategory, UpdateCategoryDto
 
 ### Community 247 - "Community 247"
 Cohesion: 0.18
@@ -1828,63 +1840,63 @@ Nodes (10): 10.1 마케팅 KPI, 10.2 대시보드, 10. KPI 및 측정, Acquisiti
 Cohesion: 0.20
 Nodes (10): 09:00 - 주간 전체 회의 (1시간), 14:00 - 스프린트 플래닝 (2시간), 14:00 - 제품 리뷰 (1시간), 15:00 - 스프린트 리뷰 (1시간), 16:00 - 회고 (Retrospective, 1시간), 17:00 - 주간 마감, 3.1 Monday (월요일), 3.2 Wednesday (수요일) (+2 more)
 
-### Community 299 - "Community 299"
+### Community 299 - "Customer Support Channels"
 Cohesion: 0.20
 Nodes (10): 1. 플랫폼 내 채팅 (Live Chat), 2. 이메일 (support@wkucrew.com), 3. 커뮤니티 Q&A, 4. FAQ/Help Center, 5.1 고객 지원 채널, 5.2 티켓 관리, 5.3 에스컬레이션, 5. 사용자 지원 (+2 more)
 
-### Community 300 - "Community 300"
+### Community 300 - "Copyright and Licensing"
 Cohesion: 0.20
 Nodes (10): 4.1 저작권 보호, 4.2 저작권 침해 대응, 4.3 오픈소스 라이선스, 4. 저작권 정책, DMCA (Digital Millennium Copyright Act) 준수, 라이선스 교육, 사용 허가, 프로젝트 라이선스 선택 (+2 more)
 
-### Community 301 - "Community 301"
+### Community 301 - "Payment and Refund Policy"
 Cohesion: 0.20
 Nodes (10): 5.1 유료 서비스, 5.2 환불 정책, 5. 결제 및 환불 정책, 7일 무조건 환불, 결제 수단, 결제 시점, 부분 환불, 요금제 (+2 more)
 
-### Community 302 - "Community 302"
+### Community 302 - "Learning Content Seeding"
 Cohesion: 0.20
 Nodes (7): AssignmentData, chapterContents, CourseDefinition, courseDefinitions, prisma, QuizData, QuizQuestionData
 
-### Community 303 - "Community 303"
+### Community 303 - "Project Completion Report"
 Cohesion: 0.20
 Nodes (9): WKU Software Crew - 프로젝트 완료 보고서, 🎉 결론, 문서 위치, 📈 성능 지표, 주요 명령어, 📞 지원 및 리소스, 최적화, 페이지 로딩 (+1 more)
 
-### Community 304 - "Community 304"
+### Community 304 - "HTML Generation Utility"
 Cohesion: 0.33
 Nodes (9): format_date(), generate_card_html(), generate_column_html(), generate_html(), get_type_info(), main(), Generate HTML for a kanban column, Generate complete HTML page (+1 more)
 
-### Community 305 - "Community 305"
+### Community 305 - "Commit Time Analysis"
 Cohesion: 0.29
 Nodes (9): analyze_by_hour(), analyze_by_weekday(), find_most_productive_time(), generate_html(), main(), Analyze commits by hour of day, Analyze commits by day of week, Find most productive time period (+1 more)
 
-### Community 306 - "Community 306"
+### Community 306 - "End-to-End Test Specs"
 Cohesion: 0.24
 Nodes (3): expectTextsVisible(), expectTextVisible(), PostDetailPage
 
-### Community 307 - "Community 307"
+### Community 307 - "Toast Notification System"
 Cohesion: 0.24
 Nodes (8): DEFAULT_DURATIONS, getToastIcon(), getToastStyles(), Toast, ToastContext, ToastContextType, ToastItem(), ToastType
 
-### Community 308 - "Community 308"
+### Community 308 - "Backend Implementation Summary"
 Cohesion: 0.22
 Nodes (8): AppModule 통합, Phase 3: 프로젝트 관리 시스템 백엔드 구축 완료, ProjectsService 주요 메서드, 구현 개요, 구현 완료 체크리스트, 비즈니스 로직 구현, 빌드 확인, 참고 문서
 
-### Community 309 - "Community 309"
+### Community 309 - "Requirements and Personas"
 Cohesion: 0.22
 Nodes (9): 2.1 요구사항 분석 및 사용자 스토리, Epic 1: 학습 시스템, Epic 2: 프로젝트 관리, Epic 3: 커뮤니티, Persona 1: 신입 부원 (Junior), Persona 2: 중급 부원 (Senior), Persona 3: 운영진 (Master/Admin), 사용자 스토리 (User Stories) (+1 more)
 
-### Community 310 - "Community 310"
+### Community 310 - "Error Boundary Component"
 Cohesion: 0.22
 Nodes (3): ErrorBoundary, ErrorBoundaryProps, ErrorBoundaryState
 
-### Community 311 - "Community 311"
+### Community 311 - "Deployment Guide"
 Cohesion: 0.22
 Nodes (8): Architecture Overview, Database Performance Tuning, Database Setup, PostgreSQL Configuration, Quick Reference Commands, Support, Table of Contents, WKU Software Crew - Deployment Guide
 
-### Community 312 - "Community 312"
+### Community 312 - "Development Roadmap"
 Cohesion: 0.22
 Nodes (9): 🎯 GSD 기반 개발 로드맵, Phase 1.1: 환경 설정, Phase 1.2: GitHub OAuth 설정, Phase 1.3: 기본 인증 완성, Phase 1: 환경 설정 및 기반 구축 (Week 1), Phase 2.1: 프로필 페이지 (Frontend), Phase 2.2: 사용자 API 완성, Phase 2.3: 레벨 시스템 로직 (+1 more)
 
-### Community 313 - "Community 313"
+### Community 313 - "Project Status Report"
 Cohesion: 0.22
 Nodes (8): 💪 강점, 📞 다음 액션, 🗄 데이터베이스 상태, 연결 상태: ✅ 정상, 주요 테이블, 지금 바로 시작, 📈 진행률 시각화, 프로젝트 진행 상태 리포트
 
@@ -1892,331 +1904,331 @@ Nodes (8): 💪 강점, 📞 다음 액션, 🗄 데이터베이스 상태, 연�
 Cohesion: 0.22
 Nodes (9): 10. README 업데이트, 1. 패키지 설치, 2. Swagger 설정 파일 생성, 5. JWT 인증 문서화, 6. API 메타데이터 설정, 7. 태그 및 그룹화, 8. 요청/응답 예제, 9. 문서 파일 생성 (+1 more)
 
-### Community 315 - "Community 315"
+### Community 315 - "Course Learning Flow"
 Cohesion: 0.22
 Nodes (9): Step 1: 챕터 열기, Step 2: 콘텐츠 학습, Step 3: 챕터 완료 체크, Step 4: 다음 챕터 진행, 비디오 강의 (선택), 챕터 완료하기, 챕터 재학습, 코드 예제 (+1 more)
 
-### Community 316 - "Community 316"
+### Community 316 - "Project Showcase Process"
 Cohesion: 0.22
 Nodes (9): Featured 프로젝트 선정, Step 1: 프로젝트 완성도 확인, Step 2: 쇼케이스 신청, Step 3: 승인 대기, Step 4: 승인 시 혜택, 쇼케이스 등록 방법, 쇼케이스 등록 조건, 쇼케이스란? (+1 more)
 
-### Community 317 - "Community 317"
+### Community 317 - "Project Management Operations"
 Cohesion: 0.22
 Nodes (9): Step 1: 프로젝트 상세 페이지 이동, Step 2: 정보 수정, Step 3: 저장, 삭제 절차, 주의사항, 프로젝트 관리, 프로젝트 삭제, 프로젝트 수정 (+1 more)
 
-### Community 318 - "Community 318"
+### Community 318 - "User Profile Settings"
 Cohesion: 0.22
 Nodes (9): 1. 기본 정보, 2. 자기소개, 3. 프로필 사진, 선택 정보 입력, 소셜 링크 (향후 추가 예정), 테마 설정, 프로필 설정, 프로필 저장 (+1 more)
 
-### Community 319 - "Community 319"
+### Community 319 - "Playwright Test Execution"
 Cohesion: 0.22
 Nodes (9): Headed 모드 (브라우저 창 표시), UI 모드로 실행 (디버깅), 디버그 모드, 모든 테스트 실행, 모바일 디바이스 테스트, 테스트 실행, 특정 브라우저에서 실행, 특정 테스트 케이스 실행 (+1 more)
 
-### Community 320 - "Community 320"
+### Community 320 - "Project Overview and Structure"
 Cohesion: 0.22
 Nodes (8): 10.1 Core Team (20 members), 10.2 Hiring Plan, 10. Team Structure, 16.1 Immediate Actions (Week 1-2), 16.2 Month 1 Priorities, 16. Next Steps, Document Changelog, WKU Software Crew Project - Project Overview
 
-### Community 321 - "Community 321"
+### Community 321 - "Market Risks and Barriers"
 Cohesion: 0.22
 Nodes (9): 11.1 Market Entry Barriers, 11.2 Market Risks, 11. Market Risks & Challenges, Barrier 1: Established Competition, Barrier 2: University Bureaucracy, Barrier 3: Limited Budget, Risk 1: Economic Downturn, Risk 2: Regulatory Changes (+1 more)
 
-### Community 322 - "Community 322"
+### Community 322 - "Market Opportunities"
 Cohesion: 0.22
 Nodes (9): 12.1 Near-Term Opportunities (0-2 years), 12.2 Long-Term Opportunities (3-5 years), 12. Market Opportunities, Opportunity 1: International Expansion, Opportunity 1: Post-Pandemic Digital Shift, Opportunity 2: B2B2C Model, Opportunity 2: Government EdTech Funding, Opportunity 3: AI-Enhanced Learning (+1 more)
 
-### Community 323 - "Community 323"
+### Community 323 - "Market Research and Validation"
 Cohesion: 0.22
 Nodes (9): 9.1 Primary Research Conducted, 9.2 Secondary Research, 9.3 Validation Metrics, 9. Market Research & Validation, Faculty Interviews (N=8), Industry Interviews (N=12 companies), Key Data Points:, Market Reports Analyzed: (+1 more)
 
-### Community 324 - "Community 324"
+### Community 324 - "UI/UX Design Guide"
 Cohesion: 0.22
 Nodes (8): 12. Design Tokens (CSS Variables), 13.1 Installation, 13.2 Customization, 13. Component Library (Shadcn/ui), 4.1 Container, 4.2 Grid System, 4. Layout & Grid, WKU Software Crew Project - UI/UX Design Guide
 
-### Community 325 - "Community 325"
+### Community 325 - "Project Budget and Stakeholders"
 Cohesion: 0.22
 Nodes (8): 13.1 초기 투자 (예상), 13.2 월간 운영비 (예상), 13. 예산 개요, 15. 다음 단계, 9.1 내부 이해관계자, 9.2 외부 이해관계자, 9. 주요 이해관계자, WKU 소프트웨어 Crew Project - 프로젝트 개요
 
-### Community 326 - "Community 326"
+### Community 326 - "Investment and Exit Strategy"
 Cohesion: 0.22
 Nodes (9): 8.1 투자 라운드, 8.2 Exit 전략, 8. 투자 유치 계획, Pre-Seed (현재), Seed Round (1년 후), Series A (2년 후), 옵션 1: IPO, 옵션 2: M&A (+1 more)
 
-### Community 327 - "Community 327"
+### Community 327 - "Competitive Landscape Analysis"
 Cohesion: 0.22
 Nodes (9): 1. 국내 코딩 교육 플랫폼, 2. 글로벌 플랫폼, 4.1 직접 경쟁자, 4.2 간접 경쟁자, 4.3 경쟁 우위 분석, 4. 경쟁 환경, YouTube 무료 강의, 대학 정규 교육 (+1 more)
 
-### Community 328 - "Community 328"
+### Community 328 - "Competitor Positioning Analysis"
 Cohesion: 0.22
 Nodes (9): 4.1 코딩 부트캠프, 4.2 대학 정규 교육, 4. 대체재 분석, 강점 vs 약점, 강점 vs 약점, 우리의 관계, 우리의 포지셔닝, 주요 업체 (+1 more)
 
-### Community 329 - "Community 329"
+### Community 329 - "System Architecture and Monitoring"
 Cohesion: 0.22
 Nodes (8): 1.1 High-Level Architecture, 1.2 아키텍처 패턴, 1. 시스템 아키텍처 개요, 7.1 메트릭 수집 (Prometheus), 7.2 대시보드 (Grafana), 7.3 에러 추적 (Sentry), 7. 모니터링 및 로깅, WKU 소프트웨어 Crew Project - 기술 아키텍처
 
-### Community 330 - "Community 330"
+### Community 330 - "Technical Stack Overview"
 Cohesion: 0.22
 Nodes (9): 3.1 기술 스택, Authentication, Core Framework, Database, File Storage, Monitoring, Queue & Job Processing, Real-time (+1 more)
 
-### Community 331 - "Community 331"
+### Community 331 - "Security Architecture"
 Cohesion: 0.22
 Nodes (9): 5.1 인증 및 권한, 5.2 데이터 보안, 5. 보안 아키텍처, CSRF 방지, JWT 토큰 구조, RBAC (Role-Based Access Control), SQL Injection 방지, XSS 방지 (+1 more)
 
-### Community 332 - "Community 332"
+### Community 332 - "Performance Optimization Strategies"
 Cohesion: 0.22
 Nodes (9): 6.1 프론트엔드 최적화, 6.2 백엔드 최적화, 6. 성능 최적화, N+1 쿼리 방지, Redis 캐싱, 데이터베이스 인덱스, 이미지 최적화, 캐싱 전략 (+1 more)
 
-### Community 333 - "Community 333"
+### Community 333 - "Brand Identity and Philosophy"
 Cohesion: 0.22
 Nodes (9): 1.1 핵심 원칙, 1.2 브랜드 아이덴티티, 1. 디자인 철학, Accessible (접근성), Clear (명확함), Delightful (즐거움), Simple (간결함), 브랜드 가치 (+1 more)
 
-### Community 334 - "Community 334"
+### Community 334 - "Development Methodology"
 Cohesion: 0.22
 Nodes (9): 6.1 애자일 스크럼, 6.2 코드 리뷰, 6.3 브랜치 전략 (Git Flow), 6. 개발 방법론, 데일리 스탠드업, 리뷰 기준, 스프린트, 스프린트 플래닝 (+1 more)
 
-### Community 335 - "Community 335"
+### Community 335 - "Marketing Strategy and Budget"
 Cohesion: 0.22
 Nodes (8): 11.1 브랜드 보이스, 11.2 톤 & 매너, 11.3 금지 사항, 11. 브랜드 가이드라인, 9.1 1년차 예산 (₩60,000,000), 9.2 분기별 배분, 9. 마케팅 예산, WKU 소프트웨어 Crew Project - 마케팅 전략
 
-### Community 336 - "Community 336"
+### Community 336 - "Daily Operations Schedule"
 Cohesion: 0.22
 Nodes (9): 10:00 - 데일리 스탠드업 (15분), 14:00 - 고객 지원 리뷰 (30분), 17:00 - 데이터 리뷰 (30분), 2.1 운영 시간, 2.2 Daily Routines, 2. 일일 운영, 개발팀, 고객 지원 (+1 more)
 
-### Community 337 - "Community 337"
+### Community 337 - "Data Management and Privacy"
 Cohesion: 0.22
 Nodes (9): 9.1 데이터 수집, 9.2 데이터 분석, 9.3 데이터 개인정보 보호, 9. 데이터 운영, GDPR/PIPL 준수, 수집 데이터, 수집 도구, 월간 리포트 (+1 more)
 
-### Community 338 - "Community 338"
+### Community 338 - "Project Phase Completion"
 Cohesion: 0.22
 Nodes (9): Phase 1: 환경 설정 및 기반 구축 ✓, Phase 2: 사용자 시스템 구축 ✓, Phase 3: 프로젝트 관리 시스템 ✓, Phase 4: 대시보드 ✓, Phase 5: 코스 시스템 ✓, Phase 6: 커뮤니티 기능 ✓, Phase 7: 테스트 및 품질 관리 ✓, Phase 8: 문서화 및 배포 ✓ (+1 more)
 
-### Community 339 - "Community 339"
+### Community 339 - "API Error Handling"
 Cohesion: 0.31
 Nodes (8): ApiError(), ApiErrorProps, EmptyState(), ErrorType, getDefaultMessage(), getDefaultTitle(), getIcon(), InlineError()
 
-### Community 341 - "Community 341"
+### Community 341 - "Project API Endpoints"
 Cohesion: 0.25
 Nodes (8): 1. GET /api/projects, 2. POST /api/projects, 3. GET /api/projects/:id, 4. PATCH /api/projects/:id, 5. DELETE /api/projects/:id, 6. POST /api/projects/:id/members, 7. DELETE /api/projects/:id/members/:userId, 구현된 API 엔드포인트
 
-### Community 342 - "Community 342"
+### Community 342 - "Database ERD Design"
 Cohesion: 0.25
 Nodes (8): 1. User (사용자), 2.2 데이터베이스 설계 (ERD), 2. Course (코스), 3. Project (프로젝트), 4. Post (커뮤니티 게시글), ERD 다이어그램, 인덱스 전략, 핵심 엔티티
 
-### Community 343 - "Community 343"
+### Community 343 - "API DTO Documentation"
 Cohesion: 0.25
 Nodes (8): 4. 모든 DTO 문서화 (16개), Authentication & Users, Chapters, Comments, Courses, Posts, Projects, Votes
 
-### Community 344 - "Community 344"
+### Community 344 - "Best Answer Selection"
 Cohesion: 0.25
 Nodes (8): Step 1: 답변 검토, Step 2: 베스트 답변 선택, Step 3: 확인, 베스트 답변 변경, 베스트 답변 선택, 베스트 답변 선택 방법, 베스트 답변 선택 시기, 베스트 답변이란?
 
-### Community 345 - "Community 345"
+### Community 345 - "Project FAQ"
 Cohesion: 0.25
 Nodes (8): Q1. 프로젝트를 몇 개까지 등록할 수 있나요?, Q2. 완성되지 않은 프로젝트도 등록할 수 있나요?, Q3. 프로젝트를 수정하면 XP를 계속 받나요?, Q4. 팀 프로젝트는 어떻게 XP가 분배되나요?, Q5. 쇼케이스 신청이 거부되면 어떻게 하나요?, Q6. 프로젝트를 삭제하면 XP도 회수되나요?, Q7. GitHub private 저장소도 연동할 수 있나요?, 자주 묻는 질문
 
-### Community 346 - "Community 346"
+### Community 346 - "User Onboarding Guide"
 Cohesion: 0.25
 Nodes (7): 다음 단계, 도움이 필요하신가요?, 목차, 문의하기, 시작하기 가이드, 추가 가이드, 추천 순서
 
-### Community 347 - "Community 347"
+### Community 347 - "Repository README Documentation"
 Cohesion: 0.25
 Nodes (7): E2E Testing Documentation, 개요, 기여 가이드, 디렉토리 구조, 문의, 주요 기능, 추가 리소스
 
-### Community 348 - "Community 348"
+### Community 348 - "Market Segmentation and Expansion"
 Cohesion: 0.25
 Nodes (8): 3.1 Target Customer Segments, 3.2 Geographic Focus, 3. Serviceable Addressable Market (SAM), Phase 1: Jeollabuk-do Province (Year 1), Phase 2: National Expansion (Year 2-3), Segment 1: University Students (Primary), Segment 2: Universities (B2B), Segment 3: Corporate Partners
 
-### Community 349 - "Community 349"
+### Community 349 - "Competitor Analysis: Elice"
 Cohesion: 0.25
 Nodes (8): 3.1 Elice (엘리스), 3. Detailed Competitor Profiles, Business Model, Company Overview, Competitive Strategy Against Elice, Market Position, Product Features, SWOT Analysis
 
-### Community 350 - "Community 350"
+### Community 350 - "Cloud IDE Features"
 Cohesion: 0.25
 Nodes (8): 5. FR-3: Cloud IDE, FR-3.1: Code Editor [P0], FR-3.2: File Explorer [P0], FR-3.3: Integrated Terminal [P0], FR-3.4: Real-time Collaboration [P1], FR-3.5: Git Integration [P1], FR-3.6: Debugging [P2], FR-3.7: Live Preview [P1]
 
-### Community 351 - "Community 351"
+### Community 351 - "Revenue Projections"
 Cohesion: 0.25
 Nodes (8): 3.1 1년차 수익 예측, 3.2 3년 수익 로드맵, 3. 수익 예측, B2B (기관), B2C (학생), 기타 수익, 정부 지원금, **총 1년차 수익**: ₩327,468,000
 
-### Community 352 - "Community 352"
+### Community 352 - "Educational Benchmarking"
 Cohesion: 0.25
 Nodes (8): 7.1 모범 사례, 7.2 실패 사례 학습, 7. 벤치마킹 및 학습, FreeCodeCamp, GitHub Education, Kaggle (데이터 사이언스), Lynda (LinkedIn Learning 합병), Udacity Nanodegree (국내 철수)
 
-### Community 353 - "Community 353"
+### Community 353 - "User Persona: Professor"
 Cohesion: 0.25
 Nodes (8): 고충, 기본 정보, 목표 및 동기, 배경, 성공 시나리오, 우리의 솔루션, 페르소나 7: 혁신 교수 이교수, 플랫폼 사용
 
-### Community 354 - "Community 354"
+### Community 354 - "User Persona: HR Manager"
 Cohesion: 0.25
 Nodes (8): 고충, 기본 정보, 목표 및 동기, 배경, 성공 시나리오, 우리의 솔루션, 페르소나 8: HR 담당자 김부장, 플랫폼 사용
 
-### Community 355 - "Community 355"
+### Community 355 - "Mentoring and Code Review"
 Cohesion: 0.25
 Nodes (8): FR-6.1.1 멘토 프로필 [P1], FR-6.1.2 멘토 신청 [P1], FR-6.1.3 멘토링 세션 [P1], FR-6.1 멘토 매칭, FR-6.2.1 리뷰 요청 [P1], FR-6.2.2 리뷰 제공 [P1], FR-6.2 코드 리뷰, FR-6. 멘토링
 
-### Community 356 - "Community 356"
+### Community 356 - "Layout and Grid Systems"
 Cohesion: 0.25
 Nodes (8): 4.1 Grid System, 4.2 페이지 레이아웃, 4. 레이아웃 패턴, Container, Content Layout (강의), Dashboard Layout, Full-width Layout (IDE), Grid
 
-### Community 357 - "Community 357"
+### Community 357 - "Resource and Infrastructure Planning"
 Cohesion: 0.25
 Nodes (8): 7.1 팀 구성, 7.2 도구 및 서비스, 7. 리소스 계획, Phase 1 (MVP), Phase 2-4, 개발, 모니터링, 인프라
 
-### Community 358 - "Community 358"
+### Community 358 - "Project Risk Management"
 Cohesion: 0.25
 Nodes (8): 8.1 기술적 위험, 8.2 일정 위험, 8.3 리소스 위험, 8. 위험 요소 및 대응, 위험: 개발 지연, 위험: 개발자 이탈, 위험: 실시간 협업 동기화 이슈, 위험: 클라우드 IDE 성능 이슈
 
-### Community 359 - "Community 359"
+### Community 359 - "Growth Hacking Strategies"
 Cohesion: 0.25
 Nodes (8): 7.1 Viral Loop (바이럴 루프), 7.2 Activation (활성화), 7.3 Retention (리텐션), 7. 그로스 해킹, Aha Moment, Cohort Analysis, Daily Active Users (DAU) 증가, 추천 프로그램
 
-### Community 360 - "Community 360"
+### Community 360 - "Organizational Structure"
 Cohesion: 0.25
 Nodes (8): 1.1 조직도, 1.2 역할 및 책임, 1. 운영 조직 구조, CEO (대표), CMO (마케팅 총괄), COO (운영 총괄), CPO (제품 총괄), CTO (기술 총괄)
 
-### Community 361 - "Community 361"
+### Community 361 - "Monthly Operational Plan"
 Cohesion: 0.25
 Nodes (8): 4.1 Month-End Review, 4.2 월간 이벤트, 4. 월간 운영, 넷째 주 - 팀 빌딩, 둘째 주 - 사용자 인터뷰 (주중), 마지막 금요일 - 월간 전체 회의 (2시간), 셋째 주 - 커뮤니티 이벤트, 첫째 주 - 해커톤 (주말)
 
-### Community 362 - "Community 362"
+### Community 362 - "Legal and Compliance"
 Cohesion: 0.25
 Nodes (7): 11. 체크리스트, 3. 서비스 이용 약관, 9.1 분쟁 해결 절차, 9.2 법률 자문, 9. 법적 분쟁 대응, WKU 소프트웨어 Crew Project - 법률 및 규정 준수, 런칭 전 법률 체크리스트
 
-### Community 363 - "Community 363"
+### Community 363 - "Financial Reporting Processes"
 Cohesion: 0.25
 Nodes (8): 11.1 내부 보고, 11.2 외부 보고, 11. 재무 보고, 분기별 리포트 (CFO → 이사회), 월간 리포트 (CFO → 경영진), 정부 보고 (지원금 수령 시), 주간 리포트 (CFO → CEO), 투자자 보고 (분기별)
 
-### Community 364 - "Community 364"
+### Community 364 - "Learning Page Implementation"
 Cohesion: 0.29
 Nodes (4): LearningLoading(), LearningPageContent(), LearningPageContentProps, LearnPageProps
 
-### Community 365 - "Community 365"
+### Community 365 - "Project Core Requirements"
 Cohesion: 0.25
 Nodes (7): Constraints, Core Value, Current Status (85% Complete), Requirements, Tech Stack, What This Is, WKU Software Crew
 
-### Community 366 - "Community 366"
+### Community 366 - "Pre-deployment Checklist"
 Cohesion: 0.25
 Nodes (8): 🎬 다음 단계, 데이터, 모니터링, 베타 테스트, 보안 (우선순위 높음), 인프라, 즉시 실행 가능, 프로덕션 배포 전 체크리스트
 
-### Community 367 - "Community 367"
+### Community 367 - "Commit Size Analysis"
 Cohesion: 0.36
 Nodes (7): analyze_commit_sizes(), categorize_commit_size(), generate_html(), main(), Categorize commit by size, Analyze commit size distribution, Generate commit size analysis HTML page
 
-### Community 368 - "Community 368"
+### Community 368 - "File History Analysis"
 Cohesion: 0.36
 Nodes (7): analyze_file_changes(), categorize_files(), generate_html(), main(), Analyze file changes across all commits, Categorize files by type, Generate files history HTML page
 
-### Community 369 - "Community 369"
+### Community 369 - "Frontend Routing Design"
 Cohesion: 0.29
 Nodes (6): 2.4 프론트엔드 라우팅 구조, Next.js App Router 구조, Part 2: Planning & Design - 계획 및 설계, 동적 라우팅 예시, 라우트 보호 (Protected Routes), 요약
 
-### Community 370 - "Community 370"
+### Community 370 - "Authentication and Authorization"
 Cohesion: 0.29
 Nodes (7): 2.5 인증/인가 아키텍처 설계, Decorator 구현, GitHub OAuth 2.0 Flow, JWT 토큰 구조, NestJS Guard 구현, Role-Based Access Control (RBAC), 권한 관리 (Authorization)
 
-### Community 371 - "Community 371"
+### Community 371 - "System Troubleshooting Guide"
 Cohesion: 0.29
 Nodes (7): 1. Database Connection Failed, 2. OAuth Callback Error, 3. Build Failures, 4. Container Out of Memory, Common Issues, Log Locations, Troubleshooting
 
-### Community 372 - "Community 372"
+### Community 372 - "GSD Execution Plan"
 Cohesion: 0.29
 Nodes (7): Step 1: GSD 초기화, Step 2: 로드맵 생성, Step 3: Phase별 계획 수립, Step 4: Ralph Loop 시작, Step 5: Phase 실행, Step 6: 진행 상황 확인, 🚀 실행 계획
 
-### Community 373 - "Community 373"
+### Community 373 - "API Endpoint Registry"
 Cohesion: 0.29
 Nodes (7): Authentication, Community, Courses, Health Check, Projects, Users, 🗂 구현된 API 엔드포인트
 
-### Community 374 - "Community 374"
+### Community 374 - "Feature Implementation Progress"
 Cohesion: 0.29
 Nodes (7): Phase 1: 환경 설정 ✅ 100%, Phase 2: 사용자 시스템 ✅ 90%, Phase 3: 프로젝트 관리 시스템 ✅ 95%, Phase 4: 대시보드 ✅ 80%, Phase 5: 코스 시스템 ✅ 90%, Phase 6: 커뮤니티 기능 ✅ 90%, ✅ 완료된 기능 (Phase 1-6)
 
-### Community 375 - "Community 375"
+### Community 375 - "Swagger API Documentation"
 Cohesion: 0.29
 Nodes (6): OpenAPI JSON 생성, Swagger/OpenAPI 구현 완료 요약, Swagger UI, 결과, 접근 방법, 체크리스트
 
-### Community 376 - "Community 376"
+### Community 376 - "Community User Guide"
 Cohesion: 0.29
 Nodes (6): 다음 단계, 도움이 필요하신가요?, 목차, 문의하기, 추가 가이드, 커뮤니티 가이드
 
-### Community 377 - "Community 377"
+### Community 377 - "Q&A Help Center"
 Cohesion: 0.29
 Nodes (7): Q1. 질문을 올렸는데 답변이 없어요., Q2. 베스트 답변을 꼭 선택해야 하나요?, Q3. 답변을 잘못 작성했어요. 어떻게 하나요?, Q4. Downvote를 받았어요. 왜 그런가요?, Q5. 같은 질문에 여러 개의 답변이 있어요. 어떤 걸 선택하나요?, Q6. 오래된 질문에도 답변해도 되나요?, 자주 묻는 질문
 
-### Community 378 - "Community 378"
+### Community 378 - "Course Learning Guide"
 Cohesion: 0.29
 Nodes (6): 다음 단계, 도움이 필요하신가요?, 목차, 문의하기, 추가 가이드, 코스 학습 가이드
 
-### Community 379 - "Community 379"
+### Community 379 - "Learning Progress Tracking"
 Cohesion: 0.29
 Nodes (7): 1. 대시보드에서 확인, 2. 코스 상세 페이지에서 확인, 3. 챕터 목록에서 확인, 진도 확인 방법, 진도율 계산 방식, 학습 이력 확인, 학습 진도 관리
 
-### Community 380 - "Community 380"
+### Community 380 - "Course FAQ"
 Cohesion: 0.29
 Nodes (7): Q1. 코스를 순서대로 들어야 하나요?, Q2. 여러 코스를 동시에 들을 수 있나요?, Q3. 챕터를 건너뛰어도 되나요?, Q4. 과제를 꼭 제출해야 하나요?, Q5. 완강한 코스를 다시 들을 수 있나요?, Q6. 코스 완강 후 수료증을 받을 수 있나요?, 자주 묻는 질문
 
-### Community 381 - "Community 381"
+### Community 381 - "User Leveling System"
 Cohesion: 0.29
 Nodes (7): 3단계 랭크 시스템, Junior (주니어) - Level 1-10, Master (마스터) - Level 31-50, Senior (시니어) - Level 11-30, XP (경험치) 획득 방법, 레벨 시스템 이해하기, 레벨업 필요 XP
 
-### Community 382 - "Community 382"
+### Community 382 - "Account and Profile FAQ"
 Cohesion: 0.29
 Nodes (7): Q1. GitHub 계정 없이 가입할 수 있나요?, Q2. 프로필 정보를 비공개로 설정할 수 있나요?, Q3. 레벨은 어떻게 빨리 올릴 수 있나요?, Q4. XP를 잃을 수 있나요?, Q5. 프로필 사진을 변경했는데 반영이 안 됩니다., Q6. 계정을 삭제하려면 어떻게 하나요?, 자주 묻는 질문
 
-### Community 383 - "Community 383"
+### Community 383 - "GitHub OAuth Registration"
 Cohesion: 0.29
 Nodes (7): Step 1: GitHub OAuth 인증, Step 2: GitHub 계정 연동, Step 3: 권한 승인, 가입이 안 되는 경우, 문제: GitHub 계정이 없는 경우, 문제: OAuth 권한 승인 실패, 회원가입 방법
 
-### Community 384 - "Community 384"
+### Community 384 - "Competitor Identification"
 Cohesion: 0.29
 Nodes (7): 2.1 Direct Competitors, 2.2 Indirect Competitors, 2. Competitor Identification & Classification, Alternative Solutions, International Platforms, Tier 1: Major Market Players, Tier 2: Niche Players
 
-### Community 385 - "Community 385"
+### Community 385 - "Competitor Analysis: Inflearn"
 Cohesion: 0.29
 Nodes (7): 3.2 Inflearn (인프런), Business Model, Company Overview, Competitive Strategy Against Inflearn, Market Position, Product Features, SWOT Analysis
 
-### Community 386 - "Community 386"
+### Community 386 - "Competitor Analysis: Programmers"
 Cohesion: 0.29
 Nodes (7): 3.3 Programmers (프로그래머스), Business Model, Company Overview, Competitive Strategy Against Programmers, Market Position, Product Features, SWOT Analysis
 
-### Community 387 - "Community 387"
+### Community 387 - "Competitor Analysis: Goorm"
 Cohesion: 0.29
 Nodes (7): 3.4 Goorm (구름), Business Model, Company Overview, Competitive Strategy Against Goorm, Market Position, Product Features, SWOT Analysis
 
-### Community 388 - "Community 388"
+### Community 388 - "Competitive Threats and Countermeasures"
 Cohesion: 0.29
 Nodes (7): 6.1 Major Threats, 6.2 Defensive Strategies, 6. Competitive Threats & Countermeasures, Threat 1: Elice Price War, Threat 2: Inflearn Adds IDE, Threat 3: New Well-Funded Entrant, Threat 4: International Player Localizes
 
-### Community 389 - "Community 389"
+### Community 389 - "Non-Functional Requirements"
 Cohesion: 0.29
 Nodes (7): 11.1 Performance, 11.2 Security, 11.3 Scalability, 11.4 Availability, 11.5 Accessibility, 11.6 Localization, 11. Non-Functional Requirements
 
-### Community 390 - "Community 390"
+### Community 390 - "Web Accessibility Standards"
 Cohesion: 0.29
 Nodes (7): 10.1 WCAG 2.1 AA 준수, 10.2 스크린 리더 지원, 10. 접근성 (Accessibility), ARIA Labels, Focus Indicator, 색상 대비, 키보드 네비게이션
 
-### Community 391 - "Community 391"
+### Community 391 - "UI Input Components"
 Cohesion: 0.29
 Nodes (7): 3.2 Input Fields (입력 필드), Checkbox, Radio, Select (드롭다운), Text Input, Textarea, Toggle Switch
 
-### Community 392 - "Community 392"
+### Community 392 - "Operational Budget Planning"
 Cohesion: 0.29
 Nodes (6): 10.1 월간 운영 비용 (예상), 10.2 비용 최적화, 10. 비용 관리, WKU 소프트웨어 Crew Project - 운영 계획, 운영 비용, 인프라 비용
 
-### Community 393 - "Community 393"
+### Community 393 - "Quality Assurance and SLA"
 Cohesion: 0.29
 Nodes (7): 11.1 코드 품질, 11.2 서비스 품질, 11. 품질 관리, SLA (Service Level Agreement), 모니터링, 코드 리뷰, 테스트
 
-### Community 394 - "Community 394"
+### Community 394 - "Content Management Operations"
 Cohesion: 0.29
 Nodes (7): 6.1 강의 콘텐츠 관리, 6.2 커뮤니티 관리, 6. 콘텐츠 운영, 모더레이션, 커뮤니티 가이드라인, 콘텐츠 제작 프로세스, 콘텐츠 품질 기준
 
-### Community 395 - "Community 395"
+### Community 395 - "Security Monitoring and Response"
 Cohesion: 0.29
 Nodes (7): 8.1 보안 모니터링, 8.2 보안 사고 대응, 8. 보안 운영, 로그 분석, 사고 대응 절차 (Incident Response), 사고 보고, 취약점 스캔
 
-### Community 396 - "Community 396"
+### Community 396 - "Fundraising and Valuation Plan"
 Cohesion: 0.29
 Nodes (7): 7.1 자금 조달원, 7.2 투자 라운드별 밸류에이션, 7. 자금 조달 계획, Pre-Seed (현재), Seed Round (1년차 말), Series A (2년차 초), 정부 지원금
 
-### Community 397 - "Community 397"
+### Community 397 - "Financial Management Strategy"
 Cohesion: 0.29
 Nodes (7): 9.1 비용 관리, 9.2 현금 관리, 9. 재무 관리 전략, 고정비 최소화, 변동비 최적화, 최소 Runway 유지, 현금 흐름 예측
 
@@ -2248,9 +2260,17 @@ Nodes (5): name, prisma, seed, private, version
 Cohesion: 0.40
 Nodes (3): CreateUserDto, UserProfileResponseDto, UserResponseDto
 
+### Community 406 - "Community 406"
+Cohesion: 0.40
+Nodes (4): AdminProjectsPage(), Project, statusColors, statusLabels
+
 ### Community 407 - "Community 407"
 Cohesion: 0.33
 Nodes (6): 1. Clone the Repository, 2. Install Dependencies, 3. Configure Environment Variables, 4. Start Development Services, 5. Verify Setup, Local Development Setup
+
+### Community 408 - "Community 408"
+Cohesion: 0.29
+Nodes (7): 3.1 Buttons (버튼), Danger Button, Ghost Button, Icon Button, Primary Button, Secondary Button, 버튼 크기 변형
 
 ### Community 409 - "Community 409"
 Cohesion: 0.33
@@ -2568,9 +2588,9 @@ Nodes (5): 7.1 사용자 지표, 7.2 학습 지표, 7.3 협업 지표, 7.4 비�
 Cohesion: 0.40
 Nodes (5): 10. 기능 우선순위 및 로드맵, Phase 1: MVP (1-2개월) - P0 기능, Phase 2: 핵심 기능 (3-4개월) - P1 기능, Phase 3: 고급 기능 (5-6개월) - P2 기능, Phase 4: 미래 기능 (6개월+) - P3 기능
 
-### Community 489 - "Community 489"
-Cohesion: 0.40
-Nodes (5): 3.4 Navigation (네비게이션), Breadcrumb, Header, Sidebar, Tabs
+### Community 489 - "Illustration Guidelines"
+Cohesion: 0.50
+Nodes (4): 9.1 일러스트 스타일, 9.2 사용 위치, 9.3 추천 리소스, 9. 일러스트레이션
 
 ### Community 490 - "Community 490"
 Cohesion: 0.40
@@ -2604,115 +2624,115 @@ Nodes (5): 8.1 정기 점검, 8.2 법규 변경 모니터링, 8. 준수 모니�
 Cohesion: 0.40
 Nodes (5): 1년차 말 현금 보유, 2년차 추가 투자 필요, 5.1 1년차 현금 흐름표, 5.2 Runway (활주로) 분석, 5. 현금 흐름 (Cash Flow)
 
-### Community 498 - "Community 498"
+### Community 498 - "Cost Structure Analysis"
 Cohesion: 0.40
 Nodes (5): 1년차 월간 비용, 3.1 초기 투자 (CAPEX), 3.2 월간 운영 비용 (OPEX), 3. 비용 구조, 3년 비용 전망
 
-### Community 499 - "Community 499"
+### Community 499 - "Project Development Metrics"
 Cohesion: 0.40
 Nodes (5): API 엔드포인트, 문서화, 코드베이스, 테스트 커버리지, 📊 프로젝트 통계
 
-### Community 500 - "Community 500"
+### Community 500 - "Deployment Infrastructure"
 Cohesion: 0.40
 Nodes (5): Backend (Docker + Nginx), CI/CD, Database, Frontend (Cloudflare Pages), 🚀 배포 준비 상태
 
-### Community 501 - "Community 501"
+### Community 501 - "Manifest Configuration"
 Cohesion: 0.40
 Nodes (4): manifest_version, name, pre_installed, version
 
-### Community 502 - "Community 502"
+### Community 502 - "Manifest Configuration"
 Cohesion: 0.40
 Nodes (4): manifest_version, name, pre_installed, version
 
-### Community 503 - "Community 503"
+### Community 503 - "Manifest Configuration"
 Cohesion: 0.40
 Nodes (4): manifest_version, name, pre_installed, version
 
-### Community 504 - "Community 504"
-Cohesion: 0.40
-Nodes (4): AdminSettingsPage(), defaultSettings, SettingsSection, SiteSettings
+### Community 504 - "Notifications API"
+Cohesion: 0.17
+Nodes (19): notificationsApi, Notification, NotificationCategory, NotificationType, getNotificationCategory(), useDeleteNotification(), useMarkAllAsRead(), useMarkAsRead() (+11 more)
 
-### Community 507 - "Community 507"
+### Community 507 - "Software Architecture Patterns"
 Cohesion: 0.50
 Nodes (4): Clean Architecture 패턴, 계층 구조, 관심사 분리, 의존성 방향
 
-### Community 508 - "Community 508"
+### Community 508 - "Core Module Structure"
 Cohesion: 0.50
 Nodes (4): Core Module Files, DTO (Data Transfer Objects), Test Files, 구현된 파일 목록
 
-### Community 509 - "Community 509"
+### Community 509 - "File Path Summary"
 Cohesion: 0.50
 Nodes (4): DTO 파일, 메인 파일, 문서 및 테스트, 파일 경로 요약
 
-### Community 510 - "Community 510"
+### Community 510 - "Security and Authentication"
 Cohesion: 0.50
 Nodes (4): 권한 체크, 보안 구현, 인증, 입력 검증
 
-### Community 511 - "Community 511"
+### Community 511 - "Database Performance Optimization"
 Cohesion: 0.50
 Nodes (4): 데이터베이스 쿼리 최적화, 성능 고려사항, 인덱스 활용, 페이지네이션
 
-### Community 512 - "Community 512"
+### Community 512 - "RESTful API Principles"
 Cohesion: 0.50
 Nodes (4): 1. HTTP 메서드 사용, 2. URL 구조, 3. 상태 코드, RESTful API 원칙
 
-### Community 513 - "Community 513"
+### Community 513 - "Authentication API Endpoints"
 Cohesion: 0.50
 Nodes (4): GET /api/auth/github/callback, GET /api/auth/me, POST /api/auth/github, 인증 API
 
-### Community 515 - "Community 515"
+### Community 515 - "Backup and Recovery"
 Cohesion: 0.50
 Nodes (4): Automated Backups, Backup & Recovery, Backup Retention, Restore from Backup
 
-### Community 516 - "Community 516"
+### Community 516 - "Backend Deployment Strategies"
 Cohesion: 0.50
 Nodes (4): Backend Deployment (Docker), Docker Image Management, Option 1: Docker Compose (Recommended for Small Scale), Option 2: Kubernetes Deployment
 
-### Community 517 - "Community 517"
+### Community 517 - "CI/CD Pipeline Configuration"
 Cohesion: 0.50
 Nodes (4): CI/CD Pipeline, GitHub Actions Workflows, Required GitHub Secrets, Required GitHub Variables
 
-### Community 518 - "Community 518"
+### Community 518 - "Frontend Deployment Configuration"
 Cohesion: 0.50
 Nodes (4): Cloudflare Pages Configuration Files, Frontend Deployment (Cloudflare Pages), Option 1: Automatic Deployment via GitHub, Option 2: Manual Deployment via Wrangler
 
-### Community 519 - "Community 519"
+### Community 519 - "Monitoring and Logging"
 Cohesion: 0.50
 Nodes (4): Health Check Endpoints, Log Access, Monitoring & Logging, Recommended Monitoring Tools
 
-### Community 520 - "Community 520"
+### Community 520 - "Dashboard Development Phases"
 Cohesion: 0.50
 Nodes (4): Phase 4.1: 대시보드 페이지, Phase 4.2: 활동 피드, Phase 4.3: 대시보드 API, Phase 4: 대시보드 (Week 3)
 
-### Community 521 - "Community 521"
+### Community 521 - "Course System Development"
 Cohesion: 0.50
 Nodes (4): Phase 5.1: 코스 목록 페이지, Phase 5.2: 코스 상세 페이지, Phase 5.3: 코스 API, Phase 5: 코스 시스템 (Week 3-4)
 
-### Community 522 - "Community 522"
+### Community 522 - "Community Feature Development"
 Cohesion: 0.50
 Nodes (4): Phase 6.1: Q&A 목록/작성, Phase 6.2: Q&A 상세/답변, Phase 6.3: 커뮤니티 API, Phase 6: 커뮤니티 기능 (Week 4)
 
-### Community 523 - "Community 523"
+### Community 523 - "Page Routing Implementation"
 Cohesion: 0.50
 Nodes (4): Auth Pages, Protected Pages, Public Pages, 🌐 구현된 페이지
 
-### Community 524 - "Community 524"
+### Community 524 - "Technical Stack Status"
 Cohesion: 0.50
 Nodes (4): Backend ✅, Frontend ✅, Testing ✅, 🔧 기술 스택 상태
 
-### Community 525 - "Community 525"
+### Community 525 - "Product Launch Roadmap"
 Cohesion: 0.50
 Nodes (4): Critical (필수, 1주), Important (중요, 1주), Nice-to-have (선택, 추가), 🚀 베타 런칭까지 남은 작업
 
-### Community 526 - "Community 526"
+### Community 526 - "Internationalization and UI"
 Cohesion: 0.50
 Nodes (4): 다국어 지원 (i18n), 성능 최적화, 🎨 최근 추가된 기능, 테마 전환
 
-### Community 527 - "Community 527"
+### Community 527 - "Security Audit Progress"
 Cohesion: 0.50
 Nodes (3): Executive Summary, OWASP Top 10 보안 감사 체크리스트, 체크리스트 진행 상황
 
-### Community 528 - "Community 528"
+### Community 528 - "User Login Procedure"
 Cohesion: 0.50
 Nodes (4): Step 1: 환영 메시지 확인, Step 2: 기본 정보 확인, Step 3: 세션 유지, 첫 로그인 절차
 
@@ -2720,135 +2740,135 @@ Nodes (4): Step 1: 환영 메시지 확인, Step 2: 기본 정보 확인, Step 3
 Cohesion: 0.50
 Nodes (4): 1. Playwright 설치, 2. 브라우저 설치, 3. 환경 변수 설정, 설치 및 설정
 
-### Community 530 - "Community 530"
+### Community 530 - "Test Performance Optimization"
 Cohesion: 0.50
 Nodes (4): 1. 병렬 실행 설정, 2. 브라우저 재사용, 3. 테스트 격리, 성능 최적화
 
-### Community 531 - "Community 531"
+### Community 531 - "Reference and Appendices"
 Cohesion: 0.50
 Nodes (4): 17.1 Reference Documents, 17.2 External Resources, 17.3 Contact Information, 17. Appendices
 
-### Community 532 - "Community 532"
+### Community 532 - "Market Entry Strategy"
 Cohesion: 0.50
 Nodes (4): 8.1 Beachhead Strategy, 8.2 Geographic Expansion, 8.3 Segment Expansion, 8. Market Entry Strategy
 
-### Community 533 - "Community 533"
+### Community 533 - "Market Research Methodology"
 Cohesion: 0.50
 Nodes (4): Appendix A: Market Research Methodology, Data Analysis, Primary Research, Secondary Research
 
-### Community 534 - "Community 534"
+### Community 534 - "Win/Loss Analysis"
 Cohesion: 0.50
 Nodes (4): 8.1 Win Analysis, 8.2 Loss Analysis, 8.3 Improvement Priorities, 8. Win/Loss Analysis
 
-### Community 535 - "Community 535"
+### Community 535 - "Strategic Recommendations"
 Cohesion: 0.50
 Nodes (4): 9.1 Offensive Strategies, 9.2 Defensive Strategies, 9.3 Monitoring & Adjustment, 9. Strategic Recommendations
 
-### Community 536 - "Community 536"
+### Community 536 - "User Persona Design"
 Cohesion: 0.50
 Nodes (4): 12.1 Minji (Beginner) - Design Requirements, 12.2 Junho (Intermediate) - Design Requirements, 12.3 Soohyun (Entrepreneur) - Design Requirements, 12. Design Implications
 
-### Community 537 - "Community 537"
+### Community 537 - "Persona Marketing Messaging"
 Cohesion: 0.50
 Nodes (4): 13.1 Minji (Beginner), 13.2 Junho (Intermediate), 13.3 Soohyun (Entrepreneur), 13. Marketing Messaging by Persona
 
-### Community 538 - "Community 538"
+### Community 538 - "Persona Validation Plan"
 Cohesion: 0.50
 Nodes (4): 14.1 Research Methods, 14.2 Validation Metrics, 14.3 Iteration Plan, 14. Persona Validation Plan
 
-### Community 539 - "Community 539"
+### Community 539 - "Target User Personas"
 Cohesion: 0.50
 Nodes (4): 5.1 Donghyun - The Career-Focused Graduate, 5.2 Yuna - The Part-time Learner, 5.3 Jihoon - The Team Leader, 5. Additional Personas (Abbreviated)
 
-### Community 540 - "Community 540"
+### Community 540 - "API Requirements and Standards"
 Cohesion: 0.50
 Nodes (4): 12.1 RESTful API Standards, 12.2 API Versioning, 12.3 Rate Limiting, 12. API Requirements
 
-### Community 541 - "Community 541"
+### Community 541 - "Document Overview"
 Cohesion: 0.50
 Nodes (4): 1.1 Purpose, 1.2 Scope, 1.3 Audience, 1. Document Overview
 
-### Community 542 - "Community 542"
+### Community 542 - "Mentoring System Requirements"
 Cohesion: 0.50
 Nodes (4): 8. FR-6: Mentoring System, FR-6.1: Mentor Matching [P1], FR-6.2: 1:1 Mentoring Sessions [P1], FR-6.3: Mentor Dashboard [P1]
 
-### Community 543 - "Community 543"
+### Community 543 - "Page Layout Design"
 Cohesion: 0.50
 Nodes (4): 10.1 Course Catalog Page, 10.2 IDE Layout, 10.3 Dashboard Layout, 10. Page Layouts
 
-### Community 544 - "Community 544"
+### Community 544 - "UI Micro-interactions"
 Cohesion: 0.50
 Nodes (4): 11.1 Button Hover, 11.2 Loading States, 11.3 Success Feedback, 11. Micro-interactions
 
-### Community 545 - "Community 545"
+### Community 545 - "Responsive Design Strategy"
 Cohesion: 0.50
 Nodes (4): 6.1 Mobile-First Approach, 6.2 Breakpoint Strategy, 6.3 Touch Targets, 6. Responsive Design
 
-### Community 546 - "Community 546"
+### Community 546 - "Dark Mode Implementation"
 Cohesion: 0.50
 Nodes (4): 7.1 Color Mapping, 7.2 Implementation, 7.3 Dark Mode Toggle, 7. Dark Mode
 
-### Community 547 - "Community 547"
+### Community 547 - "Animations and Transitions"
 Cohesion: 0.50
 Nodes (4): 8.1 Timing Functions, 8.2 Duration, 8.3 Common Animations, 8. Animations & Transitions
 
-### Community 549 - "Community 549"
+### Community 549 - "Project Constraints"
 Cohesion: 0.50
 Nodes (4): 10.1 기술적 제약, 10.2 조직적 제약, 10.3 시장 제약, 10. 프로젝트 제약사항
 
-### Community 550 - "Community 550"
+### Community 550 - "Risk Factor Analysis"
 Cohesion: 0.50
 Nodes (4): 11.1 기술적 리스크, 11.2 운영적 리스크, 11.3 재정적 리스크, 11. 리스크 요인
 
-### Community 551 - "Community 551"
+### Community 551 - "Expected Project Impact"
 Cohesion: 0.50
 Nodes (4): 14.1 교육적 효과, 14.2 경제적 효과, 14.3 사회적 효과, 14. 기대 효과
 
-### Community 552 - "Community 552"
+### Community 552 - "Project Definition"
 Cohesion: 0.50
 Nodes (4): 1.1 프로젝트 명칭, 1.2 프로젝트 비전, 1.3 프로젝트 미션, 1. 프로젝트 정의
 
-### Community 553 - "Community 553"
+### Community 553 - "Value Proposition"
 Cohesion: 0.50
 Nodes (4): 4.1 학생 대상, 4.2 교수자 대상, 4.3 대학 대상, 4. 핵심 가치 제안 (Value Proposition)
 
-### Community 554 - "Community 554"
+### Community 554 - "Project Scope Definition"
 Cohesion: 0.50
 Nodes (4): 8.1 포함 범위 (In Scope), 8.2 제외 범위 (Out of Scope), 8.3 향후 확장 가능성, 8. 프로젝트 범위
 
-### Community 555 - "Community 555"
+### Community 555 - "Competitive Strategy Summary"
 Cohesion: 0.50
 Nodes (4): 9.1 경쟁 포지션 요약, 9.2 경쟁 전략 요약, 9.3 실행 우선순위, 9. 결론 및 권고사항
 
-### Community 556 - "Community 556"
-Cohesion: 0.50
-Nodes (4): 11.1 디자인 도구, 11.2 프로토타이핑, 11.3 협업, 11. 디자인 도구
+### Community 556 - "Canvas API Services"
+Cohesion: 0.21
+Nodes (16): Canvas, canvasApi, CanvasMember, CreateCanvasInput, SaveCanvasInput, UpdateCanvasInput, CanvasCard(), CanvasCardProps (+8 more)
 
 ### Community 557 - "Community 557"
-Cohesion: 0.50
-Nodes (4): 3.5 Modals & Dialogs, Alert Dialog, Modal, Toast Notification
+Cohesion: 0.29
+Nodes (6): RadioGroup, RadioGroupContext, RadioGroupContextValue, RadioGroupItem, RadioGroupItemProps, RadioGroupProps
 
-### Community 558 - "Community 558"
+### Community 558 - "Loading State UI"
 Cohesion: 0.50
 Nodes (4): 3.6 Loading States, Progress Bar, Skeleton, Spinner
 
-### Community 559 - "Community 559"
+### Community 559 - "Target Market Segments"
 Cohesion: 0.50
 Nodes (4): 2.1 Primary Segment, 2.2 Secondary Segment, 2.3 Tertiary Segment, 2. 타겟 시장 세그먼트
 
-### Community 560 - "Community 560"
+### Community 560 - "Marketing STP Strategy"
 Cohesion: 0.50
 Nodes (4): 4.1 Segmentation (세분화), 4.2 Targeting (타겟팅), 4.3 Positioning (포지셔닝), 4. 마케팅 전략 (STP)
 
-### Community 561 - "Community 561"
+### Community 561 - "Financial Checklist"
 Cohesion: 0.50
 Nodes (4): 14. 재무 체크리스트, 런칭 전, 분기별, 월간
 
-### Community 562 - "Community 562"
+### Community 562 - "Three Year Financial Goals"
 Cohesion: 0.50
 Nodes (4): 1.1 재무 목표, 1.2 재무 가정, 1. 재무 개요, 3년 재무 목표
 
-### Community 563 - "Community 563"
+### Community 563 - "Revenue Model Projections"
 Cohesion: 0.50
 Nodes (4): 1년차 수익 구조, 2.1 수익원 구성, 2. 수익 모델, 3년 수익 전망
 
@@ -2856,147 +2876,147 @@ Nodes (4): 1년차 수익 구조, 2.1 수익원 구성, 2. 수익 모델, 3년 �
 Cohesion: 0.50
 Nodes (4): 6.1 수익성 지표, 6.2 효율성 지표, 6.3 성장 지표, 6. 재무 비율 분석
 
-### Community 565 - "Community 565"
+### Community 565 - "Financial Scenario Analysis"
 Cohesion: 0.50
 Nodes (4): 8.1 Base Case (기본 시나리오), 8.2 Best Case (낙관적 시나리오), 8.3 Worst Case (비관적 시나리오), 8. 재무 시나리오 분석
 
-### Community 566 - "Community 566"
+### Community 566 - "Project Documentation Types"
 Cohesion: 0.50
 Nodes (4): 개발자 문서, 기술 문서, 사용자 문서, 📚 생성된 문서
 
-### Community 567 - "Community 567"
+### Community 567 - "Key Performance Achievements"
 Cohesion: 0.50
 Nodes (4): 기능적 성과, 기술적 성과, 🏆 주요 성과, 품질 성과
 
-### Community 569 - "Community 569"
+### Community 569 - "Statistics Generation Script"
 Cohesion: 0.67
 Nodes (3): generate_stats_html(), main(), Generate statistics HTML page
 
-### Community 570 - "Community 570"
+### Community 570 - "ESLint Configuration"
 Cohesion: 0.50
 Nodes (3): extends, rules, @next/next/no-img-element
 
-### Community 571 - "Community 571"
+### Community 571 - "Package Configuration"
 Cohesion: 0.50
 Nodes (3): name, private, version
 
-### Community 572 - "Community 572"
+### Community 572 - "API Test Scenarios"
 Cohesion: 0.67
 Nodes (3): HTTP 테스트 파일 포함, 테스트 가능성, 테스트 시나리오
 
-### Community 573 - "Community 573"
+### Community 573 - "Database Schema Design"
 Cohesion: 0.67
 Nodes (3): Project 모델, ProjectMember 모델, 데이터베이스 스키마
 
-### Community 574 - "Community 574"
+### Community 574 - "Permission and Role System"
 Cohesion: 0.67
 Nodes (3): 가시성 (Visibility), 권한 시스템 구현, 역할 (ProjectRole)
 
-### Community 575 - "Community 575"
+### Community 575 - "Error Handling Implementation"
 Cohesion: 0.67
 Nodes (3): 구현된 예외 처리, 권한 검증 시나리오, 에러 처리
 
-### Community 576 - "Community 576"
+### Community 576 - "Frontend Integration Roadmap"
 Cohesion: 0.67
 Nodes (3): 권장 개선 사항, 다음 단계 (Phase 4 준비), 프론트엔드 통합
 
-### Community 578 - "Community 578"
+### Community 578 - "Community API Endpoints"
 Cohesion: 0.67
 Nodes (3): GET /api/posts, POST /api/posts/:id/vote, 커뮤니티 API
 
-### Community 580 - "Community 580"
+### Community 580 - "Production Launch Checklist"
 Cohesion: 0.67
 Nodes (3): After Go-Live, Before Go-Live, Production Checklist
 
-### Community 581 - "Community 581"
+### Community 581 - "Environment Variable Configuration"
 Cohesion: 0.67
 Nodes (3): API Environment Variables, Environment Variables, Web Environment Variables
 
-### Community 582 - "Community 582"
+### Community 582 - "SSL/TLS Configuration"
 Cohesion: 0.67
 Nodes (3): Certificate Locations, SSL/TLS Configuration, Using Let's Encrypt
 
-### Community 583 - "Community 583"
+### Community 583 - "System Prerequisites"
 Cohesion: 0.67
 Nodes (3): Prerequisites, Required Accounts, Required Tools
 
-### Community 584 - "Community 584"
+### Community 584 - "Testing and Documentation"
 Cohesion: 0.67
 Nodes (3): Phase 7: 테스트 및 품질 관리 🔄 60%, Phase 8: 문서화 및 배포 🔄 70%, ⏳ 진행 중인 작업 (Phase 7-8)
 
-### Community 585 - "Community 585"
+### Community 585 - "Next Development Steps"
 Cohesion: 0.67
 Nodes (3): Phase 완성 (Week 2), 📋 다음 단계 (남은 15%), 즉시 실행 가능 (Week 1)
 
-### Community 586 - "Community 586"
+### Community 586 - "Project Overview Statistics"
 Cohesion: 0.67
 Nodes (3): 📊 전체 개요, 코드 통계, 프로젝트 정보
 
-### Community 587 - "Community 587"
+### Community 587 - "CI/CD Workflow Status"
 Cohesion: 0.67
 Nodes (3): CI/CD 통합, 아티팩트 다운로드, 워크플로우 상태 확인
 
-### Community 588 - "Community 588"
+### Community 588 - "Test Report Access"
 Cohesion: 0.67
 Nodes (3): HTML 리포트 보기, 리포트 위치, 테스트 리포트
 
-### Community 589 - "Community 589"
+### Community 589 - "Budget and Funding Strategy"
 Cohesion: 0.67
 Nodes (3): 11.1 Year 1 Budget Breakdown, 11.2 Funding Strategy, 11. Budget Overview
 
-### Community 590 - "Community 590"
+### Community 590 - "Risk Assessment and Mitigation"
 Cohesion: 0.67
 Nodes (3): 12.1 Critical Risks, 12.2 Risk Mitigation Strategies, 12. Risk Assessment
 
-### Community 591 - "Community 591"
+### Community 591 - "Critical Success Factors"
 Cohesion: 0.67
 Nodes (3): 13.1 Critical Success Factors (CSF), 13.2 Go/No-Go Criteria, 13. Success Factors
 
-### Community 592 - "Community 592"
+### Community 592 - "Stakeholder Analysis"
 Cohesion: 0.67
 Nodes (3): 14.1 Internal Stakeholders, 14.2 External Stakeholders, 14. Stakeholder Analysis
 
-### Community 593 - "Community 593"
+### Community 593 - "Communication Plan"
 Cohesion: 0.67
 Nodes (3): 15.1 Internal Communication, 15.2 External Communication, 15. Communication Plan
 
-### Community 594 - "Community 594"
+### Community 594 - "Project Background"
 Cohesion: 0.67
 Nodes (3): 2.1 Problem Statement, 2.2 Solution, 2. Project Background
 
-### Community 595 - "Community 595"
+### Community 595 - "Core Value Proposition"
 Cohesion: 0.67
 Nodes (3): 3.1 Unique Selling Points (USP), 3.2 Key Differentiators, 3. Core Value Proposition
 
-### Community 596 - "Community 596"
+### Community 596 - "Target Market Analysis"
 Cohesion: 0.67
 Nodes (3): 4.1 Primary Target, 4.2 Market Size, 4. Target Market
 
-### Community 597 - "Community 597"
+### Community 597 - "Business Model Projections"
 Cohesion: 0.67
 Nodes (3): 6.1 Revenue Streams, 6.2 Financial Projections (3 Years), 6. Business Model
 
-### Community 598 - "Community 598"
+### Community 598 - "Design Philosophy"
 Cohesion: 0.67
 Nodes (3): 1.1 Core Principles, 1.2 Target Experience, 1. Design Philosophy
 
-### Community 599 - "Community 599"
+### Community 599 - "Iconography Guidelines"
 Cohesion: 0.67
 Nodes (3): 9.1 Icon Library, 9.2 Icon Guidelines, 9. Iconography
 
-### Community 600 - "Community 600"
+### Community 600 - "Project Background and Analysis"
 Cohesion: 0.67
 Nodes (3): 2.1 현황 분석, 2.2 문제점 및 기회, 2. 프로젝트 배경
 
-### Community 601 - "Community 601"
+### Community 601 - "Project Objectives"
 Cohesion: 0.67
 Nodes (3): 3.1 정량적 목표 (1년차), 3.2 정성적 목표, 3. 프로젝트 목표
 
-### Community 602 - "Community 602"
+### Community 602 - "Target User Profiles"
 Cohesion: 0.67
 Nodes (3): 6.1 Primary Users, 6.2 Secondary Users, 6. 타겟 사용자
 
-### Community 603 - "Community 603"
+### Community 603 - "Security Vulnerabilities and Features"
 Cohesion: 0.67
 Nodes (3): 발견된 취약점, 보안 기능, 🔒 보안 상태
 
@@ -3008,11 +3028,11 @@ Nodes (3): 발견된 취약점, 보안 기능, 🔒 보안 상태
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `useTranslations()` connect `Community 7` to `Community 129`, `Community 2`, `Community 3`, `Community 4`, `Community 101`, `Community 1`, `Community 8`, `Community 104`, `Community 140`, `Community 12`, `Community 364`, `Community 207`, `Community 80`, `Community 113`, `Community 81`, `Community 55`, `Community 29`, `Community 126`?**
+- **Why does `useTranslations()` connect `Post & Comment UI` to `Collaborative Canvas UI`, `Q&A API Service`, `Course Chapter Management`, `User Progress Tracking`, `Authentication API Client`, `Chat & Messaging System`, `Assignment Submission Logic`, `Mentorship Management API`, `Project Management API`, `Canvas API Services`, `Localization & Context`, `Community API Services`, `Community 207`, `Quiz Service Logic`, `Leaderboard UI Components`, `Certificate Management Service`, `Frontend Home Components`, `Learning Page Implementation`, `Admin Layout Components`, `Notifications API`, `XP and Leaderboard API`?**
   _High betweenness centrality (0.005) - this node is a cross-community bridge._
-- **Why does `Development Glossary` connect `Community 168` to `Community 0`, `Community 96`, `Community 73`, `Community 11`, `Community 46`, `Community 400`, `Community 17`, `Community 176`, `Community 20`, `Community 21`, `Community 190`, `Community 189`, `Community 446`?**
+- **Why does `Development Glossary` connect `Technical Glossary` to `AI & Machine Learning`, `Web Security Protocols`, `Software Testing Methodologies`, `Backend Infrastructure Strategy`, `Software Engineering Principles`, `Community 400`, `Database Fundamentals`, `Git Version Control`, `Frontend UI Components`, `Cloud & DevOps Infrastructure`, `Web Networking Terms`, `System Architecture Concepts`, `Community 446`?**
   _High betweenness centrality (0.004) - this node is a cross-community bridge._
-- **Why does `PrismaService` connect `Community 5` to `Community 128`, `Community 6`, `Community 137`, `Community 9`, `Community 14`, `Community 143`, `Community 147`, `Community 22`, `Community 161`, `Community 184`, `Community 56`, `Community 62`, `Community 63`, `Community 91`, `Community 105`, `Community 115`, `Community 116`, `Community 121`, `Community 127`?**
+- **Why does `PrismaService` connect `Admin Analytics Service` to `Certificates Service`, `Canvas Data Controller`, `Assignments Module`, `Mentoring & Notifications`, `Chapter Service Controller`, `Chat Service Logic`, `End-to-End Integration Tests`, `Question & Answer DTOs`, `Projects Service Logic`, `Chat Gateway Module`, `Course Enrollment Service`, `Mentorship Controller API`, `Quiz Management Service`, `User Roles & XP`, `Project Member Management`, `Comments Controller`, `Reports Controller`, `Users and Projects Module`, `Posts Controller`, `Categories Module`?**
   _High betweenness centrality (0.002) - this node is a cross-community bridge._
 - **Are the 8 inferred relationships involving `useTranslations()` (e.g. with `CoursesLoading()` and `CoursesPage()`) actually correct?**
   _`useTranslations()` has 8 INFERRED edges - model-reasoned connections that need verification._
@@ -3020,5 +3040,5 @@ _Questions this graph is uniquely positioned to answer:_
   _`cn()` has 2 INFERRED edges - model-reasoned connections that need verification._
 - **What connects `manifest_version`, `name`, `version` to the rest of the system?**
   _5857 weakly-connected nodes found - possible documentation gaps or missing edges._
-- **Should `Community 0` be split into smaller, more focused modules?**
+- **Should `AI & Machine Learning` be split into smaller, more focused modules?**
   _Cohesion score 0.014388489208633094 - nodes in this community are weakly interconnected._
