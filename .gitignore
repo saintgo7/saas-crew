@@ -71,3 +71,6 @@ docs/html/
 
 # Excalidraw self-hosted fonts (copied from node_modules during build)
 apps/web/public/excalidraw-assets/
+
+# graphify knowledge-graph output (regenerable, not source)
+graphify-out/
